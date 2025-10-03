@@ -1,0 +1,500 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FaArrowLeft, FaSave, FaFilePdf, FaMagic } from 'react-icons/fa';
+
+interface PackageFormProps {
+  initialData?: any;
+  isEdit?: boolean;
+}
+
+export default function PackageForm({ initialData, isEdit = false }: PackageFormProps) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [extracting, setExtracting] = useState(false);
+  const [extractionSuccess, setExtractionSuccess] = useState(false);
+
+  // Basic Info
+  const [packageId, setPackageId] = useState(initialData?.packageId || '');
+  const [title, setTitle] = useState(initialData?.title || '');
+  const [slug, setSlug] = useState(initialData?.slug || '');
+  const [duration, setDuration] = useState(initialData?.duration || '');
+  const [description, setDescription] = useState(initialData?.description || '');
+  const [destinations, setDestinations] = useState(initialData?.destinations || '');
+  const [image, setImage] = useState(initialData?.image || '');
+  const [pdfUrl, setPdfUrl] = useState(initialData?.pdfUrl || '');
+  const [isActive, setIsActive] = useState(initialData?.isActive ?? true);
+
+  // Highlights
+  const [highlights, setHighlights] = useState(
+    initialData?.highlights ? JSON.parse(initialData.highlights).join('\n') : ''
+  );
+
+  // Included/Not Included
+  const [included, setIncluded] = useState(
+    initialData?.included ? JSON.parse(initialData.included).join('\n') : ''
+  );
+  const [notIncluded, setNotIncluded] = useState(
+    initialData?.notIncluded ? JSON.parse(initialData.notIncluded).join('\n') : ''
+  );
+
+  // Itinerary
+  const [itinerary, setItinerary] = useState(
+    initialData?.itinerary || JSON.stringify([
+      { day: 1, title: '', description: '' }
+    ], null, 2)
+  );
+
+  // Pricing
+  const [pricing, setPricing] = useState(
+    initialData?.pricing || JSON.stringify({
+      threestar: { single: 0, double: 0, triple: 0 },
+      fourstar: { single: 0, double: 0, triple: 0 },
+      fivestar: { single: 0, double: 0, triple: 0 }
+    }, null, 2)
+  );
+
+  // Hotels
+  const [hotels, setHotels] = useState(
+    initialData?.hotels || JSON.stringify({
+      threestar: [],
+      fourstar: [],
+      fivestar: []
+    }, null, 2)
+  );
+
+  const handlePdfExtract = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setExtracting(true);
+    setError('');
+    setExtractionSuccess(false);
+
+    try {
+      const formData = new FormData();
+      formData.append('pdf', file);
+
+      const res = await fetch('/api/admin/extract-pdf', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.error || 'Extraction failed');
+      }
+
+      const data = result.data;
+
+      // Get next package ID and unique slug
+      const nextIdRes = await fetch('/api/admin/next-package-id');
+      const nextIdData = await nextIdRes.json();
+
+      // Populate all fields with extracted data
+      setPackageId(nextIdData.nextId || data.packageId || '');
+      setTitle(data.title || '');
+      setSlug(data.slug || '');
+      setDuration(data.duration || '');
+      setDescription(data.description || '');
+      setDestinations(data.destinations || '');
+      setImage(data.image || '');
+      setPdfUrl(data.pdfUrl || '');
+      setHighlights(data.highlights ? data.highlights.join('\n') : '');
+      setIncluded(data.included ? data.included.join('\n') : '');
+      setNotIncluded(data.notIncluded ? data.notIncluded.join('\n') : '');
+      setItinerary(JSON.stringify(data.itinerary || [], null, 2));
+      setPricing(JSON.stringify(data.pricing || {}, null, 2));
+      setHotels(JSON.stringify(data.hotels || {}, null, 2));
+
+      setExtractionSuccess(true);
+      setTimeout(() => setExtractionSuccess(false), 5000);
+    } catch (err: any) {
+      setError(err.message || 'Failed to extract PDF data');
+    } finally {
+      setExtracting(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      // Validate JSON fields
+      JSON.parse(itinerary);
+      JSON.parse(pricing);
+      JSON.parse(hotels);
+
+      const packageData = {
+        packageId,
+        title,
+        slug,
+        duration,
+        description,
+        destinations,
+        image,
+        pdfUrl,
+        isActive,
+        highlights: JSON.stringify(highlights.split('\n').filter(h => h.trim())),
+        included: JSON.stringify(included.split('\n').filter(i => i.trim())),
+        notIncluded: JSON.stringify(notIncluded.split('\n').filter(n => n.trim())),
+        itinerary,
+        pricing,
+        hotels,
+      };
+
+      const url = isEdit ? `/api/admin/packages/${initialData.id}` : '/api/admin/packages';
+      const method = isEdit ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(packageData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || 'Failed to save package');
+        setLoading(false);
+        return;
+      }
+
+      router.push('/admin/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'An error occurred. Please check your JSON fields.');
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      {/* Header */}
+      <div className="bg-white shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <Image
+                src="/images/FunnyLogo1.png"
+                alt="Funny Tourism"
+                width={120}
+                height={50}
+                className="object-contain"
+              />
+              <h1 className="ml-6 text-2xl font-bold text-gray-900">
+                {isEdit ? 'Edit Package' : 'Add New Package'}
+              </h1>
+            </div>
+            <Link href="/admin/dashboard" className="flex items-center text-gray-600 hover:text-gray-900">
+              <FaArrowLeft className="mr-2" />
+              Back to Dashboard
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Form */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-8">
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded mb-6">
+              {error}
+            </div>
+          )}
+
+          {extractionSuccess && (
+            <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded mb-6">
+              ✓ PDF extracted successfully! Review and edit the fields below before saving.
+            </div>
+          )}
+
+          {/* PDF Upload Section */}
+          <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border-2 border-blue-200">
+            <div className="flex items-center mb-4">
+              <FaMagic className="text-2xl text-blue-600 mr-3" />
+              <h2 className="text-xl font-bold text-gray-900">AI-Powered PDF Extraction</h2>
+            </div>
+            <p className="text-sm text-gray-600 mb-4">
+              Upload your package PDF and let AI automatically extract all the details for you!
+            </p>
+            <div className="flex items-center space-x-4">
+              <label className="flex-1">
+                <input
+                  type="file"
+                  accept=".pdf"
+                  onChange={handlePdfExtract}
+                  disabled={extracting}
+                  className="hidden"
+                  id="pdf-upload"
+                />
+                <label
+                  htmlFor="pdf-upload"
+                  className={`flex items-center justify-center px-6 py-3 border-2 border-dashed border-blue-300 rounded-lg cursor-pointer hover:bg-blue-100 transition-colors ${
+                    extracting ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                >
+                  <FaFilePdf className="text-2xl text-red-500 mr-3" />
+                  <span className="text-sm font-semibold text-gray-700">
+                    {extracting ? 'Extracting data...' : 'Click to upload PDF'}
+                  </span>
+                </label>
+              </label>
+            </div>
+            {extracting && (
+              <div className="mt-4 flex items-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-3"></div>
+                <span className="text-sm text-gray-600">AI is reading your PDF and extracting package details...</span>
+              </div>
+            )}
+          </div>
+
+          {/* Basic Information */}
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Basic Information</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Package ID *
+                </label>
+                <input
+                  type="text"
+                  value={packageId}
+                  onChange={(e) => setPackageId(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                  placeholder="e.g., 01, 02, 03"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Slug *
+                </label>
+                <input
+                  type="text"
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                  placeholder="e.g., istanbul-package"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Title *
+                </label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                  placeholder="e.g., Istanbul Package"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Duration *
+                </label>
+                <input
+                  type="text"
+                  value={duration}
+                  onChange={(e) => setDuration(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                  placeholder="e.g., 3 Nights / 4 Days"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Description *
+              </label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows={4}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                placeholder="Enter package description"
+                required
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Destinations * (comma-separated)
+                </label>
+                <input
+                  type="text"
+                  value={destinations}
+                  onChange={(e) => setDestinations(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                  placeholder="e.g., Istanbul, Cappadocia"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Image URL *
+                </label>
+                <input
+                  type="text"
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                  placeholder="/images/package.jpg"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  PDF URL
+                </label>
+                <input
+                  type="text"
+                  value={pdfUrl}
+                  onChange={(e) => setPdfUrl(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                  placeholder="/packages/package.pdf"
+                />
+              </div>
+              <div className="flex items-end">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={isActive}
+                    onChange={(e) => setIsActive(e.target.checked)}
+                    className="w-5 h-5 text-blue-600 rounded focus:ring-blue-600"
+                  />
+                  <span className="ml-2 text-sm font-semibold text-gray-700">Active Package</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          {/* Highlights */}
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Highlights</h2>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Package Highlights (one per line)
+            </label>
+            <textarea
+              value={highlights}
+              onChange={(e) => setHighlights(e.target.value)}
+              rows={6}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 font-mono text-sm"
+              placeholder="Blue Mosque & Hagia Sophia&#10;Hot air balloon ride&#10;Ancient city of Ephesus"
+            />
+          </div>
+
+          {/* Included/Not Included */}
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Included/Not Included</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Included (one per line)
+                </label>
+                <textarea
+                  value={included}
+                  onChange={(e) => setIncluded(e.target.value)}
+                  rows={8}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 font-mono text-sm"
+                  placeholder="Hotel accommodation&#10;Airport transfers&#10;Professional guide"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Not Included (one per line)
+                </label>
+                <textarea
+                  value={notIncluded}
+                  onChange={(e) => setNotIncluded(e.target.value)}
+                  rows={8}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 font-mono text-sm"
+                  placeholder="International flights&#10;Personal expenses&#10;Tips and gratuities"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Itinerary */}
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Itinerary (JSON)</h2>
+            <p className="text-sm text-gray-600 mb-3">
+              Format: [{`{"day": 1, "title": "Arrival", "description": "..."}`}, ...]
+            </p>
+            <textarea
+              value={itinerary}
+              onChange={(e) => setItinerary(e.target.value)}
+              rows={10}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 font-mono text-sm"
+              placeholder='[{"day": 1, "title": "Arrival in Istanbul", "description": "..."}]'
+            />
+          </div>
+
+          {/* Pricing */}
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Pricing (JSON)</h2>
+            <p className="text-sm text-gray-600 mb-3">
+              Format: {`{"threestar": {"single": 450, "double": 320, "triple": 290}, ...}`}
+            </p>
+            <textarea
+              value={pricing}
+              onChange={(e) => setPricing(e.target.value)}
+              rows={8}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 font-mono text-sm"
+            />
+          </div>
+
+          {/* Hotels */}
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Hotels (JSON)</h2>
+            <p className="text-sm text-gray-600 mb-3">
+              Format: {`{"threestar": ["Hotel A", "Hotel B"], "fourstar": [...], ...}`}
+            </p>
+            <textarea
+              value={hotels}
+              onChange={(e) => setHotels(e.target.value)}
+              rows={8}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 font-mono text-sm"
+            />
+          </div>
+
+          {/* Submit */}
+          <div className="flex justify-end space-x-4">
+            <Link href="/admin/dashboard" className="btn-secondary">
+              Cancel
+            </Link>
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary flex items-center disabled:bg-gray-400"
+            >
+              <FaSave className="mr-2" />
+              {loading ? 'Saving...' : isEdit ? 'Update Package' : 'Create Package'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}

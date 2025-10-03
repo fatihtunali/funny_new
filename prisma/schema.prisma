@@ -88,9 +88,64 @@ model ContactInquiry {
   phone     String?
   subject   String?
   message   String   @db.Text
+  source    String?
   replied   Boolean  @default(false)
   createdAt DateTime @default(now())
 
   @@index([email])
   @@index([createdAt])
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Package {
+  id          String   @id @default(cuid())
+  packageId   String   @unique  // 01, 02, etc.
+  title       String
+  slug        String   @unique
+  duration    String
+  description String   @db.Text
+
+  // Itinerary (JSON format)
+  itinerary   String   @db.Text
+
+  // Highlights
+  highlights  String   @db.Text
+
+  // Included/Not Included
+  included    String   @db.Text
+  notIncluded String   @db.Text
+
+  // Destinations (comma-separated)
+  destinations String
+
+  // Pricing (JSON format: {threestar: {single: 450, double: 320, triple: 290}, ...})
+  pricing     String   @db.Text
+
+  // Hotels (JSON format)
+  hotels      String   @db.Text
+
+  // PDF URL
+  pdfUrl      String?
+
+  // Images
+  image       String
+
+  // Status
+  isActive    Boolean  @default(true)
+
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([packageId])
+  @@index([slug])
 }

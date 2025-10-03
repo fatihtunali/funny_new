@@ -46,14 +46,14 @@ export default function Navigation() {
             <Link href="/" className="text-gray-700 hover:text-primary-600 transition-colors">
               Home
             </Link>
-            <Link href="/packages" className="text-gray-700 hover:text-primary-600 transition-colors">
-              Tour Packages
+            <Link href="/tours" className="text-gray-700 hover:text-primary-600 transition-colors">
+              Tours
             </Link>
             <Link href="/destinations" className="text-gray-700 hover:text-primary-600 transition-colors">
               Destinations
             </Link>
             <Link href="/about" className="text-gray-700 hover:text-primary-600 transition-colors">
-              About Us
+              About
             </Link>
             <Link href="/contact" className="text-gray-700 hover:text-primary-600 transition-colors">
               Contact
@@ -106,14 +106,14 @@ export default function Navigation() {
             <Link href="/" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
               Home
             </Link>
-            <Link href="/packages" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
-              Tour Packages
+            <Link href="/tours" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
+              Tours
             </Link>
             <Link href="/destinations" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
               Destinations
             </Link>
             <Link href="/about" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
-              About Us
+              About
             </Link>
             <Link href="/contact" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
               Contact

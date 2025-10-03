@@ -22,14 +22,28 @@ export default function Footer() {
             </p>
             {/* TURSAB Certification */}
             <div className="mt-4 mb-4">
-              <Image
-                src="/images/tursablogo.png"
-                alt="TURSAB Certified Travel Agency"
-                width={100}
-                height={40}
-                className="object-contain brightness-90 hover:brightness-110 transition-all"
-              />
+              <a href="https://www.tursab.org.tr/tr/ddsv" target="_blank" rel="noopener noreferrer" className="inline-block">
+                <Image
+                  src="/images/tursablogo.png"
+                  alt="TURSAB Certified Travel Agency"
+                  width={100}
+                  height={40}
+                  className="object-contain brightness-90 hover:brightness-110 transition-all cursor-pointer"
+                />
+              </a>
               <p className="text-xs text-gray-400 mt-2">TURSAB Certified Agency</p>
+            </div>
+            {/* Yandex Site Info */}
+            <div className="mt-4">
+              <a href="https://webmaster.yandex.ru/siteinfo/?site=funnytourism.com" target="_blank" rel="noopener noreferrer" className="inline-block">
+                <img
+                  width="88"
+                  height="31"
+                  alt="Yandex Site Info"
+                  src="https://yandex.ru/cycounter?funnytourism.com&theme=light&lang=en"
+                  className="rounded-lg hover:opacity-80 transition-opacity"
+                />
+              </a>
             </div>
             <div className="flex space-x-4">
               <a href="#" className="hover:text-white transition-colors">

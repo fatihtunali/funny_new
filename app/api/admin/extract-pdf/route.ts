@@ -1,0 +1,164 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/adminAuth';
+import OpenAI from 'openai';
+import { File as OpenAIFile } from 'openai/uploads';
+import { writeFile, mkdir } from 'fs/promises';
+import path from 'path';
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+export async function POST(req: NextRequest) {
+  try {
+    await requireAdmin();
+
+    const formData = await req.formData();
+    const file = formData.get('pdf') as File;
+
+    if (!file) {
+      return NextResponse.json({ error: 'No PDF file provided' }, { status: 400 });
+    }
+
+    // Convert File to OpenAI File format
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    // Save PDF to public/packages/ directory
+    const packagesDir = path.join(process.cwd(), 'public', 'packages');
+
+    // Create directory if it doesn't exist
+    try {
+      await mkdir(packagesDir, { recursive: true });
+    } catch (err) {
+      // Directory might already exist
+    }
+
+    // Generate unique filename
+    const timestamp = Date.now();
+    const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+    const pdfFileName = `${timestamp}-${sanitizedFileName}`;
+    const pdfPath = path.join(packagesDir, pdfFileName);
+
+    // Save the file
+    await writeFile(pdfPath, buffer);
+    const pdfUrl = `/packages/${pdfFileName}`;
+
+    // Create a File object for OpenAI
+    const openaiFile = new globalThis.File([buffer], file.name, { type: 'application/pdf' });
+
+    // Upload the file to OpenAI
+    const uploadedFile = await openai.files.create({
+      file: openaiFile,
+      purpose: 'assistants',
+    });
+
+    // Create an assistant to read the PDF
+    const assistant = await openai.beta.assistants.create({
+      model: 'gpt-4o',
+      instructions: `You are a tour package data extraction assistant. Extract structured information from tour package PDFs and return it as valid JSON.
+
+The JSON structure should be:
+{
+  "packageId": "string (e.g., '01', '02')",
+  "title": "string (package name)",
+  "slug": "string (url-friendly version of title, lowercase, hyphenated)",
+  "duration": "string (e.g., '3 Nights / 4 Days')",
+  "description": "string (brief description)",
+  "destinations": "string (comma-separated destinations)",
+  "image": "string (choose from available images below based on destinations)",
+  "pdfUrl": "string (empty for now)",
+  "highlights": ["array of highlight strings"],
+  "included": ["array of included items"],
+  "notIncluded": ["array of not included items"],
+  "itinerary": [{"day": number, "title": "string", "description": "string"}],
+  "pricing": {
+    "threestar": {"single": number, "double": number, "triple": number},
+    "fourstar": {"single": number, "double": number, "triple": number},
+    "fivestar": {"single": number, "double": number, "triple": number}
+  },
+  "hotels": {
+    "threestar": ["array of hotel names"],
+    "fourstar": ["array of hotel names"],
+    "fivestar": ["array of hotel names"]
+  }
+}
+
+AVAILABLE IMAGES - Choose the most relevant one for the "image" field:
+- Istanbul: /images/BlueMosqueIstanbul.jpg, /images/ayasofya.jpg, /images/BosphorusCruiseIstanbul.jpg, /images/topkapipalacegeneraldrone.jpg
+- Cappadocia: /images/cappadociaballoonride.jpg, /images/FairyChimneysCapppadocia.jpeg, /images/cappadociatour.webp
+- Antalya: /images/AntalyaHarbour.jpg, /images/AntalyaOldCity.jpg, /images/duden.jpg
+- Pamukkale: /images/PamukkaleTravertenler.jpg, /images/HierapolisAntikKentiPamukkale.jpg
+- Fethiye: /images/FethiyeMarina.jpg, /images/FethiyeBay.jpg, /images/fethiye-paragliding.jpg
+- Ephesus/Kusadasi: /images/Ephesus_Library.jpg, /images/MeryemAnaEvi.jpeg
+- Side: /images/SideAntikKenti.jpg, /images/side-aspendos.jpg
+- Bursa: /images/bursa.webp, /images/bursa1.jpg
+- Package with hotels: /images/hotelwithpackage.jpg
+
+IMPORTANT:
+- Extract ALL pricing information carefully (3-star, 4-star, 5-star categories with single, double, triple room prices)
+- Extract ALL hotel names for each category
+- Extract the complete day-by-day itinerary
+- Choose an image path from the AVAILABLE IMAGES list that best matches the package destinations
+- If any information is missing, use reasonable defaults or empty arrays/objects
+- Ensure all prices are numbers (no currency symbols)
+- Return ONLY valid JSON, no explanations`,
+      tools: [{ type: 'file_search' }],
+      tool_resources: {
+        file_search: {
+          vector_stores: [{
+            file_ids: [uploadedFile.id]
+          }]
+        }
+      }
+    });
+
+    // Create a thread with the PDF
+    const thread = await openai.beta.threads.create({
+      messages: [
+        {
+          role: 'user',
+          content: 'Extract all package information from the PDF. Read every page carefully and extract all details in the specified JSON format.',
+        }
+      ]
+    });
+
+    // Run the assistant
+    const run = await openai.beta.threads.runs.createAndPoll(thread.id, {
+      assistant_id: assistant.id,
+    });
+
+    // Get the messages
+    const messages = await openai.beta.threads.messages.list(thread.id);
+    const lastMessage = messages.data[0];
+    const content = lastMessage.content[0];
+
+    let extractedText = '';
+    if (content.type === 'text') {
+      extractedText = content.text.value;
+    }
+
+    // Clean up
+    await openai.beta.assistants.delete(assistant.id);
+    await openai.files.delete(uploadedFile.id);
+
+    // Parse the JSON from the response
+    const jsonMatch = extractedText.match(/\{[\s\S]*\}/);
+    const extractedData = jsonMatch ? JSON.parse(jsonMatch[0]) : {};
+
+    // Add the PDF URL to the extracted data
+    extractedData.pdfUrl = pdfUrl;
+
+    return NextResponse.json({
+      success: true,
+      data: extractedData
+    });
+
+  } catch (error: any) {
+    console.error('PDF extraction error:', error);
+    return NextResponse.json(
+      { error: error.message || 'Failed to extract PDF data' },
+      { status: 500 }
+    );
+  }
+}

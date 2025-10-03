@@ -58,9 +58,14 @@ export async function POST(req: NextRequest) {
       model: 'gpt-4o',
       instructions: `You are a tour package data extraction assistant. Extract structured information from tour package PDFs and return it as valid JSON.
 
+IMPORTANT: First detect if this is a package WITH HOTELS or LAND ONLY (land services).
+- If the PDF title or content contains "Land Services" or mentions no hotels, set packageType to "LAND_ONLY"
+- Otherwise, set packageType to "WITH_HOTEL"
+
 The JSON structure should be:
 {
   "packageId": "string (e.g., '01', '02')",
+  "packageType": "string (either 'WITH_HOTEL' or 'LAND_ONLY')",
   "title": "string (package name)",
   "slug": "string (url-friendly version of title, lowercase, hyphenated)",
   "duration": "string (e.g., '3 Nights / 4 Days')",
@@ -72,17 +77,30 @@ The JSON structure should be:
   "included": ["array of included items"],
   "notIncluded": ["array of not included items"],
   "itinerary": [{"day": number, "title": "string", "description": "string"}],
-  "pricing": {
+  "pricing": CONDITIONAL - see below,
+  "hotels": CONDITIONAL - see below
+}
+
+PRICING FORMAT:
+- For WITH_HOTEL packages:
+  {
     "threestar": {"single": number, "double": number, "triple": number},
     "fourstar": {"single": number, "double": number, "triple": number},
     "fivestar": {"single": number, "double": number, "triple": number}
-  },
-  "hotels": {
+  }
+- For LAND_ONLY packages:
+  {
+    "perPerson": number
+  }
+
+HOTELS FORMAT:
+- For WITH_HOTEL packages:
+  {
     "threestar": ["array of hotel names"],
     "fourstar": ["array of hotel names"],
     "fivestar": ["array of hotel names"]
   }
-}
+- For LAND_ONLY packages: null or omit this field
 
 AVAILABLE IMAGES - Choose the most relevant one for the "image" field:
 - Istanbul: /images/BlueMosqueIstanbul.jpg, /images/ayasofya.jpg, /images/BosphorusCruiseIstanbul.jpg, /images/topkapipalacegeneraldrone.jpg

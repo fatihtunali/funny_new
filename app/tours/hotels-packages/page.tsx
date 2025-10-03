@@ -13,7 +13,7 @@ export default function HotelsPackagesPage() {
   useEffect(() => {
     async function fetchPackages() {
       try {
-        const res = await fetch('/api/packages');
+        const res = await fetch('/api/packages?type=WITH_HOTEL');
         const data = await res.json();
         setPackages(data.packages || []);
       } catch (error) {

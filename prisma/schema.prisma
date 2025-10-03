@@ -114,6 +114,9 @@ model Package {
   duration    String
   description String   @db.Text
 
+  // Package Type
+  packageType String   @default("WITH_HOTEL")  // WITH_HOTEL or LAND_ONLY
+
   // Itinerary (JSON format)
   itinerary   String   @db.Text
 
@@ -127,11 +130,11 @@ model Package {
   // Destinations (comma-separated)
   destinations String
 
-  // Pricing (JSON format: {threestar: {single: 450, double: 320, triple: 290}, ...})
+  // Pricing (JSON format: {threestar: {single: 450, double: 320, triple: 290}, ...} or {perPerson: 350} for land only)
   pricing     String   @db.Text
 
-  // Hotels (JSON format)
-  hotels      String   @db.Text
+  // Hotels (JSON format) - Optional for land-only packages
+  hotels      String?  @db.Text
 
   // PDF URL
   pdfUrl      String?
@@ -148,4 +151,5 @@ model Package {
 
   @@index([packageId])
   @@index([slug])
+  @@index([packageType])
 }

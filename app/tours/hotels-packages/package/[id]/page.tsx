@@ -14,7 +14,7 @@ export default function PackageDetailPage() {
   const [pkg, setPkg] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [selectedHotel, setSelectedHotel] = useState('fourstar');
-  const [totalPax, setTotalPax] = useState(2);
+  const [rooms, setRooms] = useState<number[]>([2]); // Array of people per room, default: 1 room with 2 people
 
   useEffect(() => {
     async function fetchPackage() {
@@ -57,40 +57,38 @@ export default function PackageDetailPage() {
     );
   }
 
-  const calculateRooms = () => {
-    // Calculate number of rooms needed (max 3 pax per room)
-    return Math.ceil(totalPax / 3);
+  const getTotalPax = () => {
+    return rooms.reduce((sum, pax) => sum + pax, 0);
   };
 
   const calculatePrice = () => {
-    const rooms = calculateRooms();
     let totalPrice = 0;
-    let remainingPax = totalPax;
 
-    for (let i = 0; i < rooms; i++) {
-      const paxInRoom = Math.min(remainingPax, 3);
+    rooms.forEach(paxInRoom => {
       const roomType = paxInRoom === 1 ? 'single' : paxInRoom === 2 ? 'double' : 'triple';
       const pricePerPerson = pkg.pricing[selectedHotel][roomType] || 0;
       totalPrice += pricePerPerson * paxInRoom;
-      remainingPax -= paxInRoom;
-    }
+    });
 
     return totalPrice;
   };
 
-  const getRoomBreakdown = () => {
-    const rooms = calculateRooms();
-    const breakdown = [];
-    let remainingPax = totalPax;
-
-    for (let i = 0; i < rooms; i++) {
-      const paxInRoom = Math.min(remainingPax, 3);
-      const roomType = paxInRoom === 1 ? 'Single' : paxInRoom === 2 ? 'Double' : 'Triple';
-      breakdown.push(`Room ${i + 1}: ${roomType} (${paxInRoom} pax)`);
-      remainingPax -= paxInRoom;
+  const addRoom = () => {
+    if (getTotalPax() < 10) {
+      setRooms([...rooms, 1]);
     }
+  };
 
-    return breakdown;
+  const removeRoom = (index: number) => {
+    if (rooms.length > 1) {
+      setRooms(rooms.filter((_, i) => i !== index));
+    }
+  };
+
+  const updateRoomPax = (index: number, pax: number) => {
+    const newRooms = [...rooms];
+    newRooms[index] = pax;
+    setRooms(newRooms);
   };
 
   return (
@@ -253,35 +251,61 @@ export default function PackageDetailPage() {
                   </select>
                 </div>
 
-                {/* Total Travelers */}
+                {/* Room Configuration */}
                 <div className="mb-4">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Total Number of Travelers (Max 10)
-                  </label>
-                  <select
-                    value={totalPax}
-                    onChange={(e) => setTotalPax(parseInt(e.target.value))}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                  >
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                      <option key={num} value={num}>
-                        {num} {num === 1 ? 'Person' : 'People'}
-                      </option>
-                    ))}
-                  </select>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Maximum 3 people per room
-                  </p>
-                </div>
-
-                {/* Room Breakdown */}
-                <div className="bg-gray-50 rounded-lg p-3 mb-4">
-                  <p className="text-xs font-semibold text-gray-700 mb-2">Room Configuration:</p>
-                  <div className="space-y-1">
-                    {getRoomBreakdown().map((room, index) => (
-                      <p key={index} className="text-xs text-gray-600">{room}</p>
-                    ))}
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="block text-sm font-semibold text-gray-700">
+                      Room Configuration
+                    </label>
+                    <span className="text-xs text-gray-500">
+                      Total: {getTotalPax()} {getTotalPax() === 1 ? 'person' : 'people'}
+                    </span>
                   </div>
+
+                  <div className="space-y-3">
+                    {rooms.map((pax, index) => {
+                      const roomType = pax === 1 ? 'Single' : pax === 2 ? 'Double' : 'Triple';
+                      return (
+                        <div key={index} className="bg-gray-50 rounded-lg p-3">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-semibold text-gray-700">
+                              Room {index + 1}: {roomType}
+                            </span>
+                            {rooms.length > 1 && (
+                              <button
+                                onClick={() => removeRoom(index)}
+                                className="text-red-500 hover:text-red-700 text-xs"
+                              >
+                                Remove
+                              </button>
+                            )}
+                          </div>
+                          <select
+                            value={pax}
+                            onChange={(e) => updateRoomPax(index, parseInt(e.target.value))}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 text-sm"
+                          >
+                            <option value={1}>1 Person (Single)</option>
+                            <option value={2}>2 People (Double)</option>
+                            <option value={3}>3 People (Triple)</option>
+                          </select>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {getTotalPax() < 10 && (
+                    <button
+                      onClick={addRoom}
+                      className="mt-3 w-full px-4 py-2 border-2 border-dashed border-blue-300 rounded-lg text-blue-600 hover:bg-blue-50 text-sm font-semibold transition-colors"
+                    >
+                      + Add Another Room
+                    </button>
+                  )}
+
+                  <p className="text-xs text-gray-500 mt-2">
+                    Maximum 3 people per room, 10 people total
+                  </p>
                 </div>
 
                 {/* Price Display */}
@@ -291,8 +315,8 @@ export default function PackageDetailPage() {
                     <span className="text-3xl font-bold text-blue-600">€{calculatePrice()}</span>
                   </div>
                   <div className="text-xs text-gray-600 space-y-1">
-                    <p>Per person: €{(calculatePrice() / totalPax).toFixed(0)}</p>
-                    <p>Rooms needed: {calculateRooms()}</p>
+                    <p>Per person: €{getTotalPax() > 0 ? (calculatePrice() / getTotalPax()).toFixed(0) : 0}</p>
+                    <p>Rooms: {rooms.length}</p>
                   </div>
                 </div>
 

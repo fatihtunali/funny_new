@@ -20,6 +20,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
 
   // Basic Info
   const [packageId, setPackageId] = useState(initialData?.packageId || '');
+  const [packageType, setPackageType] = useState(initialData?.packageType || 'WITH_HOTEL');
   const [title, setTitle] = useState(initialData?.title || '');
   const [slug, setSlug] = useState(initialData?.slug || '');
   const [duration, setDuration] = useState(initialData?.duration || '');
@@ -98,6 +99,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
 
       // Populate all fields with extracted data
       setPackageId(nextIdData.nextId || data.packageId || '');
+      setPackageType(data.packageType || 'WITH_HOTEL');
       setTitle(data.title || '');
       setSlug(data.slug || '');
       setDuration(data.duration || '');
@@ -134,6 +136,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
 
       const packageData = {
         packageId,
+        packageType,
         title,
         slug,
         duration,
@@ -258,7 +261,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
           {/* Basic Information */}
           <div className="mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Basic Information</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Package ID *
@@ -271,6 +274,20 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                   placeholder="e.g., 01, 02, 03"
                   required
                 />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Package Type *
+                </label>
+                <select
+                  value={packageType}
+                  onChange={(e) => setPackageType(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                  required
+                >
+                  <option value="WITH_HOTEL">With Hotels</option>
+                  <option value="LAND_ONLY">Land Services Only</option>
+                </select>
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -455,7 +472,9 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
           <div className="mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Pricing (JSON)</h2>
             <p className="text-sm text-gray-600 mb-3">
-              Format: {`{"threestar": {"single": 450, "double": 320, "triple": 290}, ...}`}
+              {packageType === 'WITH_HOTEL'
+                ? 'Format: {"threestar": {"single": 450, "double": 320, "triple": 290}, ...}'
+                : 'Format: {"perPerson": 350}'}
             </p>
             <textarea
               value={pricing}
@@ -465,19 +484,21 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
             />
           </div>
 
-          {/* Hotels */}
-          <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Hotels (JSON)</h2>
-            <p className="text-sm text-gray-600 mb-3">
-              Format: {`{"threestar": ["Hotel A", "Hotel B"], "fourstar": [...], ...}`}
-            </p>
-            <textarea
-              value={hotels}
-              onChange={(e) => setHotels(e.target.value)}
-              rows={8}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 font-mono text-sm"
-            />
-          </div>
+          {/* Hotels - Only for WITH_HOTEL packages */}
+          {packageType === 'WITH_HOTEL' && (
+            <div className="mb-8">
+              <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Hotels (JSON)</h2>
+              <p className="text-sm text-gray-600 mb-3">
+                Format: {`{"threestar": ["Hotel A", "Hotel B"], "fourstar": [...], ...}`}
+              </p>
+              <textarea
+                value={hotels}
+                onChange={(e) => setHotels(e.target.value)}
+                rows={8}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 font-mono text-sm"
+              />
+            </div>
+          )}
 
           {/* Submit */}
           <div className="flex justify-end space-x-4">

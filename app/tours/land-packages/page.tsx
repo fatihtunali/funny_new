@@ -1,11 +1,30 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaMap, FaClock, FaMapMarkerAlt, FaBus } from 'react-icons/fa';
+import { FaMap, FaClock, FaMapMarkerAlt, FaBus, FaFilePdf } from 'react-icons/fa';
 
 export default function LandPackagesPage() {
+  const [packages, setPackages] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchPackages() {
+      try {
+        const res = await fetch('/api/packages?type=LAND_ONLY');
+        const data = await res.json();
+        setPackages(data.packages || []);
+      } catch (error) {
+        console.error('Error fetching packages:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchPackages();
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -56,28 +75,99 @@ export default function LandPackagesPage() {
         </div>
       </section>
 
-      {/* Coming Soon Section */}
+      {/* Packages List */}
       <section className="bg-gray-50 py-16">
         <div className="section-container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto text-center bg-white rounded-lg p-12 shadow-lg"
-          >
-            <FaMap className="text-6xl text-green-600 mx-auto mb-6" />
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Coming Soon</h2>
-            <p className="text-lg text-gray-700 mb-8">
-              We're currently preparing our land-only packages. These will offer you the flexibility to choose
-              your own accommodation while enjoying our expertly guided tours and seamless transportation.
-            </p>
-            <p className="text-gray-600 mb-8">
-              Contact us for custom land-only package arrangements tailored to your preferences.
-            </p>
-            <Link href="/contact" className="btn-primary">
-              Contact Us for Custom Packages
-            </Link>
-          </motion.div>
+          <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">
+            Available Packages {!loading && packages.length > 0 && `(${packages.length})`}
+          </h2>
+
+          {loading ? (
+            <div className="text-center py-12">
+              <p className="text-xl text-gray-600">Loading packages...</p>
+            </div>
+          ) : packages.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="max-w-3xl mx-auto text-center bg-white rounded-lg p-12 shadow-lg"
+            >
+              <FaMap className="text-6xl text-green-600 mx-auto mb-6" />
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">Coming Soon</h3>
+              <p className="text-lg text-gray-700 mb-8">
+                We're currently preparing our land-only packages. Contact us for custom arrangements.
+              </p>
+              <Link href="/contact" className="btn-primary">
+                Contact Us for Custom Packages
+              </Link>
+            </motion.div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {packages.map((pkg, index) => (
+                <motion.div
+                  key={pkg.packageId}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.05 }}
+                  className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                >
+                  <div className="relative h-48">
+                    <Image
+                      src={pkg.image}
+                      alt={pkg.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+
+                  <div className="p-6">
+                    <div className="flex items-center text-gray-600 mb-2">
+                      <FaClock className="mr-2 text-sm" />
+                      <span className="text-sm font-semibold">{pkg.duration}</span>
+                    </div>
+
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 min-h-[3.5rem] line-clamp-2">{pkg.title}</h3>
+                    <p className="text-gray-600 text-sm mb-4 h-[4.5rem] line-clamp-3">{pkg.description}</p>
+
+                    <div className="mb-4">
+                      <div className="flex flex-wrap gap-1">
+                        {pkg.destinations.split(',').map((dest: string) => (
+                          <span
+                            key={dest}
+                            className="bg-green-50 text-green-700 px-2 py-1 rounded-full text-xs font-medium"
+                          >
+                            {dest.trim()}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <Link
+                        href={`/tours/land-packages/package/${pkg.packageId}`}
+                        className="flex items-center justify-center btn-primary text-sm bg-green-600 hover:bg-green-700"
+                      >
+                        View Details & Book
+                      </Link>
+                      {pkg.pdfUrl && (
+                        <a
+                          href={pkg.pdfUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center btn-secondary text-sm"
+                        >
+                          <FaFilePdf className="mr-2" />
+                          Download PDF
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

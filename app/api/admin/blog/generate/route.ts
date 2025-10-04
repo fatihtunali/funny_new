@@ -125,17 +125,44 @@ Required JSON format:
       );
     }
 
-    // Select appropriate cover image based on category
-    const categoryImages: Record<string, string> = {
-      'Travel Tips': '/images/istanbul-tips.jpg',
-      'Destinations': '/images/cappadocia.jpg',
-      'Culture': '/images/turkish-culture.jpg',
-      'Food': '/images/turkish-food.jpg',
-      'History': '/images/ephesus.jpg',
-      'Activities': '/images/balloon-ride.jpg',
+    // Select appropriate cover image based on category (using actual images from public folder)
+    const categoryImages: Record<string, string[]> = {
+      'Travel Tips': [
+        '/images/IstanbulatNight.jpeg',
+        '/images/BosphorusCruiseIstanbul.jpg',
+        '/images/GalataTowerIstanbul.jpg'
+      ],
+      'Destinations': [
+        '/images/cappadociaballoonride.jpg',
+        '/images/pamukkale.jpg',
+        '/images/ephesus.jpg',
+        '/images/BlueMosqueIstanbul.jpg'
+      ],
+      'Culture': [
+        '/images/ayasofya.jpg',
+        '/images/bluemosque.jpg',
+        '/images/TopkapiPalaceIstanbul.jpg'
+      ],
+      'Food': [
+        '/images/turkishcuisine.jpg',
+        '/images/kebab.jpg',
+        '/images/IstanbulatNight.jpeg'
+      ],
+      'History': [
+        '/images/ephesus.jpg',
+        '/images/ayasofya.jpg',
+        '/images/TopkapiPalaceIstanbul.jpg'
+      ],
+      'Activities': [
+        '/images/cappadociaballoonride.jpg',
+        '/images/BosphorusCruiseIstanbul.jpg',
+        '/images/pamukkale.jpg'
+      ],
     };
 
-    const coverImage = categoryImages[category] || '/images/turkey-default.jpg';
+    // Randomly select an image from the category
+    const images = categoryImages[category] || ['/images/IstanbulatNight.jpeg'];
+    const coverImage = images[Math.floor(Math.random() * images.length)];
 
     // Generate slug
     const slug = result.title

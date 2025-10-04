@@ -16,9 +16,24 @@ export default function EditBlogPostPage({ params }: { params: Promise<{ id: str
     title: '',
     excerpt: '',
     content: '',
+    coverImage: '',
     category: 'Travel Tips',
     status: 'DRAFT',
   });
+
+  // Available images
+  const availableImages = [
+    '/images/IstanbulatNight.jpeg',
+    '/images/cappadociaballoonride.jpg',
+    '/images/pamukkale.jpg',
+    '/images/ephesus.jpg',
+    '/images/BlueMosqueIstanbul.jpg',
+    '/images/ayasofya.jpg',
+    '/images/bluemosque.jpg',
+    '/images/TopkapiPalaceIstanbul.jpg',
+    '/images/BosphorusCruiseIstanbul.jpg',
+    '/images/GalataTowerIstanbul.jpg',
+  ];
 
   useEffect(() => {
     fetchPost();
@@ -34,6 +49,7 @@ export default function EditBlogPostPage({ params }: { params: Promise<{ id: str
           title: data.post.title,
           excerpt: data.post.excerpt,
           content: data.post.content,
+          coverImage: data.post.coverImage,
           category: data.post.category,
           status: data.post.status,
         });
@@ -141,6 +157,34 @@ export default function EditBlogPostPage({ params }: { params: Promise<{ id: str
               <p className="text-sm text-gray-500 mt-1">
                 Use HTML tags: &lt;h2&gt;, &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;, &lt;em&gt;
               </p>
+            </div>
+
+            {/* Cover Image */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Cover Image *
+              </label>
+              <select
+                value={formData.coverImage}
+                onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                required
+              >
+                {availableImages.map((img) => (
+                  <option key={img} value={img}>
+                    {img.replace('/images/', '')}
+                  </option>
+                ))}
+              </select>
+              {formData.coverImage && (
+                <div className="mt-3">
+                  <img
+                    src={formData.coverImage}
+                    alt="Cover preview"
+                    className="w-full h-48 object-cover rounded-lg"
+                  />
+                </div>
+              )}
             </div>
 
             {/* Category */}

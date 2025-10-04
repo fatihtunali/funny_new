@@ -64,12 +64,14 @@ export async function PUT(
       ...(slug && { slug }),
       ...(excerpt && { excerpt }),
       ...(content && { content }),
-      ...(coverImage && { coverImage }),
+      ...(coverImage !== undefined && { coverImage }),
       ...(category && { category }),
       ...(tags && { tags: JSON.stringify(tags) }),
       ...(metaTitle && { metaTitle }),
       ...(metaDescription && { metaDescription }),
     };
+
+    console.log('Updating blog post with data:', updateData);
 
     // Handle status change
     if (status) {

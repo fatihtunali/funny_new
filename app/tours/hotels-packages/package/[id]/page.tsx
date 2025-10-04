@@ -354,11 +354,10 @@ export default function PackageDetailPage() {
                   </Link>
                   <a
                     href={pkg.pdfUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    download
                     className="btn-secondary w-full text-center flex items-center justify-center"
                   >
-                    <FaFilePdf className="mr-2" />
+                    <FaDownload className="mr-2" />
                     Download PDF
                   </a>
                 </div>

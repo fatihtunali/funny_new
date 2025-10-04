@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminAuth';
 import OpenAI from 'openai';
-import { File as OpenAIFile } from 'openai/uploads';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 

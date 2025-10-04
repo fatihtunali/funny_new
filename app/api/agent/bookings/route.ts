@@ -18,8 +18,14 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     console.error('Get agent bookings error:', error);
+
+    // Return more detailed error for debugging
     return NextResponse.json(
-      { error: 'Internal server error' },
+      {
+        error: 'Failed to fetch bookings',
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined,
+        hint: 'Make sure to run "npx prisma db push" to update the database schema'
+      },
       { status: 500 }
     );
   }
@@ -110,8 +116,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     console.error('Create agent booking error:', error);
+
+    // Return more detailed error for debugging
     return NextResponse.json(
-      { error: 'Internal server error' },
+      {
+        error: 'Internal server error',
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      },
       { status: 500 }
     );
   }

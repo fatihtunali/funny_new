@@ -125,44 +125,78 @@ Required JSON format:
       );
     }
 
-    // Select appropriate cover image based on category (using actual images from public folder)
-    const categoryImages: Record<string, string[]> = {
-      'Travel Tips': [
-        '/images/IstanbulatNight.jpeg',
-        '/images/BosphorusCruiseIstanbul.jpg',
-        '/images/GalataTowerIstanbul.jpg'
-      ],
-      'Destinations': [
-        '/images/cappadociaballoonride.jpg',
-        '/images/pamukkale.jpg',
-        '/images/ephesus.jpg',
-        '/images/BlueMosqueIstanbul.jpg'
-      ],
-      'Culture': [
-        '/images/ayasofya.jpg',
-        '/images/bluemosque.jpg',
-        '/images/TopkapiPalaceIstanbul.jpg'
-      ],
-      'Food': [
-        '/images/turkishcuisine.jpg',
-        '/images/kebab.jpg',
-        '/images/IstanbulatNight.jpeg'
-      ],
-      'History': [
-        '/images/ephesus.jpg',
-        '/images/ayasofya.jpg',
-        '/images/TopkapiPalaceIstanbul.jpg'
-      ],
-      'Activities': [
-        '/images/cappadociaballoonride.jpg',
-        '/images/BosphorusCruiseIstanbul.jpg',
-        '/images/pamukkale.jpg'
-      ],
-    };
+    // All available images (excluding logos and non-photo files)
+    const allImages = [
+      '/images/AntalyaOldCity.jpg',
+      '/images/AntalyaHarbour.jpg',
+      '/images/AntalyaOldCity1.jpg',
+      '/images/BlueMosqueIstanbul.jpg',
+      '/images/BosphorusBridgeNightIstanbul.jpg',
+      '/images/BlueMosqueIstanbul6minarets.jpg',
+      '/images/BosphorusCruiseIstanbul.jpg',
+      '/images/BosphorusStraitIstanbul.jpg',
+      '/images/BosphorusCruiseIstanbul2.jpg',
+      '/images/Ephesus_Library.jpg',
+      '/images/Ephesus_Library2.jpg',
+      '/images/FairyChimneysCapppadocia.jpeg',
+      '/images/Fethiye.jpg',
+      '/images/Ferhiye-Marina.jpg',
+      '/images/FethiyeBay.jpg',
+      '/images/FethiyeMarina.jpg',
+      '/images/HierapolisAntikKentiPamukkale.jpg',
+      '/images/HierapolisAntikKentiPamukkale1.jpg',
+      '/images/IstanbulatNight.jpeg',
+      '/images/MaidenTowerIstanbul.jpg',
+      '/images/MeryemAnaEvi.jpeg',
+      '/images/OrtakoyMosqueIstanbul.jpg',
+      '/images/MeryemAnaEvi2.jpeg',
+      '/images/PamukkaleTravertenler.jpg',
+      '/images/PamukkaleTravertenler1.jpg',
+      '/images/PataraBeach.jpg',
+      '/images/SideAntikKenti.jpg',
+      '/images/SuleymaniyeMosqueIstanbul.jpg',
+      '/images/antalyakekova.jpg',
+      '/images/ayasofya.jpg',
+      '/images/bluemosque.jpg',
+      '/images/bursa1.jpg',
+      '/images/cappadociaballoonride.jpg',
+      '/images/camlica.jpg',
+      '/images/cappadociaballoonride3.jpg',
+      '/images/cappadociaballoonride2.jpg',
+      '/images/cappadocianight.jpg',
+      '/images/cappadocias.jpg',
+      '/images/didyma.jpg',
+      '/images/duden.jpg',
+      '/images/fethiye-paragliding.jpg',
+      '/images/fethiye-paragliding2.jpg',
+      '/images/hotelwithpackage.jpg',
+      '/images/izmir.jpg',
+      '/images/pergamon.jpg',
+      '/images/jeepsafari.jpg',
+      '/images/side-aspendos.jpg',
+      '/images/sirince.jpg',
+      '/images/topkapipalacegeneraldrone.jpg',
+      '/images/topkapipalacepanorama.jpg',
+      '/images/topkapipalaceinside.jpg',
+      '/images/transfer.jpg',
+      '/images/mosque-4812260_1920.jpg',
+      '/images/galata-tower-istanbul.jpg',
+      '/images/MaidenTowerIstanbul-2.jpg',
+      '/images/ortahisar-5678553_1280.jpg',
+      '/images/istanbul-boat-tour.jpg',
+      '/images/hot-air-balloons-1773468_1280.jpg',
+      '/images/antalya-7729741_1280-kaleici.jpg',
+      '/images/pamukalle-dark.jpg',
+      '/images/eskisehir.jpg',
+      '/images/antalya-sea-view-with-mountain.jpg',
+      '/images/antalya-port.jpg',
+      '/images/OrtakoyMosqueIstanbul-1.jpg',
+      '/images/anitkabir.jpg',
+      '/images/suleymaniye-istanbul.jpg',
+    ];
 
-    // Randomly select an image from the category
-    const images = categoryImages[category] || ['/images/IstanbulatNight.jpeg'];
-    const coverImage = images[Math.floor(Math.random() * images.length)];
+    // Randomly select an image from all available images
+    const coverImage = allImages[Math.floor(Math.random() * allImages.length)];
 
     // Generate slug
     const slug = result.title

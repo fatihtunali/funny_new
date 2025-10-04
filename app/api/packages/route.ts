@@ -26,6 +26,7 @@ export async function GET(req: NextRequest) {
         description: true,
         pdfUrl: true,
         highlights: true,
+        pricing: true,
       }
     });
 

@@ -57,19 +57,31 @@ export async function POST(req: NextRequest) {
       model: 'gpt-4o',
       instructions: `You are a tour package data extraction assistant. Extract structured information from tour package PDFs and return it as valid JSON.
 
-IMPORTANT: First detect if this is a package WITH HOTELS or LAND ONLY (land services).
-- If the PDF title or content contains "Land Services" or mentions no hotels, set packageType to "LAND_ONLY"
-- Otherwise, set packageType to "WITH_HOTEL"
+IMPORTANT: First detect the package type:
+1. SHORE EXCURSION / DAILY TOUR - Single-day tours from port or hotel pickup
+   - PDF contains "Sightseeing", "Shore Excursion", "Daily Tour", or single-day activities
+   - Duration is typically hours (e.g., "4 Hours", "6 Hours", "Full Day")
+   - Set packageType to "SHORE_EXCURSION"
+
+2. LAND ONLY (Land Services) - Multi-day packages without hotels
+   - PDF title or content contains "Land Services" or mentions no hotels
+   - Set packageType to "LAND_ONLY"
+
+3. WITH HOTEL - Multi-day packages with accommodation
+   - Multi-day packages with hotel listings
+   - Set packageType to "WITH_HOTEL"
 
 The JSON structure should be:
 {
   "packageId": "string (e.g., '01', '02')",
-  "packageType": "string (either 'WITH_HOTEL' or 'LAND_ONLY')",
+  "packageType": "string (either 'WITH_HOTEL', 'LAND_ONLY', or 'SHORE_EXCURSION')",
   "title": "string (package name)",
   "slug": "string (url-friendly version of title, lowercase, hyphenated)",
-  "duration": "string (e.g., '3 Nights / 4 Days')",
+  "duration": "string (e.g., '3 Nights / 4 Days' for multi-day, '8 Hours' for shore excursions)",
   "description": "string (brief description)",
   "destinations": "string (comma-separated destinations)",
+  "port": "string (ONLY for SHORE_EXCURSION - e.g., 'Istanbul', 'Kusadasi', 'Izmir', 'Bodrum', 'Antalya', 'Marmaris')",
+  "pickupType": "string (ONLY for SHORE_EXCURSION - either 'port', 'hotel', or 'both')",
   "image": "string (choose from available images below based on destinations)",
   "pdfUrl": "string (empty for now)",
   "highlights": ["array of highlight strings"],
@@ -135,6 +147,39 @@ PRICING FORMAT (FINAL SELLING PRICES - Same for all customers and agents):
     * "03 - 05 YRS Child € 160" → children.age3to5: 160
     * "05,99 -10,99 YRS Child € 295" → children.age6to10: 295
 
+- For SHORE_EXCURSION packages (daily tour pricing by group size):
+  {
+    "perPerson": {
+      "1pax": number (per person price for 1 person),
+      "2pax": number (per person price for 2 people),
+      "3pax": number (per person price for 3 people),
+      "4pax": number (per person price for 4 people),
+      "5pax": number (per person price for 5 people),
+      "6pax": number (per person price for 6 people),
+      "7to9pax": number (per person price for 7-9 people),
+      "10to15pax": number (per person price for 10-15 people)
+    },
+    "children": {
+      "age0to2": number (price for infants 0-2 years),
+      "age3to6": number (price for children 3-6 years),
+      "age7to12": number (price for children 7-12 years)
+    }
+  }
+
+  SHORE_EXCURSION PRICING EXTRACTION:
+  - Look for pricing tables with columns for different group sizes (1 PAX, 2 PAX, 3 PAX, etc.)
+  - Extract per person prices for each group size from smallest to largest
+  - Common group sizes: 1, 2, 3, 4, 5, 6, 7-9, 10-15 people
+  - Extract child pricing if shown (typically 0-2 years, 3-6 years, 7-12 years)
+  - Example from PDF:
+    * "1 PAX € 180" → perPerson.1pax: 180
+    * "2 PAX € 95" → perPerson.2pax: 95
+    * "3 PAX € 70" → perPerson.3pax: 70
+    * "4 PAX € 55" → perPerson.4pax: 55
+    * "0-2 Years € 0" → children.age0to2: 0
+    * "3-6 Years € 30" → children.age3to6: 30
+    * "7-12 Years € 40" → children.age7to12: 40
+
 HOTELS FORMAT:
 - For WITH_HOTEL packages:
   {
@@ -143,6 +188,7 @@ HOTELS FORMAT:
     "fivestar": ["array of hotel names"]
   }
 - For LAND_ONLY packages: null or omit this field
+- For SHORE_EXCURSION packages: null or omit this field (no hotels for daily tours)
 
 AVAILABLE IMAGES - Choose the most relevant one for the "image" field:
 - Istanbul: /images/BlueMosqueIstanbul.jpg, /images/ayasofya.jpg, /images/BosphorusCruiseIstanbul.jpg, /images/topkapipalacegeneraldrone.jpg
@@ -163,6 +209,23 @@ MEALS FORMAT:
   * "Day 2 - Istanbul – Full Day Tour (B/L)" → meals: "B/L"
   * "Day 3 - Istanbul (B/L/D)" → meals: "B/L/D"
   * "Day 4 - Istanbul / Fly (B)" → meals: "B"
+- For SHORE_EXCURSION packages: Usually lunch is included or not, extract from "Included" section
+
+ITINERARY FORMAT:
+- For multi-day packages (WITH_HOTEL, LAND_ONLY): Extract day-by-day itinerary with day numbers (1, 2, 3, etc.)
+- For SHORE_EXCURSION packages: Extract the tour program as a single day itinerary
+  * Set day: 1
+  * Extract title from tour name
+  * Extract description from the full tour program/itinerary
+  * Extract meals from included section (e.g., "L" if lunch included, "-" if no meals)
+
+SHORE_EXCURSION SPECIFIC FIELDS:
+- port: Extract the departure city/port (Istanbul, Kusadasi, Izmir, Bodrum, Antalya, Marmaris)
+- pickupType: Determine from PDF content
+  * "port" if mentions cruise port/pier pickup only
+  * "hotel" if mentions hotel pickup only
+  * "both" if mentions both port and hotel pickup options
+- duration: Extract in hours format (e.g., "4 Hours", "6 Hours", "8 Hours", "Full Day")
 
 IMPORTANT:
 - Extract FINAL SELLING PRICES (not nett rates) - same prices shown to all customers and agents
@@ -170,10 +233,13 @@ IMPORTANT:
 - For each pax tier, extract pricing for all hotel categories (3-star, 4-star, 5-star)
 - Extract double room prices (PP in DBL), triple if available (PP in TRPL)
 - Extract single supplement if shown, otherwise set to null
-- Extract ALL hotel names for each category
+- For SHORE_EXCURSION packages: Extract ALL group size pricing (1 pax through 10-15 pax)
+- For shore excursions, extract child pricing for all age ranges shown in PDF
+- Extract ALL hotel names for each category (for WITH_HOTEL only)
 - Extract the complete day-by-day itinerary WITH MEALS
 - For each itinerary day, extract the meals from the parentheses (e.g., "(B/L)" means breakfast and lunch)
 - If no meals are mentioned, use "-" as the meals value
+- For shore excursions, create a single-day itinerary (day: 1) with the full tour program as description
 - Choose an image path from the AVAILABLE IMAGES list that best matches the package destinations
 - If any information is missing, use reasonable defaults or empty arrays/objects
 - Ensure all prices are numbers (no currency symbols)

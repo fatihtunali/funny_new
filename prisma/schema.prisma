@@ -221,7 +221,11 @@ model Package {
   description String   @db.Text
 
   // Package Type
-  packageType String   @default("WITH_HOTEL")  // WITH_HOTEL or LAND_ONLY
+  packageType String   @default("WITH_HOTEL")  // WITH_HOTEL, LAND_ONLY, or SHORE_EXCURSION
+
+  // Shore Excursion specific fields
+  port        String?  // Cruise port (Istanbul, Kusadasi, Izmir, etc.) - Only for SHORE_EXCURSION
+  pickupType  String?  // port, hotel, or both - Only for SHORE_EXCURSION
 
   // Itinerary (JSON format)
   itinerary   String   @db.Text
@@ -236,13 +240,13 @@ model Package {
   // Destinations (comma-separated)
   destinations String
 
-  // Pricing (JSON format: {threestar: {single: 450, double: 320, triple: 290}, ...} or {perPerson: 350} for land only)
+  // Pricing (JSON format: {threestar: {single: 450, double: 320, triple: 290}, ...} or {perPerson: 350} for land only or {perPerson: {1pax: 180, 2pax: 95, ...}, children: {...}} for shore excursions)
   pricing     String   @db.Text
 
   // B2B Agent Pricing (Nett rates - lower than public pricing)
   b2bPricing  String?  @db.Text
 
-  // Hotels (JSON format) - Optional for land-only packages
+  // Hotels (JSON format) - Optional for land-only packages, null for shore excursions
   hotels      String?  @db.Text
 
   // PDF URL
@@ -261,6 +265,7 @@ model Package {
   @@index([packageId])
   @@index([slug])
   @@index([packageType])
+  @@index([port])
 }
 
 model Wishlist {

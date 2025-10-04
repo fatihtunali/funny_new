@@ -406,7 +406,6 @@ export default function AllPackagesPage() {
                               <span className="text-3xl font-bold text-green-600">€{getPackageMinPrice(pkg)}</span>
                               <span className="text-sm text-green-700 ml-2">per person</span>
                             </div>
-                            <p className="text-xs text-green-600 text-center mt-1">Per person in double room (6+ adults)</p>
                           </div>
                         )}
 
@@ -462,7 +461,6 @@ export default function AllPackagesPage() {
                               <span className="text-2xl font-bold text-green-600">€{getPackageMinPrice(pkg)}</span>
                               <span className="text-xs text-green-700 ml-1">per person</span>
                             </div>
-                            <p className="text-xs text-green-600 text-center">Per person in double room (6+ adults)</p>
                           </div>
                         )}
                         <div className="text-center">

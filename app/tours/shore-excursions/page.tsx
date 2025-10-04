@@ -13,8 +13,9 @@ interface ShoreExcursion {
   slug: string;
   duration: string;
   description: string;
-  port: string;
-  pickupType: string;
+  destinations: string;
+  port?: string;
+  pickupType?: string;
   image: string;
   pricing: any;
   highlights: string;

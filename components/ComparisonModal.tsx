@@ -178,7 +178,10 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
                     {packages.map((pkg) => (
                       <td key={pkg.id} className="p-4">
                         <div className="flex flex-wrap gap-1">
-                          {pkg.destinations.split(',').map((dest: string, idx: number) => (
+                          {(Array.isArray(pkg.destinations)
+                            ? pkg.destinations
+                            : pkg.destinations.split(',')
+                          ).map((dest: string, idx: number) => (
                             <span
                               key={idx}
                               className="bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium"

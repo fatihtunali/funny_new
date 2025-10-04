@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FaFilter, FaTh, FaList, FaMapMarkerAlt, FaClock, FaEuroSign } from 'react-icons/fa';
+import Image from 'next/image';
+import { FaFilter, FaTh, FaList, FaMapMarkerAlt, FaClock, FaEuroSign, FaFilePdf } from 'react-icons/fa';
 
 interface Package {
   id: string;
@@ -16,6 +17,7 @@ interface Package {
   pricing: any;
   packageType: string;
   highlights: string;
+  pdfUrl?: string;
 }
 
 export default function AllPackagesPage() {
@@ -359,50 +361,118 @@ export default function AllPackagesPage() {
                 </button>
               </div>
             ) : (
-              <div className={viewMode === 'grid' ? 'grid md:grid-cols-2 xl:grid-cols-3 gap-6' : 'space-y-4'}>
+              <div className={viewMode === 'grid' ? 'grid md:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-4'}>
                 {filteredPackages.map((pkg) => (
-                  <Link
-                    key={pkg.id}
-                    href={`/tours/hotels-packages/package/${pkg.packageId}`}
-                    className={`bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow ${
-                      viewMode === 'list' ? 'flex' : 'block'
-                    }`}
-                  >
-                    <img
-                      src={pkg.image}
-                      alt={pkg.title}
-                      className={viewMode === 'list' ? 'w-48 h-48 object-cover flex-shrink-0' : 'w-full h-48 object-cover'}
-                    />
-                    <div className="p-4 flex-1">
-                      <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2">{pkg.title}</h3>
-                      <div className="flex flex-wrap gap-3 text-sm text-gray-600 mb-3">
-                        <span className="flex items-center">
-                          <FaMapMarkerAlt className="mr-1 text-primary-600" />
-                          {pkg.destinations}
-                        </span>
-                        <span className="flex items-center">
-                          <FaClock className="mr-1 text-primary-600" />
-                          {pkg.duration}
-                        </span>
+                  viewMode === 'grid' ? (
+                    <div
+                      key={pkg.id}
+                      className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                    >
+                      <div className="relative h-48">
+                        <Image
+                          src={pkg.image}
+                          alt={pkg.title}
+                          fill
+                          className="object-cover"
+                        />
                       </div>
-                      <p className="text-sm text-gray-600 mb-4 line-clamp-2">{pkg.description}</p>
-                      {getPackageMinPrice(pkg) > 0 && (
-                        <div className="mb-3 bg-green-50 border border-green-200 rounded-lg p-2">
-                          <div className="flex items-baseline justify-center">
-                            <span className="text-xs text-green-700 font-medium mr-1">From</span>
-                            <span className="text-2xl font-bold text-green-600">€{getPackageMinPrice(pkg)}</span>
-                            <span className="text-xs text-green-700 ml-1">per person</span>
-                          </div>
-                          <p className="text-xs text-green-600 text-center">Per person in double room (6+ adults)</p>
+
+                      <div className="p-6">
+                        <div className="flex items-center text-gray-600 mb-2">
+                          <FaClock className="mr-2 text-sm" />
+                          <span className="text-sm font-semibold">{pkg.duration}</span>
                         </div>
-                      )}
-                      <div className="text-center">
-                        <span className="text-sm text-primary-600 font-semibold hover:text-primary-700">
-                          View Details & Book →
-                        </span>
+
+                        <h3 className="text-xl font-bold text-gray-900 mb-2 min-h-[3.5rem] line-clamp-2">{pkg.title}</h3>
+                        <p className="text-gray-600 text-sm mb-4 h-[4.5rem] line-clamp-3">{pkg.description}</p>
+
+                        <div className="mb-4">
+                          <div className="flex flex-wrap gap-1">
+                            {pkg.destinations.split(',').map((dest: string) => (
+                              <span
+                                key={dest}
+                                className="bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium"
+                              >
+                                {dest.trim()}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {getPackageMinPrice(pkg) > 0 && (
+                          <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-3">
+                            <div className="flex items-baseline justify-center">
+                              <span className="text-sm text-green-700 font-medium mr-2">From</span>
+                              <span className="text-3xl font-bold text-green-600">€{getPackageMinPrice(pkg)}</span>
+                              <span className="text-sm text-green-700 ml-2">per person</span>
+                            </div>
+                            <p className="text-xs text-green-600 text-center mt-1">Per person in double room (6+ adults)</p>
+                          </div>
+                        )}
+
+                        <div className="flex flex-col gap-2">
+                          <Link
+                            href={`/tours/hotels-packages/package/${pkg.packageId}`}
+                            className="flex items-center justify-center btn-primary text-sm"
+                          >
+                            View Details & Book
+                          </Link>
+                          {pkg.pdfUrl && (
+                            <a
+                              href={pkg.pdfUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center justify-center btn-secondary text-sm"
+                            >
+                              <FaFilePdf className="mr-2" />
+                              Download PDF
+                            </a>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </Link>
+                  ) : (
+                    <Link
+                      key={pkg.id}
+                      href={`/tours/hotels-packages/package/${pkg.packageId}`}
+                      className="flex bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow"
+                    >
+                      <img
+                        src={pkg.image}
+                        alt={pkg.title}
+                        className="w-48 h-48 object-cover flex-shrink-0"
+                      />
+                      <div className="p-4 flex-1">
+                        <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2">{pkg.title}</h3>
+                        <div className="flex flex-wrap gap-3 text-sm text-gray-600 mb-3">
+                          <span className="flex items-center">
+                            <FaMapMarkerAlt className="mr-1 text-primary-600" />
+                            {pkg.destinations}
+                          </span>
+                          <span className="flex items-center">
+                            <FaClock className="mr-1 text-primary-600" />
+                            {pkg.duration}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-4 line-clamp-2">{pkg.description}</p>
+                        {getPackageMinPrice(pkg) > 0 && (
+                          <div className="mb-3 bg-green-50 border border-green-200 rounded-lg p-2">
+                            <div className="flex items-baseline justify-center">
+                              <span className="text-xs text-green-700 font-medium mr-1">From</span>
+                              <span className="text-2xl font-bold text-green-600">€{getPackageMinPrice(pkg)}</span>
+                              <span className="text-xs text-green-700 ml-1">per person</span>
+                            </div>
+                            <p className="text-xs text-green-600 text-center">Per person in double room (6+ adults)</p>
+                          </div>
+                        )}
+                        <div className="text-center">
+                          <span className="text-sm text-primary-600 font-semibold hover:text-primary-700">
+                            View Details & Book →
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  )
                 ))}
               </div>
             )}

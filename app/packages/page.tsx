@@ -386,19 +386,6 @@ export default function AllPackagesPage() {
                         <h3 className="text-xl font-bold text-gray-900 mb-2 min-h-[3.5rem] line-clamp-2">{pkg.title}</h3>
                         <p className="text-gray-600 text-sm mb-4 h-[4.5rem] line-clamp-3">{pkg.description}</p>
 
-                        <div className="mb-4">
-                          <div className="flex flex-wrap gap-1">
-                            {pkg.destinations.split(',').map((dest: string) => (
-                              <span
-                                key={dest}
-                                className="bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium"
-                              >
-                                {dest.trim()}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
                         {getPackageMinPrice(pkg) > 0 && (
                           <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-3">
                             <div className="flex items-baseline justify-center">

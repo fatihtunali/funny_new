@@ -67,6 +67,18 @@ model Booking {
   // Additional Information
   specialRequests String?  @db.Text
 
+  // Flight & Preferences (JSON format)
+  arrivalFlightNumber   String?
+  arrivalFlightTime     String?
+  departureFlightNumber String?
+  departureFlightTime   String?
+  dietaryRequirements   String?  @db.Text  // JSON array
+  roomPreferences       String?  @db.Text  // Twin beds, King bed, High floor, etc.
+  emergencyContactName  String?
+  emergencyContactPhone String?
+  travelInsurance       Boolean  @default(false)
+  celebrationOccasion   String?  // Honeymoon, Anniversary, Birthday, etc.
+
   // Timestamps
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -76,11 +88,48 @@ model Booking {
   // Booking Reference Number
   referenceNumber String   @unique
 
+  // Relations
+  passengers      Passenger[]
+
   @@index([userId])
   @@index([agentId])
   @@index([guestEmail])
   @@index([status])
   @@index([referenceNumber])
+}
+
+model Passenger {
+  id                  String   @id @default(cuid())
+  bookingId           String
+  booking             Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  // Personal Information (as per passport)
+  firstName           String
+  middleName          String?
+  lastName            String
+  dateOfBirth         DateTime
+  gender              String   // M, F, Other
+  nationality         String
+
+  // Passport Information
+  passportNumber      String
+  passportExpiry      DateTime
+  passportIssuingCountry String
+
+  // Passenger Type
+  passengerType       PassengerType  // ADULT, CHILD_3_5, CHILD_6_10
+
+  // Metadata
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([bookingId])
+}
+
+enum PassengerType {
+  ADULT
+  CHILD_3_5
+  CHILD_6_10
 }
 
 enum BookingStatus {

@@ -84,17 +84,21 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
     return defaultTiers;
   });
 
-  // For LAND_ONLY packages
-  const [landOnlyPrice, setLandOnlyPrice] = useState(() => {
+  // For LAND_ONLY packages - group size pricing
+  const [landOnlyPricing, setLandOnlyPricing] = useState(() => {
     if (initialData?.pricing && packageType === 'LAND_ONLY') {
       try {
         const parsed = JSON.parse(initialData.pricing);
-        return parsed.perPerson || 0;
+        return {
+          twoAdults: parsed.twoAdults || 0,
+          fourAdults: parsed.fourAdults || 0,
+          sixAdults: parsed.sixAdults || 0,
+        };
       } catch {
-        return 0;
+        return { twoAdults: 0, fourAdults: 0, sixAdults: 0 };
       }
     }
-    return 0;
+    return { twoAdults: 0, fourAdults: 0, sixAdults: 0 };
   });
 
   // Hotels
@@ -151,8 +155,12 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
       setItinerary(JSON.stringify(data.itinerary || [], null, 2));
 
       // Set pricing data based on package type
-      if (data.packageType === 'LAND_ONLY' && data.pricing?.perPerson) {
-        setLandOnlyPrice(data.pricing.perPerson);
+      if (data.packageType === 'LAND_ONLY' && data.pricing) {
+        setLandOnlyPricing({
+          twoAdults: data.pricing.twoAdults || 0,
+          fourAdults: data.pricing.fourAdults || 0,
+          sixAdults: data.pricing.sixAdults || 0,
+        });
       } else if (data.pricing?.paxTiers) {
         // WITH_HOTEL with paxTiers structure
         setPricingData(data.pricing.paxTiers);
@@ -188,7 +196,9 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
 
       if (packageType === 'LAND_ONLY') {
         pricing = {
-          perPerson: landOnlyPrice
+          twoAdults: landOnlyPricing.twoAdults,
+          fourAdults: landOnlyPricing.fourAdults,
+          sixAdults: landOnlyPricing.sixAdults,
         };
       } else {
         // For hotel packages - use paxTiers structure
@@ -548,21 +558,69 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
 
             {packageType === 'LAND_ONLY' ? (
               <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Per Person Price (€) - Final Selling Price
-                </label>
-                <input
-                  type="number"
-                  value={landOnlyPrice}
-                  onChange={(e) => setLandOnlyPrice(Number(e.target.value))}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                  placeholder="500"
-                  min="0"
-                  step="1"
-                />
-                <p className="mt-2 text-sm text-gray-600">
-                  Agent commission (15%): <strong>€{Math.round(landOnlyPrice * 0.15)}</strong>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Land Only Pricing - Per Person (€)</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Set different prices based on group size. Price decreases as group size increases.
                 </p>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      2 Adults (2 Pax) - Per Person Price (€)
+                    </label>
+                    <input
+                      type="number"
+                      value={landOnlyPricing.twoAdults}
+                      onChange={(e) => setLandOnlyPricing({ ...landOnlyPricing, twoAdults: Number(e.target.value) })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                      placeholder="500"
+                      min="0"
+                      step="1"
+                    />
+                    <p className="mt-1 text-xs text-gray-500">
+                      Total for 2 pax: €{landOnlyPricing.twoAdults * 2} | Agent commission (15%): €{Math.round(landOnlyPricing.twoAdults * 2 * 0.15)}
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      4 Adults (4 Pax) - Per Person Price (€)
+                    </label>
+                    <input
+                      type="number"
+                      value={landOnlyPricing.fourAdults}
+                      onChange={(e) => setLandOnlyPricing({ ...landOnlyPricing, fourAdults: Number(e.target.value) })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                      placeholder="400"
+                      min="0"
+                      step="1"
+                    />
+                    <p className="mt-1 text-xs text-gray-500">
+                      Total for 4 pax: €{landOnlyPricing.fourAdults * 4} | Agent commission (15%): €{Math.round(landOnlyPricing.fourAdults * 4 * 0.15)}
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      6+ Adults (6+ Pax) - Per Person Price (€)
+                    </label>
+                    <input
+                      type="number"
+                      value={landOnlyPricing.sixAdults}
+                      onChange={(e) => setLandOnlyPricing({ ...landOnlyPricing, sixAdults: Number(e.target.value) })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                      placeholder="350"
+                      min="0"
+                      step="1"
+                    />
+                    <p className="mt-1 text-xs text-gray-500">
+                      Total for 6 pax: €{landOnlyPricing.sixAdults * 6} | Agent commission (15%): €{Math.round(landOnlyPricing.sixAdults * 6 * 0.15)}
+                    </p>
+                    <p className="mt-2 text-xs text-blue-600 font-medium">
+                      This rate applies to all groups of 6 or more adults
+                    </p>
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="space-y-6">

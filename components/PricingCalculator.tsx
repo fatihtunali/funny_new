@@ -13,8 +13,10 @@ interface PackageData {
     threestar?: { twoAdults: number; fourAdults: number; sixAdults: number };
     fourstar?: { twoAdults: number; fourAdults: number; sixAdults: number };
     fivestar?: { twoAdults: number; fourAdults: number; sixAdults: number };
-    // For LAND_ONLY packages
-    perPerson?: number;
+    // For LAND_ONLY packages - group size based pricing
+    twoAdults?: number;
+    fourAdults?: number;
+    sixAdults?: number;
     // Common for both
     children?: { age3to5: number; age6to10: number };
   };
@@ -41,8 +43,14 @@ export default function PricingCalculator({ packageData }: Props) {
     let pricePerAdult = 0;
 
     if (isLandOnly) {
-      // LAND_ONLY: Simple per-person pricing
-      pricePerAdult = packageData.pricing.perPerson || 0;
+      // LAND_ONLY: Group size-based per-person pricing
+      if (adults >= 6) {
+        pricePerAdult = packageData.pricing.sixAdults || 0;
+      } else if (adults >= 4) {
+        pricePerAdult = packageData.pricing.fourAdults || 0;
+      } else {
+        pricePerAdult = packageData.pricing.twoAdults || 0;
+      }
     } else {
       // WITH_HOTEL: Tier pricing based on hotel category and group size
       const categoryPricing = packageData.pricing[hotelCategory];

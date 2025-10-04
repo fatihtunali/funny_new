@@ -121,7 +121,7 @@ export default function HotelsPackagesPage() {
 
                     <div className="mb-4">
                       <div className="flex flex-wrap gap-1">
-                        {pkg.destinations.split(',').map((dest) => (
+                        {pkg.destinations.split(',').map((dest: string) => (
                           <span
                             key={dest}
                             className="bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium"

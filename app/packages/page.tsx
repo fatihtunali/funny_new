@@ -118,17 +118,32 @@ export default function AllPackagesPage() {
 
   const getPackageMinPrice = (pkg: Package): number => {
     try {
-      const pricing = pkg.pricing;
-      if (pricing.perPerson) return pricing.perPerson;
-      if (pricing.paxTiers) {
-        const firstTier = Object.values(pricing.paxTiers)[0] as any;
-        const prices = [
-          firstTier.threestar?.double,
-          firstTier.fourstar?.double,
-          firstTier.fivestar?.double
-        ].filter((p: number) => p > 0);
-        return prices.length > 0 ? Math.min(...prices) : 0;
+      const pricing = typeof pkg.pricing === 'string' ? JSON.parse(pkg.pricing) : pkg.pricing;
+
+      // Check if using new paxTiers structure
+      if (pricing?.paxTiers) {
+        // Use 6 pax tier pricing if available (standard group size)
+        const tier6 = pricing.paxTiers['6']?.threestar?.double;
+        if (tier6) return tier6;
+
+        // Fallback to highest tier available
+        const tiers = Object.keys(pricing.paxTiers).map(Number).sort((a, b) => b - a);
+        for (const tier of tiers) {
+          const price = pricing.paxTiers[tier]?.threestar?.double;
+          if (price) return price;
+        }
       }
+
+      // Fallback to old structure
+      if (pricing?.threestar?.double) {
+        return pricing.threestar.double;
+      }
+
+      // Land only packages
+      if (pricing?.perPerson) {
+        return pricing.perPerson;
+      }
+
       return 0;
     } catch {
       return 0;
@@ -375,16 +390,19 @@ export default function AllPackagesPage() {
                         </span>
                       </div>
                       <p className="text-sm text-gray-600 mb-4 line-clamp-2">{pkg.description}</p>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                          <FaEuroSign className="text-primary-600 mr-1" />
-                          <span className="text-xl font-bold text-primary-600">
-                            {getPackageMinPrice(pkg)}
-                          </span>
-                          <span className="text-sm text-gray-500 ml-1">from</span>
+                      {getPackageMinPrice(pkg) > 0 && (
+                        <div className="mb-3 bg-green-50 border border-green-200 rounded-lg p-2">
+                          <div className="flex items-baseline justify-center">
+                            <span className="text-xs text-green-700 font-medium mr-1">From</span>
+                            <span className="text-2xl font-bold text-green-600">€{getPackageMinPrice(pkg)}</span>
+                            <span className="text-xs text-green-700 ml-1">per person</span>
+                          </div>
+                          <p className="text-xs text-green-600 text-center">Per person in double room (6+ adults)</p>
                         </div>
+                      )}
+                      <div className="text-center">
                         <span className="text-sm text-primary-600 font-semibold hover:text-primary-700">
-                          View Details →
+                          View Details & Book →
                         </span>
                       </div>
                     </div>

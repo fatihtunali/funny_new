@@ -128,7 +128,10 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                   <div className="mb-6">
                     <h3 className="text-lg font-bold text-gray-900 mb-3">Highlights</h3>
                     <div className="space-y-2">
-                      {pkg.highlights.split('\n').filter((h: string) => h.trim()).map((highlight: string, idx: number) => (
+                      {(Array.isArray(pkg.highlights)
+                        ? pkg.highlights
+                        : pkg.highlights.split('\n').filter((h: string) => h.trim())
+                      ).map((highlight: string, idx: number) => (
                         <div key={idx} className="flex items-start gap-2">
                           <FaCheck className="text-green-600 mt-1 flex-shrink-0" />
                           <span className="text-sm text-gray-700">{highlight}</span>
@@ -162,7 +165,10 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-2 text-sm">Included</h4>
                       <ul className="text-xs text-gray-600 space-y-1">
-                        {pkg.included.split('\n').slice(0, 4).map((item: string, idx: number) => (
+                        {(Array.isArray(pkg.included)
+                          ? pkg.included
+                          : pkg.included.split('\n').filter((i: string) => i.trim())
+                        ).slice(0, 4).map((item: string, idx: number) => (
                           <li key={idx} className="flex items-start gap-1">
                             <FaCheck className="text-green-600 mt-0.5 flex-shrink-0" size={10} />
                             <span className="line-clamp-1">{item}</span>
@@ -171,11 +177,14 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                       </ul>
                     </div>
                   )}
-                  {pkg.excluded && (
+                  {(pkg.notIncluded || pkg.excluded) && (
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-2 text-sm">Not Included</h4>
                       <ul className="text-xs text-gray-600 space-y-1">
-                        {pkg.excluded.split('\n').slice(0, 4).map((item: string, idx: number) => (
+                        {(Array.isArray(pkg.notIncluded || pkg.excluded)
+                          ? (pkg.notIncluded || pkg.excluded)
+                          : (pkg.notIncluded || pkg.excluded).split('\n').filter((i: string) => i.trim())
+                        ).slice(0, 4).map((item: string, idx: number) => (
                           <li key={idx} className="flex items-start gap-1">
                             <FaTimes className="text-red-600 mt-0.5 flex-shrink-0" size={10} />
                             <span className="line-clamp-1">{item}</span>

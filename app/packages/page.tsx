@@ -54,6 +54,8 @@ export default function AllPackagesPage() {
     try {
       const res = await fetch('/api/packages');
       const data = await res.json();
+      console.log('📦 Fetched packages:', data.packages?.length);
+      console.log('📦 Package types:', data.packages?.map((p: Package) => ({ id: p.packageId, type: p.packageType })));
       setPackages(data.packages || []);
       setFilteredPackages(data.packages || []);
     } catch (error) {
@@ -84,7 +86,10 @@ export default function AllPackagesPage() {
 
     // Type filter
     if (selectedTypes.length > 0) {
+      console.log('🔍 Filtering by types:', selectedTypes);
+      console.log('🔍 Packages before filter:', filtered.map(p => ({ id: p.packageId, type: p.packageType })));
       filtered = filtered.filter(pkg => selectedTypes.includes(pkg.packageType));
+      console.log('🔍 Packages after filter:', filtered.map(p => ({ id: p.packageId, type: p.packageType })));
     }
 
     // Duration filter

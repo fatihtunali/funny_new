@@ -273,3 +273,48 @@ model Wishlist {
   @@index([userId])
   @@index([packageId])
 }
+
+model BlogPost {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  excerpt         String   @db.Text
+  content         String   @db.LongText
+  coverImage      String
+  category        String   // Travel Tips, Destinations, Culture, Food, etc.
+  tags            String?  @db.Text  // JSON array
+
+  // SEO
+  metaTitle       String?
+  metaDescription String?  @db.Text
+
+  // AI Generation
+  isAIGenerated   Boolean  @default(false)
+  aiPrompt        String?  @db.Text
+
+  // Publishing
+  status          BlogStatus @default(DRAFT)
+  publishedAt     DateTime?
+
+  // Author
+  authorName      String   @default("Funny Tourism")
+  authorId        String?
+
+  // Stats
+  views           Int      @default(0)
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([slug])
+  @@index([status])
+  @@index([category])
+  @@index([publishedAt])
+}
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}

@@ -15,8 +15,8 @@ interface Package {
   duration: string;
   description: string;
   destinations: string;
-  pricing: string;
-  b2bPricing: string | null;
+  pricing: any; // Already parsed from API
+  b2bPricing: any | null; // Already parsed from API
   packageType: string;
   image: string;
   itinerary: string;
@@ -67,21 +67,21 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
 
     try {
       // Agents should use B2B pricing if available, otherwise fall back to public pricing
-      const pricingStr = pkg.b2bPricing || pkg.pricing;
+      // Note: pricing fields are already parsed objects from the API
+      const pricing = pkg.b2bPricing || pkg.pricing;
       console.log('📦 Package pricing data:', {
         hasB2BPricing: !!pkg.b2bPricing,
         hasPricing: !!pkg.pricing,
         usingB2B: !!pkg.b2bPricing,
-        pricingStr: pricingStr
+        pricingData: pricing
       });
 
-      if (!pricingStr) {
+      if (!pricing) {
         console.error('❌ No pricing data available for package');
         return 0;
       }
 
-      const pricing = JSON.parse(pricingStr);
-      console.log('💰 Parsed pricing:', pricing);
+      console.log('💰 Using pricing:', pricing);
 
       if (pkg.packageType === 'LAND_ONLY') {
         const total = bookingData.adults + bookingData.children3to5 + bookingData.children6to10;

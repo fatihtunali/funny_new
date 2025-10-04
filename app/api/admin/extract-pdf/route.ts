@@ -81,12 +81,36 @@ The JSON structure should be:
 }
 
 PRICING FORMAT:
-- For WITH_HOTEL packages:
+- For WITH_HOTEL packages, extract pricing by PAX TIERS (2, 4, 6, 8, 10+ adults):
   {
-    "threestar": {"single": number, "double": number, "triple": number},
-    "fourstar": {"single": number, "double": number, "triple": number},
-    "fivestar": {"single": number, "double": number, "triple": number}
+    "paxTiers": {
+      "2": {
+        "threestar": {"double": number, "triple": number, "singleSupplement": number or null},
+        "fourstar": {"double": number, "triple": number, "singleSupplement": number or null},
+        "fivestar": {"double": number, "triple": number, "singleSupplement": number or null}
+      },
+      "4": {
+        "threestar": {"double": number, "singleSupplement": number or null},
+        "fourstar": {"double": number, "singleSupplement": number or null},
+        "fivestar": {"double": number, "singleSupplement": number or null}
+      },
+      "6": {
+        "threestar": {"double": number, "singleSupplement": number or null},
+        "fourstar": {"double": number, "singleSupplement": number or null},
+        "fivestar": {"double": number, "singleSupplement": number or null}
+      }
+    }
   }
+
+  PRICING EXTRACTION RULES:
+  - Look for "Min. Paying Pax X Adults" or "X pax" rows
+  - Extract "PP in DBL" (per person in double) for each pax tier
+  - Extract "PP in TRPL" (per person in triple) if available
+  - For single supplement:
+    * If "Single Supplement" row exists, use that value
+    * If not, set to null (we'll calculate as double + 50% automatically)
+  - Common pax tiers: 2, 4, 6, 8, 10 (extract all found in PDF)
+
 - For LAND_ONLY packages:
   {
     "perPerson": number
@@ -113,7 +137,10 @@ AVAILABLE IMAGES - Choose the most relevant one for the "image" field:
 - Package with hotels: /images/hotelwithpackage.jpg
 
 IMPORTANT:
-- Extract ALL pricing information carefully (3-star, 4-star, 5-star categories with single, double, triple room prices)
+- Extract ALL pricing tiers by pax count (2, 4, 6, 8, 10, etc.)
+- For each pax tier, extract pricing for all hotel categories (3-star, 4-star, 5-star)
+- Extract double room prices (PP in DBL), triple if available (PP in TRPL)
+- Extract single supplement if shown, otherwise set to null
 - Extract ALL hotel names for each category
 - Extract the complete day-by-day itinerary
 - Choose an image path from the AVAILABLE IMAGES list that best matches the package destinations

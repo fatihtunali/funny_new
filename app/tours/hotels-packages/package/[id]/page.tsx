@@ -62,15 +62,42 @@ export default function PackageDetailPage() {
   };
 
   const calculatePrice = () => {
+    const totalPax = getTotalPax();
     let totalPrice = 0;
 
-    rooms.forEach(paxInRoom => {
-      const roomType = paxInRoom === 1 ? 'single' : paxInRoom === 2 ? 'double' : 'triple';
-      const pricePerPerson = pkg.pricing[selectedHotel][roomType] || 0;
-      totalPrice += pricePerPerson * paxInRoom;
-    });
+    // Check if pricing uses new paxTiers structure
+    if (pkg.pricing?.paxTiers) {
+      // Find the appropriate pax tier (use the tier >= totalPax, or highest available)
+      const availableTiers = Object.keys(pkg.pricing.paxTiers).map(Number).sort((a, b) => a - b);
+      const paxTier = availableTiers.find(tier => tier >= totalPax) || availableTiers[availableTiers.length - 1];
+      const tierPricing = pkg.pricing.paxTiers[paxTier]?.[selectedHotel];
 
-    return totalPrice;
+      if (tierPricing) {
+        rooms.forEach(paxInRoom => {
+          let pricePerPerson = 0;
+
+          if (paxInRoom === 1) {
+            // Single room: use singleSupplement if available, otherwise double + 50%
+            pricePerPerson = tierPricing.singleSupplement || (tierPricing.double * 1.5);
+          } else if (paxInRoom === 2) {
+            pricePerPerson = tierPricing.double || 0;
+          } else {
+            pricePerPerson = tierPricing.triple || tierPricing.double || 0;
+          }
+
+          totalPrice += pricePerPerson * paxInRoom;
+        });
+      }
+    } else {
+      // Fallback to old structure
+      rooms.forEach(paxInRoom => {
+        const roomType = paxInRoom === 1 ? 'single' : paxInRoom === 2 ? 'double' : 'triple';
+        const pricePerPerson = pkg.pricing[selectedHotel][roomType] || 0;
+        totalPrice += pricePerPerson * paxInRoom;
+      });
+    }
+
+    return Math.round(totalPrice);
   };
 
   const addRoom = () => {

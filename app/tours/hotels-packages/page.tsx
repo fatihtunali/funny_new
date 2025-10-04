@@ -30,7 +30,21 @@ export default function HotelsPackagesPage() {
     try {
       const pricing = typeof pkg.pricing === 'string' ? JSON.parse(pkg.pricing) : pkg.pricing;
 
-      // Return 3-star double room price (standard pricing for 6+ adults)
+      // Check if using new paxTiers structure
+      if (pricing?.paxTiers) {
+        // Use 6 pax tier pricing if available (standard group size)
+        const tier6 = pricing.paxTiers['6']?.threestar?.double;
+        if (tier6) return tier6;
+
+        // Fallback to highest tier available
+        const tiers = Object.keys(pricing.paxTiers).map(Number).sort((a, b) => b - a);
+        for (const tier of tiers) {
+          const price = pricing.paxTiers[tier]?.threestar?.double;
+          if (price) return price;
+        }
+      }
+
+      // Fallback to old structure
       if (pricing?.threestar?.double) {
         return pricing.threestar.double;
       }

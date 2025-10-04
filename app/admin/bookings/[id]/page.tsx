@@ -33,9 +33,9 @@ export default async function AdminBookingDetailPage({ params }: { params: Promi
     notFound();
   }
 
-  const customerName = booking.user?.name || booking.guestName;
-  const customerEmail = booking.user?.email || booking.guestEmail;
-  const customerPhone = booking.user?.phone || booking.guestPhone;
+  const customerName = booking.user?.name || booking.guestName || 'N/A';
+  const customerEmail = booking.user?.email || booking.guestEmail || 'N/A';
+  const customerPhone = booking.user?.phone || booking.guestPhone || null;
   const isGuest = !booking.userId;
 
   return (

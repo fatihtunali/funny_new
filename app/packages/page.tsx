@@ -146,7 +146,18 @@ export default function AllPackagesPage() {
         return pricing.threestar.double;
       }
 
-      // Land only packages
+      // Land only packages - use lowest price (6+ pax rate)
+      if (pricing?.sixAdults) {
+        return pricing.sixAdults;
+      }
+      if (pricing?.fourAdults) {
+        return pricing.fourAdults;
+      }
+      if (pricing?.twoAdults) {
+        return pricing.twoAdults;
+      }
+
+      // Legacy land only pricing
       if (pricing?.perPerson) {
         return pricing.perPerson;
       }

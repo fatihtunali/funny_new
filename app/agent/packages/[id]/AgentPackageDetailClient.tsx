@@ -67,30 +67,45 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
 
     try {
       const pricingStr = pkg.b2bPricing || pkg.pricing;
+      if (!pricingStr) {
+        console.error('No pricing data available for package');
+        return 0;
+      }
+
       const pricing = JSON.parse(pricingStr);
 
       if (pkg.packageType === 'LAND_ONLY') {
         const total = bookingData.adults + bookingData.children3to5 + bookingData.children6to10;
+        if (!pricing.perPerson) {
+          console.error('Land only package missing perPerson pricing');
+          return 0;
+        }
         return pricing.perPerson * total;
       } else {
         const hotelPricing = pricing[bookingData.hotelCategory];
-        if (!hotelPricing) return 0;
+        if (!hotelPricing) {
+          console.error('Hotel pricing not found for category:', bookingData.hotelCategory);
+          return 0;
+        }
 
-        const adults = bookingData.adults;
-        const children = bookingData.children3to5 + bookingData.children6to10;
+        const adults = bookingData.adults || 0;
+        const children = (bookingData.children3to5 || 0) + (bookingData.children6to10 || 0);
 
         // Calculate based on room configuration
         const doubleRooms = Math.floor(adults / 2);
         const singleRooms = adults % 2;
 
-        let total = (doubleRooms * hotelPricing.double * 2) + (singleRooms * hotelPricing.single);
+        let total = (doubleRooms * (hotelPricing.double || 0) * 2) + (singleRooms * (hotelPricing.single || 0));
 
         // Add children (assuming they share with adults)
-        total += children * (hotelPricing.double * 0.5);
+        if (children > 0 && hotelPricing.double) {
+          total += children * (hotelPricing.double * 0.5);
+        }
 
         return total;
       }
-    } catch {
+    } catch (error) {
+      console.error('Price calculation error:', error);
       return 0;
     }
   };
@@ -153,6 +168,7 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
 
   if (!pkg) return null;
 
+  // Calculate price dynamically based on current booking data
   const totalPrice = calculatePrice();
 
   return (
@@ -351,9 +367,24 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
 
                   <div className="pt-4 border-t">
                     <div className="flex justify-between items-center mb-4">
-                      <span className="text-gray-700">Total Price:</span>
-                      <span className="text-2xl font-bold text-primary-600">€{totalPrice.toFixed(2)}</span>
+                      <span className="text-gray-700 font-medium">Total Price:</span>
+                      {totalPrice > 0 ? (
+                        <span className="text-2xl font-bold text-primary-600">€{totalPrice.toFixed(2)}</span>
+                      ) : (
+                        <div className="text-right">
+                          <span className="text-sm text-red-600 block">Price unavailable</span>
+                          <span className="text-xs text-gray-500">Check console for details</span>
+                        </div>
+                      )}
                     </div>
+                    {totalPrice === 0 && (
+                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                        <p className="text-sm text-yellow-800">
+                          <strong>Note:</strong> This package may not have B2B pricing configured yet.
+                          Please check the browser console for details or contact admin.
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   <div className="space-y-2">

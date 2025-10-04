@@ -45,7 +45,7 @@ export default async function AdminDashboard() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Link href="/admin/bookings" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-center justify-between">
               <div>
@@ -65,6 +65,17 @@ export default async function AdminDashboard() {
               </div>
               <div className="bg-green-100 rounded-full p-3">
                 <FaPlus className="text-2xl text-green-600" />
+              </div>
+            </div>
+          </Link>
+          <Link href="/admin/agents" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 mb-2">B2B Agents</p>
+                <p className="text-lg font-semibold text-purple-600">Manage Agents →</p>
+              </div>
+              <div className="bg-purple-100 rounded-full p-3">
+                <FaEye className="text-2xl text-purple-600" />
               </div>
             </div>
           </Link>

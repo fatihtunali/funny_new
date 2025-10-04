@@ -50,14 +50,38 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
     ], null, 2)
   );
 
-  // Pricing
-  const [pricing, setPricing] = useState(
-    initialData?.pricing || JSON.stringify({
+  // Pricing - separate state for each field for better UX
+  const [pricingData, setPricingData] = useState(() => {
+    if (initialData?.b2bPricing) {
+      try {
+        return JSON.parse(initialData.b2bPricing);
+      } catch {
+        return {
+          threestar: { single: 0, double: 0, triple: 0 },
+          fourstar: { single: 0, double: 0, triple: 0 },
+          fivestar: { single: 0, double: 0, triple: 0 }
+        };
+      }
+    }
+    return {
       threestar: { single: 0, double: 0, triple: 0 },
       fourstar: { single: 0, double: 0, triple: 0 },
       fivestar: { single: 0, double: 0, triple: 0 }
-    }, null, 2)
-  );
+    };
+  });
+
+  // For LAND_ONLY packages
+  const [landOnlyPrice, setLandOnlyPrice] = useState(() => {
+    if (initialData?.b2bPricing && packageType === 'LAND_ONLY') {
+      try {
+        const parsed = JSON.parse(initialData.b2bPricing);
+        return parsed.perPerson || 0;
+      } catch {
+        return 0;
+      }
+    }
+    return 0;
+  });
 
   // Hotels
   const [hotels, setHotels] = useState(
@@ -111,7 +135,14 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
       setIncluded(data.included ? data.included.join('\n') : '');
       setNotIncluded(data.notIncluded ? data.notIncluded.join('\n') : '');
       setItinerary(JSON.stringify(data.itinerary || [], null, 2));
-      setPricing(JSON.stringify(data.pricing || {}, null, 2));
+
+      // Set pricing data based on package type
+      if (data.packageType === 'LAND_ONLY' && data.pricing?.perPerson) {
+        setLandOnlyPrice(data.pricing.perPerson);
+      } else if (data.pricing) {
+        setPricingData(data.pricing);
+      }
+
       setHotels(JSON.stringify(data.hotels || {}, null, 2));
 
       setExtractionSuccess(true);
@@ -131,20 +162,25 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
     try {
       // Validate JSON fields
       JSON.parse(itinerary);
-      const pricingData = JSON.parse(pricing);
       JSON.parse(hotels);
 
       // Calculate public pricing with 20% markup
       const addMarkup = (value: number) => Math.round(value * 1.2 * 100) / 100;
 
       let publicPricing;
+      let b2bPricing;
+
       if (packageType === 'LAND_ONLY') {
         // For land-only packages
+        b2bPricing = {
+          perPerson: landOnlyPrice
+        };
         publicPricing = {
-          perPerson: addMarkup(pricingData.perPerson || 0)
+          perPerson: addMarkup(landOnlyPrice)
         };
       } else {
-        // For hotel packages - add 20% to all rates
+        // For hotel packages - use structured pricing data
+        b2bPricing = pricingData;
         publicPricing = {
           threestar: {
             single: addMarkup(pricingData.threestar?.single || 0),
@@ -180,7 +216,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
         notIncluded: JSON.stringify(notIncluded.split('\n').filter((n: string) => n.trim())),
         itinerary,
         pricing: JSON.stringify(publicPricing), // Public pricing with 20% markup
-        b2bPricing: pricing, // Original prices entered by admin (for agents)
+        b2bPricing: JSON.stringify(b2bPricing), // Original prices entered by admin (for agents)
         hotels,
       };
 
@@ -501,28 +537,204 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
 
           {/* Pricing */}
           <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Pricing (JSON)</h2>
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-3">
+            <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Pricing</h2>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
               <p className="text-sm text-blue-900 font-medium mb-1">
                 💡 Pricing Strategy:
               </p>
               <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Prices you enter here = <strong>B2B Agent Rates</strong> (nett prices)</li>
-                <li>• Public website will show these prices <strong>+ 20% markup</strong></li>
-                <li>• Agents see the prices you enter; customers see +20%</li>
+                <li>• Enter <strong>B2B Agent Rates</strong> (nett prices) below</li>
+                <li>• Public prices automatically calculated with <strong>+20% markup</strong></li>
+                <li>• Agents see nett rates; customers see prices with markup</li>
               </ul>
             </div>
-            <p className="text-sm text-gray-600 mb-3">
-              {packageType === 'WITH_HOTEL'
-                ? 'Format: {"threestar": {"single": 450, "double": 320, "triple": 290}, ...}'
-                : 'Format: {"perPerson": 350}'}
-            </p>
-            <textarea
-              value={pricing}
-              onChange={(e) => setPricing(e.target.value)}
-              rows={8}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 font-mono text-sm"
-            />
+
+            {packageType === 'LAND_ONLY' ? (
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Per Person Price (€) - B2B Nett Rate
+                </label>
+                <input
+                  type="number"
+                  value={landOnlyPrice}
+                  onChange={(e) => setLandOnlyPrice(Number(e.target.value))}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                  placeholder="350"
+                  min="0"
+                  step="1"
+                />
+                <p className="mt-2 text-sm text-green-700">
+                  Public price: <strong>€{Math.round(landOnlyPrice * 1.2)}</strong> (with 20% markup)
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {/* 3-Star Hotels */}
+                <div className="bg-white border border-gray-200 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">⭐⭐⭐ 3-Star Hotels</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Single Room (€)</label>
+                      <input
+                        type="number"
+                        value={pricingData.threestar.single}
+                        onChange={(e) => setPricingData({
+                          ...pricingData,
+                          threestar: { ...pricingData.threestar, single: Number(e.target.value) }
+                        })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                        placeholder="450"
+                        min="0"
+                        step="1"
+                      />
+                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.threestar.single * 1.2)}</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Double Room (€)</label>
+                      <input
+                        type="number"
+                        value={pricingData.threestar.double}
+                        onChange={(e) => setPricingData({
+                          ...pricingData,
+                          threestar: { ...pricingData.threestar, double: Number(e.target.value) }
+                        })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                        placeholder="320"
+                        min="0"
+                        step="1"
+                      />
+                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.threestar.double * 1.2)}</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Triple Room (€)</label>
+                      <input
+                        type="number"
+                        value={pricingData.threestar.triple}
+                        onChange={(e) => setPricingData({
+                          ...pricingData,
+                          threestar: { ...pricingData.threestar, triple: Number(e.target.value) }
+                        })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                        placeholder="290"
+                        min="0"
+                        step="1"
+                      />
+                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.threestar.triple * 1.2)}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4-Star Hotels */}
+                <div className="bg-white border border-gray-200 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">⭐⭐⭐⭐ 4-Star Hotels</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Single Room (€)</label>
+                      <input
+                        type="number"
+                        value={pricingData.fourstar.single}
+                        onChange={(e) => setPricingData({
+                          ...pricingData,
+                          fourstar: { ...pricingData.fourstar, single: Number(e.target.value) }
+                        })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                        placeholder="580"
+                        min="0"
+                        step="1"
+                      />
+                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.fourstar.single * 1.2)}</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Double Room (€)</label>
+                      <input
+                        type="number"
+                        value={pricingData.fourstar.double}
+                        onChange={(e) => setPricingData({
+                          ...pricingData,
+                          fourstar: { ...pricingData.fourstar, double: Number(e.target.value) }
+                        })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                        placeholder="420"
+                        min="0"
+                        step="1"
+                      />
+                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.fourstar.double * 1.2)}</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Triple Room (€)</label>
+                      <input
+                        type="number"
+                        value={pricingData.fourstar.triple}
+                        onChange={(e) => setPricingData({
+                          ...pricingData,
+                          fourstar: { ...pricingData.fourstar, triple: Number(e.target.value) }
+                        })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                        placeholder="380"
+                        min="0"
+                        step="1"
+                      />
+                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.fourstar.triple * 1.2)}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 5-Star Hotels */}
+                <div className="bg-white border border-gray-200 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">⭐⭐⭐⭐⭐ 5-Star Hotels</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Single Room (€)</label>
+                      <input
+                        type="number"
+                        value={pricingData.fivestar.single}
+                        onChange={(e) => setPricingData({
+                          ...pricingData,
+                          fivestar: { ...pricingData.fivestar, single: Number(e.target.value) }
+                        })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                        placeholder="750"
+                        min="0"
+                        step="1"
+                      />
+                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.fivestar.single * 1.2)}</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Double Room (€)</label>
+                      <input
+                        type="number"
+                        value={pricingData.fivestar.double}
+                        onChange={(e) => setPricingData({
+                          ...pricingData,
+                          fivestar: { ...pricingData.fivestar, double: Number(e.target.value) }
+                        })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                        placeholder="550"
+                        min="0"
+                        step="1"
+                      />
+                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.fivestar.double * 1.2)}</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Triple Room (€)</label>
+                      <input
+                        type="number"
+                        value={pricingData.fivestar.triple}
+                        onChange={(e) => setPricingData({
+                          ...pricingData,
+                          fivestar: { ...pricingData.fivestar, triple: Number(e.target.value) }
+                        })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                        placeholder="500"
+                        min="0"
+                        step="1"
+                      />
+                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.fivestar.triple * 1.2)}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Hotels - Only for WITH_HOTEL packages */}

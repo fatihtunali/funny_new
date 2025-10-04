@@ -184,7 +184,7 @@ export default function FeaturedPackages() {
         </motion.div>
 
         <div className="text-center mt-12">
-          <Link href="/tours/hotels-packages" className="btn-primary text-lg">
+          <Link href="/packages" className="btn-primary text-lg">
             View All Packages
           </Link>
         </div>

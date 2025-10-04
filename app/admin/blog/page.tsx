@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FaPlus, FaMagic, FaEdit, FaTrash, FaEye, FaCalendar, FaRobot, FaCheckCircle } from 'react-icons/fa';
+import { FaPlus, FaMagic, FaEdit, FaTrash, FaEye, FaCalendar, FaRobot, FaCheckCircle, FaArrowLeft } from 'react-icons/fa';
 
 interface BlogPost {
   id: string;
@@ -116,6 +116,17 @@ export default function AdminBlogPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4">
+        {/* Back to Dashboard Button */}
+        <div className="mb-6">
+          <Link
+            href="/admin/dashboard"
+            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            <FaArrowLeft />
+            Back to Dashboard
+          </Link>
+        </div>
+
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Blog Management</h1>

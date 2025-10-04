@@ -375,6 +375,11 @@ export default function AllPackagesPage() {
                           fill
                           className="object-cover"
                         />
+                        {getPackageMinPrice(pkg) > 0 && (
+                          <div className="absolute top-3 left-3 bg-green-600 text-white px-3 py-1.5 rounded-lg shadow-lg">
+                            <span className="text-sm font-bold">From €{getPackageMinPrice(pkg)}</span>
+                          </div>
+                        )}
                       </div>
 
                       <div className="p-6">
@@ -385,16 +390,6 @@ export default function AllPackagesPage() {
 
                         <h3 className="text-xl font-bold text-gray-900 mb-2 min-h-[3.5rem] line-clamp-2">{pkg.title}</h3>
                         <p className="text-gray-600 text-sm mb-4 line-clamp-3 overflow-hidden">{pkg.description}</p>
-
-                        {getPackageMinPrice(pkg) > 0 && (
-                          <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-3">
-                            <div className="flex items-baseline justify-center">
-                              <span className="text-sm text-green-700 font-medium mr-2">From</span>
-                              <span className="text-3xl font-bold text-green-600">€{getPackageMinPrice(pkg)}</span>
-                              <span className="text-sm text-green-700 ml-2">per person</span>
-                            </div>
-                          </div>
-                        )}
 
                         <div className="flex flex-col gap-2">
                           <Link

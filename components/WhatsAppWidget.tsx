@@ -6,7 +6,7 @@ import { FaWhatsapp, FaTimes } from 'react-icons/fa';
 
 export default function WhatsAppWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const whatsappNumber = '905XXXXXXXXX'; // Replace with actual number
+  const whatsappNumber = '905395025310';
   const message = 'Hello! I\'m interested in your Turkey tour packages.';
 
   const handleWhatsAppClick = () => {

@@ -43,6 +43,29 @@ export default function FeaturedPackages() {
     fetchPackages();
   }, []);
 
+  // Calculate cheapest price from package pricing
+  const getStartingPrice = (pkg: any) => {
+    try {
+      const pricing = typeof pkg.pricing === 'string' ? JSON.parse(pkg.pricing) : pkg.pricing;
+      let minPrice = Infinity;
+
+      // Check all hotel categories and room types
+      ['threestar', 'fourstar', 'fivestar'].forEach(category => {
+        if (pricing[category]) {
+          ['triple', 'double', 'single'].forEach(roomType => {
+            if (pricing[category][roomType] && pricing[category][roomType] < minPrice) {
+              minPrice = pricing[category][roomType];
+            }
+          });
+        }
+      });
+
+      return minPrice !== Infinity ? minPrice : null;
+    } catch {
+      return null;
+    }
+  };
+
   if (loading) {
     return (
       <section className="py-16 bg-gray-50">
@@ -122,6 +145,17 @@ export default function FeaturedPackages() {
                       </li>
                     ))}
                   </ul>
+                )}
+
+                {getStartingPrice(pkg) && (
+                  <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-3">
+                    <div className="flex items-baseline justify-center">
+                      <span className="text-sm text-green-700 font-medium mr-2">From</span>
+                      <span className="text-2xl font-bold text-green-600">€{getStartingPrice(pkg)}</span>
+                      <span className="text-sm text-green-700 ml-1">pp</span>
+                    </div>
+                    <p className="text-xs text-green-600 text-center mt-1">Based on 3★ hotel, triple room</p>
+                  </div>
                 )}
 
                 <div className="flex items-center justify-between border-t pt-4">

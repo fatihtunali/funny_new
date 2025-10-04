@@ -113,10 +113,27 @@ PRICING FORMAT (FINAL SELLING PRICES - Same for all customers and agents):
   - These are FINAL SELLING PRICES shown to everyone (customers and agents)
   - Ensure all prices are numbers without currency symbols
 
-- For LAND_ONLY packages:
+- For LAND_ONLY packages (group size-based pricing):
   {
-    "perPerson": number (final selling price per person)
+    "twoAdults": number (per person price for 2 adults),
+    "fourAdults": number (per person price for 4 adults),
+    "sixAdults": number (per person price for 6+ adults),
+    "children": {
+      "age3to5": number (per child price for 3-5 years old),
+      "age6to10": number (per child price for 6-10 years old)
+    }
   }
+
+  LAND_ONLY PRICING EXTRACTION:
+  - Look for "Min. Paying Pax X Adults" rows
+  - Extract "Per Person" price for 2, 4, and 6+ adults
+  - Extract child prices for age ranges (3-5 years, 6-10 years)
+  - Example from PDF:
+    * "Min. Paying Pax 2 Adults - Per Person € 415" → twoAdults: 415
+    * "Min. Paying Pax 4 Adults - Per Person € 369" → fourAdults: 369
+    * "Min. Paying Pax 6 Adults - Per Person € 355" → sixAdults: 355
+    * "03 - 05 YRS Child € 160" → children.age3to5: 160
+    * "05,99 -10,99 YRS Child € 295" → children.age6to10: 295
 
 HOTELS FORMAT:
 - For WITH_HOTEL packages:

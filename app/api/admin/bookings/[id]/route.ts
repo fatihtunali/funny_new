@@ -4,11 +4,12 @@ import prisma from '@/lib/prisma';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
 
+    const { id } = await params;
     const { status } = await request.json();
 
     if (!status) {
@@ -29,7 +30,7 @@ export async function PATCH(
 
     // Check if booking exists
     const existingBooking = await prisma.booking.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!existingBooking) {
@@ -55,7 +56,7 @@ export async function PATCH(
     }
 
     const booking = await prisma.booking.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData,
     });
 

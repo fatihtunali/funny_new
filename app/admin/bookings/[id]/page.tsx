@@ -7,15 +7,17 @@ import { FaArrowLeft, FaUser, FaEnvelope, FaPhone, FaCalendar, FaHotel, FaUsers,
 import LogoutButton from '@/components/admin/LogoutButton';
 import BookingActions from '@/components/admin/BookingActions';
 
-export default async function AdminBookingDetailPage({ params }: { params: { id: string } }) {
+export default async function AdminBookingDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const admin = await getAdminFromToken();
 
   if (!admin) {
     redirect('/admin/login');
   }
 
+  const { id } = await params;
+
   const booking = await prisma.booking.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       user: {
         select: {

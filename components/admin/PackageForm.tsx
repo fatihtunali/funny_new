@@ -653,7 +653,8 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                                             ...pricingData[tier],
                                             [category]: {
                                               ...pricingData[tier][category],
-                                              double: value
+                                              double: value,
+                                              triple: value // Auto-copy to triple
                                             }
                                           }
                                         });
@@ -668,24 +669,11 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                                     <input
                                       type="number"
                                       value={tierData.triple || 0}
-                                      onChange={(e) => {
-                                        const value = Number(e.target.value);
-                                        setPricingData({
-                                          ...pricingData,
-                                          [tier]: {
-                                            ...pricingData[tier],
-                                            [category]: {
-                                              ...pricingData[tier][category],
-                                              triple: value
-                                            }
-                                          }
-                                        });
-                                      }}
-                                      className="w-24 px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-600"
+                                      readOnly
+                                      className="w-24 px-2 py-1 text-sm border border-gray-300 rounded bg-gray-50 text-gray-600 cursor-not-allowed"
                                       placeholder="0"
-                                      min="0"
                                     />
-                                    <p className="text-xs text-gray-500 mt-1">Comm: €{Math.round((tierData.triple || 0) * 0.15)}</p>
+                                    <p className="text-xs text-gray-500 mt-1">Auto-synced • Comm: €{Math.round((tierData.triple || 0) * 0.15)}</p>
                                   </td>
                                   <td className="px-4 py-3 whitespace-nowrap">
                                     <input

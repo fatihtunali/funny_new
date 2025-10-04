@@ -211,7 +211,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
                       <td key={pkg.id} className="p-4">
                         {pkg.highlights && (
                           <ul className="space-y-1">
-                            {pkg.highlights.split('\n').filter((h: string) => h.trim()).slice(0, 5).map((highlight: string, idx: number) => (
+                            {(Array.isArray(pkg.highlights) ? pkg.highlights : pkg.highlights.split('\n')).filter((h: string) => h.trim()).slice(0, 5).map((highlight: string, idx: number) => (
                               <li key={idx} className="flex items-start gap-2 text-sm">
                                 <FaCheck className="text-green-600 mt-1 flex-shrink-0" size={12} />
                                 <span className="text-gray-700">{highlight}</span>

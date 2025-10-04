@@ -80,6 +80,15 @@ Create a complete blog post with the JSON format specified above. Choose a topic
 
     const result = JSON.parse(completion.choices[0].message.content || '{}');
 
+    // Validate required fields
+    if (!result.title || !result.excerpt || !result.content) {
+      console.error('AI response missing required fields:', result);
+      return NextResponse.json(
+        { error: 'AI generated incomplete content. Please try again.' },
+        { status: 500 }
+      );
+    }
+
     // Select appropriate cover image based on category
     const categoryImages: Record<string, string> = {
       'Travel Tips': '/images/istanbul-tips.jpg',
@@ -98,18 +107,18 @@ Create a complete blog post with the JSON format specified above. Choose a topic
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '');
 
-    // Create blog post
+    // Create blog post with fallbacks for missing fields
     const post = await prisma.blogPost.create({
       data: {
-        title: result.title,
+        title: result.title || 'Untitled Post',
         slug,
-        excerpt: result.excerpt,
-        content: result.content,
+        excerpt: result.excerpt || result.metaDescription || 'No excerpt available',
+        content: result.content || '<p>Content not available</p>',
         coverImage,
         category,
         tags: JSON.stringify(result.tags || []),
-        metaTitle: result.metaTitle || result.title,
-        metaDescription: result.metaDescription || result.excerpt,
+        metaTitle: result.metaTitle || result.title || 'Untitled',
+        metaDescription: result.metaDescription || result.excerpt || '',
         isAIGenerated: true,
         aiPrompt: prompt,
         status: autoPublish ? 'PUBLISHED' : 'DRAFT',

@@ -247,15 +247,29 @@ export default function BookingModal({ isOpen, onClose, packageData }: BookingMo
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Complete Your Booking</h2>
 
           {/* Progress Steps */}
-          <div className="flex items-center justify-between mb-6">
-            {[1, 2, 3].map((step) => (
-              <div key={step} className="flex items-center flex-1">
-                <div className={`flex items-center justify-center w-10 h-10 rounded-full ${currentStep >= step ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
-                  {currentStep > step ? <FaCheck /> : step}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-2">
+              {[
+                { step: 1, label: 'Contact Info' },
+                { step: 2, label: 'Travel Details' },
+                { step: 3, label: 'Passengers' }
+              ].map(({ step, label }) => (
+                <div key={step} className="flex items-center flex-1">
+                  <div className="flex flex-col items-center">
+                    <div className={`flex items-center justify-center w-10 h-10 rounded-full font-semibold transition-all ${currentStep >= step ? 'bg-blue-600 text-white scale-110' : 'bg-gray-200 text-gray-600'}`}>
+                      {currentStep > step ? <FaCheck /> : step}
+                    </div>
+                    <span className={`text-xs mt-1 font-medium ${currentStep >= step ? 'text-blue-600' : 'text-gray-500'}`}>
+                      {label}
+                    </span>
+                  </div>
+                  {step < 3 && <div className={`flex-1 h-1 mx-2 mt-[-20px] transition-all ${currentStep > step ? 'bg-blue-600' : 'bg-gray-200'}`} />}
                 </div>
-                {step < 3 && <div className={`flex-1 h-1 mx-2 ${currentStep > step ? 'bg-blue-600' : 'bg-gray-200'}`} />}
-              </div>
-            ))}
+              ))}
+            </div>
+            <div className="text-center mt-2">
+              <p className="text-sm text-gray-600">Step <span className="font-bold text-blue-600">{currentStep}</span> of 3</p>
+            </div>
           </div>
 
           {checkingAuth ? (

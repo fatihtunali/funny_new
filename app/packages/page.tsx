@@ -3,9 +3,10 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaFilter, FaTh, FaList, FaMapMarkerAlt, FaClock, FaEuroSign, FaFilePdf, FaEye } from 'react-icons/fa';
+import { FaFilter, FaTh, FaList, FaMapMarkerAlt, FaClock, FaEuroSign, FaFilePdf, FaEye, FaBalanceScale, FaTimes } from 'react-icons/fa';
 import { PackageGridSkeleton } from '@/components/LoadingSkeleton';
 import QuickViewModal from '@/components/QuickViewModal';
+import { useComparison } from '@/contexts/ComparisonContext';
 
 interface Package {
   id: string;
@@ -30,6 +31,8 @@ export default function AllPackagesPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [quickViewPackageId, setQuickViewPackageId] = useState<string | null>(null);
   const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+
+  const { isInComparison, toggleComparison } = useComparison();
 
   // Filters
   const [selectedDestinations, setSelectedDestinations] = useState<string[]>([]);
@@ -224,23 +227,45 @@ export default function AllPackagesPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="lg:grid lg:grid-cols-4 lg:gap-8">
+          {/* Mobile Filter Overlay */}
+          {showFilters && (
+            <div
+              className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+              onClick={() => setShowFilters(false)}
+            />
+          )}
+
           {/* Filters Sidebar */}
-          <aside className={`lg:col-span-1 mb-6 lg:mb-0 ${showFilters ? 'block' : 'hidden lg:block'}`}>
-            <div className="bg-white rounded-lg shadow-sm p-6 lg:sticky lg:top-4">
+          <aside className={`
+            lg:col-span-1 mb-6 lg:mb-0
+            fixed lg:relative inset-y-0 left-0 z-50 lg:z-auto
+            w-80 lg:w-auto
+            transform transition-transform duration-300 ease-in-out
+            ${showFilters ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          `}>
+            <div className="bg-white rounded-lg shadow-sm p-6 lg:sticky lg:top-4 h-full lg:h-auto overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-lg font-bold text-gray-900">Filters</h2>
-                <button
-                  onClick={() => {
-                    setSelectedDestinations([]);
-                    setSelectedTypes([]);
-                    setSelectedDurations([]);
-                    setPriceRange([0, 2000]);
-                    setSearchQuery('');
-                  }}
-                  className="text-sm text-primary-600 hover:text-primary-700"
-                >
-                  Clear All
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      setSelectedDestinations([]);
+                      setSelectedTypes([]);
+                      setSelectedDurations([]);
+                      setPriceRange([0, 2000]);
+                      setSearchQuery('');
+                    }}
+                    className="text-sm text-primary-600 hover:text-primary-700"
+                  >
+                    Clear All
+                  </button>
+                  <button
+                    onClick={() => setShowFilters(false)}
+                    className="lg:hidden text-gray-600 hover:text-gray-800"
+                  >
+                    <FaTimes size={20} />
+                  </button>
+                </div>
               </div>
 
               {/* Search */}
@@ -329,17 +354,18 @@ export default function AllPackagesPage() {
 
           {/* Main Content */}
           <div className="lg:col-span-3">
+            {/* Sticky Filter Button for Mobile */}
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="lg:hidden fixed bottom-24 right-6 z-30 bg-primary-600 text-white p-4 rounded-full shadow-2xl hover:bg-primary-700 transition-all hover:scale-110"
+            >
+              <FaFilter size={20} />
+            </button>
+
             {/* Top Bar */}
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+            <div className="bg-white rounded-lg shadow-sm p-4 mb-6 lg:sticky lg:top-4 z-10">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div className="flex items-center gap-4">
-                  <button
-                    onClick={() => setShowFilters(!showFilters)}
-                    className="lg:hidden flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-                  >
-                    <FaFilter className="mr-2" />
-                    Filters
-                  </button>
                   <p className="text-sm text-gray-600">
                     <span className="font-semibold">{filteredPackages.length}</span> tours found
                   </p>
@@ -414,6 +440,18 @@ export default function AllPackagesPage() {
                             <span className="text-sm font-bold">From €{getPackageMinPrice(pkg)}</span>
                           </div>
                         )}
+                        {/* Comparison Checkbox */}
+                        <label className="absolute top-3 right-3 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={isInComparison(pkg.packageId)}
+                            onChange={() => toggleComparison(pkg.packageId)}
+                            className="sr-only peer"
+                          />
+                          <div className="bg-white/90 backdrop-blur p-2 rounded-lg shadow-lg peer-checked:bg-primary-600 peer-checked:text-white transition-all hover:scale-110">
+                            <FaBalanceScale className="text-gray-700 peer-checked:text-white" />
+                          </div>
+                        </label>
                       </div>
 
                       <div className="p-6">

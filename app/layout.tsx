@@ -5,6 +5,8 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import WhatsAppWidget from "@/components/WhatsAppWidget";
 import { WishlistProvider } from "@/contexts/WishlistContext";
+import { ComparisonProvider } from "@/contexts/ComparisonContext";
+import ComparisonBar from "@/components/ComparisonBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -132,10 +134,13 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <WishlistProvider>
-          <Navigation />
-          <main>{children}</main>
-          <Footer />
-          <WhatsAppWidget />
+          <ComparisonProvider>
+            <Navigation />
+            <main>{children}</main>
+            <Footer />
+            <WhatsAppWidget />
+            <ComparisonBar />
+          </ComparisonProvider>
         </WishlistProvider>
       </body>
     </html>

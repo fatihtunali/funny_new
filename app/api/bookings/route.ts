@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
 import prisma from '@/lib/prisma';
+import { sendEmail, generateBookingConfirmationEmail } from '@/lib/email';
 
 // Generate booking reference number
 function generateReferenceNumber(): string {
@@ -129,6 +130,21 @@ export async function POST(request: NextRequest) {
         passengers: true,
       },
     });
+
+    // Send confirmation email
+    try {
+      const emailTo = session?.email || guestEmail;
+      if (emailTo) {
+        await sendEmail({
+          to: emailTo,
+          subject: `Booking Confirmation - ${booking.referenceNumber}`,
+          html: generateBookingConfirmationEmail(booking)
+        });
+      }
+    } catch (emailError) {
+      console.error('Email sending failed:', emailError);
+      // Don't fail the booking if email fails
+    }
 
     return NextResponse.json({
       success: true,

@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaFilter, FaTh, FaList, FaMapMarkerAlt, FaClock, FaEuroSign, FaFilePdf } from 'react-icons/fa';
+import { FaFilter, FaTh, FaList, FaMapMarkerAlt, FaClock, FaEuroSign, FaFilePdf, FaEye } from 'react-icons/fa';
 import { PackageGridSkeleton } from '@/components/LoadingSkeleton';
+import QuickViewModal from '@/components/QuickViewModal';
 
 interface Package {
   id: string;
@@ -27,6 +28,8 @@ export default function AllPackagesPage() {
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
+  const [quickViewPackageId, setQuickViewPackageId] = useState<string | null>(null);
+  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
 
   // Filters
   const [selectedDestinations, setSelectedDestinations] = useState<string[]>([]);
@@ -422,25 +425,35 @@ export default function AllPackagesPage() {
                         <h3 className="text-xl font-bold text-gray-900 mb-2 min-h-[3.5rem] line-clamp-2">{pkg.title}</h3>
                         <p className="text-gray-600 text-sm mb-4 line-clamp-3 overflow-hidden">{pkg.description}</p>
 
-                        <div className="flex flex-col gap-2">
+                        <div className="flex gap-2">
                           <Link
                             href={`/tours/hotels-packages/package/${pkg.packageId}`}
-                            className="flex items-center justify-center btn-primary text-sm"
+                            className="flex-1 flex items-center justify-center btn-primary text-sm"
                           >
-                            View Details & Book
+                            View Details
                           </Link>
-                          {pkg.pdfUrl && (
-                            <a
-                              href={pkg.pdfUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center justify-center btn-secondary text-sm"
-                            >
-                              <FaFilePdf className="mr-2" />
-                              Download PDF
-                            </a>
-                          )}
+                          <button
+                            onClick={() => {
+                              setQuickViewPackageId(pkg.packageId);
+                              setIsQuickViewOpen(true);
+                            }}
+                            className="btn-secondary px-4 text-sm"
+                            title="Quick View"
+                          >
+                            <FaEye />
+                          </button>
                         </div>
+                        {pkg.pdfUrl && (
+                          <a
+                            href={pkg.pdfUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center btn-secondary text-sm mt-2"
+                          >
+                            <FaFilePdf className="mr-2" />
+                            Download PDF
+                          </a>
+                        )}
                       </div>
                     </div>
                   ) : (
@@ -490,6 +503,16 @@ export default function AllPackagesPage() {
           </div>
         </div>
       </div>
+
+      {/* Quick View Modal */}
+      <QuickViewModal
+        packageId={quickViewPackageId}
+        isOpen={isQuickViewOpen}
+        onClose={() => {
+          setIsQuickViewOpen(false);
+          setQuickViewPackageId(null);
+        }}
+      />
     </div>
   );
 }

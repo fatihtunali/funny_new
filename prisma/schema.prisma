@@ -262,3 +262,14 @@ model Package {
   @@index([slug])
   @@index([packageType])
 }
+
+model Wishlist {
+  id        String   @id @default(cuid())
+  userId    String
+  packageId String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, packageId])
+  @@index([userId])
+  @@index([packageId])
+}

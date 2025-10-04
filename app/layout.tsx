@@ -4,6 +4,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import WhatsAppWidget from "@/components/WhatsAppWidget";
+import { WishlistProvider } from "@/contexts/WishlistContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -130,10 +131,12 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={inter.className}>
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
-        <WhatsAppWidget />
+        <WishlistProvider>
+          <Navigation />
+          <main>{children}</main>
+          <Footer />
+          <WhatsAppWidget />
+        </WishlistProvider>
       </body>
     </html>
   );

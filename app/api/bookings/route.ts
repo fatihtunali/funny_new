@@ -31,6 +31,18 @@ export async function POST(request: NextRequest) {
       guestName,
       guestEmail,
       guestPhone,
+      // New fields
+      arrivalFlightNumber,
+      arrivalFlightTime,
+      departureFlightNumber,
+      departureFlightTime,
+      dietaryRequirements,
+      roomPreferences,
+      emergencyContactName,
+      emergencyContactPhone,
+      travelInsurance,
+      celebrationOccasion,
+      passengers,
     } = body;
 
     // Validation
@@ -49,7 +61,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create booking
+    // Validate passengers array
+    if (!passengers || !Array.isArray(passengers) || passengers.length === 0) {
+      return NextResponse.json(
+        { error: 'Passenger information is required' },
+        { status: 400 }
+      );
+    }
+
+    // Validate emergency contact
+    if (!emergencyContactName || !emergencyContactPhone) {
+      return NextResponse.json(
+        { error: 'Emergency contact information is required' },
+        { status: 400 }
+      );
+    }
+
+    // Create booking with passengers
     const booking = await prisma.booking.create({
       data: {
         userId: session ? session.id : null,
@@ -67,9 +95,38 @@ export async function POST(request: NextRequest) {
         totalPrice: parseFloat(totalPrice),
         currency: currency || 'EUR',
         specialRequests: specialRequests || null,
+        // New fields
+        arrivalFlightNumber: arrivalFlightNumber || null,
+        arrivalFlightTime: arrivalFlightTime || null,
+        departureFlightNumber: departureFlightNumber || null,
+        departureFlightTime: departureFlightTime || null,
+        dietaryRequirements: dietaryRequirements || null,
+        roomPreferences: roomPreferences || null,
+        emergencyContactName: emergencyContactName || null,
+        emergencyContactPhone: emergencyContactPhone || null,
+        travelInsurance: travelInsurance || false,
+        celebrationOccasion: celebrationOccasion || null,
         referenceNumber: generateReferenceNumber(),
         status: 'PENDING',
         paymentStatus: 'PENDING',
+        // Create passengers
+        passengers: {
+          create: passengers.map((passenger: any) => ({
+            firstName: passenger.firstName,
+            middleName: passenger.middleName || null,
+            lastName: passenger.lastName,
+            dateOfBirth: new Date(passenger.dateOfBirth),
+            gender: passenger.gender,
+            nationality: passenger.nationality,
+            passportNumber: passenger.passportNumber,
+            passportExpiry: new Date(passenger.passportExpiry),
+            passportIssuingCountry: passenger.passportIssuingCountry,
+            passengerType: passenger.passengerType || 'ADULT',
+          })),
+        },
+      },
+      include: {
+        passengers: true,
       },
     });
 
@@ -80,6 +137,7 @@ export async function POST(request: NextRequest) {
         referenceNumber: booking.referenceNumber,
         status: booking.status,
         createdAt: booking.createdAt,
+        passengersCount: booking.passengers.length,
       },
     });
   } catch (error) {
@@ -123,6 +181,14 @@ export async function GET() {
         createdAt: true,
         confirmedAt: true,
         completedAt: true,
+        passengers: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            passengerType: true,
+          },
+        },
       },
     });
 

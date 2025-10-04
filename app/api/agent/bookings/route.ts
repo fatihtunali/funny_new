@@ -10,6 +10,16 @@ export async function GET() {
     const bookings = await prisma.booking.findMany({
       where: { agentId: agent.id },
       orderBy: { createdAt: 'desc' },
+      include: {
+        passengers: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            passengerType: true,
+          },
+        },
+      },
     });
 
     return NextResponse.json({ bookings });
@@ -53,12 +63,40 @@ export async function POST(request: NextRequest) {
       guestName,
       guestEmail,
       guestPhone,
+      // New fields
+      arrivalFlightNumber,
+      arrivalFlightTime,
+      departureFlightNumber,
+      departureFlightTime,
+      dietaryRequirements,
+      roomPreferences,
+      emergencyContactName,
+      emergencyContactPhone,
+      travelInsurance,
+      celebrationOccasion,
+      passengers,
     } = body;
 
     // Validate required fields
     if (!packageName || !travelDate || !duration || !hotelCategory || !totalPrice || !guestName || !guestEmail) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Missing required booking fields' },
+        { status: 400 }
+      );
+    }
+
+    // Validate passengers array
+    if (!passengers || !Array.isArray(passengers) || passengers.length === 0) {
+      return NextResponse.json(
+        { error: 'Passenger information is required' },
+        { status: 400 }
+      );
+    }
+
+    // Validate emergency contact
+    if (!emergencyContactName || !emergencyContactPhone) {
+      return NextResponse.json(
+        { error: 'Emergency contact information is required' },
         { status: 400 }
       );
     }
@@ -101,9 +139,38 @@ export async function POST(request: NextRequest) {
         guestName,
         guestEmail,
         guestPhone: guestPhone || null,
+        // New fields
+        arrivalFlightNumber: arrivalFlightNumber || null,
+        arrivalFlightTime: arrivalFlightTime || null,
+        departureFlightNumber: departureFlightNumber || null,
+        departureFlightTime: departureFlightTime || null,
+        dietaryRequirements: dietaryRequirements || null,
+        roomPreferences: roomPreferences || null,
+        emergencyContactName: emergencyContactName || null,
+        emergencyContactPhone: emergencyContactPhone || null,
+        travelInsurance: travelInsurance || false,
+        celebrationOccasion: celebrationOccasion || null,
         referenceNumber,
         status: 'PENDING',
         paymentStatus: 'PENDING',
+        // Create passengers
+        passengers: {
+          create: passengers.map((passenger: any) => ({
+            firstName: passenger.firstName,
+            middleName: passenger.middleName || null,
+            lastName: passenger.lastName,
+            dateOfBirth: new Date(passenger.dateOfBirth),
+            gender: passenger.gender,
+            nationality: passenger.nationality,
+            passportNumber: passenger.passportNumber,
+            passportExpiry: new Date(passenger.passportExpiry),
+            passportIssuingCountry: passenger.passportIssuingCountry,
+            passengerType: passenger.passengerType || 'ADULT',
+          })),
+        },
+      },
+      include: {
+        passengers: true,
       },
     });
 

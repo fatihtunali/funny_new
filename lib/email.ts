@@ -8,46 +8,56 @@ interface EmailData {
 }
 
 export async function sendEmail({ to, subject, html }: EmailData) {
-  // In development, just log the email
-  if (process.env.NODE_ENV === 'development') {
-    console.log('📧 Email would be sent:');
-    console.log('To:', to);
-    console.log('Subject:', subject);
-    console.log('HTML:', html.substring(0, 200) + '...');
-    return { success: true, message: 'Email logged (development mode)' };
-  }
+  // Always log emails for debugging
+  console.log('📧 Sending email to:', to, 'Subject:', subject);
 
-  // For production, you would use a service like:
-  // - SendGrid
-  // - AWS SES
-  // - Resend
-  // - Nodemailer with SMTP
-
-  // Example with fetch to an email API:
   try {
-    // Replace with your email service endpoint
-    const response = await fetch(process.env.EMAIL_API_URL || '', {
+    // Use Brevo (formerly Sendinblue) API
+    const BREVO_API_KEY = process.env.BREVO_API_KEY;
+    const FROM_EMAIL = process.env.EMAIL_FROM || 'info@dreamdestinationturkey.com';
+    const FROM_NAME = process.env.EMAIL_FROM_NAME || 'Funny Tourism';
+
+    if (!BREVO_API_KEY) {
+      console.warn('⚠️ BREVO_API_KEY not configured. Email will be logged only.');
+      console.log('Email preview:', { to, subject, html: html.substring(0, 200) + '...' });
+      return { success: true, message: 'Email logged (no API key)' };
+    }
+
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.EMAIL_API_KEY}`
+        'api-key': BREVO_API_KEY
       },
       body: JSON.stringify({
-        from: process.env.EMAIL_FROM || 'noreply@dreamdestinationturkey.com',
-        to,
-        subject,
-        html
+        sender: {
+          name: FROM_NAME,
+          email: FROM_EMAIL
+        },
+        to: [
+          {
+            email: to,
+            name: to.split('@')[0] // Use email username as name
+          }
+        ],
+        subject: subject,
+        htmlContent: html
       })
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      throw new Error('Email service error');
+      console.error('Brevo API error:', data);
+      throw new Error(`Brevo API error: ${data.message || 'Unknown error'}`);
     }
 
-    return { success: true, message: 'Email sent successfully' };
+    console.log('✅ Email sent successfully via Brevo:', data.messageId);
+    return { success: true, message: 'Email sent successfully', messageId: data.messageId };
   } catch (error) {
-    console.error('Email sending error:', error);
-    return { success: false, message: 'Failed to send email' };
+    console.error('❌ Email sending error:', error);
+    return { success: false, message: 'Failed to send email', error: String(error) };
   }
 }
 

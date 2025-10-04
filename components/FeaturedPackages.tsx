@@ -43,24 +43,17 @@ export default function FeaturedPackages() {
     fetchPackages();
   }, []);
 
-  // Calculate cheapest price from package pricing
+  // Get starting price: 3-star hotel, double room (per person for 6+ adults)
   const getStartingPrice = (pkg: any) => {
     try {
       const pricing = typeof pkg.pricing === 'string' ? JSON.parse(pkg.pricing) : pkg.pricing;
-      let minPrice = Infinity;
 
-      // Check all hotel categories and room types
-      ['threestar', 'fourstar', 'fivestar'].forEach(category => {
-        if (pricing[category]) {
-          ['triple', 'double', 'single'].forEach(roomType => {
-            if (pricing[category][roomType] && pricing[category][roomType] < minPrice) {
-              minPrice = pricing[category][roomType];
-            }
-          });
-        }
-      });
+      // Return 3-star double room price (standard pricing for 6+ adults)
+      if (pricing?.threestar?.double) {
+        return pricing.threestar.double;
+      }
 
-      return minPrice !== Infinity ? minPrice : null;
+      return null;
     } catch {
       return null;
     }
@@ -154,7 +147,7 @@ export default function FeaturedPackages() {
                       <span className="text-2xl font-bold text-green-600">€{getStartingPrice(pkg)}</span>
                       <span className="text-sm text-green-700 ml-1">pp</span>
                     </div>
-                    <p className="text-xs text-green-600 text-center mt-1">Based on 3★ hotel, triple room</p>
+                    <p className="text-xs text-green-600 text-center mt-1">PP in double room (6+ adults)</p>
                   </div>
                 )}
 

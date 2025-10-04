@@ -160,7 +160,11 @@ export default async function AdminBookingsPage() {
                     const isGuest = !booking.userId;
 
                     return (
-                      <tr key={booking.id} className="hover:bg-gray-50">
+                      <tr
+                        key={booking.id}
+                        onClick={() => window.location.href = `/admin/bookings/${booking.id}`}
+                        className="hover:bg-blue-50 cursor-pointer transition-colors"
+                      >
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
                           {booking.referenceNumber}
                         </td>

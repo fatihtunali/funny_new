@@ -1,0 +1,78 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/adminAuth';
+import prisma from '@/lib/prisma';
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    await requireAdmin();
+
+    const { status } = await request.json();
+
+    if (!status) {
+      return NextResponse.json(
+        { error: 'Status is required' },
+        { status: 400 }
+      );
+    }
+
+    // Validate status
+    const validStatuses = ['PENDING', 'CONFIRMED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED'];
+    if (!validStatuses.includes(status)) {
+      return NextResponse.json(
+        { error: 'Invalid status' },
+        { status: 400 }
+      );
+    }
+
+    // Check if booking exists
+    const existingBooking = await prisma.booking.findUnique({
+      where: { id: params.id },
+    });
+
+    if (!existingBooking) {
+      return NextResponse.json(
+        { error: 'Booking not found' },
+        { status: 404 }
+      );
+    }
+
+    // Update the booking
+    const updateData: any = {
+      status,
+      updatedAt: new Date(),
+    };
+
+    // Set confirmed/completed timestamps
+    if (status === 'CONFIRMED' && !existingBooking.confirmedAt) {
+      updateData.confirmedAt = new Date();
+    }
+
+    if (status === 'COMPLETED' && !existingBooking.completedAt) {
+      updateData.completedAt = new Date();
+    }
+
+    const booking = await prisma.booking.update({
+      where: { id: params.id },
+      data: updateData,
+    });
+
+    return NextResponse.json({
+      success: true,
+      booking: {
+        id: booking.id,
+        status: booking.status,
+        confirmedAt: booking.confirmedAt,
+        completedAt: booking.completedAt,
+      },
+    });
+  } catch (error: any) {
+    console.error('Update booking error:', error);
+    return NextResponse.json(
+      { error: error.message || 'Failed to update booking' },
+      { status: 500 }
+    );
+  }
+}

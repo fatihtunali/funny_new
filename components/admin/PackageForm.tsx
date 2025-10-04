@@ -30,6 +30,10 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
   const [pdfUrl, setPdfUrl] = useState(initialData?.pdfUrl || '');
   const [isActive, setIsActive] = useState(initialData?.isActive ?? true);
 
+  // Shore Excursion specific fields
+  const [port, setPort] = useState(initialData?.port || '');
+  const [pickupType, setPickupType] = useState(initialData?.pickupType || 'both');
+
   // Highlights
   const [highlights, setHighlights] = useState(
     initialData?.highlights ? JSON.parse(initialData.highlights).join('\n') : ''
@@ -101,6 +105,33 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
     return { twoAdults: 0, fourAdults: 0, sixAdults: 0 };
   });
 
+  // For SHORE_EXCURSION packages - daily tour pricing by group size
+  const [shoreExcursionPricing, setShoreExcursionPricing] = useState(() => {
+    if (initialData?.pricing && packageType === 'SHORE_EXCURSION') {
+      try {
+        const parsed = JSON.parse(initialData.pricing);
+        return parsed;
+      } catch {}
+    }
+    return {
+      perPerson: {
+        '1pax': 0,
+        '2pax': 0,
+        '3pax': 0,
+        '4pax': 0,
+        '5pax': 0,
+        '6pax': 0,
+        '7to9pax': 0,
+        '10to15pax': 0
+      },
+      children: {
+        age0to2: 0,
+        age3to6: 0,
+        age7to12: 0
+      }
+    };
+  });
+
   // Hotels
   const [hotels, setHotels] = useState(
     initialData?.hotels || JSON.stringify({
@@ -154,8 +185,16 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
       setNotIncluded(data.notIncluded ? data.notIncluded.join('\n') : '');
       setItinerary(JSON.stringify(data.itinerary || [], null, 2));
 
+      // Set shore excursion specific fields
+      if (data.packageType === 'SHORE_EXCURSION') {
+        setPort(data.port || '');
+        setPickupType(data.pickupType || 'both');
+      }
+
       // Set pricing data based on package type
-      if (data.packageType === 'LAND_ONLY' && data.pricing) {
+      if (data.packageType === 'SHORE_EXCURSION' && data.pricing) {
+        setShoreExcursionPricing(data.pricing);
+      } else if (data.packageType === 'LAND_ONLY' && data.pricing) {
         setLandOnlyPricing({
           twoAdults: data.pricing.twoAdults || 0,
           fourAdults: data.pricing.fourAdults || 0,
@@ -194,7 +233,9 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
       // Single pricing for everyone (public, agents, PDFs)
       let pricing;
 
-      if (packageType === 'LAND_ONLY') {
+      if (packageType === 'SHORE_EXCURSION') {
+        pricing = shoreExcursionPricing;
+      } else if (packageType === 'LAND_ONLY') {
         pricing = {
           twoAdults: landOnlyPricing.twoAdults,
           fourAdults: landOnlyPricing.fourAdults,
@@ -224,6 +265,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
         itinerary,
         pricing: JSON.stringify(pricing), // Single pricing for everyone
         hotels,
+        ...(packageType === 'SHORE_EXCURSION' && { port, pickupType }), // Add port and pickupType for shore excursions
       };
 
       const url = isEdit ? `/api/admin/packages/${initialData.id}` : '/api/admin/packages';
@@ -360,6 +402,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                 >
                   <option value="WITH_HOTEL">With Hotels</option>
                   <option value="LAND_ONLY">Land Services Only</option>
+                  <option value="SHORE_EXCURSION">Shore Excursion (Daily Tour)</option>
                 </select>
               </div>
               <div>
@@ -450,6 +493,46 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                 />
               </div>
             </div>
+
+            {/* Shore Excursion Specific Fields */}
+            {packageType === 'SHORE_EXCURSION' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Cruise Port *
+                  </label>
+                  <select
+                    value={port}
+                    onChange={(e) => setPort(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                    required
+                  >
+                    <option value="">Select Port</option>
+                    <option value="Istanbul">Istanbul (Galataport)</option>
+                    <option value="Kusadasi">Kusadasi</option>
+                    <option value="Izmir">Izmir (Alsancak)</option>
+                    <option value="Bodrum">Bodrum</option>
+                    <option value="Antalya">Antalya</option>
+                    <option value="Marmaris">Marmaris</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Pickup Type *
+                  </label>
+                  <select
+                    value={pickupType}
+                    onChange={(e) => setPickupType(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                    required
+                  >
+                    <option value="port">Port Pickup Only</option>
+                    <option value="hotel">Hotel Pickup Only</option>
+                    <option value="both">Both Port & Hotel Pickup</option>
+                  </select>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="mb-8">
@@ -556,7 +639,110 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
               </ul>
             </div>
 
-            {packageType === 'LAND_ONLY' ? (
+            {packageType === 'SHORE_EXCURSION' ? (
+              <div className="bg-white border border-gray-200 rounded-lg p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Shore Excursion Pricing - Per Person (€)</h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Set different prices based on group size. Price decreases as group size increases.
+                </p>
+
+                <div className="space-y-6">
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h4 className="text-md font-semibold text-gray-800 mb-3">Per Person Rates by Group Size</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {Object.entries(shoreExcursionPricing.perPerson).map(([key, value]) => {
+                        const label = key === '1pax' ? '1 Person' :
+                                     key === '2pax' ? '2 People' :
+                                     key === '3pax' ? '3 People' :
+                                     key === '4pax' ? '4 People' :
+                                     key === '5pax' ? '5 People' :
+                                     key === '6pax' ? '6 People' :
+                                     key === '7to9pax' ? '7-9 People' :
+                                     '10-15 People';
+
+                        return (
+                          <div key={key}>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                              {label} - Per Person (€)
+                            </label>
+                            <input
+                              type="number"
+                              value={value}
+                              onChange={(e) => setShoreExcursionPricing({
+                                ...shoreExcursionPricing,
+                                perPerson: { ...shoreExcursionPricing.perPerson, [key]: Number(e.target.value) }
+                              })}
+                              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                              placeholder="0"
+                              min="0"
+                              step="1"
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <h4 className="text-md font-semibold text-gray-800 mb-3">Child Pricing</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Age 0-2 Years (€)
+                        </label>
+                        <input
+                          type="number"
+                          value={shoreExcursionPricing.children.age0to2}
+                          onChange={(e) => setShoreExcursionPricing({
+                            ...shoreExcursionPricing,
+                            children: { ...shoreExcursionPricing.children, age0to2: Number(e.target.value) }
+                          })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                          placeholder="0"
+                          min="0"
+                          step="1"
+                        />
+                        <p className="mt-1 text-xs text-gray-500">Usually free</p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Age 3-6 Years (€)
+                        </label>
+                        <input
+                          type="number"
+                          value={shoreExcursionPricing.children.age3to6}
+                          onChange={(e) => setShoreExcursionPricing({
+                            ...shoreExcursionPricing,
+                            children: { ...shoreExcursionPricing.children, age3to6: Number(e.target.value) }
+                          })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                          placeholder="0"
+                          min="0"
+                          step="1"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Age 7-12 Years (€)
+                        </label>
+                        <input
+                          type="number"
+                          value={shoreExcursionPricing.children.age7to12}
+                          onChange={(e) => setShoreExcursionPricing({
+                            ...shoreExcursionPricing,
+                            children: { ...shoreExcursionPricing.children, age7to12: Number(e.target.value) }
+                          })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                          placeholder="0"
+                          min="0"
+                          step="1"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : packageType === 'LAND_ONLY' ? (
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Land Only Pricing - Per Person (€)</h3>
                 <p className="text-sm text-gray-600 mb-4">

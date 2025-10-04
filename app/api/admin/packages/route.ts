@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
     const package_ = await prisma.package.create({
       data: {
         packageId: data.packageId,
+        packageType: data.packageType || 'WITH_HOTEL',
         title: data.title,
         slug: finalSlug,
         duration: data.duration,

@@ -15,6 +15,7 @@ export async function PUT(
       where: { id },
       data: {
         packageId: data.packageId,
+        packageType: data.packageType || 'WITH_HOTEL',
         title: data.title,
         slug: data.slug,
         duration: data.duration,

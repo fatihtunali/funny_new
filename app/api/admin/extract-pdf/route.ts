@@ -75,7 +75,7 @@ The JSON structure should be:
   "highlights": ["array of highlight strings"],
   "included": ["array of included items"],
   "notIncluded": ["array of not included items"],
-  "itinerary": [{"day": number, "title": "string", "description": "string"}],
+  "itinerary": [{"day": number, "title": "string", "description": "string", "meals": "string (e.g., 'B/L', 'B', '-')"}],
   "pricing": CONDITIONAL - see below,
   "hotels": CONDITIONAL - see below
 }
@@ -136,13 +136,24 @@ AVAILABLE IMAGES - Choose the most relevant one for the "image" field:
 - Bursa: /images/bursa.webp, /images/bursa1.jpg
 - Package with hotels: /images/hotelwithpackage.jpg
 
+MEALS FORMAT:
+- Extract meals from the itinerary (usually shown in parentheses after the day description)
+- Common formats: (B) = Breakfast, (L) = Lunch, (D) = Dinner, (B/L) = Breakfast and Lunch, (-) = No meals
+- Examples:
+  * "Day 1 - Fly / Istanbul (-)" → meals: "-"
+  * "Day 2 - Istanbul – Full Day Tour (B/L)" → meals: "B/L"
+  * "Day 3 - Istanbul (B/L/D)" → meals: "B/L/D"
+  * "Day 4 - Istanbul / Fly (B)" → meals: "B"
+
 IMPORTANT:
 - Extract ALL pricing tiers by pax count (2, 4, 6, 8, 10, etc.)
 - For each pax tier, extract pricing for all hotel categories (3-star, 4-star, 5-star)
 - Extract double room prices (PP in DBL), triple if available (PP in TRPL)
 - Extract single supplement if shown, otherwise set to null
 - Extract ALL hotel names for each category
-- Extract the complete day-by-day itinerary
+- Extract the complete day-by-day itinerary WITH MEALS
+- For each itinerary day, extract the meals from the parentheses (e.g., "(B/L)" means breakfast and lunch)
+- If no meals are mentioned, use "-" as the meals value
 - Choose an image path from the AVAILABLE IMAGES list that best matches the package destinations
 - If any information is missing, use reasonable defaults or empty arrays/objects
 - Ensure all prices are numbers (no currency symbols)

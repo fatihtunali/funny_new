@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAdmin } from '@/lib/adminAuth';
+import { BlogStatus } from '@prisma/client';
 
 // GET all blog posts (admin)
 export async function GET(req: NextRequest) {
@@ -10,7 +11,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const status = searchParams.get('status');
 
-    const where = status ? { status } : {};
+    const where = status ? { status: status as BlogStatus } : {};
 
     const posts = await prisma.blogPost.findMany({
       where,

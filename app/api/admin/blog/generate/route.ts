@@ -38,29 +38,49 @@ export async function POST(req: NextRequest) {
     const prompt = topic
       ? `Write a comprehensive, engaging blog post about "${topic}" for a Turkey travel website. The post should be ${categoryContext}.
 
-Format the response as JSON with these fields:
+IMPORTANT: You MUST return a valid JSON object with ALL of these fields filled:
+
 {
-  "title": "An SEO-friendly, engaging title (max 60 characters)",
-  "excerpt": "A compelling 2-3 sentence summary (max 160 characters)",
-  "content": "Full blog post content in HTML format with proper headings (<h2>, <h3>), paragraphs (<p>), lists (<ul>, <li>), and emphasis (<strong>, <em>). Make it at least 800 words, informative, engaging, and SEO-optimized.",
-  "metaTitle": "SEO meta title (max 60 characters)",
-  "metaDescription": "SEO meta description (max 160 characters)",
-  "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"],
-  "coverImageSuggestion": "Description of what the cover image should show"
+  "title": "string - An SEO-friendly, engaging title (max 60 characters)",
+  "excerpt": "string - A compelling 2-3 sentence summary (max 160 characters)",
+  "content": "string - Full blog post content in HTML format with <h2>, <h3>, <p>, <ul>, <li>, <strong>, <em> tags. Minimum 800 words.",
+  "metaTitle": "string - SEO meta title (max 60 characters)",
+  "metaDescription": "string - SEO meta description (max 160 characters)",
+  "tags": ["string array - 5 relevant tags"],
+  "coverImageSuggestion": "string - Description of cover image"
 }
 
-Guidelines:
-- Write in a friendly, informative tone
+Content Guidelines:
+- Write in friendly, informative tone
 - Include practical tips and insider knowledge
-- Use proper Turkish place names and terms
-- Add specific details, prices (in Euros/Turkish Lira), and practical information
-- Include engaging subheadings
-- Make it actionable and helpful for travelers
-- Focus on recent information (2024-2025)
-- Include calls-to-action to book tours or contact Funny Tourism`
-      : `Generate a travel blog post idea about Turkey for the category: ${category}.
+- Use proper Turkish place names
+- Add specific details, prices (Euros/Turkish Lira)
+- Include engaging subheadings with HTML <h2> and <h3> tags
+- Make it actionable and helpful
+- Focus on 2024-2025 information
+- Include calls-to-action
 
-Create a complete blog post with the JSON format specified above. Choose a topic that would be valuable for travelers planning a trip to Turkey.`;
+EXAMPLE content structure:
+<p>Introduction paragraph...</p>
+<h2>Main Section</h2>
+<p>Content...</p>
+<ul><li>Point 1</li><li>Point 2</li></ul>
+<h3>Subsection</h3>
+<p>More content...</p>`
+      : `Create a complete travel blog post about Turkey for the category: ${category}.
+
+IMPORTANT: You MUST return a valid JSON object with ALL fields filled. Choose an interesting topic for travelers planning a Turkey trip.
+
+Required JSON format:
+{
+  "title": "SEO-friendly title (max 60 chars)",
+  "excerpt": "Compelling summary (max 160 chars)",
+  "content": "Full HTML blog post (minimum 800 words with <h2>, <p>, <ul>, <li> tags)",
+  "metaTitle": "Meta title (max 60 chars)",
+  "metaDescription": "Meta description (max 160 chars)",
+  "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"],
+  "coverImageSuggestion": "Cover image description"
+}`;
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o',
@@ -78,13 +98,29 @@ Create a complete blog post with the JSON format specified above. Choose a topic
       response_format: { type: 'json_object' },
     });
 
-    const result = JSON.parse(completion.choices[0].message.content || '{}');
+    const aiResponse = completion.choices[0].message.content || '{}';
+    console.log('AI Raw Response:', aiResponse.substring(0, 200) + '...');
+
+    const result = JSON.parse(aiResponse);
+    console.log('AI Parsed Result Keys:', Object.keys(result));
+    console.log('Title:', result.title);
+    console.log('Excerpt:', result.excerpt);
+    console.log('Content length:', result.content?.length || 0);
 
     // Validate required fields
     if (!result.title || !result.excerpt || !result.content) {
-      console.error('AI response missing required fields:', result);
+      console.error('AI response missing required fields:', {
+        hasTitle: !!result.title,
+        hasExcerpt: !!result.excerpt,
+        hasContent: !!result.content,
+        keys: Object.keys(result)
+      });
       return NextResponse.json(
-        { error: 'AI generated incomplete content. Please try again.' },
+        {
+          error: 'AI generated incomplete content. Missing: ' +
+            [!result.title && 'title', !result.excerpt && 'excerpt', !result.content && 'content']
+            .filter(Boolean).join(', ') + '. Please try again.'
+        },
         { status: 500 }
       );
     }

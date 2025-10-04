@@ -69,19 +69,19 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
       // Agents should use B2B pricing if available, otherwise fall back to public pricing
       // Note: pricing fields are already parsed objects from the API
       const pricing = pkg.b2bPricing || pkg.pricing;
-      console.log('📦 Package pricing data:', {
+      console.log('📦 Package pricing data:', JSON.stringify({
         hasB2BPricing: !!pkg.b2bPricing,
         hasPricing: !!pkg.pricing,
         usingB2B: !!pkg.b2bPricing,
-        pricingData: pricing
-      });
+        b2bPricing: pkg.b2bPricing,
+        publicPricing: pkg.pricing,
+        selectedPricing: pricing
+      }, null, 2));
 
       if (!pricing) {
         console.error('❌ No pricing data available for package');
         return 0;
       }
-
-      console.log('💰 Using pricing:', pricing);
 
       if (pkg.packageType === 'LAND_ONLY') {
         const total = bookingData.adults + bookingData.children3to5 + bookingData.children6to10;
@@ -94,10 +94,12 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
         return totalPrice;
       } else {
         const hotelPricing = pricing[bookingData.hotelCategory];
-        console.log(`🏨 Looking for hotel category: ${bookingData.hotelCategory}`, {
+        console.log(`🏨 Hotel category lookup:`, JSON.stringify({
+          lookingFor: bookingData.hotelCategory,
           availableCategories: Object.keys(pricing),
-          foundPricing: hotelPricing
-        });
+          foundPricing: hotelPricing,
+          pricingStructure: pricing
+        }, null, 2));
 
         if (!hotelPricing) {
           console.error('❌ Hotel pricing not found for category:', bookingData.hotelCategory);
@@ -112,21 +114,28 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
         const doubleRooms = Math.floor(adults / 2);
         const singleRooms = adults % 2;
 
-        let total = (doubleRooms * (hotelPricing.double || 0) * 2) + (singleRooms * (hotelPricing.single || 0));
+        const doublePrice = hotelPricing.double || 0;
+        const singlePrice = hotelPricing.single || 0;
+
+        let total = (doubleRooms * doublePrice * 2) + (singleRooms * singlePrice);
 
         // Add children (assuming they share with adults)
-        if (children > 0 && hotelPricing.double) {
-          total += children * (hotelPricing.double * 0.5);
+        if (children > 0 && doublePrice) {
+          total += children * (doublePrice * 0.5);
         }
 
-        console.log('✅ Calculated hotel package price:', {
+        console.log('✅ Price calculation breakdown:', JSON.stringify({
           adults,
           children,
           doubleRooms,
           singleRooms,
+          doublePrice,
+          singlePrice,
           hotelCategory: bookingData.hotelCategory,
-          total
-        });
+          calculation: `(${doubleRooms} * ${doublePrice} * 2) + (${singleRooms} * ${singlePrice}) + (${children} * ${doublePrice} * 0.5)`,
+          total,
+          totalType: typeof total
+        }, null, 2));
 
         return total;
       }

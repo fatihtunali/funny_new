@@ -103,9 +103,9 @@ export default function PricingCalculator({ packageData }: Props) {
                     <span className="font-semibold">
                       {category === 'threestar' ? '3-Star' : category === 'fourstar' ? '4-Star' : '5-Star'} Hotels
                     </span>
-                    {hotelCategory === category && packageData.hotels[category] && (
+                    {hotelCategory === category && packageData.hotels?.[category] && (
                       <div className="text-xs text-gray-600 mt-1">
-                        {packageData.hotels[category].istanbul} • {packageData.hotels[category].cappadocia}
+                        {packageData.hotels[category]?.istanbul} • {packageData.hotels[category]?.cappadocia}
                       </div>
                     )}
                   </div>

@@ -214,7 +214,7 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
 
           {/* Booking Form */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-4">
+            <div className="bg-white rounded-lg shadow-sm p-6 lg:sticky lg:top-4">
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Create Booking</h2>
 
               {!showBookingForm ? (
@@ -225,7 +225,7 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
                   Book for Customer
                 </button>
               ) : (
-                <form onSubmit={handleBooking} className="space-y-4">
+                <form onSubmit={handleBooking} className="space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto pr-2">
                   {bookingError && (
                     <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded text-sm">
                       {bookingError}
@@ -239,9 +239,10 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
                     <input
                       type="text"
                       required
+                      placeholder="John Doe"
                       value={bookingData.guestName}
                       onChange={(e) => setBookingData({ ...bookingData, guestName: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     />
                   </div>
 
@@ -252,9 +253,10 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
                     <input
                       type="email"
                       required
+                      placeholder="customer@email.com"
                       value={bookingData.guestEmail}
                       onChange={(e) => setBookingData({ ...bookingData, guestEmail: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     />
                   </div>
 
@@ -264,9 +266,10 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
                     </label>
                     <input
                       type="tel"
+                      placeholder="+1 234 567 8900"
                       value={bookingData.guestPhone}
                       onChange={(e) => setBookingData({ ...bookingData, guestPhone: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                     />
                   </div>
 
@@ -277,9 +280,10 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
                     <input
                       type="date"
                       required
+                      min={new Date().toISOString().split('T')[0]}
                       value={bookingData.travelDate}
                       onChange={(e) => setBookingData({ ...bookingData, travelDate: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
                     />
                   </div>
 

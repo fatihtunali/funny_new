@@ -46,8 +46,8 @@ export default function Navigation() {
             <Link href="/" className="text-gray-700 hover:text-primary-600 transition-colors">
               Home
             </Link>
-            <Link href="/tours" className="text-gray-700 hover:text-primary-600 transition-colors">
-              Tours
+            <Link href="/packages" className="text-gray-700 hover:text-primary-600 transition-colors">
+              Packages
             </Link>
             <Link href="/destinations" className="text-gray-700 hover:text-primary-600 transition-colors">
               Destinations
@@ -110,8 +110,8 @@ export default function Navigation() {
             <Link href="/" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
               Home
             </Link>
-            <Link href="/tours" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
-              Tours
+            <Link href="/packages" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
+              Packages
             </Link>
             <Link href="/destinations" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
               Destinations

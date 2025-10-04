@@ -1,88 +1,156 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { FaSearch, FaStar } from 'react-icons/fa';
 
 export default function Hero() {
+  const router = useRouter();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const heroImages = [
+    { src: '/images/IstanbulatNight.jpeg', alt: 'Istanbul at Night', title: 'Discover Istanbul' },
+    { src: '/images/cappadociaballoonride.jpg', alt: 'Cappadocia Balloons', title: 'Fly Over Cappadocia' },
+    { src: '/images/pamukkale.jpg', alt: 'Pamukkale', title: 'Explore Pamukkale' },
+    { src: '/images/ephesus.jpg', alt: 'Ephesus', title: 'Walk Through History' },
+  ];
+
+  // Auto-scroll carousel every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/packages?search=${encodeURIComponent(searchQuery)}`);
+    } else {
+      router.push('/packages');
+    }
+  };
+
   return (
-    <section className="relative h-[500px] md:h-[600px] flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      <Image
-        src="/images/IstanbulatNight.jpeg"
-        alt="Istanbul at Night"
-        fill
-        className="object-cover"
-        priority
-        quality={90}
-      />
+    <section className="relative h-[600px] md:h-[700px] flex items-center justify-center overflow-hidden">
+      {/* Background Image Carousel */}
+      {heroImages.map((image, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            className="object-cover"
+            priority={index === 0}
+            quality={90}
+          />
+        </div>
+      ))}
+
       {/* Background overlay */}
-      <div className="absolute inset-0 bg-black opacity-50"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
 
       {/* Hero content */}
-      <div className="relative z-10 section-container text-center text-white">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Discover the Magic of Turkey
+      <div className="relative z-10 section-container text-center text-white px-4">
+        {/* Trust Badge */}
+        <div className="inline-flex items-center bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+          <div className="flex items-center gap-1 mr-3">
+            {[...Array(5)].map((_, i) => (
+              <FaStar key={i} className="text-yellow-400 text-sm" />
+            ))}
+          </div>
+          <span className="text-sm font-medium">4.9/5 from 500+ travelers</span>
+        </div>
+
+        {/* Main Headline */}
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight">
+          Travel Memories You'll
+          <span className="block text-accent-400">Never Forget</span>
         </h1>
-        <p className="text-lg md:text-xl mb-6 max-w-3xl mx-auto">
-          Expertly curated tour packages to Istanbul, Cappadocia, Ephesus & Pamukkale with professional English-speaking guides
+
+        <p className="text-lg md:text-2xl mb-8 max-w-3xl mx-auto font-light">
+          Experience Turkey's breathtaking destinations with expert guides and premium accommodations
         </p>
 
-        {/* Search/Filter Box */}
-        <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-md rounded-lg shadow-2xl p-5 md:p-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-            <div className="text-left">
-              <label className="block text-xs font-medium text-gray-700 mb-1.5">Duration</label>
-              <select className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-                <option>Any Duration</option>
-                <option>5-7 Days</option>
-                <option>8-10 Days</option>
-                <option>11+ Days</option>
-              </select>
+        {/* Large Search Bar - Viator/GetYourGuide Style */}
+        <form onSubmit={handleSearch} className="max-w-3xl mx-auto mb-8">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+              <FaSearch className="text-gray-400 text-xl" />
             </div>
-
-            <div className="text-left">
-              <label className="block text-xs font-medium text-gray-700 mb-1.5">Destination</label>
-              <select className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-                <option>All Destinations</option>
-                <option>Istanbul</option>
-                <option>Cappadocia</option>
-                <option>Ephesus</option>
-                <option>Pamukkale</option>
-              </select>
-            </div>
-
-            <div className="text-left">
-              <label className="block text-xs font-medium text-gray-700 mb-1.5">Budget</label>
-              <select className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-gray-900 text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-                <option>Any Budget</option>
-                <option>€1000 - €1500</option>
-                <option>€1500 - €2000</option>
-                <option>€2000+</option>
-              </select>
-            </div>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Where do you want to go? (e.g., Istanbul, Cappadocia, Ephesus...)"
+              className="w-full pl-16 pr-6 py-5 md:py-6 text-gray-900 text-base md:text-lg rounded-2xl shadow-2xl focus:ring-4 focus:ring-primary-300 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 md:py-4 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
+            >
+              Search
+            </button>
           </div>
+        </form>
 
-          <Link href="/tours" className="btn-primary w-full md:w-auto">
-            Find Your Perfect Tour
+        {/* Quick Links */}
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          <Link href="/packages?dest=Istanbul" className="px-6 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full text-sm font-medium transition-all">
+            Istanbul
+          </Link>
+          <Link href="/packages?dest=Cappadocia" className="px-6 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full text-sm font-medium transition-all">
+            Cappadocia
+          </Link>
+          <Link href="/packages?dest=Ephesus" className="px-6 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full text-sm font-medium transition-all">
+            Ephesus
+          </Link>
+          <Link href="/packages?dest=Pamukkale" className="px-6 py-2 bg-white/20 backdrop-blur-sm hover:bg-white/30 rounded-full text-sm font-medium transition-all">
+            Pamukkale
           </Link>
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8 max-w-4xl mx-auto">
-          <div>
-            <div className="text-3xl font-bold text-accent-100">500+</div>
-            <div className="text-xs mt-1">Happy Travelers</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+            <div className="text-3xl md:text-4xl font-bold text-accent-300">500+</div>
+            <div className="text-sm mt-1">Happy Travelers</div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-accent-100">15+</div>
-            <div className="text-xs mt-1">Tour Packages</div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+            <div className="text-3xl md:text-4xl font-bold text-accent-300">15+</div>
+            <div className="text-sm mt-1">Tour Packages</div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-accent-100">10+</div>
-            <div className="text-xs mt-1">Years Experience</div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+            <div className="text-3xl md:text-4xl font-bold text-accent-300">10+</div>
+            <div className="text-sm mt-1">Years Experience</div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-accent-100">4.9/5</div>
-            <div className="text-xs mt-1">Customer Rating</div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+            <div className="text-3xl md:text-4xl font-bold text-accent-300">24/7</div>
+            <div className="text-sm mt-1">Customer Support</div>
           </div>
+        </div>
+
+        {/* Carousel Indicators */}
+        <div className="flex justify-center gap-2 mt-8">
+          {heroImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImageIndex(index)}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentImageIndex ? 'bg-white w-8' : 'bg-white/50'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
     </section>

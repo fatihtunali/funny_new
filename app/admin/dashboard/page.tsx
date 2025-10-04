@@ -44,8 +44,34 @@ export default async function AdminDashboard() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Quick Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <Link href="/admin/bookings" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 mb-2">Manage Bookings</p>
+                <p className="text-lg font-semibold text-blue-600">View All Bookings →</p>
+              </div>
+              <div className="bg-blue-100 rounded-full p-3">
+                <FaEye className="text-2xl text-blue-600" />
+              </div>
+            </div>
+          </Link>
+          <Link href="/admin/packages/add" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 mb-2">Create Package</p>
+                <p className="text-lg font-semibold text-green-600">Add New Package →</p>
+              </div>
+              <div className="bg-green-100 rounded-full p-3">
+                <FaPlus className="text-2xl text-green-600" />
+              </div>
+            </div>
+          </Link>
+        </div>
+
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="bg-blue-100 rounded-full p-3">
@@ -69,12 +95,6 @@ export default async function AdminDashboard() {
                 </p>
               </div>
             </div>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <Link href="/admin/packages/add" className="flex items-center justify-center btn-primary">
-              <FaPlus className="mr-2" />
-              Add New Package
-            </Link>
           </div>
         </div>
 

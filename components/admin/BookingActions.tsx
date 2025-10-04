@@ -7,9 +7,10 @@ import { FaCheck, FaTimes, FaCheckCircle, FaWhatsapp } from 'react-icons/fa';
 interface BookingActionsProps {
   bookingId: string;
   currentStatus: string;
+  customerPhone?: string | null;
 }
 
-export default function BookingActions({ bookingId, currentStatus }: BookingActionsProps) {
+export default function BookingActions({ bookingId, currentStatus, customerPhone }: BookingActionsProps) {
   const router = useRouter();
   const [updating, setUpdating] = useState(false);
   const [error, setError] = useState('');
@@ -120,10 +121,16 @@ export default function BookingActions({ bookingId, currentStatus }: BookingActi
 
         <button
           onClick={() => {
-            // This would need customer phone number passed as prop
-            window.open(`https://wa.me/905373743134`, '_blank');
+            if (customerPhone) {
+              // Clean phone number (remove spaces, dashes, etc)
+              const cleanPhone = customerPhone.replace(/\D/g, '');
+              window.open(`https://wa.me/${cleanPhone}`, '_blank');
+            } else {
+              alert('Customer phone number not available');
+            }
           }}
-          className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center transition-colors"
+          disabled={!customerPhone}
+          className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <FaWhatsapp className="mr-2 text-xl" />
           Contact via WhatsApp

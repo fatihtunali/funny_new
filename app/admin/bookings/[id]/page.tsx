@@ -259,6 +259,7 @@ export default async function AdminBookingDetailPage({ params }: { params: Promi
             <BookingActions
               bookingId={booking.id}
               currentStatus={booking.status}
+              customerPhone={customerPhone}
             />
           </div>
         </div>

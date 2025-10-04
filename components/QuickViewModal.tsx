@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaTimes, FaClock, FaMapMarkerAlt, FaHeart, FaExternalLinkAlt, FaCheck } from 'react-icons/fa';
+import { useWishlist } from '@/contexts/WishlistContext';
 
 interface QuickViewModalProps {
   packageId: string | null;
@@ -14,6 +15,7 @@ interface QuickViewModalProps {
 export default function QuickViewModal({ packageId, isOpen, onClose }: QuickViewModalProps) {
   const [pkg, setPkg] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const { isInWishlist, toggleWishlist } = useWishlist();
 
   useEffect(() => {
     if (packageId && isOpen) {
@@ -205,8 +207,16 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                     View Full Details
                     <FaExternalLinkAlt size={14} />
                   </Link>
-                  <button className="btn-secondary px-4">
-                    <FaHeart />
+                  <button
+                    onClick={() => toggleWishlist(pkg.packageId)}
+                    className={`px-4 py-2 rounded-lg transition-all ${
+                      isInWishlist(pkg.packageId)
+                        ? 'bg-red-600 text-white hover:bg-red-700'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    }`}
+                    title={isInWishlist(pkg.packageId) ? 'Remove from wishlist' : 'Add to wishlist'}
+                  >
+                    <FaHeart className={isInWishlist(pkg.packageId) ? 'text-white' : ''} />
                   </button>
                 </div>
               </div>

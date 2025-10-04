@@ -59,6 +59,10 @@ export default function Navigation() {
               Contact
             </Link>
 
+            <Link href="/agent/register" className="text-sm text-primary-600 hover:text-primary-700 font-medium transition-colors">
+              Partner with Us
+            </Link>
+
             {user ? (
               <Link href="/dashboard" className="flex items-center btn-primary">
                 <FaUser className="mr-2" />
@@ -117,6 +121,10 @@ export default function Navigation() {
             </Link>
             <Link href="/contact" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
               Contact
+            </Link>
+
+            <Link href="/agent/register" className="block px-4 py-2 text-primary-600 font-medium hover:bg-primary-50 rounded">
+              Partner with Us
             </Link>
 
             {user ? (

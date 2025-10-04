@@ -137,12 +137,20 @@ export default function AgentManagementClient() {
               <h1 className="text-3xl font-bold text-gray-900">Agent Management</h1>
               <p className="text-gray-600 mt-1">Review and manage B2B travel agents</p>
             </div>
-            <Link
-              href="/admin/dashboard"
-              className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              ← Back to Dashboard
-            </Link>
+            <div className="flex items-center space-x-3">
+              <Link
+                href="/admin/agents/add"
+                className="px-4 py-2 text-sm bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+              >
+                + Add Agent
+              </Link>
+              <Link
+                href="/admin/dashboard"
+                className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                ← Back to Dashboard
+              </Link>
+            </div>
           </div>
         </div>
 

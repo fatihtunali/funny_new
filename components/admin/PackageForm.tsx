@@ -50,24 +50,38 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
     ], null, 2)
   );
 
-  // Pricing - single pricing for everyone (public, agents, PDFs)
+  // Pricing - paxTiers pricing for WITH_HOTEL packages
+  const [paxTiers, setPaxTiers] = useState<string[]>(() => {
+    if (initialData?.pricing) {
+      try {
+        const parsed = JSON.parse(initialData.pricing);
+        if (parsed.paxTiers) {
+          return Object.keys(parsed.paxTiers).sort((a, b) => Number(a) - Number(b));
+        }
+      } catch {}
+    }
+    return ['2', '4', '6']; // Default pax tiers
+  });
+
   const [pricingData, setPricingData] = useState(() => {
     if (initialData?.pricing) {
       try {
-        return JSON.parse(initialData.pricing);
-      } catch {
-        return {
-          threestar: { single: 0, double: 0, triple: 0 },
-          fourstar: { single: 0, double: 0, triple: 0 },
-          fivestar: { single: 0, double: 0, triple: 0 }
-        };
-      }
+        const parsed = JSON.parse(initialData.pricing);
+        if (parsed.paxTiers) {
+          return parsed.paxTiers;
+        }
+      } catch {}
     }
-    return {
-      threestar: { single: 0, double: 0, triple: 0 },
-      fourstar: { single: 0, double: 0, triple: 0 },
-      fivestar: { single: 0, double: 0, triple: 0 }
-    };
+    // Default paxTiers structure
+    const defaultTiers: any = {};
+    ['2', '4', '6'].forEach(tier => {
+      defaultTiers[tier] = {
+        threestar: { double: 0, triple: 0, singleSupplement: null },
+        fourstar: { double: 0, triple: 0, singleSupplement: null },
+        fivestar: { double: 0, triple: 0, singleSupplement: null }
+      };
+    });
+    return defaultTiers;
   });
 
   // For LAND_ONLY packages
@@ -139,7 +153,12 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
       // Set pricing data based on package type
       if (data.packageType === 'LAND_ONLY' && data.pricing?.perPerson) {
         setLandOnlyPrice(data.pricing.perPerson);
+      } else if (data.pricing?.paxTiers) {
+        // WITH_HOTEL with paxTiers structure
+        setPricingData(data.pricing.paxTiers);
+        setPaxTiers(Object.keys(data.pricing.paxTiers).sort((a, b) => Number(a) - Number(b)));
       } else if (data.pricing) {
+        // Fallback for old simple pricing format (shouldn't happen with new PDF extraction)
         setPricingData(data.pricing);
       }
 
@@ -172,8 +191,10 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
           perPerson: landOnlyPrice
         };
       } else {
-        // For hotel packages - use structured pricing data
-        pricing = pricingData;
+        // For hotel packages - use paxTiers structure
+        pricing = {
+          paxTiers: pricingData
+        };
       }
 
       const packageData = {
@@ -545,170 +566,161 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
               </div>
             ) : (
               <div className="space-y-6">
-                {/* 3-Star Hotels */}
-                <div className="bg-white border border-gray-200 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">⭐⭐⭐ 3-Star Hotels</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Single Room (€)</label>
-                      <input
-                        type="number"
-                        value={pricingData.threestar.single}
-                        onChange={(e) => setPricingData({
-                          ...pricingData,
-                          threestar: { ...pricingData.threestar, single: Number(e.target.value) }
-                        })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="450"
-                        min="0"
-                        step="1"
-                      />
-                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.threestar.single * 0.15)}</p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Double Room (€)</label>
-                      <input
-                        type="number"
-                        value={pricingData.threestar.double}
-                        onChange={(e) => setPricingData({
-                          ...pricingData,
-                          threestar: { ...pricingData.threestar, double: Number(e.target.value) }
-                        })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="320"
-                        min="0"
-                        step="1"
-                      />
-                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.threestar.double * 0.15)}</p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Triple Room (€)</label>
-                      <input
-                        type="number"
-                        value={pricingData.threestar.triple}
-                        onChange={(e) => setPricingData({
-                          ...pricingData,
-                          threestar: { ...pricingData.threestar, triple: Number(e.target.value) }
-                        })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="290"
-                        min="0"
-                        step="1"
-                      />
-                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.threestar.triple * 0.15)}</p>
-                    </div>
+                {/* Pax Tiers Management */}
+                <div className="bg-white border border-gray-200 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <label className="text-sm font-semibold text-gray-700">Pax Tiers (Group Sizes)</label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newTier = prompt('Enter pax tier number (e.g., 8, 10, 12):');
+                        if (newTier && !paxTiers.includes(newTier)) {
+                          const updatedTiers = [...paxTiers, newTier].sort((a, b) => Number(a) - Number(b));
+                          setPaxTiers(updatedTiers);
+                          setPricingData({
+                            ...pricingData,
+                            [newTier]: {
+                              threestar: { double: 0, triple: 0, singleSupplement: null },
+                              fourstar: { double: 0, triple: 0, singleSupplement: null },
+                              fivestar: { double: 0, triple: 0, singleSupplement: null }
+                            }
+                          });
+                        }
+                      }}
+                      className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+                    >
+                      + Add Tier
+                    </button>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {paxTiers.map(tier => (
+                      <span key={tier} className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
+                        {tier} pax
+                        {paxTiers.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setPaxTiers(paxTiers.filter(t => t !== tier));
+                              const newData = { ...pricingData };
+                              delete newData[tier];
+                              setPricingData(newData);
+                            }}
+                            className="ml-2 text-blue-600 hover:text-blue-900"
+                          >
+                            ×
+                          </button>
+                        )}
+                      </span>
+                    ))}
                   </div>
                 </div>
 
-                {/* 4-Star Hotels */}
-                <div className="bg-white border border-gray-200 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">⭐⭐⭐⭐ 4-Star Hotels</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Single Room (€)</label>
-                      <input
-                        type="number"
-                        value={pricingData.fourstar.single}
-                        onChange={(e) => setPricingData({
-                          ...pricingData,
-                          fourstar: { ...pricingData.fourstar, single: Number(e.target.value) }
-                        })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="700"
-                        min="0"
-                        step="1"
-                      />
-                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.fourstar.single * 0.15)}</p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Double Room (€)</label>
-                      <input
-                        type="number"
-                        value={pricingData.fourstar.double}
-                        onChange={(e) => setPricingData({
-                          ...pricingData,
-                          fourstar: { ...pricingData.fourstar, double: Number(e.target.value) }
-                        })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="500"
-                        min="0"
-                        step="1"
-                      />
-                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.fourstar.double * 0.15)}</p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Triple Room (€)</label>
-                      <input
-                        type="number"
-                        value={pricingData.fourstar.triple}
-                        onChange={(e) => setPricingData({
-                          ...pricingData,
-                          fourstar: { ...pricingData.fourstar, triple: Number(e.target.value) }
-                        })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="450"
-                        min="0"
-                        step="1"
-                      />
-                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.fourstar.triple * 0.15)}</p>
-                    </div>
-                  </div>
-                </div>
+                {/* Pricing Table for Each Hotel Category */}
+                {['threestar', 'fourstar', 'fivestar'].map((category) => {
+                  const stars = category === 'threestar' ? '⭐⭐⭐' : category === 'fourstar' ? '⭐⭐⭐⭐' : '⭐⭐⭐⭐⭐';
+                  const categoryLabel = category === 'threestar' ? '3-Star' : category === 'fourstar' ? '4-Star' : '5-Star';
 
-                {/* 5-Star Hotels */}
-                <div className="bg-white border border-gray-200 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">⭐⭐⭐⭐⭐ 5-Star Hotels</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Single Room (€)</label>
-                      <input
-                        type="number"
-                        value={pricingData.fivestar.single}
-                        onChange={(e) => setPricingData({
-                          ...pricingData,
-                          fivestar: { ...pricingData.fivestar, single: Number(e.target.value) }
-                        })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="900"
-                        min="0"
-                        step="1"
-                      />
-                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.fivestar.single * 0.15)}</p>
+                  return (
+                    <div key={category} className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                      <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
+                        <h3 className="text-lg font-semibold text-gray-900">{stars} {categoryLabel} Hotels</h3>
+                      </div>
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                          <thead className="bg-gray-50">
+                            <tr>
+                              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pax Tier</th>
+                              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PP in DBL (€)</th>
+                              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PP in TRPL (€)</th>
+                              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Single Suppl. (€)</th>
+                            </tr>
+                          </thead>
+                          <tbody className="bg-white divide-y divide-gray-200">
+                            {paxTiers.map(tier => {
+                              const tierData = pricingData[tier]?.[category] || { double: 0, triple: 0, singleSupplement: null };
+                              return (
+                                <tr key={tier}>
+                                  <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{tier} pax</td>
+                                  <td className="px-4 py-3 whitespace-nowrap">
+                                    <input
+                                      type="number"
+                                      value={tierData.double || 0}
+                                      onChange={(e) => {
+                                        const value = Number(e.target.value);
+                                        setPricingData({
+                                          ...pricingData,
+                                          [tier]: {
+                                            ...pricingData[tier],
+                                            [category]: {
+                                              ...pricingData[tier][category],
+                                              double: value
+                                            }
+                                          }
+                                        });
+                                      }}
+                                      className="w-24 px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-600"
+                                      placeholder="0"
+                                      min="0"
+                                    />
+                                    <p className="text-xs text-gray-500 mt-1">Comm: €{Math.round((tierData.double || 0) * 0.15)}</p>
+                                  </td>
+                                  <td className="px-4 py-3 whitespace-nowrap">
+                                    <input
+                                      type="number"
+                                      value={tierData.triple || 0}
+                                      onChange={(e) => {
+                                        const value = Number(e.target.value);
+                                        setPricingData({
+                                          ...pricingData,
+                                          [tier]: {
+                                            ...pricingData[tier],
+                                            [category]: {
+                                              ...pricingData[tier][category],
+                                              triple: value
+                                            }
+                                          }
+                                        });
+                                      }}
+                                      className="w-24 px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-600"
+                                      placeholder="0"
+                                      min="0"
+                                    />
+                                    <p className="text-xs text-gray-500 mt-1">Comm: €{Math.round((tierData.triple || 0) * 0.15)}</p>
+                                  </td>
+                                  <td className="px-4 py-3 whitespace-nowrap">
+                                    <input
+                                      type="number"
+                                      value={tierData.singleSupplement || ''}
+                                      onChange={(e) => {
+                                        const value = e.target.value === '' ? null : Number(e.target.value);
+                                        setPricingData({
+                                          ...pricingData,
+                                          [tier]: {
+                                            ...pricingData[tier],
+                                            [category]: {
+                                              ...pricingData[tier][category],
+                                              singleSupplement: value
+                                            }
+                                          }
+                                        });
+                                      }}
+                                      className="w-24 px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-600"
+                                      placeholder="Optional"
+                                      min="0"
+                                    />
+                                    {tierData.singleSupplement && (
+                                      <p className="text-xs text-gray-500 mt-1">Comm: €{Math.round(tierData.singleSupplement * 0.15)}</p>
+                                    )}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Double Room (€)</label>
-                      <input
-                        type="number"
-                        value={pricingData.fivestar.double}
-                        onChange={(e) => setPricingData({
-                          ...pricingData,
-                          fivestar: { ...pricingData.fivestar, double: Number(e.target.value) }
-                        })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="660"
-                        min="0"
-                        step="1"
-                      />
-                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.fivestar.double * 0.15)}</p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Triple Room (€)</label>
-                      <input
-                        type="number"
-                        value={pricingData.fivestar.triple}
-                        onChange={(e) => setPricingData({
-                          ...pricingData,
-                          fivestar: { ...pricingData.fivestar, triple: Number(e.target.value) }
-                        })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="600"
-                        min="0"
-                        step="1"
-                      />
-                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.fivestar.triple * 0.15)}</p>
-                    </div>
-                  </div>
-                </div>
+                  );
+                })}
               </div>
             )}
           </div>

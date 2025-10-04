@@ -81,32 +81,36 @@ The JSON structure should be:
 }
 
 PRICING FORMAT (FINAL SELLING PRICES - Same for all customers and agents):
-- For WITH_HOTEL packages:
+- For WITH_HOTEL packages, extract pricing by PAX TIERS (group sizes):
   {
-    "threestar": {
-      "single": number (price per person in single room),
-      "double": number (price per person in double room),
-      "triple": number (price per person in triple room)
-    },
-    "fourstar": {
-      "single": number,
-      "double": number,
-      "triple": number
-    },
-    "fivestar": {
-      "single": number,
-      "double": number,
-      "triple": number
+    "paxTiers": {
+      "2": {
+        "threestar": {"double": number, "triple": number, "singleSupplement": number or null},
+        "fourstar": {"double": number, "triple": number, "singleSupplement": number or null},
+        "fivestar": {"double": number, "triple": number, "singleSupplement": number or null}
+      },
+      "4": {
+        "threestar": {"double": number, "triple": number, "singleSupplement": number or null},
+        "fourstar": {"double": number, "triple": number, "singleSupplement": number or null},
+        "fivestar": {"double": number, "triple": number, "singleSupplement": number or null}
+      },
+      "6": {
+        "threestar": {"double": number, "triple": number, "singleSupplement": number or null},
+        "fourstar": {"double": number, "triple": number, "singleSupplement": number or null},
+        "fivestar": {"double": number, "triple": number, "singleSupplement": number or null}
+      }
+      // ... continue for 8, 10, etc. if shown in PDF
     }
   }
 
   PRICING EXTRACTION RULES:
-  - Extract prices from the LOWEST pax tier (usually 2-4 pax) as this represents the highest/standard rate
-  - Look for "PP in DBL" (per person in double room)
-  - Look for "PP in TRPL" (per person in triple room)
-  - For single room: If "Single Supplement" exists, ADD it to the double price. If not shown, calculate as: double price × 1.5
-  - Extract prices for all three hotel categories (3-star, 4-star, 5-star)
-  - These are FINAL SELLING PRICES (not nett rates)
+  - Look for "Min. Paying Pax X Adults" or "X pax" rows in pricing tables
+  - Extract "PP in DBL" (per person in double room) for each pax tier
+  - Extract "PP in TRPL" (per person in triple room) if available
+  - For single supplement: If "Single Supplement" row exists, use that value, otherwise set to null
+  - Extract ALL pax tiers shown in PDF (common: 2, 4, 6, 8, 10 adults)
+  - Extract pricing for all three hotel categories (3-star, 4-star, 5-star)
+  - These are FINAL SELLING PRICES shown to everyone (customers and agents)
   - Ensure all prices are numbers without currency symbols
 
 - For LAND_ONLY packages:
@@ -144,10 +148,11 @@ MEALS FORMAT:
   * "Day 4 - Istanbul / Fly (B)" → meals: "B"
 
 IMPORTANT:
-- Extract FINAL SELLING PRICES (not nett rates) - these are the prices shown to all customers and agents
-- For WITH_HOTEL packages: Extract single/double/triple prices for each hotel category (3/4/5-star)
-- Use the LOWEST pax tier pricing (2-4 pax) as it represents the standard retail rate
-- For single rooms: Add single supplement to double price, or calculate as double × 1.5 if not shown
+- Extract FINAL SELLING PRICES (not nett rates) - same prices shown to all customers and agents
+- For WITH_HOTEL packages: Extract ALL pax tiers (2, 4, 6, 8, 10+) with pricing for each
+- For each pax tier, extract pricing for all hotel categories (3-star, 4-star, 5-star)
+- Extract double room prices (PP in DBL), triple if available (PP in TRPL)
+- Extract single supplement if shown, otherwise set to null
 - Extract ALL hotel names for each category
 - Extract the complete day-by-day itinerary WITH MEALS
 - For each itinerary day, extract the meals from the parentheses (e.g., "(B/L)" means breakfast and lunch)

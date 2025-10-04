@@ -108,51 +108,112 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
         console.log('✅ Calculated land-only price:', totalPrice);
         return totalPrice;
       } else {
-        const hotelPricing = pricing[bookingData.hotelCategory];
-        console.log(`🏨 Hotel category lookup:`, JSON.stringify({
-          lookingFor: bookingData.hotelCategory,
-          availableCategories: Object.keys(pricing),
-          foundPricing: hotelPricing,
-          pricingStructure: pricing
-        }, null, 2));
+        // Check if using paxTiers pricing structure (new format)
+        if (pricing.paxTiers) {
+          const adults = bookingData.adults || 0;
+          const children = (bookingData.children3to5 || 0) + (bookingData.children6to10 || 0);
+          const totalPax = adults + children;
 
-        if (!hotelPricing) {
-          console.error('❌ Hotel pricing not found for category:', bookingData.hotelCategory);
-          console.error('Available categories:', Object.keys(pricing));
-          return 0;
+          // Find appropriate pax tier (use the tier >= totalPax, or highest available)
+          const availableTiers = Object.keys(pricing.paxTiers).map(Number).sort((a, b) => a - b);
+          const selectedTier = availableTiers.find(tier => tier >= totalPax) || availableTiers[availableTiers.length - 1];
+
+          console.log('📊 PaxTiers calculation:', JSON.stringify({
+            totalPax,
+            availableTiers,
+            selectedTier,
+            hotelCategory: bookingData.hotelCategory
+          }, null, 2));
+
+          const tierPricing = pricing.paxTiers[selectedTier]?.[bookingData.hotelCategory];
+
+          if (!tierPricing) {
+            console.error('❌ Tier pricing not found for:', selectedTier, bookingData.hotelCategory);
+            return 0;
+          }
+
+          // Calculate based on room configuration
+          const doubleRooms = Math.floor(adults / 2);
+          const singleRooms = adults % 2;
+          const tripleRooms = 0; // Can be enhanced later for triple room selection
+
+          const doublePrice = tierPricing.double || 0;
+          const triplePrice = tierPricing.triple || 0;
+          const singleSupplement = tierPricing.singleSupplement || 0;
+
+          // Calculate total: (double rooms * 2 people * PP in DBL) + (single rooms * (PP in DBL + single supplement))
+          let total = (doubleRooms * 2 * doublePrice);
+
+          if (singleRooms > 0) {
+            total += singleRooms * (doublePrice + singleSupplement);
+          }
+
+          // Add children pricing (50% of double price)
+          if (children > 0 && doublePrice) {
+            total += children * (doublePrice * 0.5);
+          }
+
+          console.log('✅ PaxTiers price calculation:', JSON.stringify({
+            selectedTier,
+            adults,
+            children,
+            doubleRooms,
+            singleRooms,
+            doublePrice,
+            singleSupplement,
+            calculation: `(${doubleRooms} * 2 * ${doublePrice}) + (${singleRooms} * (${doublePrice} + ${singleSupplement})) + (${children} * ${doublePrice} * 0.5)`,
+            total
+          }, null, 2));
+
+          return total;
+
+        } else {
+          // Fallback: Old simple pricing format (for backward compatibility)
+          const hotelPricing = pricing[bookingData.hotelCategory];
+          console.log(`🏨 Hotel category lookup (legacy):`, JSON.stringify({
+            lookingFor: bookingData.hotelCategory,
+            availableCategories: Object.keys(pricing),
+            foundPricing: hotelPricing,
+            pricingStructure: pricing
+          }, null, 2));
+
+          if (!hotelPricing) {
+            console.error('❌ Hotel pricing not found for category:', bookingData.hotelCategory);
+            console.error('Available categories:', Object.keys(pricing));
+            return 0;
+          }
+
+          const adults = bookingData.adults || 0;
+          const children = (bookingData.children3to5 || 0) + (bookingData.children6to10 || 0);
+
+          // Calculate based on room configuration
+          const doubleRooms = Math.floor(adults / 2);
+          const singleRooms = adults % 2;
+
+          const doublePrice = hotelPricing.double || 0;
+          const singlePrice = hotelPricing.single || 0;
+
+          let total = (doubleRooms * doublePrice * 2) + (singleRooms * singlePrice);
+
+          // Add children (assuming they share with adults)
+          if (children > 0 && doublePrice) {
+            total += children * (doublePrice * 0.5);
+          }
+
+          console.log('✅ Legacy price calculation:', JSON.stringify({
+            adults,
+            children,
+            doubleRooms,
+            singleRooms,
+            doublePrice,
+            singlePrice,
+            hotelCategory: bookingData.hotelCategory,
+            calculation: `(${doubleRooms} * ${doublePrice} * 2) + (${singleRooms} * ${singlePrice}) + (${children} * ${doublePrice} * 0.5)`,
+            total
+          }, null, 2));
+
+          return total;
         }
-
-        const adults = bookingData.adults || 0;
-        const children = (bookingData.children3to5 || 0) + (bookingData.children6to10 || 0);
-
-        // Calculate based on room configuration
-        const doubleRooms = Math.floor(adults / 2);
-        const singleRooms = adults % 2;
-
-        const doublePrice = hotelPricing.double || 0;
-        const singlePrice = hotelPricing.single || 0;
-
-        let total = (doubleRooms * doublePrice * 2) + (singleRooms * singlePrice);
-
-        // Add children (assuming they share with adults)
-        if (children > 0 && doublePrice) {
-          total += children * (doublePrice * 0.5);
-        }
-
-        console.log('✅ Price calculation breakdown:', JSON.stringify({
-          adults,
-          children,
-          doubleRooms,
-          singleRooms,
-          doublePrice,
-          singlePrice,
-          hotelCategory: bookingData.hotelCategory,
-          calculation: `(${doubleRooms} * ${doublePrice} * 2) + (${singleRooms} * ${singlePrice}) + (${children} * ${doublePrice} * 0.5)`,
-          total,
-          totalType: typeof total
-        }, null, 2));
-
-        return total;
       }
     } catch (error) {
       console.error('❌ Price calculation error:', error);

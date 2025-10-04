@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaClock, FaHotel, FaMapMarkerAlt, FaFilePdf, FaCalendarAlt, FaUsers, FaDownload } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
+import BookingModal from '@/components/BookingModal';
 
 export default function PackageDetailPage() {
   const params = useParams();
@@ -15,6 +16,7 @@ export default function PackageDetailPage() {
   const [loading, setLoading] = useState(true);
   const [selectedHotel, setSelectedHotel] = useState('fourstar');
   const [rooms, setRooms] = useState<number[]>([2]); // Array of people per room, default: 1 room with 2 people
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   useEffect(() => {
     async function fetchPackage() {
@@ -349,9 +351,13 @@ export default function PackageDetailPage() {
 
                 {/* Action Buttons */}
                 <div className="space-y-3">
-                  <Link href="/contact" className="btn-primary w-full text-center block">
+                  <button
+                    onClick={() => setIsBookingModalOpen(true)}
+                    className="btn-primary w-full text-center flex items-center justify-center"
+                  >
+                    <FaCalendarAlt className="mr-2" />
                     Request Booking
-                  </Link>
+                  </button>
                   <a
                     href={pkg.pdfUrl}
                     download
@@ -389,6 +395,20 @@ export default function PackageDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        packageData={{
+          id: packageId,
+          title: pkg.title,
+          duration: pkg.duration,
+          selectedHotel: selectedHotel,
+          rooms: rooms,
+          totalPrice: calculatePrice(),
+        }}
+      />
     </div>
   );
 }

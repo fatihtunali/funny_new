@@ -15,13 +15,6 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getSession();
 
-    if (!session) {
-      return NextResponse.json(
-        { error: 'You must be logged in to create a booking' },
-        { status: 401 }
-      );
-    }
-
     const body = await request.json();
     const {
       packageName,
@@ -35,6 +28,9 @@ export async function POST(request: NextRequest) {
       totalPrice,
       currency,
       specialRequests,
+      guestName,
+      guestEmail,
+      guestPhone,
     } = body;
 
     // Validation
@@ -45,10 +41,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // If no session, require guest details
+    if (!session && (!guestName || !guestEmail || !guestPhone)) {
+      return NextResponse.json(
+        { error: 'Please provide your contact information' },
+        { status: 400 }
+      );
+    }
+
     // Create booking
     const booking = await prisma.booking.create({
       data: {
-        userId: session.id,
+        userId: session ? session.id : null,
+        guestName: !session ? guestName : null,
+        guestEmail: !session ? guestEmail : null,
+        guestPhone: !session ? guestPhone : null,
         packageName,
         packageId: packageId || null,
         travelDate: new Date(travelDate),

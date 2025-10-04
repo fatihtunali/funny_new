@@ -131,8 +131,38 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
     try {
       // Validate JSON fields
       JSON.parse(itinerary);
-      JSON.parse(pricing);
+      const pricingData = JSON.parse(pricing);
       JSON.parse(hotels);
+
+      // Calculate public pricing with 20% markup
+      const addMarkup = (value: number) => Math.round(value * 1.2 * 100) / 100;
+
+      let publicPricing;
+      if (packageType === 'LAND_ONLY') {
+        // For land-only packages
+        publicPricing = {
+          perPerson: addMarkup(pricingData.perPerson || 0)
+        };
+      } else {
+        // For hotel packages - add 20% to all rates
+        publicPricing = {
+          threestar: {
+            single: addMarkup(pricingData.threestar?.single || 0),
+            double: addMarkup(pricingData.threestar?.double || 0),
+            triple: addMarkup(pricingData.threestar?.triple || 0)
+          },
+          fourstar: {
+            single: addMarkup(pricingData.fourstar?.single || 0),
+            double: addMarkup(pricingData.fourstar?.double || 0),
+            triple: addMarkup(pricingData.fourstar?.triple || 0)
+          },
+          fivestar: {
+            single: addMarkup(pricingData.fivestar?.single || 0),
+            double: addMarkup(pricingData.fivestar?.double || 0),
+            triple: addMarkup(pricingData.fivestar?.triple || 0)
+          }
+        };
+      }
 
       const packageData = {
         packageId,
@@ -149,7 +179,8 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
         included: JSON.stringify(included.split('\n').filter((i: string) => i.trim())),
         notIncluded: JSON.stringify(notIncluded.split('\n').filter((n: string) => n.trim())),
         itinerary,
-        pricing,
+        pricing: JSON.stringify(publicPricing), // Public pricing with 20% markup
+        b2bPricing: pricing, // Original prices entered by admin (for agents)
         hotels,
       };
 
@@ -471,6 +502,16 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
           {/* Pricing */}
           <div className="mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Pricing (JSON)</h2>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-3">
+              <p className="text-sm text-blue-900 font-medium mb-1">
+                💡 Pricing Strategy:
+              </p>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• Prices you enter here = <strong>B2B Agent Rates</strong> (nett prices)</li>
+                <li>• Public website will show these prices <strong>+ 20% markup</strong></li>
+                <li>• Agents see the prices you enter; customers see +20%</li>
+              </ul>
+            </div>
             <p className="text-sm text-gray-600 mb-3">
               {packageType === 'WITH_HOTEL'
                 ? 'Format: {"threestar": {"single": 450, "double": 320, "triple": 290}, ...}'

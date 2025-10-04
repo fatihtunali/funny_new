@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FaPlus, FaEdit, FaTrash, FaEye, FaSignOutAlt } from 'react-icons/fa';
 import LogoutButton from '@/components/admin/LogoutButton';
+import DeletePackageButton from '@/components/admin/DeletePackageButton';
 
 export default async function AdminDashboard() {
   const admin = await getAdminFromToken();
@@ -152,9 +153,7 @@ export default async function AdminDashboard() {
                           >
                             <FaEdit className="inline" />
                           </Link>
-                          <button className="text-red-600 hover:text-red-900">
-                            <FaTrash className="inline" />
-                          </button>
+                          <DeletePackageButton packageId={pkg.id} packageTitle={pkg.title} />
                         </div>
                       </td>
                     </tr>

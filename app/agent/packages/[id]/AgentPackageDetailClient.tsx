@@ -66,25 +66,42 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
     if (!pkg) return 0;
 
     try {
+      // Agents should use B2B pricing if available, otherwise fall back to public pricing
       const pricingStr = pkg.b2bPricing || pkg.pricing;
+      console.log('📦 Package pricing data:', {
+        hasB2BPricing: !!pkg.b2bPricing,
+        hasPricing: !!pkg.pricing,
+        usingB2B: !!pkg.b2bPricing,
+        pricingStr: pricingStr
+      });
+
       if (!pricingStr) {
-        console.error('No pricing data available for package');
+        console.error('❌ No pricing data available for package');
         return 0;
       }
 
       const pricing = JSON.parse(pricingStr);
+      console.log('💰 Parsed pricing:', pricing);
 
       if (pkg.packageType === 'LAND_ONLY') {
         const total = bookingData.adults + bookingData.children3to5 + bookingData.children6to10;
         if (!pricing.perPerson) {
-          console.error('Land only package missing perPerson pricing');
+          console.error('❌ Land only package missing perPerson pricing');
           return 0;
         }
-        return pricing.perPerson * total;
+        const totalPrice = pricing.perPerson * total;
+        console.log('✅ Calculated land-only price:', totalPrice);
+        return totalPrice;
       } else {
         const hotelPricing = pricing[bookingData.hotelCategory];
+        console.log(`🏨 Looking for hotel category: ${bookingData.hotelCategory}`, {
+          availableCategories: Object.keys(pricing),
+          foundPricing: hotelPricing
+        });
+
         if (!hotelPricing) {
-          console.error('Hotel pricing not found for category:', bookingData.hotelCategory);
+          console.error('❌ Hotel pricing not found for category:', bookingData.hotelCategory);
+          console.error('Available categories:', Object.keys(pricing));
           return 0;
         }
 
@@ -102,10 +119,19 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
           total += children * (hotelPricing.double * 0.5);
         }
 
+        console.log('✅ Calculated hotel package price:', {
+          adults,
+          children,
+          doubleRooms,
+          singleRooms,
+          hotelCategory: bookingData.hotelCategory,
+          total
+        });
+
         return total;
       }
     } catch (error) {
-      console.error('Price calculation error:', error);
+      console.error('❌ Price calculation error:', error);
       return 0;
     }
   };

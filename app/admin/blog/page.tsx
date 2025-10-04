@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FaPlus, FaMagic, FaEdit, FaTrash, FaEye, FaCalendar, FaRobot } from 'react-icons/fa';
+import { FaPlus, FaMagic, FaEdit, FaTrash, FaEye, FaCalendar, FaRobot, FaCheckCircle } from 'react-icons/fa';
 
 interface BlogPost {
   id: string;
@@ -240,13 +240,21 @@ export default function AdminBlogPage() {
                     </td>
                     <td className="p-4">
                       <div className="flex items-center justify-end gap-2">
+                        <Link
+                          href={`/blog/${post.slug}`}
+                          target="_blank"
+                          className="p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+                          title="Preview"
+                        >
+                          <FaEye />
+                        </Link>
                         {post.status === 'DRAFT' && (
                           <button
                             onClick={() => handlePublish(post.id)}
                             className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
                             title="Publish"
                           >
-                            <FaEye />
+                            <FaCheckCircle />
                           </button>
                         )}
                         <Link

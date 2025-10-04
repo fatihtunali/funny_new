@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FaFilter, FaTh, FaList, FaMapMarkerAlt, FaClock, FaEuroSign } from 'react-icons/fa';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 
 interface Package {
   id: string;
@@ -180,8 +178,6 @@ export default function AllPackagesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navigation />
-
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -413,8 +409,6 @@ export default function AllPackagesPage() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }

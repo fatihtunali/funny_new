@@ -23,8 +23,18 @@ export default async function AdminBookingsPage() {
           phone: true,
         },
       },
+      agent: {
+        select: {
+          companyName: true,
+          email: true,
+        },
+      },
     },
   });
+
+  const agentBookings = bookings.filter(b => b.agentId);
+  const directBookings = bookings.filter(b => !b.agentId);
+  const totalCommission = agentBookings.reduce((sum, b) => sum + (b.commissionAmount || 0), 0);
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -57,7 +67,7 @@ export default async function AdminBookingsPage() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="bg-blue-100 rounded-full p-3">
@@ -66,6 +76,28 @@ export default async function AdminBookingsPage() {
               <div className="ml-4">
                 <p className="text-sm text-gray-600">Total Bookings</p>
                 <p className="text-2xl font-bold text-gray-900">{bookings.length}</p>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <div className="bg-purple-100 rounded-full p-3">
+                <FaUsers className="text-2xl text-purple-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm text-gray-600">Agent Bookings</p>
+                <p className="text-2xl font-bold text-gray-900">{agentBookings.length}</p>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <div className="bg-green-100 rounded-full p-3">
+                <FaCalendar className="text-2xl text-green-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm text-gray-600">Commission</p>
+                <p className="text-2xl font-bold text-gray-900">€{totalCommission.toFixed(2)}</p>
               </div>
             </div>
           </div>
@@ -91,19 +123,6 @@ export default async function AdminBookingsPage() {
                 <p className="text-sm text-gray-600">Confirmed</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {bookings.filter(b => b.status === 'CONFIRMED').length}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center">
-              <div className="bg-purple-100 rounded-full p-3">
-                <FaCalendar className="text-2xl text-purple-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm text-gray-600">Completed</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {bookings.filter(b => b.status === 'COMPLETED').length}
                 </p>
               </div>
             </div>
@@ -138,6 +157,9 @@ export default async function AdminBookingsPage() {
                     Total
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Agent/Commission
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -148,7 +170,7 @@ export default async function AdminBookingsPage() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {bookings.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-6 py-8 text-center text-gray-500">
+                    <td colSpan={9} className="px-6 py-8 text-center text-gray-500">
                       No bookings found.
                     </td>
                   </tr>
@@ -158,6 +180,7 @@ export default async function AdminBookingsPage() {
                     const customerEmail = booking.user?.email || booking.guestEmail || 'N/A';
                     const customerPhone = booking.user?.phone || booking.guestPhone || null;
                     const isGuest = !booking.userId;
+                    const isAgentBooking = !!booking.agentId;
 
                     return (
                       <tr
@@ -208,6 +231,16 @@ export default async function AdminBookingsPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
                           {booking.currency} {booking.totalPrice.toFixed(2)}
+                        </td>
+                        <td className="px-6 py-4 text-sm">
+                          {isAgentBooking ? (
+                            <div>
+                              <div className="font-medium text-purple-600">{booking.agent?.companyName}</div>
+                              <div className="text-xs text-gray-600">€{(booking.commissionAmount || 0).toFixed(2)} ({booking.commissionRate}%)</div>
+                            </div>
+                          ) : (
+                            <span className="text-gray-400">Direct</span>
+                          )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${

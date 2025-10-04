@@ -162,11 +162,12 @@ export default async function AdminBookingsPage() {
                     return (
                       <tr
                         key={booking.id}
-                        onClick={() => window.location.href = `/admin/bookings/${booking.id}`}
-                        className="hover:bg-blue-50 cursor-pointer transition-colors"
+                        className="hover:bg-blue-50 transition-colors"
                       >
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
-                          {booking.referenceNumber}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <Link href={`/admin/bookings/${booking.id}`} className="text-blue-600 hover:text-blue-800">
+                            {booking.referenceNumber}
+                          </Link>
                         </td>
                         <td className="px-6 py-4 text-sm">
                           <div>

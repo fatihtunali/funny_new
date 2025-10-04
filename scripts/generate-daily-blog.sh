@@ -25,11 +25,15 @@ log "Authenticating admin..."
 LOGIN_RESPONSE=$(curl -s -X POST http://localhost:3000/api/admin/login \
   -H "Content-Type: application/json" \
   -d "{\"email\":\"$ADMIN_EMAIL\",\"password\":\"$ADMIN_PASSWORD\"}" \
-  -c /tmp/admin-cookies.txt)
+  -c /tmp/admin-cookies.txt \
+  -D /tmp/admin-headers.txt)
 
 # Check if login was successful
 if echo "$LOGIN_RESPONSE" | grep -q "success"; then
     log "✓ Authentication successful"
+    log "Login response: $LOGIN_RESPONSE"
+    log "Headers saved to /tmp/admin-headers.txt"
+    log "Cookies saved to /tmp/admin-cookies.txt"
 else
     log "✗ Authentication failed: $LOGIN_RESPONSE"
     exit 1

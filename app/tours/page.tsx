@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaHotel, FaMap, FaCalendarDay, FaBus } from 'react-icons/fa';
+import { FaHotel, FaMap, FaCalendarDay, FaBus, FaShip } from 'react-icons/fa';
 
 export default function ToursPage() {
   const categories = [
@@ -38,6 +38,14 @@ export default function ToursPage() {
       description: 'We offer convenient and reliable transportation services between airports, hotels, and attractions. Our professional drivers ensure a comfortable journey in modern vehicles, allowing you to relax and enjoy the scenery without the stress of navigating unfamiliar roads.',
       image: '/images/IstanbulatNight.jpeg',
       color: 'from-purple-500 to-purple-700'
+    },
+    {
+      name: 'Shore Excursions',
+      slug: 'shore-excursions',
+      icon: <FaShip className="text-4xl" />,
+      description: 'Perfect for cruise passengers! Our shore excursions offer port and hotel pickups with a guaranteed back-to-ship timing. Explore Turkey\'s highlights worry-free with our expertly timed tours from major cruise ports including Istanbul, Kusadasi, Izmir, Bodrum, and Antalya.',
+      image: '/images/IstanbulatNight.jpeg',
+      color: 'from-blue-500 to-blue-700'
     }
   ];
 

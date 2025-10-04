@@ -15,8 +15,7 @@ interface Package {
   duration: string;
   description: string;
   destinations: string;
-  pricing: any; // Already parsed from API
-  b2bPricing: any | null; // Already parsed from API
+  pricing: any; // Already parsed from API - single pricing for everyone
   packageType: string;
   image: string;
   itinerary: string;
@@ -25,9 +24,17 @@ interface Package {
   notIncluded: string;
 }
 
+interface Agent {
+  id: string;
+  email: string;
+  companyName: string;
+  commissionRate: number;
+}
+
 export default function AgentPackageDetailClient({ packageId }: Props) {
   const router = useRouter();
   const [pkg, setPkg] = useState<Package | null>(null);
+  const [agent, setAgent] = useState<Agent | null>(null);
   const [loading, setLoading] = useState(true);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [bookingData, setBookingData] = useState({
@@ -46,6 +53,7 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
 
   useEffect(() => {
     fetchPackage();
+    fetchAgentData();
   }, [packageId]);
 
   const fetchPackage = async () => {
@@ -62,20 +70,27 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
     }
   };
 
+  const fetchAgentData = async () => {
+    try {
+      const res = await fetch('/api/agent/me');
+      if (!res.ok) throw new Error('Not authenticated');
+      const data = await res.json();
+      setAgent(data.agent);
+    } catch (error) {
+      console.error('Error fetching agent data:', error);
+    }
+  };
+
   const calculatePrice = () => {
     if (!pkg) return 0;
 
     try {
-      // Agents should use B2B pricing if available, otherwise fall back to public pricing
-      // Note: pricing fields are already parsed objects from the API
-      const pricing = pkg.b2bPricing || pkg.pricing;
+      // Single pricing for everyone (agents see same prices as customers)
+      const pricing = pkg.pricing;
       console.log('📦 Package pricing data:', JSON.stringify({
-        hasB2BPricing: !!pkg.b2bPricing,
         hasPricing: !!pkg.pricing,
-        usingB2B: !!pkg.b2bPricing,
-        b2bPricing: pkg.b2bPricing,
-        publicPricing: pkg.pricing,
-        selectedPricing: pricing
+        pricingData: pricing,
+        agentCommission: agent?.commissionRate || 0
       }, null, 2));
 
       if (!pricing) {
@@ -234,9 +249,9 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
                   <span>📍 {pkg.destinations}</span>
                   <span>📅 {pkg.duration}</span>
                   <span>#{pkg.packageId}</span>
-                  {pkg.b2bPricing && (
+                  {agent && (
                     <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-medium">
-                      B2B Rate Applied
+                      {agent.commissionRate}% Commission
                     </span>
                   )}
                 </div>
@@ -401,21 +416,40 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
                   </div>
 
                   <div className="pt-4 border-t">
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="text-gray-700 font-medium">Total Price:</span>
-                      {totalPrice > 0 ? (
-                        <span className="text-2xl font-bold text-primary-600">€{totalPrice.toFixed(2)}</span>
-                      ) : (
-                        <div className="text-right">
-                          <span className="text-sm text-red-600 block">Price unavailable</span>
-                          <span className="text-xs text-gray-500">Check console for details</span>
-                        </div>
+                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-700 font-medium">Customer Price:</span>
+                        {totalPrice > 0 ? (
+                          <span className="text-2xl font-bold text-primary-600">€{totalPrice.toFixed(2)}</span>
+                        ) : (
+                          <div className="text-right">
+                            <span className="text-sm text-red-600 block">Price unavailable</span>
+                            <span className="text-xs text-gray-500">Check console for details</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {totalPrice > 0 && agent && (
+                        <>
+                          <div className="flex justify-between items-center pt-3 border-t border-gray-300">
+                            <span className="text-sm text-gray-600">Your Commission ({agent.commissionRate}%):</span>
+                            <span className="text-lg font-semibold text-green-600">
+                              €{(totalPrice * (agent.commissionRate / 100)).toFixed(2)}
+                            </span>
+                          </div>
+                          <div className="bg-blue-50 border border-blue-200 rounded p-2 mt-2">
+                            <p className="text-xs text-blue-800">
+                              💡 Customer pays €{totalPrice.toFixed(2)} • You earn €{(totalPrice * (agent.commissionRate / 100)).toFixed(2)} commission
+                            </p>
+                          </div>
+                        </>
                       )}
                     </div>
+
                     {totalPrice === 0 && (
-                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
                         <p className="text-sm text-yellow-800">
-                          <strong>Note:</strong> This package may not have B2B pricing configured yet.
+                          <strong>Note:</strong> This package may not have pricing configured yet.
                           Please check the browser console for details or contact admin.
                         </p>
                       </div>

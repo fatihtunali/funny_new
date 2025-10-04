@@ -50,11 +50,11 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
     ], null, 2)
   );
 
-  // Pricing - separate state for each field for better UX
+  // Pricing - single pricing for everyone (public, agents, PDFs)
   const [pricingData, setPricingData] = useState(() => {
-    if (initialData?.b2bPricing) {
+    if (initialData?.pricing) {
       try {
-        return JSON.parse(initialData.b2bPricing);
+        return JSON.parse(initialData.pricing);
       } catch {
         return {
           threestar: { single: 0, double: 0, triple: 0 },
@@ -72,9 +72,9 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
 
   // For LAND_ONLY packages
   const [landOnlyPrice, setLandOnlyPrice] = useState(() => {
-    if (initialData?.b2bPricing && packageType === 'LAND_ONLY') {
+    if (initialData?.pricing && packageType === 'LAND_ONLY') {
       try {
-        const parsed = JSON.parse(initialData.b2bPricing);
+        const parsed = JSON.parse(initialData.pricing);
         return parsed.perPerson || 0;
       } catch {
         return 0;
@@ -164,40 +164,16 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
       JSON.parse(itinerary);
       JSON.parse(hotels);
 
-      // Calculate public pricing with 20% markup
-      const addMarkup = (value: number) => Math.round(value * 1.2 * 100) / 100;
-
-      let publicPricing;
-      let b2bPricing;
+      // Single pricing for everyone (public, agents, PDFs)
+      let pricing;
 
       if (packageType === 'LAND_ONLY') {
-        // For land-only packages
-        b2bPricing = {
+        pricing = {
           perPerson: landOnlyPrice
-        };
-        publicPricing = {
-          perPerson: addMarkup(landOnlyPrice)
         };
       } else {
         // For hotel packages - use structured pricing data
-        b2bPricing = pricingData;
-        publicPricing = {
-          threestar: {
-            single: addMarkup(pricingData.threestar?.single || 0),
-            double: addMarkup(pricingData.threestar?.double || 0),
-            triple: addMarkup(pricingData.threestar?.triple || 0)
-          },
-          fourstar: {
-            single: addMarkup(pricingData.fourstar?.single || 0),
-            double: addMarkup(pricingData.fourstar?.double || 0),
-            triple: addMarkup(pricingData.fourstar?.triple || 0)
-          },
-          fivestar: {
-            single: addMarkup(pricingData.fivestar?.single || 0),
-            double: addMarkup(pricingData.fivestar?.double || 0),
-            triple: addMarkup(pricingData.fivestar?.triple || 0)
-          }
-        };
+        pricing = pricingData;
       }
 
       const packageData = {
@@ -215,8 +191,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
         included: JSON.stringify(included.split('\n').filter((i: string) => i.trim())),
         notIncluded: JSON.stringify(notIncluded.split('\n').filter((n: string) => n.trim())),
         itinerary,
-        pricing: JSON.stringify(publicPricing), // Public pricing with 20% markup
-        b2bPricing: JSON.stringify(b2bPricing), // Original prices entered by admin (for agents)
+        pricing: JSON.stringify(pricing), // Single pricing for everyone
         hotels,
       };
 
@@ -540,31 +515,32 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
             <h2 className="text-xl font-bold text-gray-900 mb-4 pb-2 border-b">Pricing</h2>
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
               <p className="text-sm text-blue-900 font-medium mb-1">
-                💡 Pricing Strategy:
+                💡 Single Pricing + Commission Model:
               </p>
               <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Enter <strong>B2B Agent Rates</strong> (nett prices) below</li>
-                <li>• Public prices automatically calculated with <strong>+20% markup</strong></li>
-                <li>• Agents see nett rates; customers see prices with markup</li>
+                <li>• Enter <strong>final selling prices</strong> (same for everyone)</li>
+                <li>• Prices shown on website, PDFs, and to agents are <strong>the same</strong></li>
+                <li>• Agents earn commission based on their commission rate (e.g., 15%)</li>
+                <li>• Example: €500 package → Agent with 15% commission earns €75</li>
               </ul>
             </div>
 
             {packageType === 'LAND_ONLY' ? (
               <div className="bg-white border border-gray-200 rounded-lg p-6">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Per Person Price (€) - B2B Nett Rate
+                  Per Person Price (€) - Final Selling Price
                 </label>
                 <input
                   type="number"
                   value={landOnlyPrice}
                   onChange={(e) => setLandOnlyPrice(Number(e.target.value))}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                  placeholder="350"
+                  placeholder="500"
                   min="0"
                   step="1"
                 />
-                <p className="mt-2 text-sm text-green-700">
-                  Public price: <strong>€{Math.round(landOnlyPrice * 1.2)}</strong> (with 20% markup)
+                <p className="mt-2 text-sm text-gray-600">
+                  Agent commission (15%): <strong>€{Math.round(landOnlyPrice * 0.15)}</strong>
                 </p>
               </div>
             ) : (
@@ -587,7 +563,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                         min="0"
                         step="1"
                       />
-                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.threestar.single * 1.2)}</p>
+                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.threestar.single * 0.15)}</p>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Double Room (€)</label>
@@ -603,7 +579,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                         min="0"
                         step="1"
                       />
-                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.threestar.double * 1.2)}</p>
+                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.threestar.double * 0.15)}</p>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Triple Room (€)</label>
@@ -619,7 +595,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                         min="0"
                         step="1"
                       />
-                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.threestar.triple * 1.2)}</p>
+                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.threestar.triple * 0.15)}</p>
                     </div>
                   </div>
                 </div>
@@ -638,11 +614,11 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                           fourstar: { ...pricingData.fourstar, single: Number(e.target.value) }
                         })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="580"
+                        placeholder="700"
                         min="0"
                         step="1"
                       />
-                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.fourstar.single * 1.2)}</p>
+                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.fourstar.single * 0.15)}</p>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Double Room (€)</label>
@@ -654,11 +630,11 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                           fourstar: { ...pricingData.fourstar, double: Number(e.target.value) }
                         })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="420"
+                        placeholder="500"
                         min="0"
                         step="1"
                       />
-                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.fourstar.double * 1.2)}</p>
+                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.fourstar.double * 0.15)}</p>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Triple Room (€)</label>
@@ -670,11 +646,11 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                           fourstar: { ...pricingData.fourstar, triple: Number(e.target.value) }
                         })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="380"
+                        placeholder="450"
                         min="0"
                         step="1"
                       />
-                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.fourstar.triple * 1.2)}</p>
+                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.fourstar.triple * 0.15)}</p>
                     </div>
                   </div>
                 </div>
@@ -693,11 +669,11 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                           fivestar: { ...pricingData.fivestar, single: Number(e.target.value) }
                         })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="750"
+                        placeholder="900"
                         min="0"
                         step="1"
                       />
-                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.fivestar.single * 1.2)}</p>
+                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.fivestar.single * 0.15)}</p>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Double Room (€)</label>
@@ -709,11 +685,11 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                           fivestar: { ...pricingData.fivestar, double: Number(e.target.value) }
                         })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="550"
+                        placeholder="660"
                         min="0"
                         step="1"
                       />
-                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.fivestar.double * 1.2)}</p>
+                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.fivestar.double * 0.15)}</p>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Triple Room (€)</label>
@@ -725,11 +701,11 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                           fivestar: { ...pricingData.fivestar, triple: Number(e.target.value) }
                         })}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                        placeholder="500"
+                        placeholder="600"
                         min="0"
                         step="1"
                       />
-                      <p className="mt-1 text-xs text-green-600">Public: €{Math.round(pricingData.fivestar.triple * 1.2)}</p>
+                      <p className="mt-1 text-xs text-gray-500">Agent commission (15%): €{Math.round(pricingData.fivestar.triple * 0.15)}</p>
                     </div>
                   </div>
                 </div>

@@ -27,8 +27,7 @@ export async function GET(
       included: pkg.included ? JSON.parse(pkg.included) : [],
       notIncluded: pkg.notIncluded ? JSON.parse(pkg.notIncluded) : [],
       itinerary: pkg.itinerary ? JSON.parse(pkg.itinerary) : [],
-      pricing: pkg.pricing ? JSON.parse(pkg.pricing) : {},
-      b2bPricing: pkg.b2bPricing ? JSON.parse(pkg.b2bPricing) : null,
+      pricing: pkg.pricing ? JSON.parse(pkg.pricing) : {}, // Single pricing for everyone
       hotels: pkg.hotels ? JSON.parse(pkg.hotels) : {},
       destinations: pkg.destinations ? pkg.destinations.split(',').map(d => d.trim()) : [],
     };

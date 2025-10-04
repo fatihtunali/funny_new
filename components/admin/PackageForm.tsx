@@ -166,50 +166,61 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
 
       const data = result.data;
 
+      // Check if we got multiple packages
+      if (data.packages && Array.isArray(data.packages) && data.packages.length > 1) {
+        // Store extracted packages in sessionStorage and redirect to batch review page
+        sessionStorage.setItem('extractedPackages', JSON.stringify(data.packages));
+        router.push('/admin/packages/batch-review');
+        return;
+      }
+
+      // Single package extraction - use first package from array or the data itself
+      const packageData = data.packages && data.packages.length === 1 ? data.packages[0] : data;
+
       // Get next package ID and unique slug
       const nextIdRes = await fetch('/api/admin/next-package-id');
       const nextIdData = await nextIdRes.json();
 
       // Populate all fields with extracted data
-      setPackageId(nextIdData.nextId || data.packageId || '');
-      setPackageType(data.packageType || 'WITH_HOTEL');
-      setTitle(data.title || '');
-      setSlug(data.slug || '');
-      setDuration(data.duration || '');
-      setDescription(data.description || '');
-      setDestinations(data.destinations || '');
-      setImage(data.image || '');
-      setPdfUrl(data.pdfUrl || '');
-      setHighlights(data.highlights ? data.highlights.join('\n') : '');
-      setIncluded(data.included ? data.included.join('\n') : '');
-      setNotIncluded(data.notIncluded ? data.notIncluded.join('\n') : '');
-      setItinerary(JSON.stringify(data.itinerary || [], null, 2));
+      setPackageId(nextIdData.nextId || packageData.packageId || '');
+      setPackageType(packageData.packageType || 'WITH_HOTEL');
+      setTitle(packageData.title || '');
+      setSlug(packageData.slug || '');
+      setDuration(packageData.duration || '');
+      setDescription(packageData.description || '');
+      setDestinations(packageData.destinations || '');
+      setImage(packageData.image || '');
+      setPdfUrl(packageData.pdfUrl || '');
+      setHighlights(packageData.highlights ? packageData.highlights.join('\n') : '');
+      setIncluded(packageData.included ? packageData.included.join('\n') : '');
+      setNotIncluded(packageData.notIncluded ? packageData.notIncluded.join('\n') : '');
+      setItinerary(JSON.stringify(packageData.itinerary || [], null, 2));
 
       // Set shore excursion specific fields
-      if (data.packageType === 'SHORE_EXCURSION') {
-        setPort(data.port || '');
-        setPickupType(data.pickupType || 'both');
+      if (packageData.packageType === 'SHORE_EXCURSION') {
+        setPort(packageData.port || '');
+        setPickupType(packageData.pickupType || 'both');
       }
 
       // Set pricing data based on package type
-      if (data.packageType === 'SHORE_EXCURSION' && data.pricing) {
-        setShoreExcursionPricing(data.pricing);
-      } else if (data.packageType === 'LAND_ONLY' && data.pricing) {
+      if (packageData.packageType === 'SHORE_EXCURSION' && packageData.pricing) {
+        setShoreExcursionPricing(packageData.pricing);
+      } else if (packageData.packageType === 'LAND_ONLY' && packageData.pricing) {
         setLandOnlyPricing({
-          twoAdults: data.pricing.twoAdults || 0,
-          fourAdults: data.pricing.fourAdults || 0,
-          sixAdults: data.pricing.sixAdults || 0,
+          twoAdults: packageData.pricing.twoAdults || 0,
+          fourAdults: packageData.pricing.fourAdults || 0,
+          sixAdults: packageData.pricing.sixAdults || 0,
         });
-      } else if (data.pricing?.paxTiers) {
+      } else if (packageData.pricing?.paxTiers) {
         // WITH_HOTEL with paxTiers structure
-        setPricingData(data.pricing.paxTiers);
-        setPaxTiers(Object.keys(data.pricing.paxTiers).sort((a, b) => Number(a) - Number(b)));
-      } else if (data.pricing) {
+        setPricingData(packageData.pricing.paxTiers);
+        setPaxTiers(Object.keys(packageData.pricing.paxTiers).sort((a, b) => Number(a) - Number(b)));
+      } else if (packageData.pricing) {
         // Fallback for old simple pricing format (shouldn't happen with new PDF extraction)
-        setPricingData(data.pricing);
+        setPricingData(packageData.pricing);
       }
 
-      setHotels(JSON.stringify(data.hotels || {}, null, 2));
+      setHotels(JSON.stringify(packageData.hotels || {}, null, 2));
 
       setExtractionSuccess(true);
       setTimeout(() => setExtractionSuccess(false), 5000);

@@ -254,6 +254,34 @@ IMPORTANT:
 - Choose an image path from the AVAILABLE IMAGES list that best matches the package destinations
 - If any information is missing, use reasonable defaults or empty arrays/objects
 - Ensure all prices are numbers (no currency symbols)
+
+MULTIPLE TOURS EXTRACTION:
+- If the PDF contains multiple tours (e.g., pricing table with T-1, T-2, T-3 or KUS-01, KUS-02, etc.), extract ALL of them
+- Return format for multiple tours: {"packages": [tour1, tour2, tour3, ...]}
+- Return format for single tour: {"packages": [tour1]}
+- ALWAYS return an array in "packages" field, even if there's only one tour
+- For each tour in the array, extract all fields according to the structure above
+- For shore excursions with pricing tables showing multiple tours, extract each row as a separate tour
+- Each tour should have a unique packageId (use the tour code from PDF like "T-1", "KUS-01", etc.)
+
+Example output for multiple tours:
+{
+  "packages": [
+    {
+      "packageId": "T-1",
+      "title": "Imperial Tour",
+      "packageType": "SHORE_EXCURSION",
+      ...
+    },
+    {
+      "packageId": "T-2",
+      "title": "Ottoman Splendours Tour",
+      "packageType": "SHORE_EXCURSION",
+      ...
+    }
+  ]
+}
+
 - Return ONLY valid JSON, no explanations`,
       tools: [{ type: 'file_search' }],
       tool_resources: {
@@ -270,7 +298,7 @@ IMPORTANT:
       messages: [
         {
           role: 'user',
-          content: 'Extract all package information from the PDF. Read every page carefully and extract all details in the specified JSON format.',
+          content: 'Extract ALL packages/tours from the PDF. If the PDF contains multiple tours (e.g., pricing table with multiple tours), extract each one separately. Read every page carefully and return ALL tours in the "packages" array format specified in the instructions.',
         }
       ]
     });
@@ -298,8 +326,13 @@ IMPORTANT:
     const jsonMatch = extractedText.match(/\{[\s\S]*\}/);
     const extractedData = jsonMatch ? JSON.parse(jsonMatch[0]) : {};
 
-    // Add the PDF URL to the extracted data
-    extractedData.pdfUrl = pdfUrl;
+    // Add the PDF URL to each package in the array
+    if (extractedData.packages && Array.isArray(extractedData.packages)) {
+      extractedData.packages = extractedData.packages.map((pkg: any) => ({
+        ...pkg,
+        pdfUrl: pdfUrl
+      }));
+    }
 
     return NextResponse.json({
       success: true,

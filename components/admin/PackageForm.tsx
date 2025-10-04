@@ -650,7 +650,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <h4 className="text-md font-semibold text-gray-800 mb-3">Per Person Rates by Group Size</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {Object.entries(shoreExcursionPricing.perPerson).map(([key, value]) => {
+                      {Object.entries(shoreExcursionPricing.perPerson).map(([key, value]: [string, number]) => {
                         const label = key === '1pax' ? '1 Person' :
                                      key === '2pax' ? '2 People' :
                                      key === '3pax' ? '3 People' :

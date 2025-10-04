@@ -57,6 +57,17 @@ export async function POST(req: NextRequest) {
       model: 'gpt-4o',
       instructions: `You are a tour package data extraction assistant. Extract structured information from tour package PDFs and return it as valid JSON.
 
+IMPORTANT: Detect if the PDF contains MULTIPLE packages/tours or just ONE:
+- If the PDF has a pricing table with multiple tours listed (e.g., "Tour 1", "Tour 2", "T-1", "T-2", "KUS-01", "KUS-02"), extract ALL tours as an array
+- If the PDF describes only ONE package/tour, extract it as a single object
+- For shore excursions/daily tours PDF with multiple tours, return an array of all tours
+
+Return format:
+- Single package: return ONE object with the structure below
+- Multiple packages: return an ARRAY of objects, each with the structure below
+
+You are a tour package data extraction assistant. Extract structured information from tour package PDFs and return it as valid JSON.
+
 IMPORTANT: First detect the package type:
 1. SHORE EXCURSION / DAILY TOUR - Single-day tours from port or hotel pickup
    - PDF contains "Sightseeing", "Shore Excursion", "Daily Tour", or single-day activities

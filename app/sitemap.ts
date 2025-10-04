@@ -1,50 +1,135 @@
 import { MetadataRoute } from 'next';
+import prisma from '@/lib/prisma';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.funnytourism.com';
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = 'https://dreamdestinationturkey.com';
 
-  return [
+  // Fetch all packages for dynamic URLs
+  const packages = await prisma.package.findMany({
+    select: {
+      packageId: true,
+      updatedAt: true,
+    },
+  });
+
+  const packageUrls = packages.map((pkg) => ({
+    url: `${baseUrl}/tours/hotels-packages/package/${pkg.packageId}`,
+    lastModified: pkg.updatedAt,
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }));
+
+  // Static pages
+  const staticPages = [
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: 'daily' as const,
       priority: 1,
     },
     {
       url: `${baseUrl}/packages`,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: 'daily' as const,
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/packages/istanbul-cappadocia-kusadasi`,
+      url: `${baseUrl}/tours/hotels-packages`,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: 'daily' as const,
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/tours/land-packages`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
       priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/tours/daily-tours`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/tours/transfers`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/destinations`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/destinations/istanbul`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/destinations/cappadocia`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/destinations/ephesus`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/destinations/pamukkale`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/destinations/antalya`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/destinations/bodrum`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/destinations/fethiye`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/destinations/marmaris`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
       priority: 0.7,
     },
     {
       url: `${baseUrl}/about`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'monthly' as const,
       priority: 0.6,
     },
     {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'monthly' as const,
       priority: 0.6,
     },
     {
       url: `${baseUrl}/inquiry`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
     },
   ];
+
+  return [...staticPages, ...packageUrls];
 }

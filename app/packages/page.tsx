@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaFilter, FaTh, FaList, FaMapMarkerAlt, FaClock, FaEuroSign, FaFilePdf } from 'react-icons/fa';
+import { PackageGridSkeleton } from '@/components/LoadingSkeleton';
 
 interface Package {
   id: string;
@@ -172,8 +173,38 @@ export default function AllPackagesPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 className="text-4xl font-bold mb-4">Explore All Turkey Tours</h1>
+            <p className="text-xl text-primary-100">Discover amazing experiences across Turkey</p>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="lg:grid lg:grid-cols-4 lg:gap-8">
+            {/* Filters Sidebar Skeleton */}
+            <aside className="lg:col-span-1 mb-6 lg:mb-0">
+              <div className="bg-white rounded-lg shadow-sm p-6 lg:sticky lg:top-4 animate-pulse">
+                <div className="h-6 bg-gray-300 rounded w-1/2 mb-6"></div>
+                <div className="space-y-4">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <div key={i}>
+                      <div className="h-4 bg-gray-300 rounded w-1/3 mb-2"></div>
+                      <div className="h-8 bg-gray-300 rounded w-full"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </aside>
+
+            {/* Main Content Skeleton */}
+            <div className="lg:col-span-3">
+              <PackageGridSkeleton count={9} />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

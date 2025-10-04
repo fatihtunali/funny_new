@@ -7,6 +7,8 @@ import { motion } from 'framer-motion';
 import { FaClock, FaHotel, FaMapMarkerAlt, FaFilePdf, FaCalendarAlt, FaUsers, FaDownload } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import BookingModal from '@/components/BookingModal';
+import StructuredData, { generateTourPackageSchema, generateBreadcrumbSchema } from '@/components/StructuredData';
+import { PackageDetailSkeleton } from '@/components/LoadingSkeleton';
 
 export default function PackageDetailPage() {
   const params = useParams();
@@ -36,14 +38,7 @@ export default function PackageDetailPage() {
   }, [packageId]);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading package details...</p>
-        </div>
-      </div>
-    );
+    return <PackageDetailSkeleton />;
   }
 
   if (!pkg) {
@@ -120,8 +115,19 @@ export default function PackageDetailPage() {
     setRooms(newRooms);
   };
 
+  // Generate structured data
+  const packageSchema = generateTourPackageSchema(pkg);
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Hotel Packages', url: '/tours/hotels-packages' },
+    { name: pkg.title, url: `/tours/hotels-packages/package/${pkg.packageId}` }
+  ]);
+
   return (
     <div className="min-h-screen bg-white">
+      <StructuredData data={packageSchema} />
+      <StructuredData data={breadcrumbSchema} />
+
       {/* Hero Section */}
       <div className="relative h-[50vh] min-h-[400px]">
         <Image

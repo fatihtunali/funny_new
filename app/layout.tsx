@@ -8,13 +8,61 @@ import WhatsAppWidget from "@/components/WhatsAppWidget";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Funny Tourism - Turkey Tour Packages | Istanbul, Cappadocia & More",
+  metadataBase: new URL('https://dreamdestinationturkey.com'),
+  title: {
+    default: "Funny Tourism - Turkey Tour Packages | Istanbul, Cappadocia & More",
+    template: "%s | Funny Tourism"
+  },
   description: "Explore Turkey with expertly curated tour packages. Visit Istanbul, Cappadocia, Ephesus, and Pamukkale with professional English-speaking guides. Book your dream Turkey vacation today!",
-  keywords: "Turkey tours, Istanbul packages, Cappadocia tours, Turkey vacation, Ephesus tours, Pamukkale, Turkey travel packages",
+  keywords: ["Turkey tours", "Istanbul packages", "Cappadocia tours", "Turkey vacation", "Ephesus tours", "Pamukkale", "Turkey travel packages", "Turkey tourism", "guided tours Turkey", "Turkey holiday packages"],
+  authors: [{ name: "Funny Tourism" }],
+  creator: "Funny Tourism",
+  publisher: "Funny Tourism",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://dreamdestinationturkey.com',
+    siteName: 'Funny Tourism',
+    title: 'Funny Tourism - Turkey Tour Packages | Istanbul, Cappadocia & More',
+    description: 'Explore Turkey with expertly curated tour packages. Visit Istanbul, Cappadocia, Ephesus, and Pamukkale with professional English-speaking guides.',
+    images: [
+      {
+        url: '/images/IstanbulatNight.jpeg',
+        width: 1200,
+        height: 630,
+        alt: 'Turkey Tours - Istanbul at Night',
+      }
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Funny Tourism - Turkey Tour Packages',
+    description: 'Explore Turkey with expertly curated tour packages. Visit Istanbul, Cappadocia, Ephesus, and more.',
+    images: ['/images/IstanbulatNight.jpeg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: '/images/faviconfunny.png',
     shortcut: '/images/faviconfunny.png',
     apple: '/images/faviconfunny.png',
+  },
+  verification: {
+    google: 'your-google-verification-code',
   },
 };
 

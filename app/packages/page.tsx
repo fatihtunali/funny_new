@@ -384,7 +384,7 @@ export default function AllPackagesPage() {
                         </div>
 
                         <h3 className="text-xl font-bold text-gray-900 mb-2 min-h-[3.5rem] line-clamp-2">{pkg.title}</h3>
-                        <p className="text-gray-600 text-sm mb-4 h-[4.5rem] line-clamp-3">{pkg.description}</p>
+                        <p className="text-gray-600 text-sm mb-4 line-clamp-3 overflow-hidden">{pkg.description}</p>
 
                         {getPackageMinPrice(pkg) > 0 && (
                           <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-3">

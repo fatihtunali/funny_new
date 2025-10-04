@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import AgentBookingModal from '@/components/agent/AgentBookingModal';
 
 interface Props {
   packageId: string;
@@ -48,8 +49,6 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
     hotelCategory: 'fourstar',
     specialRequests: '',
   });
-  const [bookingLoading, setBookingLoading] = useState(false);
-  const [bookingError, setBookingError] = useState('');
 
   useEffect(() => {
     fetchPackage();
@@ -221,50 +220,6 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
     }
   };
 
-  const handleBooking = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setBookingError('');
-    setBookingLoading(true);
-
-    try {
-      const totalPrice = calculatePrice();
-
-      const res = await fetch('/api/agent/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          packageName: pkg?.title,
-          packageId: pkg?.packageId,
-          travelDate: bookingData.travelDate,
-          duration: pkg?.duration,
-          hotelCategory: bookingData.hotelCategory,
-          adults: bookingData.adults,
-          children3to5: bookingData.children3to5,
-          children6to10: bookingData.children6to10,
-          totalPrice,
-          currency: 'EUR',
-          specialRequests: bookingData.specialRequests,
-          guestName: bookingData.guestName,
-          guestEmail: bookingData.guestEmail,
-          guestPhone: bookingData.guestPhone,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setBookingError(data.error || 'Failed to create booking');
-        return;
-      }
-
-      // Success - redirect to bookings
-      router.push('/agent/bookings');
-    } catch (error) {
-      setBookingError('An error occurred. Please try again.');
-    } finally {
-      setBookingLoading(false);
-    }
-  };
 
   if (loading) {
     return (
@@ -339,206 +294,127 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
             </div>
           </div>
 
-          {/* Booking Form */}
+          {/* Booking Configuration */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm p-6 lg:sticky lg:top-4">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Create Booking</h2>
+            <div className="bg-white rounded-lg shadow-sm p-6 lg:sticky lg:top-4 space-y-4">
+              <h2 className="text-xl font-semibold text-gray-900">Create Booking</h2>
 
-              {!showBookingForm ? (
-                <button
-                  onClick={() => setShowBookingForm(true)}
-                  className="w-full bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition-colors font-medium"
-                >
-                  Book for Customer
-                </button>
-              ) : (
-                <form onSubmit={handleBooking} className="space-y-4 max-h-[calc(100vh-200px)] overflow-y-auto pr-2">
-                  {bookingError && (
-                    <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded text-sm">
-                      {bookingError}
-                    </div>
-                  )}
+              {/* Hotel Category */}
+              {pkg.packageType !== 'LAND_ONLY' && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Hotel Category</label>
+                  <select
+                    value={bookingData.hotelCategory}
+                    onChange={(e) => setBookingData({ ...bookingData, hotelCategory: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+                  >
+                    <option value="threestar">3-Star</option>
+                    <option value="fourstar">4-Star</option>
+                    <option value="fivestar">5-Star</option>
+                  </select>
+                </div>
+              )}
 
+              {/* Travelers */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Travelers</label>
+                <div className="grid grid-cols-3 gap-2">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Customer Name *
-                    </label>
+                    <label className="block text-xs text-gray-600 mb-1">Adults</label>
                     <input
-                      type="text"
-                      required
-                      placeholder="John Doe"
-                      value={bookingData.guestName}
-                      onChange={(e) => setBookingData({ ...bookingData, guestName: e.target.value })}
-                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      type="number"
+                      min="1"
+                      value={bookingData.adults}
+                      onChange={(e) => setBookingData({ ...bookingData, adults: parseInt(e.target.value) })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
-
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Customer Email *
-                    </label>
+                    <label className="block text-xs text-gray-600 mb-1">3-5y</label>
                     <input
-                      type="email"
-                      required
-                      placeholder="customer@email.com"
-                      value={bookingData.guestEmail}
-                      onChange={(e) => setBookingData({ ...bookingData, guestEmail: e.target.value })}
-                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      type="number"
+                      min="0"
+                      value={bookingData.children3to5}
+                      onChange={(e) => setBookingData({ ...bookingData, children3to5: parseInt(e.target.value) })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
-
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Customer Phone
-                    </label>
+                    <label className="block text-xs text-gray-600 mb-1">6-10y</label>
                     <input
-                      type="tel"
-                      placeholder="+1 234 567 8900"
-                      value={bookingData.guestPhone}
-                      onChange={(e) => setBookingData({ ...bookingData, guestPhone: e.target.value })}
-                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                      type="number"
+                      min="0"
+                      value={bookingData.children6to10}
+                      onChange={(e) => setBookingData({ ...bookingData, children6to10: parseInt(e.target.value) })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
+                </div>
+              </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Travel Date *
-                    </label>
-                    <input
-                      type="date"
-                      required
-                      min={new Date().toISOString().split('T')[0]}
-                      value={bookingData.travelDate}
-                      onChange={(e) => setBookingData({ ...bookingData, travelDate: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm"
-                    />
-                  </div>
-
-                  {pkg.packageType !== 'LAND_ONLY' && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Hotel Category
-                      </label>
-                      <select
-                        value={bookingData.hotelCategory}
-                        onChange={(e) => setBookingData({ ...bookingData, hotelCategory: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                      >
-                        <option value="threestar">3-Star</option>
-                        <option value="fourstar">4-Star</option>
-                        <option value="fivestar">5-Star</option>
-                      </select>
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-3 gap-2">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Adults</label>
-                      <input
-                        type="number"
-                        min="1"
-                        value={bookingData.adults}
-                        onChange={(e) => setBookingData({ ...bookingData, adults: parseInt(e.target.value) })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">3-5y</label>
-                      <input
-                        type="number"
-                        min="0"
-                        value={bookingData.children3to5}
-                        onChange={(e) => setBookingData({ ...bookingData, children3to5: parseInt(e.target.value) })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">6-10y</label>
-                      <input
-                        type="number"
-                        min="0"
-                        value={bookingData.children6to10}
-                        onChange={(e) => setBookingData({ ...bookingData, children6to10: parseInt(e.target.value) })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Special Requests
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={bookingData.specialRequests}
-                      onChange={(e) => setBookingData({ ...bookingData, specialRequests: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                    />
-                  </div>
-
-                  <div className="pt-4 border-t">
-                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-700 font-medium">Customer Price:</span>
-                        {totalPrice > 0 ? (
-                          <span className="text-2xl font-bold text-primary-600">€{totalPrice.toFixed(2)}</span>
-                        ) : (
-                          <div className="text-right">
-                            <span className="text-sm text-red-600 block">Price unavailable</span>
-                            <span className="text-xs text-gray-500">Check console for details</span>
-                          </div>
-                        )}
-                      </div>
-
-                      {totalPrice > 0 && agent && (
-                        <>
-                          <div className="flex justify-between items-center pt-3 border-t border-gray-300">
-                            <span className="text-sm text-gray-600">Your Commission ({agent.commissionRate}%):</span>
-                            <span className="text-lg font-semibold text-green-600">
-                              €{(totalPrice * (agent.commissionRate / 100)).toFixed(2)}
-                            </span>
-                          </div>
-                          <div className="bg-blue-50 border border-blue-200 rounded p-2 mt-2">
-                            <p className="text-xs text-blue-800">
-                              💡 Customer pays €{totalPrice.toFixed(2)} • You earn €{(totalPrice * (agent.commissionRate / 100)).toFixed(2)} commission
-                            </p>
-                          </div>
-                        </>
-                      )}
-                    </div>
-
-                    {totalPrice === 0 && (
-                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-4">
-                        <p className="text-sm text-yellow-800">
-                          <strong>Note:</strong> This package may not have pricing configured yet.
-                          Please check the browser console for details or contact admin.
-                        </p>
-                      </div>
+              {/* Pricing Summary */}
+              <div className="pt-4 border-t">
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700 font-medium">Customer Price:</span>
+                    {totalPrice > 0 ? (
+                      <span className="text-2xl font-bold text-primary-600">€{totalPrice.toFixed(2)}</span>
+                    ) : (
+                      <span className="text-sm text-red-600">Configure options</span>
                     )}
                   </div>
 
-                  <div className="space-y-2">
-                    <button
-                      type="submit"
-                      disabled={bookingLoading}
-                      className="w-full bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition-colors font-medium disabled:opacity-50"
-                    >
-                      {bookingLoading ? 'Creating Booking...' : 'Create Booking'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setShowBookingForm(false)}
-                      className="w-full border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              )}
+                  {totalPrice > 0 && agent && (
+                    <>
+                      <div className="flex justify-between items-center pt-3 border-t border-gray-300">
+                        <span className="text-sm text-gray-600">Your Commission ({agent.commissionRate}%):</span>
+                        <span className="text-lg font-semibold text-green-600">
+                          €{(totalPrice * (agent.commissionRate / 100)).toFixed(2)}
+                        </span>
+                      </div>
+                      <div className="bg-blue-50 border border-blue-200 rounded p-2 mt-2">
+                        <p className="text-xs text-blue-800">
+                          💡 Customer pays €{totalPrice.toFixed(2)} • You earn €{(totalPrice * (agent.commissionRate / 100)).toFixed(2)} commission
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Book Button */}
+              <button
+                onClick={() => setShowBookingForm(true)}
+                disabled={totalPrice === 0}
+                className="w-full bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Continue to Book
+              </button>
             </div>
           </div>
         </div>
       </main>
+
+      {/* Booking Modal */}
+      <AgentBookingModal
+        isOpen={showBookingForm}
+        onClose={() => setShowBookingForm(false)}
+        packageData={{
+          id: pkg.id,
+          packageId: pkg.packageId,
+          title: pkg.title,
+          duration: pkg.duration,
+          packageType: pkg.packageType
+        }}
+        bookingConfig={{
+          hotelCategory: bookingData.hotelCategory,
+          adults: bookingData.adults,
+          children3to5: bookingData.children3to5,
+          children6to10: bookingData.children6to10,
+          totalPrice: totalPrice
+        }}
+        agent={agent}
+      />
     </div>
   );
 }

@@ -780,7 +780,9 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                 Email Us
               </a>
               <a
-                href="https://wa.me/905XXXXXXXXX"
+                href="https://wa.me/905395025310?text=Hello!%20I%27m%20interested%20in%20getting%20a%20quote%20for%20Turkey%20tours."
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
               >
                 <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">

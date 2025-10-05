@@ -172,31 +172,39 @@ export default function AgentDashboardClient() {
 
         {/* Quick Actions */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Browse & Book Services</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link
               href="/agent/packages"
               className="p-4 border border-gray-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors text-center"
             >
               <div className="text-3xl mb-2">📦</div>
-              <h3 className="font-medium text-gray-900">Browse Packages</h3>
-              <p className="text-sm text-gray-600 mt-1">View available tours</p>
+              <h3 className="font-medium text-gray-900">Tour Packages</h3>
+              <p className="text-sm text-gray-600 mt-1">Multi-day tours</p>
+            </Link>
+            <Link
+              href="/agent/daily-tours"
+              className="p-4 border border-gray-200 rounded-lg hover:border-teal-500 hover:bg-teal-50 transition-colors text-center"
+            >
+              <div className="text-3xl mb-2">🎭</div>
+              <h3 className="font-medium text-gray-900">Daily Tours</h3>
+              <p className="text-sm text-gray-600 mt-1">Day trips & excursions</p>
+            </Link>
+            <Link
+              href="/agent/transfers"
+              className="p-4 border border-gray-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-colors text-center"
+            >
+              <div className="text-3xl mb-2">🚗</div>
+              <h3 className="font-medium text-gray-900">Transfers</h3>
+              <p className="text-sm text-gray-600 mt-1">Airport & city transfers</p>
             </Link>
             <Link
               href="/agent/bookings"
-              className="p-4 border border-gray-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors text-center"
+              className="p-4 border border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors text-center"
             >
               <div className="text-3xl mb-2">📋</div>
               <h3 className="font-medium text-gray-900">My Bookings</h3>
-              <p className="text-sm text-gray-600 mt-1">Manage customer bookings</p>
-            </Link>
-            <Link
-              href="/agent/bookings"
-              className="p-4 border border-gray-200 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors text-center"
-            >
-              <div className="text-3xl mb-2">💰</div>
-              <h3 className="font-medium text-gray-900">Commission Report</h3>
-              <p className="text-sm text-gray-600 mt-1">View earnings</p>
+              <p className="text-sm text-gray-600 mt-1">View all bookings</p>
             </Link>
           </div>
         </div>

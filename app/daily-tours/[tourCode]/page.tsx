@@ -230,18 +230,6 @@ export default function DailyTourDetailPage({ params }: PageProps) {
               >
                 Book This Tour
               </button>
-
-              {/* PDF Download */}
-              {tour.pdfUrl && (
-                <a
-                  href={tour.pdfUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full text-center border-2 border-gray-300 hover:border-orange-600 text-gray-700 hover:text-orange-600 font-semibold py-3 rounded-lg transition-colors mt-3"
-                >
-                  Download PDF Details
-                </a>
-              )}
             </div>
           </div>
         </div>

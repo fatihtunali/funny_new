@@ -1,22 +1,77 @@
+'use client';
+
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
-import prisma from '@/lib/prisma';
+import { useState, useEffect } from 'react';
 import { FaClock, FaMapMarkerAlt, FaEuroSign, FaUsers, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import BookingModal from '@/components/BookingModal';
 
 interface PageProps {
   params: Promise<{ tourCode: string }>;
 }
 
-export default async function DailyTourDetailPage({ params }: PageProps) {
-  const { tourCode } = await params;
+interface DailyTour {
+  id: string;
+  tourCode: string;
+  title: string;
+  description: string;
+  duration: string;
+  city: string;
+  sicPrice: number;
+  privateMin2: number;
+  privateMin4: number;
+  privateMin6: number;
+  privateMin8: number;
+  privateMin10: number;
+  included: string | null;
+  notIncluded: string | null;
+  notes: string | null;
+  port: string | null;
+  pickupLocations: string | null;
+  image: string | null;
+  pdfUrl: string | null;
+}
 
-  const tour = await prisma.dailyTour.findFirst({
-    where: {
-      tourCode: tourCode.toUpperCase(),
-      isActive: true,
-    },
-  });
+export default function DailyTourDetailPage({ params }: PageProps) {
+  const [tour, setTour] = useState<DailyTour | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [tourCode, setTourCode] = useState('');
+
+  useEffect(() => {
+    const fetchTour = async () => {
+      const resolvedParams = await params;
+      setTourCode(resolvedParams.tourCode);
+
+      try {
+        const res = await fetch(`/api/daily-tours?tourCode=${resolvedParams.tourCode.toUpperCase()}`);
+        if (res.ok) {
+          const data = await res.json();
+          const foundTour = data.tours?.find((t: DailyTour) =>
+            t.tourCode.toLowerCase() === resolvedParams.tourCode.toLowerCase()
+          );
+          setTour(foundTour || null);
+        }
+      } catch (error) {
+        console.error('Error fetching tour:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTour();
+  }, [params]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading tour details...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!tour) {
     notFound();
@@ -169,12 +224,12 @@ export default async function DailyTourDetailPage({ params }: PageProps) {
               </div>
 
               {/* Book Now Button */}
-              <Link
-                href="/inquiry"
+              <button
+                onClick={() => setIsBookingModalOpen(true)}
                 className="block w-full text-center bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-lg transition-colors"
               >
                 Book This Tour
-              </Link>
+              </button>
 
               {/* PDF Download */}
               {tour.pdfUrl && (
@@ -191,6 +246,20 @@ export default async function DailyTourDetailPage({ params }: PageProps) {
           </div>
         </div>
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+        packageData={{
+          id: tourCode,
+          title: tour.title,
+          duration: tour.duration,
+          selectedHotel: 'N/A',
+          rooms: [1],
+          totalPrice: tour.sicPrice,
+        }}
+      />
     </div>
   );
 }

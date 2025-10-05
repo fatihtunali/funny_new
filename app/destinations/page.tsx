@@ -73,20 +73,12 @@ export default function DestinationsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <div className="relative h-[50vh] min-h-[300px] bg-gradient-to-r from-primary-600 to-primary-800">
-        <div className="absolute inset-0 flex items-center justify-center text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-white px-4"
-          >
-            <h1 className="text-5xl md:text-6xl font-bold mb-4">Explore Turkey</h1>
-            <p className="text-xl md:text-2xl max-w-3xl mx-auto">
-              Discover the diverse beauty and rich history of Turkey&apos;s top destinations
-            </p>
-          </motion.div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl font-bold mb-4">Explore Turkey Destinations</h1>
+          <p className="text-xl text-primary-100">Discover the diverse beauty and rich history of Turkey&apos;s top destinations</p>
         </div>
       </div>
 

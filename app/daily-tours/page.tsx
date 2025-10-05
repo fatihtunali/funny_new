@@ -293,6 +293,57 @@ export default function DailyToursPage() {
         </div>
       </section>
 
+      {/* Kusadasi/Izmir Tours Information */}
+      {filteredTours.some(tour => tour.city === 'Izmir' || tour.city === 'Kusadasi') && (
+        <section className="section-container py-12">
+          <div className="max-w-6xl mx-auto bg-blue-50 border border-blue-200 rounded-lg p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Important Information for Kusadasi - Izmir Daily Tours</h2>
+            <ul className="space-y-3 text-gray-700">
+              <li className="flex items-start">
+                <span className="text-blue-600 mr-2">•</span>
+                <span>All SIC (Seat in Coach) Tours are operational everyday between 15th April – 15th October, except Pergamon Acropol – operates on Tuesday – Saturday on SIC (Seat in Coach) basis</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-600 mr-2">•</span>
+                <span>During the tours, the pickups & drop offs from airports require arrivals no later than 08:30 am, departures no earlier than 20:00 hrs</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-600 mr-2">•</span>
+                <span>All tours are accompanied by a Professional English-Speaking Tour Guide, any other language will be charged separately and operated on PVT (Private) basis only</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-600 mr-2">•</span>
+                <span>Spanish, Portuguese, Italian, Japanese will require EUR 100.- / per tour</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-600 mr-2">•</span>
+                <span>All tours will be operated with A/C Deluxe Mercedes Sprinter or same category vehicles</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-600 mr-2">•</span>
+                <span>All entrance fees, parking fees, toll fees as per following itineraries are included in the given prices</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-600 mr-2">•</span>
+                <span>All Full Day Tours are inclusive of local lunch</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-600 mr-2">•</span>
+                <span>70% no-show applied to tour and transfer cancellations within 24 hours to departure</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-600 mr-2">•</span>
+                <span>All clients arriving to Izmir airport and depart directly for tours, need to pay EUR 20.- / per person / supplement cost / one way</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-blue-600 mr-2">•</span>
+                <span>Pick up times will be given one day prior to departure by our office</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+      )}
+
       {/* What's Included Section */}
       <section className="section-container py-16">
         <div className="max-w-4xl mx-auto text-center bg-white rounded-lg p-8 shadow-md">

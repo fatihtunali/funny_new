@@ -3,7 +3,7 @@ import { getAdminFromToken } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaPlus, FaEdit, FaEye } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaEye, FaEnvelope } from 'react-icons/fa';
 import LogoutButton from '@/components/admin/LogoutButton';
 import DeletePackageButton from '@/components/admin/DeletePackageButton';
 
@@ -21,6 +21,12 @@ export default async function AdminDashboard() {
   const dailyTours = await prisma.dailyTour.findMany({
     orderBy: { tourCode: 'asc' },
   });
+
+  const inquiries = await prisma.contactInquiry.findMany({
+    orderBy: { createdAt: 'desc' },
+  });
+
+  const unrepliedInquiriesCount = inquiries.filter(i => !i.replied).length;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -115,6 +121,22 @@ export default async function AdminDashboard() {
                 <FaPlus className="text-2xl text-purple-600" />
               </div>
             </div>
+          </Link>
+          <Link href="/admin/inquiries" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow relative">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 mb-2">Inquiries & Quotes</p>
+                <p className="text-lg font-semibold text-indigo-600">View Inquiries →</p>
+              </div>
+              <div className="bg-indigo-100 rounded-full p-3">
+                <FaEnvelope className="text-2xl text-indigo-600" />
+              </div>
+            </div>
+            {unrepliedInquiriesCount > 0 && (
+              <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
+                {unrepliedInquiriesCount}
+              </div>
+            )}
           </Link>
         </div>
 

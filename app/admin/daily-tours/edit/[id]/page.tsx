@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaArrowLeft, FaSave } from 'react-icons/fa';
 
 interface DailyTour {
@@ -361,64 +362,72 @@ export default function EditDailyTourPage() {
               />
             </div>
 
-            {/* Image URL */}
+            {/* Image Selector */}
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Image
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                Select Image
               </label>
-              <select
-                value={tour.image || ''}
-                onChange={(e) => updateField('image', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              >
-                <option value="">Select an image...</option>
-                <optgroup label="Destinations">
-                  <option value="/images/destinations/istanbul.jpg">Istanbul</option>
-                  <option value="/images/destinations/cappadocia.jpg">Cappadocia</option>
-                  <option value="/images/destinations/ephesus.jpg">Ephesus</option>
-                  <option value="/images/destinations/pamukkale.jpg">Pamukkale</option>
-                  <option value="/images/destinations/antalya.jpg">Antalya</option>
-                </optgroup>
-                <optgroup label="Istanbul">
-                  <option value="/images/BlueMosqueIstanbul.jpg">Blue Mosque</option>
-                  <option value="/images/BlueMosqueIstanbul6minarets.jpg">Blue Mosque (6 Minarets)</option>
-                  <option value="/images/ayasofya.jpg">Hagia Sophia</option>
-                  <option value="/images/BosphorusCruiseIstanbul.jpg">Bosphorus Cruise</option>
-                  <option value="/images/BosphorusCruiseIstanbul2.jpg">Bosphorus Cruise 2</option>
-                  <option value="/images/BosphorusBridgeNightIstanbul.jpg">Bosphorus Bridge Night</option>
-                  <option value="/images/IstanbulatNight.jpeg">Istanbul at Night</option>
-                  <option value="/images/GalatatowerIstanbul.jpg">Galata Tower</option>
-                  <option value="/images/topkapipalace.jpg">Topkapi Palace</option>
-                  <option value="/images/grandbazaaristanbul.jpg">Grand Bazaar</option>
-                </optgroup>
-                <optgroup label="Cappadocia">
-                  <option value="/images/cappadociaballoonride.jpg">Balloon Ride</option>
-                  <option value="/images/cappadocianight.jpg">Cappadocia Night</option>
-                  <option value="/images/Cappadociavalley.jpg">Cappadocia Valley</option>
-                </optgroup>
-                <optgroup label="Antalya">
-                  <option value="/images/AntalyaHarbour.jpg">Antalya Harbour</option>
-                  <option value="/images/AntalyaOldCity.jpg">Antalya Old City</option>
-                  <option value="/images/AntalyaOldCity1.jpg">Antalya Old City 2</option>
-                  <option value="/images/antalya-port.jpg">Antalya Port</option>
-                  <option value="/images/antalyakekova.jpg">Antalya Kekova</option>
-                </optgroup>
-                <optgroup label="Ephesus">
-                  <option value="/images/Ephesus_Library.jpg">Ephesus Library</option>
-                  <option value="/images/Ephesus_Library2.jpg">Ephesus Library 2</option>
-                  <option value="/images/kusadasi.jpg">Kusadasi</option>
-                </optgroup>
-                <optgroup label="Pamukkale">
-                  <option value="/images/PamukkaleTravertenler.jpg">Pamukkale Travertines</option>
-                </optgroup>
-                <optgroup label="Other Cities">
-                  <option value="/images/bursa.webp">Bursa</option>
-                  <option value="/images/bursa1.jpg">Bursa 2</option>
-                  <option value="/images/anitkabir.jpg">Anitkabir (Ankara)</option>
-                </optgroup>
-              </select>
-              <p className="text-xs text-gray-500 mt-1">
-                Select an image from public/images folder
+              <div className="border border-gray-300 rounded-lg p-4 max-h-96 overflow-y-auto">
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+                  {[
+                    { path: '/images/BlueMosqueIstanbul.jpg', name: 'Blue Mosque' },
+                    { path: '/images/BlueMosqueIstanbul6minarets.jpg', name: 'Blue Mosque 6' },
+                    { path: '/images/ayasofya.jpg', name: 'Hagia Sophia' },
+                    { path: '/images/BosphorusCruiseIstanbul.jpg', name: 'Bosphorus' },
+                    { path: '/images/BosphorusCruiseIstanbul2.jpg', name: 'Bosphorus 2' },
+                    { path: '/images/BosphorusBridgeNightIstanbul.jpg', name: 'Bosphorus Night' },
+                    { path: '/images/IstanbulatNight.jpeg', name: 'Istanbul Night' },
+                    { path: '/images/GalatatowerIstanbul.jpg', name: 'Galata Tower' },
+                    { path: '/images/topkapipalace.jpg', name: 'Topkapi' },
+                    { path: '/images/grandbazaaristanbul.jpg', name: 'Grand Bazaar' },
+                    { path: '/images/cappadociaballoonride.jpg', name: 'Cappadocia' },
+                    { path: '/images/cappadocianight.jpg', name: 'Cappadocia Night' },
+                    { path: '/images/Cappadociavalley.jpg', name: 'Cappadocia Valley' },
+                    { path: '/images/AntalyaHarbour.jpg', name: 'Antalya Harbour' },
+                    { path: '/images/AntalyaOldCity.jpg', name: 'Antalya Old City' },
+                    { path: '/images/antalya-port.jpg', name: 'Antalya Port' },
+                    { path: '/images/antalyakekova.jpg', name: 'Kekova' },
+                    { path: '/images/Ephesus_Library.jpg', name: 'Ephesus Library' },
+                    { path: '/images/Ephesus_Library2.jpg', name: 'Ephesus Library 2' },
+                    { path: '/images/kusadasi.jpg', name: 'Kusadasi' },
+                    { path: '/images/PamukkaleTravertenler.jpg', name: 'Pamukkale' },
+                    { path: '/images/bursa.webp', name: 'Bursa' },
+                    { path: '/images/anitkabir.jpg', name: 'Anitkabir' },
+                  ].map((img) => (
+                    <div
+                      key={img.path}
+                      onClick={() => updateField('image', img.path)}
+                      className={`relative cursor-pointer border-2 rounded-lg overflow-hidden transition-all hover:scale-105 ${
+                        tour.image === img.path
+                          ? 'border-primary-600 ring-2 ring-primary-300'
+                          : 'border-gray-200 hover:border-primary-400'
+                      }`}
+                    >
+                      <div className="aspect-video relative">
+                        <Image
+                          src={img.path}
+                          alt={img.name}
+                          fill
+                          className="object-cover"
+                          sizes="150px"
+                        />
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 text-center">
+                        {img.name}
+                      </div>
+                      {tour.image === img.path && (
+                        <div className="absolute top-1 right-1 bg-primary-600 text-white rounded-full p-1">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <p className="text-xs text-gray-500 mt-2">
+                Current: {tour.image || 'No image selected'}
               </p>
             </div>
 

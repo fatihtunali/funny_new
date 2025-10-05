@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "create-admin": "tsx scripts/create-admin.ts",
-    "create-agent": "tsx scripts/create-agent.ts"
+    "create-agent": "tsx scripts/create-agent.ts",
+    "test-email": "tsx scripts/test-email.ts"
   },
   "repository": {
     "type": "git",

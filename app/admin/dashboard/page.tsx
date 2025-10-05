@@ -18,6 +18,10 @@ export default async function AdminDashboard() {
     orderBy: { packageId: 'asc' },
   });
 
+  const dailyTours = await prisma.dailyTour.findMany({
+    orderBy: { tourCode: 'asc' },
+  });
+
   return (
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
@@ -104,7 +108,7 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center">
               <div className="bg-blue-100 rounded-full p-3">
@@ -125,6 +129,30 @@ export default async function AdminDashboard() {
                 <p className="text-sm text-gray-600">Active Packages</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {packages.filter(p => p.isActive).length}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <div className="bg-teal-100 rounded-full p-3">
+                <FaEdit className="text-2xl text-teal-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm text-gray-600">Total Daily Tours</p>
+                <p className="text-2xl font-bold text-gray-900">{dailyTours.length}</p>
+              </div>
+            </div>
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <div className="flex items-center">
+              <div className="bg-orange-100 rounded-full p-3">
+                <FaEye className="text-2xl text-orange-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm text-gray-600">Active Daily Tours</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {dailyTours.filter(t => t.isActive).length}
                 </p>
               </div>
             </div>

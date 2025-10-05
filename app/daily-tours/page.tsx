@@ -20,7 +20,13 @@ interface DailyTour {
 
 export default function DailyToursPage() {
   const [tours, setTours] = useState<DailyTour[]>([]);
+  const [filteredTours, setFilteredTours] = useState<DailyTour[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Filter states
+  const [selectedCity, setSelectedCity] = useState<string>('all');
+  const [selectedDuration, setSelectedDuration] = useState<string>('all');
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
 
   useEffect(() => {
     const fetchTours = async () => {
@@ -28,6 +34,7 @@ export default function DailyToursPage() {
         const res = await fetch('/api/daily-tours?category=DAILY_TOUR');
         const data = await res.json();
         setTours(data.tours || []);
+        setFilteredTours(data.tours || []);
       } catch (error) {
         console.error('Error fetching daily tours:', error);
       } finally {
@@ -37,6 +44,32 @@ export default function DailyToursPage() {
 
     fetchTours();
   }, []);
+
+  // Apply filters
+  useEffect(() => {
+    let filtered = [...tours];
+
+    // City filter
+    if (selectedCity !== 'all') {
+      filtered = filtered.filter(tour => tour.city === selectedCity);
+    }
+
+    // Duration filter
+    if (selectedDuration !== 'all') {
+      filtered = filtered.filter(tour => tour.duration === selectedDuration);
+    }
+
+    // Price filter
+    filtered = filtered.filter(tour =>
+      tour.sicPrice >= priceRange[0] && tour.sicPrice <= priceRange[1]
+    );
+
+    setFilteredTours(filtered);
+  }, [selectedCity, selectedDuration, priceRange, tours]);
+
+  // Get unique values for filters
+  const cities = Array.from(new Set(tours.map(t => t.city))).sort();
+  const durations = Array.from(new Set(tours.map(t => t.duration))).sort();
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -77,7 +110,7 @@ export default function DailyToursPage() {
         </div>
       </section>
 
-      {/* Tours Section */}
+      {/* Tours Section with Filters */}
       <section className="bg-gray-50 py-16">
         <div className="section-container">
           <div className="text-center mb-12">
@@ -87,9 +120,84 @@ export default function DailyToursPage() {
             </p>
           </div>
 
-          {loading ? (
-            <PackageGridSkeleton count={6} />
-          ) : tours.length === 0 ? (
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Filter Sidebar */}
+            <div className="lg:w-64 flex-shrink-0">
+              <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Filter Tours</h3>
+
+                {/* City Filter */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
+                  <select
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  >
+                    <option value="all">All Cities</option>
+                    {cities.map(city => (
+                      <option key={city} value={city}>{city}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Duration Filter */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Duration</label>
+                  <select
+                    value={selectedDuration}
+                    onChange={(e) => setSelectedDuration(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  >
+                    <option value="all">All Durations</option>
+                    {durations.map(duration => (
+                      <option key={duration} value={duration}>{duration}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Price Range Filter */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Price Range: €{priceRange[0]} - €{priceRange[1]}
+                  </label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="500"
+                    value={priceRange[1]}
+                    onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Reset Filters */}
+                <button
+                  onClick={() => {
+                    setSelectedCity('all');
+                    setSelectedDuration('all');
+                    setPriceRange([0, 500]);
+                  }}
+                  className="w-full text-sm text-primary-600 hover:text-primary-700 font-medium"
+                >
+                  Reset Filters
+                </button>
+
+                {/* Results Count */}
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <p className="text-sm text-gray-600">
+                    Showing <span className="font-semibold">{filteredTours.length}</span> of{' '}
+                    <span className="font-semibold">{tours.length}</span> tours
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Tours Grid */}
+            <div className="flex-1">
+              {loading ? (
+                <PackageGridSkeleton count={6} />
+              ) : filteredTours.length === 0 && tours.length === 0 ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -109,9 +217,23 @@ export default function DailyToursPage() {
                 Contact Us for Custom Tours
               </Link>
             </motion.div>
+          ) : filteredTours.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600 text-lg mb-4">No tours match your filters.</p>
+              <button
+                onClick={() => {
+                  setSelectedCity('all');
+                  setSelectedDuration('all');
+                  setPriceRange([0, 500]);
+                }}
+                className="text-primary-600 hover:text-primary-700 font-medium"
+              >
+                Reset Filters
+              </button>
+            </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {tours.map((tour) => (
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+              {filteredTours.map((tour) => (
                 <motion.div
                   key={tour.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -169,8 +291,10 @@ export default function DailyToursPage() {
                   </div>
                 </motion.div>
               ))}
+              </div>
+            )}
             </div>
-          )}
+          </div>
         </div>
       </section>
 

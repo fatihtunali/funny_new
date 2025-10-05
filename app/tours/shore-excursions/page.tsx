@@ -368,7 +368,7 @@ export default function ShoreExcursionsPage() {
                       </div>
 
                       <Link
-                        href={`/tours/hotels-packages/package/${exc.packageId}`}
+                        href={`/tours/daily-tours/${exc.packageId.toLowerCase()}`}
                         className="block w-full text-center btn-primary text-sm"
                       >
                         View Details & Book

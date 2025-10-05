@@ -488,7 +488,11 @@ export default function AllPackagesPage() {
 
                         <div className="flex gap-2">
                           <Link
-                            href={`/tours/hotels-packages/package/${pkg.packageId}`}
+                            href={
+                              pkg.packageType === 'DAILY_TOUR' || pkg.packageType === 'SHORE_EXCURSION'
+                                ? `/tours/daily-tours/${pkg.packageId.toLowerCase()}`
+                                : `/tours/hotels-packages/package/${pkg.packageId}`
+                            }
                             className="flex-1 flex items-center justify-center btn-primary text-sm"
                           >
                             View Details

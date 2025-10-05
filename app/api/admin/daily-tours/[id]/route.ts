@@ -58,6 +58,8 @@ export async function PUT(
         notes: data.notes || null,
         port: data.port || null,
         pickupLocations: data.pickupLocations || null,
+        image: data.image || null,
+        pdfUrl: data.pdfUrl || null,
         isActive: data.isActive,
       },
     });

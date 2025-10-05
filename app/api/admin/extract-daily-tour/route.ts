@@ -146,7 +146,7 @@ Return ONLY valid JSON, no markdown formatting or code blocks.`,
     });
 
     // Run the assistant
-    const run = await openai.beta.threads.runs.createAndPoll(thread.id, {
+    await openai.beta.threads.runs.createAndPoll(thread.id, {
       assistant_id: assistant.id,
     });
 
@@ -173,8 +173,8 @@ Return ONLY valid JSON, no markdown formatting or code blocks.`,
       }
 
       // Clean up OpenAI resources
-      await openai.files.del(uploadedFile.id);
-      await openai.beta.assistants.del(assistant.id);
+      await openai.files.delete(uploadedFile.id);
+      await openai.beta.assistants.delete(assistant.id);
 
       return NextResponse.json({
         success: true,

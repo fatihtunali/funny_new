@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { FaArrowLeft, FaUpload, FaPlus, FaSave } from 'react-icons/fa';
+import { FaArrowLeft, FaUpload, FaSave } from 'react-icons/fa';
 
 interface DailyTour {
   tourCode: string;

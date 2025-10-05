@@ -97,7 +97,11 @@ export default function AddDailyTourPage() {
 
       if (data.success) {
         alert(`Successfully saved ${data.count} tour(s)!`);
+        // Clear the form and redirect to list
+        setTours([]);
+        setSelectedFile(null);
         router.push('/admin/daily-tours');
+        router.refresh();
       } else {
         alert('Failed to save tours: ' + (data.error || 'Unknown error'));
       }

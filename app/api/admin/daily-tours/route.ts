@@ -35,30 +35,53 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Validate and sanitize tour data
+    const sanitizedTours = tours.map((tour, index) => {
+      // Validate required fields
+      if (!tour.tourCode || !tour.title || !tour.description || !tour.duration || !tour.city) {
+        throw new Error(`Tour ${index + 1} is missing required fields`);
+      }
+
+      // Parse and validate pricing
+      const sicPrice = parseFloat(tour.sicPrice);
+      const privateMin2 = parseFloat(tour.privateMin2);
+      const privateMin4 = parseFloat(tour.privateMin4);
+      const privateMin6 = parseFloat(tour.privateMin6);
+      const privateMin8 = parseFloat(tour.privateMin8);
+      const privateMin10 = parseFloat(tour.privateMin10);
+
+      if (isNaN(sicPrice) || isNaN(privateMin2) || isNaN(privateMin4) ||
+          isNaN(privateMin6) || isNaN(privateMin8) || isNaN(privateMin10)) {
+        throw new Error(`Tour ${index + 1} (${tour.tourCode}) has invalid pricing values`);
+      }
+
+      return {
+        tourCode: tour.tourCode.trim(),
+        title: tour.title.trim(),
+        description: tour.description.trim(),
+        duration: tour.duration.trim(),
+        city: tour.city.trim(),
+        sicPrice,
+        privateMin2,
+        privateMin4,
+        privateMin6,
+        privateMin8,
+        privateMin10,
+        included: tour.included || null,
+        notIncluded: tour.notIncluded || null,
+        notes: tour.notes || null,
+        port: tour.port || null,
+        pickupLocations: tour.pickupLocations || null,
+        image: tour.image || '/images/destinations/istanbul.jpg',
+        pdfUrl: tour.pdfUrl || null,
+      };
+    });
+
     // Create all tours
     const createdTours = await Promise.all(
-      tours.map((tour) =>
+      sanitizedTours.map((tour) =>
         prisma.dailyTour.create({
-          data: {
-            tourCode: tour.tourCode,
-            title: tour.title,
-            description: tour.description,
-            duration: tour.duration,
-            city: tour.city,
-            sicPrice: parseFloat(tour.sicPrice),
-            privateMin2: parseFloat(tour.privateMin2),
-            privateMin4: parseFloat(tour.privateMin4),
-            privateMin6: parseFloat(tour.privateMin6),
-            privateMin8: parseFloat(tour.privateMin8),
-            privateMin10: parseFloat(tour.privateMin10),
-            included: tour.included || null,
-            notIncluded: tour.notIncluded || null,
-            notes: tour.notes || null,
-            port: tour.port || null,
-            pickupLocations: tour.pickupLocations || null,
-            image: tour.image || '/images/destinations/istanbul.jpg',
-            pdfUrl: tour.pdfUrl || null,
-          },
+          data: tour,
         })
       )
     );

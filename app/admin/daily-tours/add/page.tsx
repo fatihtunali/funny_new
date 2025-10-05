@@ -130,7 +130,22 @@ export default function AddDailyTourPage() {
 
   const updateTour = (index: number, field: keyof DailyTour, value: string | number) => {
     const newTours = [...tours];
-    newTours[index] = { ...newTours[index], [field]: value };
+
+    // Handle numeric fields - ensure valid numbers, treat "N/A" as 0
+    if (field === 'sicPrice' || field === 'privateMin2' || field === 'privateMin4' ||
+        field === 'privateMin6' || field === 'privateMin8' || field === 'privateMin10') {
+
+      // If value is "N/A" or similar, set to 0
+      if (typeof value === 'string' && value.toUpperCase().trim() === 'N/A') {
+        newTours[index] = { ...newTours[index], [field]: 0 };
+      } else {
+        const numValue = typeof value === 'string' ? parseFloat(value) : value;
+        newTours[index] = { ...newTours[index], [field]: isNaN(numValue) ? 0 : numValue };
+      }
+    } else {
+      newTours[index] = { ...newTours[index], [field]: value };
+    }
+
     setTours(newTours);
   };
 
@@ -280,11 +295,13 @@ export default function AddDailyTourPage() {
                         SIC Price (€)
                       </label>
                       <input
-                        type="number"
+                        type="text"
                         value={tour.sicPrice}
-                        onChange={(e) => updateTour(index, 'sicPrice', parseFloat(e.target.value))}
+                        onChange={(e) => updateTour(index, 'sicPrice', e.target.value)}
+                        placeholder="0 or N/A"
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                       />
+                      <p className="text-xs text-gray-500 mt-1">Enter price or "N/A" if not available</p>
                     </div>
 
                     <div>

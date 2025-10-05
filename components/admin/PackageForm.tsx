@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaArrowLeft, FaSave, FaFilePdf, FaMagic } from 'react-icons/fa';
+import ImageSelector from '@/components/admin/ImageSelector';
 
 interface InitialPackageData {
   packageId?: string;
@@ -517,15 +518,11 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Image URL *
+                  Select Image *
                 </label>
-                <input
-                  type="text"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                  placeholder="/images/package.jpg"
-                  required
+                <ImageSelector
+                  selectedImage={image}
+                  onSelect={setImage}
                 />
               </div>
             </div>

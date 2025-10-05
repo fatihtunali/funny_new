@@ -262,13 +262,19 @@ export default function DailyToursPage() {
 
                     <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 mb-4">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">From</span>
-                        <div className="flex items-center gap-1 text-orange-700 text-lg font-bold">
-                          <FaEuroSign className="text-sm" />
-                          {tour.sicPrice}
-                        </div>
+                        <span className="text-sm text-gray-600">SIC Price</span>
+                        {tour.sicPrice > 0 ? (
+                          <div className="flex items-center gap-1 text-orange-700 text-lg font-bold">
+                            <FaEuroSign className="text-sm" />
+                            {tour.sicPrice}
+                          </div>
+                        ) : (
+                          <span className="text-sm font-bold text-gray-600">N/A</span>
+                        )}
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">per person</p>
+                      {tour.sicPrice > 0 && (
+                        <p className="text-xs text-gray-500 mt-1">per person</p>
+                      )}
                     </div>
 
                     <Link

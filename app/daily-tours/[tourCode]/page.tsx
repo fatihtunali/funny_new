@@ -187,9 +187,15 @@ export default function DailyTourDetailPage({ params }: PageProps) {
                   <FaUsers className="text-2xl text-orange-600" />
                 </div>
                 <div className="flex items-center gap-2">
-                  <FaEuroSign className="text-orange-700" />
-                  <span className="text-3xl font-bold text-orange-700">{tour.sicPrice}</span>
-                  <span className="text-gray-600">/ person</span>
+                  {tour.sicPrice > 0 ? (
+                    <>
+                      <FaEuroSign className="text-orange-700" />
+                      <span className="text-3xl font-bold text-orange-700">{tour.sicPrice}</span>
+                      <span className="text-gray-600">/ person</span>
+                    </>
+                  ) : (
+                    <span className="text-2xl font-bold text-gray-600">N/A</span>
+                  )}
                 </div>
               </div>
 

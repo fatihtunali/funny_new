@@ -1,9 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { FaArrowLeft, FaUpload, FaSave, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaArrowLeft, FaUpload, FaSave, FaEdit } from 'react-icons/fa';
 import DeleteDailyTourButton from '@/components/admin/DeleteDailyTourButton';
 
 interface DailyTour {
@@ -34,7 +33,6 @@ interface SavedTour extends DailyTour {
 }
 
 export default function AddDailyTourPage() {
-  const router = useRouter();
   const [isExtracting, setIsExtracting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [tours, setTours] = useState<DailyTour[]>([]);

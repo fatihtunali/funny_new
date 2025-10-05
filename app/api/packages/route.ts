@@ -56,14 +56,14 @@ export async function GET(req: NextRequest) {
         description: tour.description,
         pdfUrl: tour.pdfUrl,
         highlights: tour.description,
-        pricing: {
+        pricing: JSON.stringify({
           sicPrice: tour.sicPrice,
           privateMin2: tour.privateMin2,
           privateMin4: tour.privateMin4,
           privateMin6: tour.privateMin6,
           privateMin8: tour.privateMin8,
           privateMin10: tour.privateMin10,
-        },
+        }),
         slug: tour.tourCode.toLowerCase(),
       }));
 

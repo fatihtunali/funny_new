@@ -167,7 +167,7 @@ export default function BookingModal({ isOpen, onClose, packageData }: BookingMo
           travelDate,
           duration: packageData.duration,
           hotelCategory: packageData.selectedHotel,
-          adults: totalPax, // Will be updated based on passengerType count
+          adults: passengers.filter((p) => p.passengerType === 'ADULT').length,
           children3to5: 0,
           children6to10: 0,
           totalPrice: packageData.totalPrice,

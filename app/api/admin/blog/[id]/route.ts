@@ -59,29 +59,17 @@ export async function PUT(
           .replace(/(^-|-$)/g, '')
       : undefined;
 
-    const updateData: {
-      title?: string;
-      slug?: string;
-      excerpt?: string;
-      content?: string;
-      coverImage?: string | null;
-      category?: string;
-      tags?: string;
-      metaTitle?: string;
-      metaDescription?: string;
-      status?: string;
-      publishedAt?: Date;
-    } = {
-      ...(title && { title }),
-      ...(slug && { slug }),
-      ...(excerpt && { excerpt }),
-      ...(content && { content }),
-      ...(coverImage !== undefined && { coverImage }),
-      ...(category && { category }),
-      ...(tags && { tags: JSON.stringify(tags) }),
-      ...(metaTitle && { metaTitle }),
-      ...(metaDescription && { metaDescription }),
-    };
+    const updateData: Record<string, unknown> = {};
+
+    if (title) updateData.title = title;
+    if (slug) updateData.slug = slug;
+    if (excerpt) updateData.excerpt = excerpt;
+    if (content) updateData.content = content;
+    if (coverImage !== undefined) updateData.coverImage = coverImage || undefined;
+    if (category) updateData.category = category;
+    if (tags) updateData.tags = JSON.stringify(tags);
+    if (metaTitle) updateData.metaTitle = metaTitle;
+    if (metaDescription) updateData.metaDescription = metaDescription;
 
     console.log('Updating blog post with data:', updateData);
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAgent } from '@/lib/agentAuth';
 import prisma from '@/lib/prisma';
+import { PassengerType } from '@prisma/client';
 
 // Get agent's bookings
 export async function GET() {
@@ -176,7 +177,7 @@ export async function POST(request: NextRequest) {
             passportNumber: passenger.passportNumber,
             passportExpiry: new Date(passenger.passportExpiry),
             passportIssuingCountry: passenger.passportIssuingCountry,
-            passengerType: passenger.passengerType || 'ADULT',
+            passengerType: (passenger.passengerType || 'ADULT') as PassengerType,
           })),
         },
       },

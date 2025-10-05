@@ -54,14 +54,6 @@ export default function ShoreExcursionsPage() {
     { value: 'both', label: 'Port & Hotel Pickup' }
   ];
 
-  useEffect(() => {
-    fetchExcursions();
-  }, []);
-
-  useEffect(() => {
-    applyFilters();
-  }, [excursions, selectedPorts, selectedDurations, selectedPickupTypes, applyFilters]);
-
   const fetchExcursions = async () => {
     try {
       // For now, we'll filter packages that are suitable for shore excursions
@@ -110,6 +102,14 @@ export default function ShoreExcursionsPage() {
 
     setFilteredExcursions(filtered);
   }, [excursions, selectedPorts, selectedDurations]);
+
+  useEffect(() => {
+    fetchExcursions();
+  }, []);
+
+  useEffect(() => {
+    applyFilters();
+  }, [excursions, selectedPorts, selectedDurations, selectedPickupTypes, applyFilters]);
 
   const toggleFilter = (filterArray: string[], setFilterArray: (value: string[]) => void, value: string) => {
     if (filterArray.includes(value)) {

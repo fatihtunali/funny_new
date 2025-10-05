@@ -7,8 +7,14 @@ import { motion } from 'framer-motion';
 import { FaHotel, FaClock, FaMapMarkerAlt, FaFilePdf } from 'react-icons/fa';
 
 interface HotelPackage {
+  packageId: string;
+  title: string;
+  description: string;
+  image: string;
+  duration: string;
+  destinations: string;
+  pdfUrl?: string;
   pricing: Record<string, unknown>;
-  [key: string]: unknown;
 }
 
 export default function HotelsPackagesPage() {

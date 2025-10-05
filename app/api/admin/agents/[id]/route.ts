@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminAuth';
 import prisma from '@/lib/prisma';
+import { AgentStatus } from '@prisma/client';
 
 interface Params {
   params: Promise<{
@@ -17,7 +18,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     const { status, commissionRate } = body;
 
     const updateData: {
-      status?: string;
+      status?: AgentStatus;
       approvedAt?: Date;
       approvedBy?: string;
       commissionRate?: number;
@@ -30,7 +31,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
           { status: 400 }
         );
       }
-      updateData.status = status;
+      updateData.status = status as AgentStatus;
 
       // Set approved date and admin when activating
       if (status === 'ACTIVE') {

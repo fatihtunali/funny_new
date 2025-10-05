@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { BlogStatus } from '@prisma/client';
 
 // GET all published blog posts (public)
 export async function GET(req: NextRequest) {
@@ -8,7 +9,7 @@ export async function GET(req: NextRequest) {
     const category = searchParams.get('category');
     const limit = searchParams.get('limit');
 
-    const where: { status: string; category?: string } = { status: 'PUBLISHED' };
+    const where: { status: BlogStatus; category?: string } = { status: BlogStatus.PUBLISHED };
     if (category) {
       where.category = category;
     }

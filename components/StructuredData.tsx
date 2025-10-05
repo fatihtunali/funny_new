@@ -14,7 +14,7 @@ export default function StructuredData({ data }: StructuredDataProps) {
   );
 }
 
-interface PackageSchemaData {
+export interface PackageSchemaData {
   title: string;
   description: string;
   image: string;

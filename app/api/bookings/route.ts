@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
 import prisma from '@/lib/prisma';
 import { sendEmail, generateBookingConfirmationEmail } from '@/lib/email';
+import { PassengerType } from '@prisma/client';
 
 // Generate booking reference number
 function generateReferenceNumber(): string {
@@ -133,7 +134,7 @@ export async function POST(request: NextRequest) {
             passportNumber: passenger.passportNumber,
             passportExpiry: new Date(passenger.passportExpiry),
             passportIssuingCountry: passenger.passportIssuingCountry,
-            passengerType: passenger.passengerType || 'ADULT',
+            passengerType: (passenger.passengerType || 'ADULT') as PassengerType,
           })),
         },
       },

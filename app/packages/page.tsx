@@ -42,14 +42,6 @@ export default function AllPackagesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('newest');
 
-  useEffect(() => {
-    fetchPackages();
-  }, []);
-
-  useEffect(() => {
-    applyFilters();
-  }, [packages, selectedDestinations, selectedTypes, selectedDurations, priceRange, searchQuery, sortBy, applyFilters]);
-
   const fetchPackages = async () => {
     try {
       const res = await fetch('/api/packages');
@@ -127,6 +119,14 @@ export default function AllPackagesPage() {
 
     setFilteredPackages(filtered);
   }, [packages, searchQuery, selectedDestinations, selectedTypes, selectedDurations, priceRange, sortBy]);
+
+  useEffect(() => {
+    fetchPackages();
+  }, []);
+
+  useEffect(() => {
+    applyFilters();
+  }, [packages, selectedDestinations, selectedTypes, selectedDurations, priceRange, searchQuery, sortBy, applyFilters]);
 
   const getPackageMinPrice = (pkg: Package): number => {
     try {

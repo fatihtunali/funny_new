@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminAuth';
 import prisma from '@/lib/prisma';
+import { BookingStatus } from '@prisma/client';
 
 export async function PATCH(
   request: NextRequest,
@@ -42,12 +43,12 @@ export async function PATCH(
 
     // Update the booking
     const updateData: {
-      status: string;
+      status: BookingStatus;
       updatedAt: Date;
       confirmedAt?: Date;
       completedAt?: Date;
     } = {
-      status,
+      status: status as BookingStatus,
       updatedAt: new Date(),
     };
 

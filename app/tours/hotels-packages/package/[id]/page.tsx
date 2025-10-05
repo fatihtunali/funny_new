@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { FaClock, FaHotel, FaMapMarkerAlt, FaCalendarAlt, FaUsers, FaDownload } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import BookingModal from '@/components/BookingModal';
-import StructuredData, { generateTourPackageSchema, generateBreadcrumbSchema } from '@/components/StructuredData';
+import StructuredData, { generateTourPackageSchema, generateBreadcrumbSchema, type PackageSchemaData } from '@/components/StructuredData';
 import { PackageDetailSkeleton } from '@/components/LoadingSkeleton';
 
 export default function PackageDetailPage() {
@@ -15,12 +15,21 @@ export default function PackageDetailPage() {
   const packageId = params.id as string;
 
   interface PkgData {
+    title: string;
+    description: string;
+    image: string;
+    packageId: string;
+    duration: string;
+    destinations: string[];
     itinerary: Array<{ day: number; title: string; description: string; meals: string }>;
     included: string[];
     notIncluded: string[];
     hotels: Record<string, string[]>;
-    highlights: string;
-    [key: string]: unknown;
+    highlights: string | string[];
+    pdfUrl?: string;
+    pricing?: {
+      paxTiers?: Record<string, Record<string, Record<string, number>>>;
+    };
   }
 
   const [pkg, setPkg] = useState<PkgData | null>(null);
@@ -94,11 +103,12 @@ export default function PackageDetailPage() {
           totalPrice += pricePerPerson * paxInRoom;
         });
       }
-    } else {
+    } else if (pkg.pricing) {
       // Fallback to old structure
+      const pricing = pkg.pricing as Record<string, Record<string, number>>;
       rooms.forEach(paxInRoom => {
         const roomType = paxInRoom === 1 ? 'single' : paxInRoom === 2 ? 'double' : 'triple';
-        const pricePerPerson = pkg.pricing[selectedHotel][roomType] || 0;
+        const pricePerPerson = pricing[selectedHotel]?.[roomType] || 0;
         totalPrice += pricePerPerson * paxInRoom;
       });
     }
@@ -125,7 +135,7 @@ export default function PackageDetailPage() {
   };
 
   // Generate structured data
-  const packageSchema = generateTourPackageSchema(pkg);
+  const packageSchema = generateTourPackageSchema(pkg as unknown as PackageSchemaData);
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: '/' },
     { name: 'Hotel Packages', url: '/tours/hotels-packages' },
@@ -181,7 +191,7 @@ export default function PackageDetailPage() {
             <section>
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Package Highlights</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {pkg.highlights.map((highlight: string, index: number) => (
+                {(Array.isArray(pkg.highlights) ? pkg.highlights : [pkg.highlights]).map((highlight: string, index: number) => (
                   <div key={index} className="flex items-start">
                     <svg className="w-6 h-6 text-green-500 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />

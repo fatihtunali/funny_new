@@ -7,7 +7,14 @@ import { motion } from 'framer-motion';
 import { FaMap, FaClock, FaMapMarkerAlt, FaBus, FaFilePdf } from 'react-icons/fa';
 
 interface LandPackage {
-  [key: string]: unknown;
+  packageId: string;
+  title: string;
+  description: string;
+  image: string;
+  duration: string;
+  destinations: string;
+  pdfUrl?: string;
+  pricing: Record<string, unknown>;
 }
 
 export default function LandPackagesPage() {

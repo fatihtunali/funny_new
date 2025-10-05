@@ -129,6 +129,7 @@ function InquiryFormContent() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
+          subject: 'Quote Request',
           phone: formData.phone,
           message: `
 QUOTE REQUEST

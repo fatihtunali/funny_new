@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { FaClock, FaMapMarkerAlt, FaEuroSign, FaUsers, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
-import BookingModal from '@/components/BookingModal';
+import DailyTourBookingModal from '@/components/DailyTourBookingModal';
 
 interface PageProps {
   params: Promise<{ tourCode: string }>;
@@ -36,12 +36,10 @@ export default function DailyTourDetailPage({ params }: PageProps) {
   const [tour, setTour] = useState<DailyTour | null>(null);
   const [loading, setLoading] = useState(true);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-  const [tourCode, setTourCode] = useState('');
 
   useEffect(() => {
     const fetchTour = async () => {
       const resolvedParams = await params;
-      setTourCode(resolvedParams.tourCode);
 
       try {
         const res = await fetch(`/api/daily-tours?tourCode=${resolvedParams.tourCode.toUpperCase()}`);
@@ -242,16 +240,19 @@ export default function DailyTourDetailPage({ params }: PageProps) {
       </div>
 
       {/* Booking Modal */}
-      <BookingModal
+      <DailyTourBookingModal
         isOpen={isBookingModalOpen}
         onClose={() => setIsBookingModalOpen(false)}
-        packageData={{
-          id: tourCode,
+        tourData={{
+          id: tour.id,
           title: tour.title,
-          duration: tour.duration,
-          selectedHotel: 'N/A',
-          rooms: [1],
-          totalPrice: tour.sicPrice,
+          tourCode: tour.tourCode,
+          sicPrice: tour.sicPrice,
+          privateMin2: tour.privateMin2,
+          privateMin4: tour.privateMin4,
+          privateMin6: tour.privateMin6,
+          privateMin8: tour.privateMin8,
+          privateMin10: tour.privateMin10,
         }}
       />
     </div>

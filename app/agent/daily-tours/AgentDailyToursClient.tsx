@@ -145,12 +145,12 @@ export default function AgentDailyToursClient() {
                     <p className="text-xs">Private (4+ pax): €{tour.privateMin4}/person</p>
                   </div>
                 </div>
-                <button
-                  onClick={() => alert('Contact admin to book daily tours')}
+                <Link
+                  href={`/agent/daily-tours/${tour.id}`}
                   className="block w-full text-center bg-primary-600 text-white py-2 rounded-lg hover:bg-primary-700 transition-colors"
                 >
-                  Request Booking
-                </button>
+                  Book for Customer
+                </Link>
               </div>
             </div>
           ))}

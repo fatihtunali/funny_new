@@ -138,6 +138,17 @@ export default async function AdminDashboard() {
               </div>
             )}
           </Link>
+          <Link href="/admin/commissions" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 mb-2">Agent Commissions</p>
+                <p className="text-lg font-semibold text-green-600">Track Payments →</p>
+              </div>
+              <div className="bg-green-100 rounded-full p-3">
+                <FaEdit className="text-2xl text-green-600" />
+              </div>
+            </div>
+          </Link>
         </div>
 
         {/* Stats */}

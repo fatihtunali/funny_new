@@ -9,6 +9,7 @@ interface AgentToken {
   email: string;
   companyName: string;
   status: string;
+  commissionRate: number;
 }
 
 export async function getAgentFromToken(): Promise<AgentToken | null> {
@@ -30,6 +31,7 @@ export async function getAgentFromToken(): Promise<AgentToken | null> {
         email: true,
         companyName: true,
         status: true,
+        commissionRate: true,
       },
     });
 
@@ -42,6 +44,7 @@ export async function getAgentFromToken(): Promise<AgentToken | null> {
       email: agent.email,
       companyName: agent.companyName,
       status: agent.status,
+      commissionRate: agent.commissionRate,
     };
   } catch {
     return null;

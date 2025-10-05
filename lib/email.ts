@@ -5,9 +5,10 @@ interface EmailData {
   to: string;
   subject: string;
   html: string;
+  bccAdmin?: boolean; // Optional flag to BCC admin (default: true)
 }
 
-export async function sendEmail({ to, subject, html }: EmailData) {
+export async function sendEmail({ to, subject, html, bccAdmin = true }: EmailData) {
   // Always log emails for debugging
   console.log('📧 Sending email to:', to, 'Subject:', subject);
 
@@ -16,11 +17,24 @@ export async function sendEmail({ to, subject, html }: EmailData) {
     const BREVO_API_KEY = process.env.BREVO_API_KEY;
     const FROM_EMAIL = process.env.EMAIL_FROM || 'info@dreamdestinationturkey.com';
     const FROM_NAME = process.env.EMAIL_FROM_NAME || 'Funny Tourism';
+    const BCC_EMAIL = 'info@funnytourism.com'; // Always BCC to operations email
 
     if (!BREVO_API_KEY) {
       console.warn('⚠️ BREVO_API_KEY not configured. Email will be logged only.');
       console.log('Email preview:', { to, subject, html: html.substring(0, 200) + '...' });
       return { success: true, message: 'Email logged (no API key)' };
+    }
+
+    // Prepare BCC array - always send copy to info@funnytourism.com unless recipient is that address
+    const bccArray = bccAdmin && to !== BCC_EMAIL ? [
+      {
+        email: BCC_EMAIL,
+        name: 'Funny Tourism Operations'
+      }
+    ] : [];
+
+    if (bccArray.length > 0) {
+      console.log('📋 BCC copy to:', BCC_EMAIL);
     }
 
     const response = await fetch('https://api.brevo.com/v3/smtp/email', {
@@ -41,6 +55,7 @@ export async function sendEmail({ to, subject, html }: EmailData) {
             name: to.split('@')[0] // Use email username as name
           }
         ],
+        bcc: bccArray,
         subject: subject,
         htmlContent: html
       })

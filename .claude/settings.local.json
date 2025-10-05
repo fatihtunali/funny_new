@@ -12,7 +12,8 @@
       "Bash(npm run lint:*)",
       "Bash(git add:*)",
       "Bash(git commit -m \"$(cat <<''EOF''\nChange image field to dropdown selector from public/images folder\n\n- Replace text input with select dropdown for image selection\n- Organize images by categories: Destinations, Istanbul, Cappadocia, Antalya, Ephesus, Pamukkale, Other Cities\n- Ensures images are only selected from public/images folder\n- Makes it easier to select appropriate images for daily tours\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nImplement Phase 3: Flexible location-based transfer system\n\nMajor Changes:\n- Added TransferLocation model for managing 73 Turkish airports & destinations\n- Migrated Transfer model to use location relationships instead of strings\n- Created location management APIs (/api/admin/locations)\n- Updated transfer APIs to include location data\n- Seeded database with 35 Turkish airports + 38 destinations\n\nAdmin Features:\n- Transfer list page shows location details and types\n- Add transfer form with searchable location dropdowns\n- Location selector with autocomplete search functionality\n- Prevents duplicate routes with unique constraint\n\nDatabase:\n- Safely migrated only transfer tables (preserved all packages/tours/users)\n- Location types: AIRPORT, CITY_CENTER, HOTEL_ZONE, TOURIST_AREA, CRUISE_PORT, CUSTOM\n- Support for airport codes (IST, SAW, AYT, etc.)\n\nRemaining Work:\n- Update admin transfer edit form\n- Create admin location management UI (/admin/locations)\n- Update customer transfer search page with autocomplete\n- Update public transfer API\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

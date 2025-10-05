@@ -4,7 +4,14 @@ import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-const REGIONS = ['Istanbul', 'Antalya', 'Bodrum', 'Cappadocia', 'Kusadasi', 'Pamukkale'];
+interface Location {
+  id: string;
+  name: string;
+  code?: string;
+  type: string;
+  region: string;
+  city?: string;
+}
 
 export default function EditTransferPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -14,11 +21,13 @@ export default function EditTransferPage({ params }: { params: Promise<{ id: str
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [searchFrom, setSearchFrom] = useState('');
+  const [searchTo, setSearchTo] = useState('');
 
   const [formData, setFormData] = useState({
-    region: '',
-    fromLocation: '',
-    toLocation: '',
+    fromLocationId: '',
+    toLocationId: '',
     sicPricePerPerson: '',
     price1to2Pax: '',
     price3to5Pax: '',
@@ -33,8 +42,19 @@ export default function EditTransferPage({ params }: { params: Promise<{ id: str
   });
 
   useEffect(() => {
+    fetchLocations();
     fetchTransfer();
   }, [id]);
+
+  const fetchLocations = async () => {
+    try {
+      const res = await fetch('/api/admin/locations');
+      const data = await res.json();
+      setLocations(data.locations || []);
+    } catch (err) {
+      console.error('Failed to fetch locations:', err);
+    }
+  };
 
   const fetchTransfer = async () => {
     try {
@@ -44,9 +64,8 @@ export default function EditTransferPage({ params }: { params: Promise<{ id: str
       if (data.transfer) {
         const t = data.transfer;
         setFormData({
-          region: t.region || '',
-          fromLocation: t.fromLocation || '',
-          toLocation: t.toLocation || '',
+          fromLocationId: t.fromLocationId || '',
+          toLocationId: t.toLocationId || '',
           sicPricePerPerson: t.sicPricePerPerson?.toString() || '',
           price1to2Pax: t.price1to2Pax?.toString() || '',
           price3to5Pax: t.price3to5Pax?.toString() || '',
@@ -66,6 +85,21 @@ export default function EditTransferPage({ params }: { params: Promise<{ id: str
       setLoading(false);
     }
   };
+
+  const filteredFromLocations = locations.filter(loc =>
+    loc.name.toLowerCase().includes(searchFrom.toLowerCase()) ||
+    loc.code?.toLowerCase().includes(searchFrom.toLowerCase()) ||
+    loc.region.toLowerCase().includes(searchFrom.toLowerCase())
+  );
+
+  const filteredToLocations = locations.filter(loc =>
+    loc.name.toLowerCase().includes(searchTo.toLowerCase()) ||
+    loc.code?.toLowerCase().includes(searchTo.toLowerCase()) ||
+    loc.region.toLowerCase().includes(searchTo.toLowerCase())
+  );
+
+  const selectedFromLocation = locations.find(l => l.id === formData.fromLocationId);
+  const selectedToLocation = locations.find(l => l.id === formData.toLocationId);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -159,67 +193,40 @@ export default function EditTransferPage({ params }: { params: Promise<{ id: str
             </div>
           )}
 
-          {/* Basic Information */}
+          {/* Location Selection */}
           <div className="border-b pb-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Basic Information</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Route Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Region *
-                </label>
-                <select
-                  required
-                  value={formData.region}
-                  onChange={(e) => setFormData({ ...formData, region: e.target.value })}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="">Select Region</option>
-                  {REGIONS.map((region) => (
-                    <option key={region} value={region}>
-                      {region}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Status
-                </label>
-                <div className="flex items-center space-x-4 mt-3">
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={formData.isActive}
-                      onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                      className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">Active</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={formData.onRequestOnly}
-                      onChange={(e) => setFormData({ ...formData, onRequestOnly: e.target.checked })}
-                      className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">On Request Only</span>
-                  </label>
-                </div>
-              </div>
-
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   From Location *
                 </label>
                 <input
                   type="text"
-                  required
-                  value={formData.fromLocation}
-                  onChange={(e) => setFormData({ ...formData, fromLocation: e.target.value })}
-                  placeholder="e.g., IST or SAW Airport"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Search locations..."
+                  value={searchFrom}
+                  onChange={(e) => setSearchFrom(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-2"
                 />
+                <select
+                  required
+                  value={formData.fromLocationId}
+                  onChange={(e) => setFormData({ ...formData, fromLocationId: e.target.value })}
+                  size={8}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">Select From Location</option>
+                  {filteredFromLocations.map((loc) => (
+                    <option key={loc.id} value={loc.id}>
+                      {loc.name} ({loc.type}) - {loc.region}
+                    </option>
+                  ))}
+                </select>
+                {selectedFromLocation && (
+                  <div className="mt-2 text-sm text-gray-600">
+                    Selected: <span className="font-medium">{selectedFromLocation.name}</span> ({selectedFromLocation.type})
+                  </div>
+                )}
               </div>
 
               <div>
@@ -228,12 +235,30 @@ export default function EditTransferPage({ params }: { params: Promise<{ id: str
                 </label>
                 <input
                   type="text"
-                  required
-                  value={formData.toLocation}
-                  onChange={(e) => setFormData({ ...formData, toLocation: e.target.value })}
-                  placeholder="e.g., Taksim"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Search locations..."
+                  value={searchTo}
+                  onChange={(e) => setSearchTo(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-2"
                 />
+                <select
+                  required
+                  value={formData.toLocationId}
+                  onChange={(e) => setFormData({ ...formData, toLocationId: e.target.value })}
+                  size={8}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">Select To Location</option>
+                  {filteredToLocations.map((loc) => (
+                    <option key={loc.id} value={loc.id}>
+                      {loc.name} ({loc.type}) - {loc.region}
+                    </option>
+                  ))}
+                </select>
+                {selectedToLocation && (
+                  <div className="mt-2 text-sm text-gray-600">
+                    Selected: <span className="font-medium">{selectedToLocation.name}</span> ({selectedToLocation.type})
+                  </div>
+                )}
               </div>
 
               <div>
@@ -260,6 +285,32 @@ export default function EditTransferPage({ params }: { params: Promise<{ id: str
                   placeholder="e.g., 45-60 min"
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Status
+                </label>
+                <div className="flex items-center space-x-4">
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={formData.isActive}
+                      onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
+                      className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Active</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={formData.onRequestOnly}
+                      onChange={(e) => setFormData({ ...formData, onRequestOnly: e.target.checked })}
+                      className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">On Request Only (10+ passengers)</span>
+                  </label>
+                </div>
               </div>
             </div>
           </div>

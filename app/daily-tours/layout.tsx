@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Daily Tours in Turkey - Istanbul, Cappadocia & More",
     description: "Explore Turkey with our daily tours. Full-day and half-day tours in Istanbul, Cappadocia, Ephesus & more.",
-    url: "https://dreamdestinationturkey.com/tours/daily-tours",
+    url: "https://dreamdestinationturkey.com/daily-tours",
     type: "website",
     images: [
       {

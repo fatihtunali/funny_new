@@ -49,7 +49,7 @@ export default function Navigation() {
             <Link href="/packages" className="text-gray-700 hover:text-primary-600 transition-colors">
               Packages
             </Link>
-            <Link href="/tours/daily-tours" className="text-gray-700 hover:text-primary-600 transition-colors">
+            <Link href="/daily-tours" className="text-gray-700 hover:text-primary-600 transition-colors">
               Daily Tours
             </Link>
             <Link href="/destinations" className="text-gray-700 hover:text-primary-600 transition-colors">
@@ -119,7 +119,7 @@ export default function Navigation() {
             <Link href="/packages" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
               Packages
             </Link>
-            <Link href="/tours/daily-tours" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
+            <Link href="/daily-tours" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
               Daily Tours
             </Link>
             <Link href="/destinations" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">

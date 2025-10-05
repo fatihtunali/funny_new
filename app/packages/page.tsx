@@ -489,7 +489,7 @@ export default function AllPackagesPage() {
                           <Link
                             href={
                               pkg.packageType === 'DAILY_TOUR'
-                                ? `/tours/daily-tours/${pkg.packageId.toLowerCase()}`
+                                ? `/daily-tours/${pkg.packageId.toLowerCase()}`
                                 : `/tours/hotels-packages/package/${pkg.packageId}`
                             }
                             className="flex-1 flex items-center justify-center btn-primary text-sm"

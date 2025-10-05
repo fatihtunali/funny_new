@@ -172,7 +172,7 @@ export default function DailyToursPage() {
                     </div>
 
                     <Link
-                      href={`/tours/daily-tours/${tour.tourCode.toLowerCase()}`}
+                      href={`/daily-tours/${tour.tourCode.toLowerCase()}`}
                       className="block w-full text-center btn-primary text-sm"
                     >
                       View Details & Book

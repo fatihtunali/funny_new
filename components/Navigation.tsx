@@ -58,15 +58,6 @@ export default function Navigation() {
             <Link href="/destinations" className="text-gray-700 hover:text-primary-600 transition-colors">
               Destinations
             </Link>
-            <Link href="/blog" className="text-gray-700 hover:text-primary-600 transition-colors">
-              Blog
-            </Link>
-            <Link href="/about" className="text-gray-700 hover:text-primary-600 transition-colors">
-              About
-            </Link>
-            <Link href="/contact" className="text-gray-700 hover:text-primary-600 transition-colors">
-              Contact
-            </Link>
 
             <Link href="/agent/register" className="text-sm text-primary-600 hover:text-primary-700 font-medium transition-colors">
               Partner with Us
@@ -130,15 +121,6 @@ export default function Navigation() {
             </Link>
             <Link href="/destinations" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
               Destinations
-            </Link>
-            <Link href="/blog" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
-              Blog
-            </Link>
-            <Link href="/about" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
-              About
-            </Link>
-            <Link href="/contact" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
-              Contact
             </Link>
 
             <Link href="/agent/register" className="block px-4 py-2 text-primary-600 font-medium hover:bg-primary-50 rounded">

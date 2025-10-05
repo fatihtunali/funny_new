@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { sendEmail, generateTransferBookingEmail, generateTransferAdminNotification } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
   try {
@@ -50,8 +51,42 @@ export async function POST(req: NextRequest) {
         paymentStatus: 'PENDING',
       },
       include: {
-        transfer: true,
+        transfer: {
+          include: {
+            fromLocation: true,
+            toLocation: true,
+          }
+        },
       },
+    });
+
+    // Send confirmation email to customer
+    const customerEmailData = {
+      guestName,
+      referenceNumber,
+      fromLocation: booking.transfer.fromLocation.name,
+      toLocation: booking.transfer.toLocation.name,
+      transferDate,
+      transferTime,
+      numberOfPassengers: parseInt(numberOfPassengers),
+      vehicleType,
+      totalPrice: parseFloat(totalPrice),
+      flightNumber,
+      specialRequests,
+    };
+
+    await sendEmail({
+      to: guestEmail,
+      subject: `Transfer Booking Confirmation - ${referenceNumber}`,
+      html: generateTransferBookingEmail(customerEmailData),
+    });
+
+    // Send notification email to admin
+    const adminEmail = process.env.ADMIN_EMAIL || 'info@dreamdestinationturkey.com';
+    await sendEmail({
+      to: adminEmail,
+      subject: `New Transfer Booking - ${referenceNumber}`,
+      html: generateTransferAdminNotification(customerEmailData),
     });
 
     return NextResponse.json({

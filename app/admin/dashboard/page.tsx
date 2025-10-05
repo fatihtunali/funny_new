@@ -149,6 +149,17 @@ export default async function AdminDashboard() {
               </div>
             </div>
           </Link>
+          <Link href="/admin/agent-payments" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 mb-2">Agent Payments</p>
+                <p className="text-lg font-semibold text-blue-600">Money from Agents →</p>
+              </div>
+              <div className="bg-blue-100 rounded-full p-3">
+                <FaEdit className="text-2xl text-blue-600" />
+              </div>
+            </div>
+          </Link>
         </div>
 
         {/* Stats */}

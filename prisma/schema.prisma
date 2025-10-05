@@ -61,10 +61,15 @@ model Booking {
   paidAmount       Float?    @default(0)  // Amount paid to agent so far
   remainingAmount  Float?    // Remaining amount to be paid
 
+  // Agent Payment Tracking (money received FROM agent for customer booking)
+  agentPaidAmount      Float?    @default(0)  // Amount agent has paid us for this booking
+  agentRemainingAmount Float?    // Remaining amount agent owes us (totalPrice - commissionAmount - agentPaidAmount)
+
   // Booking Status
   status          BookingStatus @default(PENDING)
   paymentStatus   PaymentStatus @default(PENDING)
   fullyPaidAt     DateTime?     // When commission fully paid to agent
+  agentFullyPaidAt DateTime?    // When agent has paid us in full for customer booking
 
   // Additional Information
   specialRequests String?  @db.Text
@@ -399,6 +404,10 @@ model DailyTourBooking {
   paidAmount       Float?    @default(0)  // Amount paid to agent so far
   remainingAmount  Float?    // Remaining amount to be paid
 
+  // Agent Payment Tracking (money received FROM agent for customer booking)
+  agentPaidAmount      Float?    @default(0)  // Amount agent has paid us for this booking
+  agentRemainingAmount Float?    // Remaining amount agent owes us (totalPrice - commissionAmount - agentPaidAmount)
+
   // Pickup details
   pickupLocation  String?
   pickupTime      String?
@@ -411,6 +420,7 @@ model DailyTourBooking {
   status          BookingStatus @default(PENDING)
   paymentStatus   PaymentStatus @default(PENDING)
   fullyPaidAt     DateTime?     // When commission fully paid to agent
+  agentFullyPaidAt DateTime?    // When agent has paid us in full for customer booking
 
   // Reference number
   referenceNumber String    @unique
@@ -550,6 +560,10 @@ model TransferBooking {
   paidAmount        Float?   @default(0)  // Amount paid to agent so far
   remainingAmount   Float?   // Remaining amount to be paid
 
+  // Agent Payment Tracking (money received FROM agent for customer booking)
+  agentPaidAmount      Float?    @default(0)  // Amount agent has paid us for this booking
+  agentRemainingAmount Float?    // Remaining amount agent owes us (totalPrice - commissionAmount - agentPaidAmount)
+
   // Special Requirements
   specialRequests   String?  @db.Text
   numberOfLuggage   Int?     // Number of bags
@@ -558,6 +572,7 @@ model TransferBooking {
   status            BookingStatus @default(PENDING)
   paymentStatus     PaymentStatus @default(PENDING)
   fullyPaidAt       DateTime?     // When commission fully paid to agent
+  agentFullyPaidAt  DateTime?    // When agent has paid us in full for customer booking
   referenceNumber   String   @unique
 
   // Timestamps
@@ -581,7 +596,7 @@ model CommissionPayment {
   // Booking Reference
   bookingType     String   // "Package", "DailyTour", "Transfer"
   bookingId       String
-  referenceNumber String
+  referenceNumber String?  // Optional - can be used for tracking payment reference
 
   // Payment Details
   amount          Float

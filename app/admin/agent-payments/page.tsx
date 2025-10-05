@@ -4,16 +4,16 @@ import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import Image from 'next/image';
 import LogoutButton from '@/components/admin/LogoutButton';
-import MarkAsPaidButton from '@/components/admin/MarkAsPaidButton';
+import RecordAgentPaymentButton from '@/components/admin/RecordAgentPaymentButton';
 
-export default async function AdminCommissionsPage() {
+export default async function AdminAgentPaymentsPage() {
   const admin = await getAdminFromToken();
 
   if (!admin) {
     redirect('/admin/login');
   }
 
-  // Fetch all agent bookings with commissions (exclude CANCELLED bookings)
+  // Fetch all agent bookings (exclude CANCELLED) - these are bookings where agents owe us money
   const packageBookings = await prisma.booking.findMany({
     where: {
       agentId: { not: null },
@@ -41,23 +41,34 @@ export default async function AdminCommissionsPage() {
     orderBy: { createdAt: 'desc' },
   });
 
-  // Calculate totals
-  const totalCommissions = [
-    ...packageBookings.map(b => b.commissionAmount || 0),
-    ...dailyTourBookings.map(b => b.commissionAmount || 0),
-    ...transferBookings.map(b => b.commissionAmount || 0),
+  // Calculate totals (Amount agent owes us = totalPrice - commission)
+  const calculateAmountOwed = (totalPrice: number, commission: number) => totalPrice - commission;
+
+  const totalAmountOwed = [
+    ...packageBookings.map(b => calculateAmountOwed(b.totalPrice, b.commissionAmount || 0)),
+    ...dailyTourBookings.map(b => calculateAmountOwed(b.totalPrice, b.commissionAmount || 0)),
+    ...transferBookings.map(b => calculateAmountOwed(b.totalPrice, b.commissionAmount || 0)),
   ].reduce((sum, amount) => sum + amount, 0);
 
-  const pendingCommissions = [
-    ...packageBookings.filter(b => !b.fullyPaidAt).map(b => (b.commissionAmount || 0) - (b.paidAmount || 0)),
-    ...dailyTourBookings.filter(b => !b.fullyPaidAt).map(b => (b.commissionAmount || 0) - (b.paidAmount || 0)),
-    ...transferBookings.filter(b => !b.fullyPaidAt).map(b => (b.commissionAmount || 0) - (b.paidAmount || 0)),
+  const totalReceived = [
+    ...packageBookings.map(b => b.agentPaidAmount || 0),
+    ...dailyTourBookings.map(b => b.agentPaidAmount || 0),
+    ...transferBookings.map(b => b.agentPaidAmount || 0),
   ].reduce((sum, amount) => sum + amount, 0);
 
-  const paidCommissions = [
-    ...packageBookings.map(b => b.paidAmount || 0),
-    ...dailyTourBookings.map(b => b.paidAmount || 0),
-    ...transferBookings.map(b => b.paidAmount || 0),
+  const totalPending = [
+    ...packageBookings.filter(b => !b.agentFullyPaidAt).map(b => {
+      const owed = calculateAmountOwed(b.totalPrice, b.commissionAmount || 0);
+      return owed - (b.agentPaidAmount || 0);
+    }),
+    ...dailyTourBookings.filter(b => !b.agentFullyPaidAt).map(b => {
+      const owed = calculateAmountOwed(b.totalPrice, b.commissionAmount || 0);
+      return owed - (b.agentPaidAmount || 0);
+    }),
+    ...transferBookings.filter(b => !b.agentFullyPaidAt).map(b => {
+      const owed = calculateAmountOwed(b.totalPrice, b.commissionAmount || 0);
+      return owed - (b.agentPaidAmount || 0);
+    }),
   ].reduce((sum, amount) => sum + amount, 0);
 
   // Combine all bookings
@@ -83,7 +94,7 @@ export default async function AdminCommissionsPage() {
                   className="object-contain cursor-pointer"
                 />
               </Link>
-              <h1 className="ml-6 text-2xl font-bold text-gray-900">Agent Commissions</h1>
+              <h1 className="ml-6 text-2xl font-bold text-gray-900">Agent Payments Received</h1>
             </div>
             <div className="flex items-center space-x-4">
               <Link
@@ -101,26 +112,46 @@ export default async function AdminCommissionsPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">Total Commissions</p>
-            <p className="text-3xl font-bold text-gray-900">€{totalCommissions.toFixed(2)}</p>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">Pending Payment</p>
-            <p className="text-3xl font-bold text-red-600">€{pendingCommissions.toFixed(2)}</p>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">Paid to Agents</p>
-            <p className="text-3xl font-bold text-green-600">€{paidCommissions.toFixed(2)}</p>
+        {/* Info Banner */}
+        <div className="bg-blue-50 border-l-4 border-blue-600 p-4 mb-6 rounded">
+          <div className="flex items-start">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <p className="text-sm text-blue-800">
+                <strong>Agent Payments:</strong> Track money received from agents for customer bookings.
+                Amount owed = Total Booking Price - Agent Commission
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Commissions List */}
+        {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow p-6">
+            <p className="text-sm text-gray-600 mb-1">Total Amount Owed by Agents</p>
+            <p className="text-3xl font-bold text-gray-900">€{totalAmountOwed.toFixed(2)}</p>
+            <p className="text-xs text-gray-500 mt-1">(Booking Price - Commission)</p>
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <p className="text-sm text-gray-600 mb-1">Pending from Agents</p>
+            <p className="text-3xl font-bold text-red-600">€{totalPending.toFixed(2)}</p>
+            <p className="text-xs text-gray-500 mt-1">Outstanding payments</p>
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <p className="text-sm text-gray-600 mb-1">Received from Agents</p>
+            <p className="text-3xl font-bold text-green-600">€{totalReceived.toFixed(2)}</p>
+            <p className="text-xs text-gray-500 mt-1">Already paid by agents</p>
+          </div>
+        </div>
+
+        {/* Payments List */}
         <div className="bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-900">All Agent Bookings & Commissions</h2>
+            <h2 className="text-xl font-semibold text-gray-900">Agent Bookings & Payments</h2>
           </div>
 
           {allBookings.length === 0 ? (
@@ -145,13 +176,13 @@ export default async function AdminCommissionsPage() {
                       Agent
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Total Price
+                      Booking Price
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Commission
+                      Agent Owes
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
+                      Payment Status
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
@@ -160,12 +191,13 @@ export default async function AdminCommissionsPage() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {allBookings.map((booking) => {
-                    const paidAmount = booking.paidAmount || 0;
-                    const commissionAmount = booking.commissionAmount || 0;
-                    const remainingAmount = commissionAmount - paidAmount;
+                    const commission = booking.commissionAmount || 0;
+                    const amountOwed = booking.totalPrice - commission;
+                    const paidByAgent = booking.agentPaidAmount || 0;
+                    const remainingFromAgent = amountOwed - paidByAgent;
 
                     return (
-                    <tr key={`${booking.type}-${booking.id}`} className={!booking.fullyPaidAt ? 'bg-yellow-50' : ''}>
+                    <tr key={`${booking.type}-${booking.id}`} className={!booking.agentFullyPaidAt ? 'bg-yellow-50' : ''}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         {new Date(booking.createdAt).toLocaleDateString('en-US', {
                           year: 'numeric',
@@ -188,33 +220,33 @@ export default async function AdminCommissionsPage() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         {booking.agent?.companyName}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
-                        €{booking.totalPrice.toFixed(2)}
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        <div className="font-semibold text-gray-900">€{booking.totalPrice.toFixed(2)}</div>
+                        <div className="text-xs text-gray-500">Commission: €{commission.toFixed(2)}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <div className="font-semibold text-green-600">
-                          €{commissionAmount.toFixed(2)}
-                          <span className="text-xs text-gray-500 ml-1">({booking.commissionRate}%)</span>
+                        <div className="font-semibold text-blue-600">
+                          €{amountOwed.toFixed(2)}
                         </div>
-                        {paidAmount > 0 && (
+                        {paidByAgent > 0 && (
                           <div className="text-xs text-gray-600 mt-1">
-                            Paid: €{paidAmount.toFixed(2)} | Remaining: €{remainingAmount.toFixed(2)}
+                            Paid: €{paidByAgent.toFixed(2)} | Remaining: €{remainingFromAgent.toFixed(2)}
                           </div>
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        {booking.fullyPaidAt ? (
+                        {booking.agentFullyPaidAt ? (
                           <div>
                             <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full block mb-1">
                               Fully Paid
                             </span>
                             <span className="text-xs text-gray-500">
-                              {new Date(booking.fullyPaidAt).toLocaleDateString()}
+                              {new Date(booking.agentFullyPaidAt).toLocaleDateString()}
                             </span>
                           </div>
-                        ) : paidAmount > 0 ? (
+                        ) : paidByAgent > 0 ? (
                           <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
-                            Partial ({((paidAmount / commissionAmount) * 100).toFixed(0)}%)
+                            Partial ({((paidByAgent / amountOwed) * 100).toFixed(0)}%)
                           </span>
                         ) : (
                           <span className="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
@@ -223,12 +255,12 @@ export default async function AdminCommissionsPage() {
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        {!booking.fullyPaidAt && (
-                          <MarkAsPaidButton
+                        {!booking.agentFullyPaidAt && (
+                          <RecordAgentPaymentButton
                             bookingId={booking.id}
                             bookingType={booking.type as 'Package' | 'Daily Tour' | 'Transfer'}
-                            commissionAmount={commissionAmount}
-                            paidAmount={paidAmount}
+                            amountOwed={amountOwed}
+                            paidAmount={paidByAgent}
                           />
                         )}
                       </td>

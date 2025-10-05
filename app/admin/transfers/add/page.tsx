@@ -17,6 +17,8 @@ export default function AddTransferPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [aiSuggesting, setAiSuggesting] = useState(false);
+  const [aiReasoning, setAiReasoning] = useState('');
   const [locations, setLocations] = useState<Location[]>([]);
   const [searchFrom, setSearchFrom] = useState('');
   const [searchTo, setSearchTo] = useState('');
@@ -85,10 +87,59 @@ export default function AddTransferPage() {
       } else {
         setError(data.error || 'Failed to create transfer');
       }
-    } catch (err) {
+    } catch (error) {
+      console.error('Failed to create transfer:', error);
       setError('Failed to create transfer');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAiSuggest = async () => {
+    if (!formData.fromLocationId || !formData.toLocationId) {
+      setError('Please select both FROM and TO locations first');
+      return;
+    }
+
+    setAiSuggesting(true);
+    setError('');
+    setAiReasoning('');
+
+    try {
+      const res = await fetch('/api/admin/transfers/suggest-pricing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fromLocationId: formData.fromLocationId,
+          toLocationId: formData.toLocationId,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success && data.suggestion) {
+        const s = data.suggestion;
+        setFormData({
+          ...formData,
+          sicPricePerPerson: s.sicPricePerPerson?.toString() || '',
+          price1to2Pax: s.price1to2Pax?.toString() || '',
+          price3to5Pax: s.price3to5Pax?.toString() || '',
+          price6to10Pax: s.price6to10Pax?.toString() || '',
+          distance: s.distance || formData.distance,
+          duration: s.duration || formData.duration,
+          vehicleType1to2: s.vehicleType1to2 || formData.vehicleType1to2,
+          vehicleType3to5: s.vehicleType3to5 || formData.vehicleType3to5,
+          vehicleType6to10: s.vehicleType6to10 || formData.vehicleType6to10,
+        });
+        setAiReasoning(s.reasoning || 'AI suggested pricing based on location types and similar routes.');
+      } else {
+        setError(data.error || 'Failed to get AI pricing suggestion');
+      }
+    } catch (error) {
+      console.error('Failed to get AI pricing suggestion:', error);
+      setError('Failed to get AI pricing suggestion');
+    } finally {
+      setAiSuggesting(false);
     }
   };
 
@@ -239,7 +290,36 @@ export default function AddTransferPage() {
 
           {/* Pricing */}
           <div className="border-b pb-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Pricing (EUR)</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold text-gray-900">Pricing (EUR)</h2>
+              <button
+                type="button"
+                onClick={handleAiSuggest}
+                disabled={!formData.fromLocationId || !formData.toLocationId || aiSuggesting}
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-colors"
+              >
+                {aiSuggesting ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    AI Suggesting...
+                  </>
+                ) : (
+                  <>✨ AI Suggest Pricing</>
+                )}
+              </button>
+            </div>
+
+            {aiReasoning && (
+              <div className="mb-4 p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                <p className="text-sm text-purple-800">
+                  <strong>AI Reasoning:</strong> {aiReasoning}
+                </p>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">

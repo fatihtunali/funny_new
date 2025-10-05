@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { sendEmail, generateBookingConfirmationEmail, generateTransferBookingEmail } from '../lib/email';
 
 async function testEmailSystem() {

@@ -158,6 +158,13 @@ Return ONLY valid JSON, no markdown formatting or code blocks.`,
       // Clean up the response - remove markdown code blocks if present
       responseText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
 
+      // Extract JSON from text that might have explanations before/after
+      // Look for content between first { and last } (including nested objects)
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        responseText = jsonMatch[0];
+      }
+
       // Parse JSON
       let tourData;
       try {

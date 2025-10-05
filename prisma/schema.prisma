@@ -323,3 +323,96 @@ enum BlogStatus {
   PUBLISHED
   ARCHIVED
 }
+
+model DailyTour {
+  id              String   @id @default(cuid())
+  tourCode        String   @unique  // T1, T2, etc.
+  title           String
+  description     String   @db.Text
+  duration        String   // "Half Day", "Full Day", "4 Hours", etc.
+  city            String   // Istanbul, Cappadocia, Izmir, etc.
+  category        String   @default("DAILY_TOUR")  // DAILY_TOUR or SHORE_EXCURSION
+
+  // Pricing structure
+  sicPrice        Float    // Per person SIC (Seat-in-Coach) price - guaranteed from 1 pax
+  privateMin2     Float    // Per person price for private tour with 2 pax
+  privateMin4     Float    // Per person price for private tour with 4 pax
+  privateMin6     Float    // Per person price for private tour with 6 pax
+  privateMin8     Float    // Per person price for private tour with 8 pax
+  privateMin10    Float    // Per person price for private tour with 10 pax
+
+  // Tour details
+  included        String?  @db.Text
+  notIncluded     String?  @db.Text
+  notes           String?  @db.Text
+
+  // For shore excursions
+  port            String?  // Cruise port if applicable
+  pickupLocations String?  @db.Text  // JSON array of pickup points
+
+  // Images & PDF
+  image           String?
+  pdfUrl          String?
+
+  // Status
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  bookings        DailyTourBooking[]
+
+  @@index([tourCode])
+  @@index([city])
+  @@index([category])
+  @@index([isActive])
+}
+
+model DailyTourBooking {
+  id              String    @id @default(cuid())
+  tourId          String
+  tour            DailyTour @relation(fields: [tourId], references: [id], onDelete: Cascade)
+
+  // User/Guest info
+  userId          String?
+  guestName       String?
+  guestEmail      String
+  guestPhone      String
+
+  // Booking details
+  tourDate        DateTime
+  tourType        TourType  // SIC or PRIVATE
+  numberOfPax     Int
+  totalPrice      Float
+  currency        String    @default("EUR")
+
+  // Pickup details
+  pickupLocation  String?
+  pickupTime      String?
+  hotelName       String?   // If hotel pickup
+
+  // Special requests
+  specialRequests String?   @db.Text
+
+  // Status
+  status          BookingStatus @default(PENDING)
+  paymentStatus   PaymentStatus @default(PENDING)
+
+  // Reference number
+  referenceNumber String    @unique
+
+  // Timestamps
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  confirmedAt     DateTime?
+
+  @@index([tourId])
+  @@index([guestEmail])
+  @@index([status])
+  @@index([tourDate])
+}
+
+enum TourType {
+  SIC       // Seat-in-Coach (group tour)
+  PRIVATE   // Private tour
+}

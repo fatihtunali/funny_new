@@ -84,10 +84,11 @@ export default function Navigation() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100"
+            className="md:hidden p-3 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 relative z-50"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
           >
             <svg
-              className="h-6 w-6"
+              className="h-7 w-7"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"

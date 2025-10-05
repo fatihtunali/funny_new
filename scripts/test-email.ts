@@ -1,5 +1,13 @@
-import 'dotenv/config';
 import { sendEmail, generateBookingConfirmationEmail, generateTransferBookingEmail } from '../lib/email';
+
+// Load environment variables
+if (!process.env.BREVO_API_KEY) {
+  const dotenv = require('dotenv');
+  dotenv.config();
+}
+
+// Helper function to add delay between API calls
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 async function testEmailSystem() {
   console.log('🧪 Email System Test Script\n');
@@ -32,6 +40,10 @@ async function testEmailSystem() {
 
   console.log('Result:', simpleTest);
 
+  // Wait 2 seconds before next test to avoid rate limiting
+  console.log('\n⏳ Waiting 2 seconds before next test...');
+  await delay(2000);
+
   console.log('\n' + '='.repeat(60));
   console.log('\n🧪 Test 2: Package Booking Confirmation Email');
   console.log('─'.repeat(60));
@@ -55,6 +67,10 @@ async function testEmailSystem() {
   });
 
   console.log('Result:', bookingTest);
+
+  // Wait 2 seconds before next test to avoid rate limiting
+  console.log('\n⏳ Waiting 2 seconds before next test...');
+  await delay(2000);
 
   console.log('\n' + '='.repeat(60));
   console.log('\n🧪 Test 3: Transfer Booking Confirmation Email');

@@ -40,13 +40,6 @@ export default async function DailyTourDetailPage({ params }: PageProps) {
                 <span className="bg-orange-600 text-white px-4 py-1 rounded-lg text-sm font-semibold">
                   {tour.tourCode}
                 </span>
-                <span className={`px-4 py-1 rounded-lg text-sm font-semibold ${
-                  tour.category === 'SHORE_EXCURSION'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-green-600 text-white'
-                }`}>
-                  {tour.category === 'SHORE_EXCURSION' ? 'Shore Excursion' : 'Daily Tour'}
-                </span>
               </div>
               <h1 className="text-5xl font-bold mb-4">{tour.title}</h1>
               <div className="flex items-center gap-6 text-lg">

@@ -45,7 +45,6 @@ export async function POST(req: NextRequest) {
             description: tour.description,
             duration: tour.duration,
             city: tour.city,
-            category: tour.category || 'DAILY_TOUR',
             sicPrice: parseFloat(tour.sicPrice),
             privateMin2: parseFloat(tour.privateMin2),
             privateMin4: parseFloat(tour.privateMin4),

@@ -44,11 +44,11 @@ export async function GET(req: NextRequest) {
         orderBy: { tourCode: 'asc' },
       });
 
-      // Map daily tours to package format
+      // Map daily tours to package format - all daily tours use packageType: 'DAILY_TOUR'
       const dailyToursAsPackages = dailyTours.map(tour => ({
         id: tour.tourCode,
         packageId: tour.tourCode,
-        packageType: tour.category === 'SHORE_EXCURSION' ? 'SHORE_EXCURSION' : 'DAILY_TOUR',
+        packageType: 'DAILY_TOUR',
         title: tour.title,
         duration: tour.duration,
         destinations: tour.city,

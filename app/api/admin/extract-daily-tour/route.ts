@@ -14,7 +14,6 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
     const file = formData.get('pdf') as File;
-    const category = formData.get('category') as string; // DAILY_TOUR or SHORE_EXCURSION
 
     if (!file) {
       return NextResponse.json({ error: 'No PDF file provided' }, { status: 400 });
@@ -56,7 +55,7 @@ export async function POST(req: NextRequest) {
     // Create an assistant to read the PDF
     const assistant = await openai.beta.assistants.create({
       model: 'gpt-4o',
-      instructions: `You are a daily tour data extraction assistant. Extract structured information from daily tour/shore excursion PDFs.
+      instructions: `You are a daily tour data extraction assistant. Extract structured information from daily tour PDFs.
 
 IMPORTANT: The PDF may contain MULTIPLE tours or just ONE tour:
 - If the PDF has multiple tours listed (e.g., T-1, T-2, T1, T2), extract ALL tours as an array
@@ -74,7 +73,6 @@ The JSON structure for EACH tour should be:
   "description": "string (full tour description with all details)",
   "duration": "string (e.g., 'Half Day', 'Full Day', '4 Hours', '8 Hours')",
   "city": "string (main city, e.g., 'Istanbul', 'Cappadocia', 'Izmir', 'Kusadasi')",
-  "category": "string (either 'DAILY_TOUR' or 'SHORE_EXCURSION')",
   "sicPrice": number (Per Person SIC price - look for 'SIC' or 'PP' column),
   "privateMin2": number (Per person private price for 2 pax),
   "privateMin4": number (Per person private price for 4 pax),
@@ -84,7 +82,7 @@ The JSON structure for EACH tour should be:
   "included": "string (what's included - if mentioned)",
   "notIncluded": "string (what's not included - if mentioned)",
   "notes": "string (any special notes, closures, alternative tour info)",
-  "port": "string or null (cruise port if this is a shore excursion, e.g., 'Istanbul', 'Kusadasi', 'Izmir')",
+  "port": "string or null (cruise port if applicable, e.g., 'Istanbul', 'Kusadasi', 'Izmir')",
   "pickupLocations": "string (pickup points if mentioned, e.g., 'Hotel Pickup Available', 'Port Pickup')",
   "image": "string (select from available images based on city - see list below)"
 }
@@ -111,8 +109,8 @@ IMPORTANT NOTES:
 - All prices should be extracted as NUMBERS (remove currency symbols like €, $, USD, EUR)
 - SIC tours are guaranteed to operate with minimum 1 passenger
 - Private tours show the PRICE PER PERSON for that group size
-- For shore excursions, set category to "SHORE_EXCURSION" and include port name
-- For daily city tours, set category to "DAILY_TOUR"
+- If the tour mentions a cruise port, include it in the "port" field
+- All tours should include pickup location information if mentioned
 
 AVAILABLE IMAGES (select based on city/destination):
 - Istanbul: "/images/destinations/istanbul.jpg"
@@ -134,7 +132,7 @@ Return ONLY valid JSON, no markdown formatting or code blocks.`,
       messages: [
         {
           role: 'user',
-          content: `Extract the daily tour information from this PDF. Category: ${category || 'DAILY_TOUR'}`,
+          content: 'Extract the daily tour information from this PDF.',
           attachments: [
             {
               file_id: uploadedFile.id,

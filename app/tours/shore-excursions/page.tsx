@@ -56,8 +56,8 @@ export default function ShoreExcursionsPage() {
 
   const fetchExcursions = async () => {
     try {
-      // Fetch daily tours with SHORE_EXCURSION category
-      const res = await fetch('/api/daily-tours?category=SHORE_EXCURSION');
+      // Fetch ALL daily tours (no category filter - all daily tours are shown here)
+      const res = await fetch('/api/daily-tours');
       const data = await res.json();
 
       // Map daily tours to shore excursion format

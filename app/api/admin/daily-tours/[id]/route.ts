@@ -47,7 +47,6 @@ export async function PUT(
         description: data.description,
         duration: data.duration,
         city: data.city,
-        category: data.category,
         sicPrice: parseFloat(data.sicPrice),
         privateMin2: parseFloat(data.privateMin2),
         privateMin4: parseFloat(data.privateMin4),

@@ -331,7 +331,6 @@ model DailyTour {
   description     String   @db.Text
   duration        String   // "Half Day", "Full Day", "4 Hours", etc.
   city            String   // Istanbul, Cappadocia, Izmir, etc.
-  category        String   @default("DAILY_TOUR")  // DAILY_TOUR or SHORE_EXCURSION
 
   // Pricing structure
   sicPrice        Float    // Per person SIC (Seat-in-Coach) price - guaranteed from 1 pax
@@ -346,9 +345,9 @@ model DailyTour {
   notIncluded     String?  @db.Text
   notes           String?  @db.Text
 
-  // For shore excursions
-  port            String?  // Cruise port if applicable
-  pickupLocations String?  @db.Text  // JSON array of pickup points
+  // Tour information
+  port            String?  // Cruise port if applicable (for shore excursions)
+  pickupLocations String?  @db.Text  // Pickup points
 
   // Images & PDF
   image           String?
@@ -364,7 +363,6 @@ model DailyTour {
 
   @@index([tourCode])
   @@index([city])
-  @@index([category])
   @@index([isActive])
 }
 

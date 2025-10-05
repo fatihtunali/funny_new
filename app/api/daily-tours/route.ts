@@ -1,18 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
 // GET daily tours (public endpoint)
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(req.url);
-    const category = searchParams.get('category');
-
-    const where = category
-      ? { category, isActive: true }
-      : { isActive: true };
-
     const tours = await prisma.dailyTour.findMany({
-      where,
+      where: { isActive: true },
       orderBy: { tourCode: 'asc' },
     });
 

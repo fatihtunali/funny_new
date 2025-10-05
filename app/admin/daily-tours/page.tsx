@@ -30,8 +30,8 @@ export default async function DailyToursPage() {
           </Link>
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Daily Tours & Shore Excursions</h1>
-              <p className="text-gray-600 mt-2">Manage all daily tours and shore excursions</p>
+              <h1 className="text-3xl font-bold text-gray-900">Daily Tours</h1>
+              <p className="text-gray-600 mt-2">Manage all daily tours</p>
             </div>
             <Link
               href="/admin/daily-tours/add"
@@ -62,9 +62,6 @@ export default async function DailyToursPage() {
                     Duration
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Category
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     SIC Price
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -78,7 +75,7 @@ export default async function DailyToursPage() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {dailyTours.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-6 py-8 text-center text-gray-500">
+                    <td colSpan={7} className="px-6 py-8 text-center text-gray-500">
                       No daily tours found. Add your first tour to get started.
                     </td>
                   </tr>
@@ -96,15 +93,6 @@ export default async function DailyToursPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                         {tour.duration}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                        <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          tour.category === 'SHORE_EXCURSION'
-                            ? 'bg-blue-100 text-blue-800'
-                            : 'bg-green-100 text-green-800'
-                        }`}>
-                          {tour.category === 'SHORE_EXCURSION' ? 'Shore Excursion' : 'Daily Tour'}
-                        </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                         €{tour.sicPrice}

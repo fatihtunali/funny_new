@@ -12,7 +12,6 @@ interface DailyTour {
   description: string;
   duration: string;
   city: string;
-  category: string;
   sicPrice: number;
   privateMin2: number;
   privateMin4: number;
@@ -190,21 +189,6 @@ export default function EditDailyTourPage() {
               />
             </div>
 
-            {/* Category */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Category
-              </label>
-              <select
-                value={tour.category}
-                onChange={(e) => updateField('category', e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              >
-                <option value="DAILY_TOUR">Daily City Tour</option>
-                <option value="SHORE_EXCURSION">Shore Excursion</option>
-              </select>
-            </div>
-
             {/* Status */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -351,23 +335,21 @@ export default function EditDailyTourPage() {
               />
             </div>
 
-            {/* Port (for shore excursions) */}
-            {tour.category === 'SHORE_EXCURSION' && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Port
-                </label>
-                <input
-                  type="text"
-                  value={tour.port || ''}
-                  onChange={(e) => updateField('port', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                />
-              </div>
-            )}
+            {/* Port */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Port (Optional)
+              </label>
+              <input
+                type="text"
+                value={tour.port || ''}
+                onChange={(e) => updateField('port', e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              />
+            </div>
 
             {/* Pickup Locations */}
-            <div className={tour.category === 'SHORE_EXCURSION' ? '' : 'md:col-span-2'}>
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Pickup Locations
               </label>

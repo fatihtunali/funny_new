@@ -259,8 +259,10 @@ export default function BookingsTabs({ packageBookings, transferBookings, dailyT
                 ) : (
                   transferBookings.map((booking) => (
                     <tr key={booking.id} className="hover:bg-purple-50 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-purple-600">
-                        {booking.referenceNumber}
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <Link href={`/admin/bookings/transfers/${booking.id}`} className="text-purple-600 hover:text-purple-800">
+                          {booking.referenceNumber}
+                        </Link>
                       </td>
                       <td className="px-6 py-4 text-sm">
                         <div className="flex items-center">
@@ -343,8 +345,10 @@ export default function BookingsTabs({ packageBookings, transferBookings, dailyT
                 ) : (
                   dailyTourBookings.map((booking) => (
                     <tr key={booking.id} className="hover:bg-teal-50 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-teal-600">
-                        {booking.referenceNumber}
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <Link href={`/admin/bookings/daily-tours/${booking.id}`} className="text-teal-600 hover:text-teal-800">
+                          {booking.referenceNumber}
+                        </Link>
                       </td>
                       <td className="px-6 py-4 text-sm">
                         <div className="flex items-center">

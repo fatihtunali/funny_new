@@ -190,8 +190,7 @@ export default function AllPackagesPage() {
   const packageTypes = [
     { value: 'WITH_HOTEL', label: 'Hotel Packages' },
     { value: 'LAND_ONLY', label: 'Land Packages' },
-    { value: 'DAILY_TOUR', label: 'Daily Tours' },
-    { value: 'SHORE_EXCURSION', label: 'Shore Excursions' }
+    { value: 'DAILY_TOUR', label: 'Daily Tours' }
   ];
   const durations = [
     { value: '1', label: '1 Day' },
@@ -489,7 +488,7 @@ export default function AllPackagesPage() {
                         <div className="flex gap-2">
                           <Link
                             href={
-                              pkg.packageType === 'DAILY_TOUR' || pkg.packageType === 'SHORE_EXCURSION'
+                              pkg.packageType === 'DAILY_TOUR'
                                 ? `/tours/daily-tours/${pkg.packageId.toLowerCase()}`
                                 : `/tours/hotels-packages/package/${pkg.packageId}`
                             }

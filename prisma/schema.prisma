@@ -414,3 +414,88 @@ enum TourType {
   SIC       // Seat-in-Coach (group tour)
   PRIVATE   // Private tour
 }
+
+// ==================== TRANSFER SYSTEM ====================
+
+model Transfer {
+  id              String   @id @default(cuid())
+
+  // Route Information
+  region          String   // "Istanbul", "Antalya", "Bodrum", "Cappadocia", "Kusadasi"
+  fromLocation    String   // "IST Airport", "SAW Airport", etc.
+  toLocation      String   // "Taksim", "Sultanahmet", etc.
+
+  // Pricing Structure (per vehicle, one way, EUR)
+  sicPricePerPerson Float?    // NULL if not available
+  price1to2Pax      Float?    // Sedan/small vehicle
+  price3to5Pax      Float?    // Minivan (Transporter)
+  price6to10Pax     Float?    // Minibus (Sprinter)
+  onRequestOnly     Boolean   @default(false) // 10+ pax = "OR"
+
+  // Vehicle Details
+  vehicleType1to2   String?   @default("Sedan")
+  vehicleType3to5   String?   @default("Minivan (Transporter)")
+  vehicleType6to10  String?   @default("Minibus (Sprinter)")
+
+  // Distance & Duration (optional, for display)
+  distance          String?   // "45 km"
+  duration          String?   // "45 minutes"
+
+  // Status & Validity
+  isActive          Boolean   @default(true)
+  validFrom         DateTime? // Season validity
+  validTo           DateTime?
+
+  // Timestamps
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  bookings          TransferBooking[]
+
+  @@index([region])
+  @@index([fromLocation])
+  @@index([isActive])
+}
+
+model TransferBooking {
+  id                String   @id @default(cuid())
+  transferId        String
+  transfer          Transfer @relation(fields: [transferId], references: [id], onDelete: Cascade)
+
+  // Customer Info
+  userId            String?  // If logged in
+  guestName         String
+  guestEmail        String
+  guestPhone        String
+
+  // Trip Details
+  transferDate      DateTime
+  transferTime      String   // "09:00", "14:30"
+  numberOfPassengers Int
+  flightNumber      String?  // Optional
+
+  // Pricing
+  totalPrice        Float
+  currency          String   @default("EUR")
+  vehicleType       String   // Selected vehicle type
+
+  // Special Requirements
+  specialRequests   String?  @db.Text
+  numberOfLuggage   Int?     // Number of bags
+
+  // Status
+  status            BookingStatus @default(PENDING)
+  paymentStatus     PaymentStatus @default(PENDING)
+  referenceNumber   String   @unique
+
+  // Timestamps
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  confirmedAt       DateTime?
+
+  @@index([transferId])
+  @@index([guestEmail])
+  @@index([status])
+  @@index([transferDate])
+}

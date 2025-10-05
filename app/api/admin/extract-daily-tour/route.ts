@@ -168,10 +168,17 @@ Return ONLY valid JSON, no markdown formatting or code blocks.`,
         throw new Error(`Failed to parse JSON: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`);
       }
 
-      // Add the PDF URL to each tour
+      // Sanitize and add metadata to each tour
+      const sanitizeTourCode = (code: string) => {
+        // Remove all characters except letters, numbers, and hyphens
+        return code.replace(/[^a-zA-Z0-9-]/g, '').toUpperCase();
+      };
+
       if (Array.isArray(tourData)) {
         tourData.forEach(tour => {
           tour.pdfUrl = pdfUrl;
+          // Sanitize tour code to prevent URL issues
+          tour.tourCode = sanitizeTourCode(tour.tourCode);
           // Use default image if not provided
           if (!tour.image) {
             tour.image = '/images/destinations/istanbul.jpg';
@@ -179,6 +186,8 @@ Return ONLY valid JSON, no markdown formatting or code blocks.`,
         });
       } else {
         tourData.pdfUrl = pdfUrl;
+        // Sanitize tour code to prevent URL issues
+        tourData.tourCode = sanitizeTourCode(tourData.tourCode);
         // Use default image if not provided
         if (!tourData.image) {
           tourData.image = '/images/destinations/istanbul.jpg';

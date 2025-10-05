@@ -6,15 +6,17 @@ import Image from 'next/image';
 import LogoutButton from '@/components/admin/LogoutButton';
 import MarkAsRepliedButton from '@/components/admin/MarkAsRepliedButton';
 
-export default async function InquiryDetailPage({ params }: { params: { id: string } }) {
+export default async function InquiryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const admin = await getAdminFromToken();
 
   if (!admin) {
     redirect('/admin/login');
   }
 
+  const { id } = await params;
+
   const inquiry = await prisma.contactInquiry.findUnique({
-    where: { id: params.id },
+    where: { id },
   });
 
   if (!inquiry) {

@@ -5,15 +5,16 @@ import { prisma } from '@/lib/prisma';
 // Mark inquiry as replied
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
 
+    const { id } = await params;
     const { replied } = await request.json();
 
     const inquiry = await prisma.contactInquiry.update({
-      where: { id: params.id },
+      where: { id },
       data: { replied: replied ?? true },
     });
 
@@ -30,13 +31,15 @@ export async function PATCH(
 // Delete inquiry
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
 
+    const { id } = await params;
+
     await prisma.contactInquiry.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ success: true });

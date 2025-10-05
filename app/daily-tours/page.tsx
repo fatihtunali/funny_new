@@ -24,8 +24,8 @@ export default function DailyToursPage() {
   const [loading, setLoading] = useState(true);
 
   // Filter states
-  const [selectedCity, setSelectedCity] = useState<string>('all');
-  const [selectedDuration, setSelectedDuration] = useState<string>('all');
+  const [selectedCities, setSelectedCities] = useState<string[]>([]);
+  const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 500]);
 
   useEffect(() => {
@@ -50,13 +50,13 @@ export default function DailyToursPage() {
     let filtered = [...tours];
 
     // City filter
-    if (selectedCity !== 'all') {
-      filtered = filtered.filter(tour => tour.city === selectedCity);
+    if (selectedCities.length > 0) {
+      filtered = filtered.filter(tour => selectedCities.includes(tour.city));
     }
 
     // Duration filter
-    if (selectedDuration !== 'all') {
-      filtered = filtered.filter(tour => tour.duration === selectedDuration);
+    if (selectedDurations.length > 0) {
+      filtered = filtered.filter(tour => selectedDurations.includes(tour.duration));
     }
 
     // Price filter
@@ -65,7 +65,7 @@ export default function DailyToursPage() {
     );
 
     setFilteredTours(filtered);
-  }, [selectedCity, selectedDuration, priceRange, tours]);
+  }, [selectedCities, selectedDurations, priceRange, tours]);
 
   // Get unique values for filters
   const cities = Array.from(new Set(tours.map(t => t.city))).sort();
@@ -80,35 +80,6 @@ export default function DailyToursPage() {
           <p className="text-xl text-primary-100">Explore Turkey&apos;s best attractions with expert local guides</p>
         </div>
       </div>
-
-      {/* Description Section */}
-      <section className="section-container py-12">
-        <div className="max-w-4xl mx-auto text-center bg-gray-50 rounded-lg p-8 shadow-md">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">What&apos;s Included</h2>
-          <p className="text-lg text-gray-700 leading-relaxed mb-6">
-            Explore the best attractions with our daily guided tours. Whether you&apos;re looking for a historical
-            walking tour of Istanbul, a hot air balloon ride in Cappadocia, or a boat excursion along the
-            Turkish coast, our daily tours provide memorable experiences with expert local guides.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            <div className="bg-white p-4 rounded-lg shadow">
-              <FaMapMarkerAlt className="text-3xl text-orange-600 mx-auto mb-2" />
-              <h3 className="font-semibold text-gray-900">Expert Guides</h3>
-              <p className="text-sm text-gray-600">Local professionals</p>
-            </div>
-            <div className="bg-white p-4 rounded-lg shadow">
-              <FaClock className="text-3xl text-orange-600 mx-auto mb-2" />
-              <h3 className="font-semibold text-gray-900">Flexible Duration</h3>
-              <p className="text-sm text-gray-600">Half-day to full-day</p>
-            </div>
-            <div className="bg-white p-4 rounded-lg shadow">
-              <FaCalendarDay className="text-3xl text-orange-600 mx-auto mb-2" />
-              <h3 className="font-semibold text-gray-900">Daily Departures</h3>
-              <p className="text-sm text-gray-600">Available every day</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Tours Section with Filters */}
       <section className="bg-gray-50 py-16">
@@ -128,32 +99,50 @@ export default function DailyToursPage() {
 
                 {/* City Filter */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
-                  <select
-                    value={selectedCity}
-                    onChange={(e) => setSelectedCity(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  >
-                    <option value="all">All Cities</option>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">City</label>
+                  <div className="space-y-2">
                     {cities.map(city => (
-                      <option key={city} value={city}>{city}</option>
+                      <label key={city} className="flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedCities.includes(city)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedCities([...selectedCities, city]);
+                            } else {
+                              setSelectedCities(selectedCities.filter(c => c !== city));
+                            }
+                          }}
+                          className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+                        />
+                        <span className="ml-2 text-sm text-gray-700">{city}</span>
+                      </label>
                     ))}
-                  </select>
+                  </div>
                 </div>
 
                 {/* Duration Filter */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Duration</label>
-                  <select
-                    value={selectedDuration}
-                    onChange={(e) => setSelectedDuration(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  >
-                    <option value="all">All Durations</option>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Duration</label>
+                  <div className="space-y-2">
                     {durations.map(duration => (
-                      <option key={duration} value={duration}>{duration}</option>
+                      <label key={duration} className="flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedDurations.includes(duration)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedDurations([...selectedDurations, duration]);
+                            } else {
+                              setSelectedDurations(selectedDurations.filter(d => d !== duration));
+                            }
+                          }}
+                          className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+                        />
+                        <span className="ml-2 text-sm text-gray-700">{duration}</span>
+                      </label>
                     ))}
-                  </select>
+                  </div>
                 </div>
 
                 {/* Price Range Filter */}
@@ -174,8 +163,8 @@ export default function DailyToursPage() {
                 {/* Reset Filters */}
                 <button
                   onClick={() => {
-                    setSelectedCity('all');
-                    setSelectedDuration('all');
+                    setSelectedCities([]);
+                    setSelectedDurations([]);
                     setPriceRange([0, 500]);
                   }}
                   className="w-full text-sm text-primary-600 hover:text-primary-700 font-medium"
@@ -222,8 +211,8 @@ export default function DailyToursPage() {
               <p className="text-gray-600 text-lg mb-4">No tours match your filters.</p>
               <button
                 onClick={() => {
-                  setSelectedCity('all');
-                  setSelectedDuration('all');
+                  setSelectedCities([]);
+                  setSelectedDurations([]);
                   setPriceRange([0, 500]);
                 }}
                 className="text-primary-600 hover:text-primary-700 font-medium"
@@ -293,6 +282,35 @@ export default function DailyToursPage() {
               ))}
               </div>
             )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What's Included Section */}
+      <section className="section-container py-16">
+        <div className="max-w-4xl mx-auto text-center bg-white rounded-lg p-8 shadow-md">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">What&apos;s Included in Our Daily Tours</h2>
+          <p className="text-lg text-gray-700 leading-relaxed mb-6">
+            Explore the best attractions with our daily guided tours. Whether you&apos;re looking for a historical
+            walking tour of Istanbul, a hot air balloon ride in Cappadocia, or a boat excursion along the
+            Turkish coast, our daily tours provide memorable experiences with expert local guides.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <FaMapMarkerAlt className="text-3xl text-orange-600 mx-auto mb-2" />
+              <h3 className="font-semibold text-gray-900">Expert Guides</h3>
+              <p className="text-sm text-gray-600">Local professionals</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <FaClock className="text-3xl text-orange-600 mx-auto mb-2" />
+              <h3 className="font-semibold text-gray-900">Flexible Duration</h3>
+              <p className="text-sm text-gray-600">Half-day to full-day</p>
+            </div>
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <FaCalendarDay className="text-3xl text-orange-600 mx-auto mb-2" />
+              <h3 className="font-semibold text-gray-900">Daily Departures</h3>
+              <p className="text-sm text-gray-600">Available every day</p>
             </div>
           </div>
         </div>

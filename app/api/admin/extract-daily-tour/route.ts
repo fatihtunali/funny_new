@@ -159,15 +159,30 @@ Return ONLY valid JSON, no markdown formatting or code blocks.`,
       responseText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
 
       // Parse JSON
-      const tourData = JSON.parse(responseText);
+      let tourData;
+      try {
+        tourData = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('JSON Parse Error:', parseError);
+        console.error('Response Text:', responseText);
+        throw new Error(`Failed to parse JSON: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`);
+      }
 
       // Add the PDF URL to each tour
       if (Array.isArray(tourData)) {
         tourData.forEach(tour => {
           tour.pdfUrl = pdfUrl;
+          // Use default image if not provided
+          if (!tour.image) {
+            tour.image = '/images/destinations/istanbul.jpg';
+          }
         });
       } else {
         tourData.pdfUrl = pdfUrl;
+        // Use default image if not provided
+        if (!tourData.image) {
+          tourData.image = '/images/destinations/istanbul.jpg';
+        }
       }
 
       // Clean up OpenAI resources

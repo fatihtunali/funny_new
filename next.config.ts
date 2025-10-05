@@ -13,11 +13,8 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384], // Smaller image sizes
     minimumCacheTTL: 60 * 60 * 24 * 30, // Cache images for 30 days
   },
-  outputFileTracingRoot: undefined,
   // Enable compression
   compress: true,
-  // Optimize production builds
-  swcMinify: true,
 };
 
 export default nextConfig;

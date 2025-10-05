@@ -39,12 +39,13 @@ export default function FeaturedPackages() {
   useEffect(() => {
     async function fetchPackages() {
       try {
-        const res = await fetch('/api/packages?type=WITH_HOTEL');
+        const res = await fetch('/api/packages?type=WITH_HOTEL&includeDailyTours=false');
         const data = await res.json();
+        console.log('✨ Featured Packages API Response:', data);
         // Take first 3 packages for featured section
         setPackages((data.packages || []).slice(0, 3));
       } catch (error) {
-        console.error('Error fetching packages:', error);
+        console.error('❌ Error fetching packages:', error);
       } finally {
         setLoading(false);
       }
@@ -93,7 +94,18 @@ export default function FeaturedPackages() {
   }
 
   if (packages.length === 0) {
-    return null; // Don't show section if no packages
+    console.log('⚠️ No packages found for featured section');
+    return (
+      <section className="py-16 bg-gray-50">
+        <div className="section-container text-center">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Tour Packages</h2>
+          <p className="text-gray-600">No packages available at the moment. Please check back soon!</p>
+          <Link href="/packages" className="btn-primary text-lg mt-6 inline-block">
+            View All Tours
+          </Link>
+        </div>
+      </section>
+    );
   }
 
   return (

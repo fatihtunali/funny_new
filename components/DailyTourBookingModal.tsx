@@ -42,12 +42,15 @@ export default function DailyTourBookingModal({ isOpen, onClose, tourData }: Dai
     if (formData.tourType === 'SIC') {
       return tourData.sicPrice * formData.numberOfPax;
     } else {
-      // Private tour pricing based on number of pax
-      if (formData.numberOfPax <= 2) return tourData.privateMin2;
-      if (formData.numberOfPax <= 4) return tourData.privateMin4;
-      if (formData.numberOfPax <= 6) return tourData.privateMin6;
-      if (formData.numberOfPax <= 8) return tourData.privateMin8;
-      return tourData.privateMin10;
+      // Private tour pricing - per person rate based on group size, multiplied by number of pax
+      let perPersonRate = 0;
+      if (formData.numberOfPax <= 2) perPersonRate = tourData.privateMin2;
+      else if (formData.numberOfPax <= 4) perPersonRate = tourData.privateMin4;
+      else if (formData.numberOfPax <= 6) perPersonRate = tourData.privateMin6;
+      else if (formData.numberOfPax <= 8) perPersonRate = tourData.privateMin8;
+      else perPersonRate = tourData.privateMin10;
+
+      return perPersonRate * formData.numberOfPax;
     }
   };
 
@@ -323,8 +326,16 @@ export default function DailyTourBookingModal({ isOpen, onClose, tourData }: Dai
                 <p className="text-sm text-gray-600">Total Price</p>
                 <p className="text-xs text-gray-500 mt-1">
                   {formData.tourType === 'SIC'
-                    ? `${formData.numberOfPax} × €${tourData.sicPrice}`
-                    : `Private tour for ${formData.numberOfPax} guests`}
+                    ? `${formData.numberOfPax} guests × €${tourData.sicPrice.toFixed(2)}/person`
+                    : (() => {
+                        let perPersonRate = 0;
+                        if (formData.numberOfPax <= 2) perPersonRate = tourData.privateMin2;
+                        else if (formData.numberOfPax <= 4) perPersonRate = tourData.privateMin4;
+                        else if (formData.numberOfPax <= 6) perPersonRate = tourData.privateMin6;
+                        else if (formData.numberOfPax <= 8) perPersonRate = tourData.privateMin8;
+                        else perPersonRate = tourData.privateMin10;
+                        return `${formData.numberOfPax} guests × €${perPersonRate.toFixed(2)}/person (private)`;
+                      })()}
                 </p>
               </div>
               <p className="text-3xl font-bold text-teal-700">€{totalPrice.toFixed(2)}</p>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaCar, FaPlane, FaUsers, FaCalendarAlt, FaClock, FaEuroSign, FaMapMarkerAlt } from 'react-icons/fa';
+import TransferBookingModal from '@/components/TransferBookingModal';
 
 interface Transfer {
   id: string;
@@ -38,6 +39,7 @@ export default function TransfersPage() {
   const [toLocations, setToLocations] = useState<string[]>([]);
   const [selectedTransfer, setSelectedTransfer] = useState<Transfer | null>(null);
   const [calculatedPrice, setCalculatedPrice] = useState<{price: number, vehicleType: string} | null>(null);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   useEffect(() => {
     fetchTransfers();
@@ -299,6 +301,7 @@ export default function TransfersPage() {
                   </div>
                   <button
                     disabled={!transferDate}
+                    onClick={() => setIsBookingModalOpen(true)}
                     className="w-full mt-6 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg transition-colors"
                   >
                     {transferDate ? 'Book Now' : 'Please select a date'}
@@ -382,6 +385,26 @@ export default function TransfersPage() {
           </ul>
         </div>
       </section>
+
+      {/* Booking Modal */}
+      {selectedTransfer && calculatedPrice && (
+        <TransferBookingModal
+          isOpen={isBookingModalOpen}
+          onClose={() => setIsBookingModalOpen(false)}
+          transferData={{
+            transferId: selectedTransfer.id,
+            fromLocation: selectedFrom,
+            toLocation: selectedTo,
+            region: selectedRegion,
+            price: calculatedPrice.price,
+            vehicleType: calculatedPrice.vehicleType,
+            passengers,
+            date: transferDate,
+            time: transferTime,
+            duration: selectedTransfer.duration || undefined,
+          }}
+        />
+      )}
     </div>
   );
 }

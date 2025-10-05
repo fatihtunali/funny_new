@@ -417,13 +417,55 @@ enum TourType {
 
 // ==================== TRANSFER SYSTEM ====================
 
+// Location model for flexible point-to-point transfers
+model TransferLocation {
+  id              String   @id @default(cuid())
+
+  // Location Details
+  name            String   // "Istanbul Atatürk Airport (IST)", "Taksim Square", "Kalkan Hotels"
+  code            String?  @unique // "IST", "SAW", "AYT" for airports
+  type            LocationType
+
+  // Geographic Info
+  region          String   // "Istanbul", "Antalya", "Aegean Coast", etc.
+  city            String?  // "Istanbul", "Kalkan", "Kas"
+  address         String?  @db.Text // Full address if needed
+
+  // Metadata
+  isActive        Boolean  @default(true)
+  displayOrder    Int      @default(0) // For sorting in dropdowns
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  transfersFrom   Transfer[] @relation("FromLocation")
+  transfersTo     Transfer[] @relation("ToLocation")
+
+  @@index([type])
+  @@index([region])
+  @@index([isActive])
+  @@index([code])
+}
+
+enum LocationType {
+  AIRPORT
+  CITY_CENTER
+  HOTEL_ZONE
+  TOURIST_AREA
+  CRUISE_PORT
+  CUSTOM
+}
+
 model Transfer {
   id              String   @id @default(cuid())
 
-  // Route Information
-  region          String   // "Istanbul", "Antalya", "Bodrum", "Cappadocia", "Kusadasi"
-  fromLocation    String   // "IST Airport", "SAW Airport", etc.
-  toLocation      String   // "Taksim", "Sultanahmet", etc.
+  // Route Information (using Location references)
+  fromLocationId  String
+  fromLocation    TransferLocation @relation("FromLocation", fields: [fromLocationId], references: [id], onDelete: Cascade)
+  toLocationId    String
+  toLocation      TransferLocation @relation("ToLocation", fields: [toLocationId], references: [id], onDelete: Cascade)
 
   // Pricing Structure (per vehicle, one way, EUR)
   sicPricePerPerson Float?    // NULL if not available
@@ -453,9 +495,10 @@ model Transfer {
   // Relations
   bookings          TransferBooking[]
 
-  @@index([region])
-  @@index([fromLocation])
+  @@index([fromLocationId])
+  @@index([toLocationId])
   @@index([isActive])
+  @@unique([fromLocationId, toLocationId]) // Prevent duplicate routes
 }
 
 model TransferBooking {

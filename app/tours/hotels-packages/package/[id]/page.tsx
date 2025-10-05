@@ -139,7 +139,7 @@ export default function PackageDetailPage() {
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: '/' },
     { name: 'Hotel Packages', url: '/tours/hotels-packages' },
-    { name: pkg.title, url: `/tours/hotels-packages/package/${pkg.packageId}` }
+    { name: pkg.title, url: `/packages/${pkg.packageId}` }
   ]);
 
   return (

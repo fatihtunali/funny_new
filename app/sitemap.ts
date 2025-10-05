@@ -13,10 +13,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   const packageUrls = packages.map((pkg) => ({
-    url: `${baseUrl}/tours/hotels-packages/package/${pkg.packageId}`,
+    url: `${baseUrl}/packages/${pkg.packageId}`,
     lastModified: pkg.updatedAt,
     changeFrequency: 'weekly' as const,
     priority: 0.8,
+  }));
+
+  // Fetch all daily tours for dynamic URLs
+  const dailyTours = await prisma.dailyTour.findMany({
+    select: {
+      tourCode: true,
+      updatedAt: true,
+    },
+  });
+
+  const dailyTourUrls = dailyTours.map((tour) => ({
+    url: `${baseUrl}/daily-tours/${tour.tourCode.toLowerCase()}`,
+    lastModified: tour.updatedAt,
+    changeFrequency: 'weekly' as const,
+    priority: 0.7,
   }));
 
   // Static pages
@@ -34,25 +49,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/tours/hotels-packages`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/tours/land-packages`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    },
-    {
       url: `${baseUrl}/daily-tours`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/tours/transfers`,
+      url: `${baseUrl}/transfers`,
       lastModified: new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.7,
@@ -131,5 +134,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  return [...staticPages, ...packageUrls];
+  return [...staticPages, ...packageUrls, ...dailyTourUrls];
 }

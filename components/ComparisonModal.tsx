@@ -150,7 +150,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
                       <td key={pkg.id} className="p-4">
                         <h3 className="font-bold text-lg text-gray-900 mb-2">{pkg.title}</h3>
                         <Link
-                          href={`/tours/hotels-packages/package/${pkg.packageId}`}
+                          href={`/packages/${pkg.packageId}`}
                           className="text-sm text-primary-600 hover:text-primary-700"
                         >
                           View Details →
@@ -243,7 +243,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
                     {packages.map((pkg) => (
                       <td key={pkg.id} className="p-4">
                         <Link
-                          href={`/tours/hotels-packages/package/${pkg.packageId}`}
+                          href={`/packages/${pkg.packageId}`}
                           className="btn-primary w-full text-center block"
                         >
                           Book Now

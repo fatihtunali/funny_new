@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Turkey Airport Transfers & Private Transportation",
     description: "Book reliable airport transfers and private transportation in Turkey. Meet & greet service, comfortable vehicles, professional drivers.",
-    url: "https://dreamdestinationturkey.com/tours/transfers",
+    url: "https://dreamdestinationturkey.com/transfers",
     type: "website",
     images: [
       {

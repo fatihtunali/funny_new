@@ -180,7 +180,7 @@ export default function FeaturedPackages() {
                     <p className="text-sm text-gray-600 font-semibold">Full Details</p>
                   </div>
                   <Link
-                    href={`/tours/hotels-packages/package/${pkg.packageId}`}
+                    href={`/packages/${pkg.packageId}`}
                     className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors"
                   >
                     View Details

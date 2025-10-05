@@ -218,7 +218,7 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                 {/* Action Buttons */}
                 <div className="flex gap-3 pt-4 border-t">
                   <Link
-                    href={`/tours/hotels-packages/package/${pkg.packageId}`}
+                    href={`/packages/${pkg.packageId}`}
                     className="flex-1 btn-primary text-center flex items-center justify-center gap-2"
                     onClick={onClose}
                   >

@@ -60,7 +60,7 @@ export function generateTourPackageSchema(pkg: PackageSchemaData, baseUrl: strin
     },
     "offers": {
       "@type": "Offer",
-      "url": `${baseUrl}/tours/hotels-packages/package/${pkg.packageId}`,
+      "url": `${baseUrl}/packages/${pkg.packageId}`,
       "priceCurrency": "EUR",
       "price": minPrice.toString(),
       "availability": "https://schema.org/InStock",

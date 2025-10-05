@@ -10,7 +10,6 @@ interface TransferBookingModalProps {
     transferId: string;
     fromLocation: string;
     toLocation: string;
-    region: string;
     price: number;
     vehicleType: string;
     passengers: number;

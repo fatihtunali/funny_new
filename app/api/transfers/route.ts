@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
     const region = searchParams.get('region');
     const search = searchParams.get('search');
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = { isActive: true };
 
     if (fromLocationId) {

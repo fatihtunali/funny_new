@@ -31,7 +31,7 @@ interface Transfer {
 export default function TransfersPage() {
   const [transfers, setTransfers] = useState<Transfer[]>([]);
   const [locations, setLocations] = useState<Location[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   // Search form state
   const [searchFrom, setSearchFrom] = useState('');

@@ -52,10 +52,11 @@ export async function PUT(
     });
 
     return NextResponse.json({ success: true, location });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating location:', error);
+    const message = error instanceof Error ? error.message : 'Failed to update location';
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to update location' },
+      { success: false, error: message },
       { status: 500 }
     );
   }
@@ -93,10 +94,11 @@ export async function DELETE(
     });
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error deleting location:', error);
+    const message = error instanceof Error ? error.message : 'Failed to delete location';
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to delete location' },
+      { success: false, error: message },
       { status: 500 }
     );
   }

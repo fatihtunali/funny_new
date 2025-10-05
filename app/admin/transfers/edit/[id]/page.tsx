@@ -44,6 +44,7 @@ export default function EditTransferPage({ params }: { params: Promise<{ id: str
   useEffect(() => {
     fetchLocations();
     fetchTransfer();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchLocations = async () => {
@@ -51,8 +52,8 @@ export default function EditTransferPage({ params }: { params: Promise<{ id: str
       const res = await fetch('/api/admin/locations');
       const data = await res.json();
       setLocations(data.locations || []);
-    } catch (err) {
-      console.error('Failed to fetch locations:', err);
+    } catch (error) {
+      console.error('Failed to fetch locations:', error);
     }
   };
 
@@ -79,7 +80,8 @@ export default function EditTransferPage({ params }: { params: Promise<{ id: str
           isActive: t.isActive !== undefined ? t.isActive : true,
         });
       }
-    } catch (err) {
+    } catch (error) {
+      console.error('Failed to load transfer:', error);
       setError('Failed to load transfer');
     } finally {
       setLoading(false);
@@ -122,7 +124,8 @@ export default function EditTransferPage({ params }: { params: Promise<{ id: str
       } else {
         setError(data.error || 'Failed to update transfer');
       }
-    } catch (err) {
+    } catch (error) {
+      console.error('Failed to update transfer:', error);
       setError('Failed to update transfer');
     } finally {
       setSaving(false);
@@ -149,7 +152,8 @@ export default function EditTransferPage({ params }: { params: Promise<{ id: str
       } else {
         setError(data.error || 'Failed to delete transfer');
       }
-    } catch (err) {
+    } catch (error) {
+      console.error('Failed to delete transfer:', error);
       setError('Failed to delete transfer');
     } finally {
       setDeleting(false);

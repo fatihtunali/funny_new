@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   const type = searchParams.get('type');
   const region = searchParams.get('region');
 
-  const where: any = {};
+  const where: Record<string, string> = {};
   if (type) where.type = type;
   if (region) where.region = region;
 
@@ -56,10 +56,11 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true, location });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creating location:', error);
+    const message = error instanceof Error ? error.message : 'Failed to create location';
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to create location' },
+      { success: false, error: message },
       { status: 500 }
     );
   }

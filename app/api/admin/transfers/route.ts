@@ -61,11 +61,11 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true, transfer });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creating transfer:', error);
 
     // Handle unique constraint violation
-    if (error.code === 'P2002') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') {
       return NextResponse.json(
         {
           success: false,
@@ -75,11 +75,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const message = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
       {
         success: false,
         error: 'Failed to create transfer',
-        details: error.message || 'Unknown error'
+        details: message
       },
       { status: 500 }
     );

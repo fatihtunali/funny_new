@@ -46,8 +46,8 @@ export default function AddTransferPage() {
       const res = await fetch('/api/admin/locations');
       const data = await res.json();
       setLocations(data.locations || []);
-    } catch (err) {
-      console.error('Failed to fetch locations:', err);
+    } catch (error) {
+      console.error('Failed to fetch locations:', error);
     }
   };
 

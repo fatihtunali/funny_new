@@ -146,9 +146,17 @@ export default function EditDailyTourPage() {
               <input
                 type="text"
                 value={tour.tourCode}
-                onChange={(e) => updateField('tourCode', e.target.value)}
+                onChange={(e) => {
+                  // Only allow alphanumeric characters and hyphens
+                  const sanitized = e.target.value.replace(/[^a-zA-Z0-9-]/g, '');
+                  updateField('tourCode', sanitized);
+                }}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                placeholder="T-1"
               />
+              <p className="text-xs text-gray-500 mt-1">
+                Only letters, numbers, and hyphens allowed (e.g., T-1, IST-01)
+              </p>
             </div>
 
             {/* Title */}

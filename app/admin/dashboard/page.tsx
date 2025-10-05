@@ -90,6 +90,17 @@ export default async function AdminDashboard() {
               </div>
             </div>
           </Link>
+          <Link href="/admin/daily-tours/add" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 mb-2">Daily Tours</p>
+                <p className="text-lg font-semibold text-teal-600">Add Daily Tour →</p>
+              </div>
+              <div className="bg-teal-100 rounded-full p-3">
+                <FaPlus className="text-2xl text-teal-600" />
+              </div>
+            </div>
+          </Link>
         </div>
 
         {/* Stats */}

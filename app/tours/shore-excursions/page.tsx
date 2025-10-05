@@ -56,19 +56,39 @@ export default function ShoreExcursionsPage() {
 
   const fetchExcursions = async () => {
     try {
-      // For now, we'll filter packages that are suitable for shore excursions
-      // Later you can add a "isShoreExcursion" flag to the database
-      const res = await fetch('/api/packages');
+      // Fetch daily tours with SHORE_EXCURSION category
+      const res = await fetch('/api/daily-tours?category=SHORE_EXCURSION');
       const data = await res.json();
 
-      // Filter packages that are day tours (suitable for shore excursions)
-      const dayTours = (data.packages || []).filter((pkg: ShoreExcursion) => {
-        const duration = pkg.duration.toLowerCase();
-        return duration.includes('day') && !duration.includes('days');
-      });
+      // Map daily tours to shore excursion format
+      const shoreExcursions = (data.tours || []).map((tour: {
+        id: string;
+        tourCode: string;
+        title: string;
+        description: string;
+        duration: string;
+        city: string;
+        port: string | null;
+        pickupLocations: string | null;
+        image: string | null;
+        sicPrice: number;
+      }) => ({
+        id: tour.id,
+        packageId: tour.tourCode,
+        title: tour.title,
+        slug: tour.tourCode.toLowerCase(),
+        duration: tour.duration,
+        description: tour.description,
+        destinations: tour.city,
+        port: tour.port || tour.city,
+        pickupType: tour.pickupLocations || 'Port Pickup',
+        image: tour.image || '/images/destinations/istanbul.jpg',
+        pricing: { sicPrice: tour.sicPrice },
+        highlights: tour.description,
+      }));
 
-      setExcursions(dayTours);
-      setFilteredExcursions(dayTours);
+      setExcursions(shoreExcursions);
+      setFilteredExcursions(shoreExcursions);
     } catch (error) {
       console.error('Error fetching excursions:', error);
     } finally {

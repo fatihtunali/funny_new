@@ -1,10 +1,43 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { FaCalendarDay, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaCalendarDay, FaClock, FaMapMarkerAlt, FaEuroSign } from 'react-icons/fa';
+import { PackageGridSkeleton } from '@/components/LoadingSkeleton';
+
+interface DailyTour {
+  id: string;
+  tourCode: string;
+  title: string;
+  description: string;
+  duration: string;
+  city: string;
+  sicPrice: number;
+  image: string | null;
+}
 
 export default function DailyToursPage() {
+  const [tours, setTours] = useState<DailyTour[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        const res = await fetch('/api/daily-tours?category=DAILY_TOUR');
+        const data = await res.json();
+        setTours(data.tours || []);
+      } catch (error) {
+        console.error('Error fetching daily tours:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTours();
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -55,28 +88,100 @@ export default function DailyToursPage() {
         </div>
       </section>
 
-      {/* Coming Soon Section */}
+      {/* Tours Section */}
       <section className="bg-gray-50 py-16">
         <div className="section-container">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto text-center bg-white rounded-lg p-12 shadow-lg"
-          >
-            <FaCalendarDay className="text-6xl text-orange-600 mx-auto mb-6" />
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Coming Soon</h2>
-            <p className="text-lg text-gray-700 mb-8">
-              We&apos;re currently preparing our daily tour offerings. These will include historical tours,
-              adventure activities, cultural experiences, and more across all major Turkish destinations.
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Available Daily Tours</h2>
+            <p className="text-lg text-gray-600">
+              Choose from our selection of expertly curated daily tours
             </p>
-            <p className="text-gray-600 mb-8">
-              Contact us to arrange custom daily tours in Istanbul, Cappadocia, Ephesus, and beyond.
-            </p>
-            <Link href="/contact" className="btn-primary">
-              Contact Us for Custom Tours
-            </Link>
-          </motion.div>
+          </div>
+
+          {loading ? (
+            <PackageGridSkeleton count={6} />
+          ) : tours.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="max-w-3xl mx-auto text-center bg-white rounded-lg p-12 shadow-lg"
+            >
+              <FaCalendarDay className="text-6xl text-orange-600 mx-auto mb-6" />
+              <h3 className="text-4xl font-bold text-gray-900 mb-4">Coming Soon</h3>
+              <p className="text-lg text-gray-700 mb-8">
+                We&apos;re currently preparing our daily tour offerings. These will include historical tours,
+                adventure activities, cultural experiences, and more across all major Turkish destinations.
+              </p>
+              <p className="text-gray-600 mb-8">
+                Contact us to arrange custom daily tours in Istanbul, Cappadocia, Ephesus, and beyond.
+              </p>
+              <Link href="/contact" className="btn-primary">
+                Contact Us for Custom Tours
+              </Link>
+            </motion.div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {tours.map((tour) => (
+                <motion.div
+                  key={tour.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                >
+                  <div className="relative h-48">
+                    <Image
+                      src={tour.image || '/images/destinations/istanbul.jpg'}
+                      alt={tour.title}
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute top-3 left-3 bg-orange-600 text-white px-3 py-1 rounded-lg text-xs font-semibold flex items-center gap-1">
+                      <FaCalendarDay />
+                      {tour.tourCode}
+                    </div>
+                  </div>
+
+                  <div className="p-6">
+                    <div className="flex items-center justify-between text-gray-600 mb-2 text-sm">
+                      <div className="flex items-center">
+                        <FaClock className="mr-2" />
+                        <span className="font-semibold">{tour.duration}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <FaMapMarkerAlt className="mr-2" />
+                        <span>{tour.city}</span>
+                      </div>
+                    </div>
+
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 min-h-[3.5rem] line-clamp-2">
+                      {tour.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-3">{tour.description}</p>
+
+                    <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 mb-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-600">From</span>
+                        <div className="flex items-center gap-1 text-orange-700 text-lg font-bold">
+                          <FaEuroSign className="text-sm" />
+                          {tour.sicPrice}
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">per person</p>
+                    </div>
+
+                    <Link
+                      href={`/tours/daily-tours/${tour.tourCode.toLowerCase()}`}
+                      className="block w-full text-center btn-primary text-sm"
+                    >
+                      View Details & Book
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

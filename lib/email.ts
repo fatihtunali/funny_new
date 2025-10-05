@@ -111,6 +111,7 @@ export function generateBookingConfirmationEmail(booking: BookingEmailData) {
     <body>
       <div class="container">
         <div class="header">
+          <img src="https://dreamdestinationturkey.com/images/FunnyLogo1.png" alt="Funny Tourism" style="max-width: 200px; height: auto; margin-bottom: 20px;">
           <h1>🎉 Booking Confirmed!</h1>
           <p>Thank you for choosing Funny Tourism</p>
         </div>
@@ -165,9 +166,9 @@ export function generateBookingConfirmationEmail(booking: BookingEmailData) {
 
           <p style="margin-top: 30px; color: #6b7280; font-size: 14px;">
             For any questions or changes to your booking, please contact us:
-            <br>📞 Phone: +90 XXX XXX XX XX
+            <br>📞 Phone: +90 216 557 52 52
             <br>📧 Email: info@dreamdestinationturkey.com
-            <br>💬 WhatsApp: +90 XXX XXX XX XX
+            <br>💬 WhatsApp: +90 539 502 53 10
           </p>
         </div>
 
@@ -207,6 +208,7 @@ export function generateBookingReminderEmail(booking: ReminderEmailData, daysUnt
     <body>
       <div class="container">
         <div class="header">
+          <img src="https://dreamdestinationturkey.com/images/FunnyLogo1.png" alt="Funny Tourism" style="max-width: 200px; height: auto; margin-bottom: 20px;">
           <h1>🧳 Your Turkey Adventure is ${daysUntilTravel} Days Away!</h1>
         </div>
 
@@ -234,9 +236,9 @@ export function generateBookingReminderEmail(booking: ReminderEmailData, daysUnt
           <p style="margin-top: 30px;">If you have any questions or need to make any changes, please don't hesitate to contact us!</p>
 
           <p style="color: #6b7280; font-size: 14px; margin-top: 20px;">
-            📞 Phone: +90 XXX XXX XX XX<br>
+            📞 Phone: +90 216 557 52 52<br>
             📧 Email: info@dreamdestinationturkey.com<br>
-            💬 WhatsApp: +90 XXX XXX XX XX
+            💬 WhatsApp: +90 539 502 53 10
           </p>
         </div>
 
@@ -286,6 +288,7 @@ export function generateTransferBookingEmail(booking: TransferBookingEmailData) 
     <body>
       <div class="container">
         <div class="header">
+          <img src="https://dreamdestinationturkey.com/images/FunnyLogo1.png" alt="Funny Tourism" style="max-width: 200px; height: auto; margin-bottom: 20px;">
           <h1>🚗 Transfer Booking Confirmed!</h1>
           <p>Your comfortable ride is reserved</p>
         </div>
@@ -355,9 +358,9 @@ export function generateTransferBookingEmail(booking: TransferBookingEmailData) 
 
           <p style="margin-top: 30px; color: #6b7280; font-size: 14px;">
             For any questions or changes to your transfer, please contact us:
-            <br>📞 Phone: +90 XXX XXX XX XX
+            <br>📞 Phone: +90 216 557 52 52
             <br>📧 Email: info@dreamdestinationturkey.com
-            <br>💬 WhatsApp: +90 XXX XXX XX XX
+            <br>💬 WhatsApp: +90 539 502 53 10
           </p>
         </div>
 

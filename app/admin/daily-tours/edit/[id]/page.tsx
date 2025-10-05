@@ -39,26 +39,26 @@ export default function EditDailyTourPage() {
   const [tour, setTour] = useState<DailyTour | null>(null);
 
   useEffect(() => {
-    fetchTour();
-  }, [id]);
-
-  const fetchTour = async () => {
-    try {
-      const res = await fetch(`/api/admin/daily-tours/${id}`);
-      if (res.ok) {
-        const data = await res.json();
-        setTour(data.tour);
-      } else {
-        alert('Failed to load tour');
-        router.push('/admin/daily-tours');
+    const fetchTour = async () => {
+      try {
+        const res = await fetch(`/api/admin/daily-tours/${id}`);
+        if (res.ok) {
+          const data = await res.json();
+          setTour(data.tour);
+        } else {
+          alert('Failed to load tour');
+          router.push('/admin/daily-tours');
+        }
+      } catch (error) {
+        console.error('Error fetching tour:', error);
+        alert('Error loading tour');
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error fetching tour:', error);
-      alert('Error loading tour');
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    fetchTour();
+  }, [id, router]);
 
   const handleSave = async () => {
     if (!tour) return;

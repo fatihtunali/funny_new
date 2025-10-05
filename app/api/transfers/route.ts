@@ -12,12 +12,22 @@ export async function GET(req: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = { isActive: true };
 
-    if (fromLocationId) {
-      where.fromLocationId = fromLocationId;
-    }
-
-    if (toLocationId) {
-      where.toLocationId = toLocationId;
+    // Support bidirectional route matching
+    if (fromLocationId && toLocationId) {
+      where.OR = [
+        { fromLocationId: fromLocationId, toLocationId: toLocationId },
+        { fromLocationId: toLocationId, toLocationId: fromLocationId }
+      ];
+    } else if (fromLocationId) {
+      where.OR = [
+        { fromLocationId: fromLocationId },
+        { toLocationId: fromLocationId }
+      ];
+    } else if (toLocationId) {
+      where.OR = [
+        { toLocationId: toLocationId },
+        { fromLocationId: toLocationId }
+      ];
     }
 
     if (region) {

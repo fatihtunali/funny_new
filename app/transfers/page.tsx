@@ -83,9 +83,24 @@ export default function TransfersPage() {
   // Calculate price when route and passengers change
   useEffect(() => {
     if (selectedFromId && selectedToId) {
-      const transfer = transfers.find(
+      // Support bidirectional route matching
+      let transfer = transfers.find(
         t => t.fromLocation.id === selectedFromId && t.toLocation.id === selectedToId
       );
+
+      // If not found, check reverse direction
+      const reverseTransfer = transfers.find(
+        t => t.fromLocation.id === selectedToId && t.toLocation.id === selectedFromId
+      );
+
+      // Use reverse transfer if found, but normalize it to user's selected direction
+      if (!transfer && reverseTransfer) {
+        transfer = {
+          ...reverseTransfer,
+          fromLocation: reverseTransfer.toLocation,
+          toLocation: reverseTransfer.fromLocation,
+        };
+      }
 
       if (transfer) {
         setSelectedTransfer(transfer);

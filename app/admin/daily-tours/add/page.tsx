@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { FaArrowLeft, FaUpload, FaSave } from 'react-icons/fa';
+import { FaArrowLeft, FaUpload, FaSave, FaEdit, FaTrash } from 'react-icons/fa';
+import DeleteDailyTourButton from '@/components/admin/DeleteDailyTourButton';
 
 interface DailyTour {
   tourCode: string;
@@ -27,13 +28,33 @@ interface DailyTour {
   pdfUrl?: string;
 }
 
+interface SavedTour extends DailyTour {
+  id: string;
+  isActive: boolean;
+}
+
 export default function AddDailyTourPage() {
   const router = useRouter();
   const [isExtracting, setIsExtracting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [tours, setTours] = useState<DailyTour[]>([]);
+  const [savedTours, setSavedTours] = useState<SavedTour[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [category, setCategory] = useState<'DAILY_TOUR' | 'SHORE_EXCURSION'>('DAILY_TOUR');
+
+  useEffect(() => {
+    fetchSavedTours();
+  }, []);
+
+  const fetchSavedTours = async () => {
+    try {
+      const res = await fetch('/api/admin/daily-tours');
+      const data = await res.json();
+      setSavedTours(data.tours || []);
+    } catch (error) {
+      console.error('Error fetching saved tours:', error);
+    }
+  };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -97,11 +118,10 @@ export default function AddDailyTourPage() {
 
       if (data.success) {
         alert(`Successfully saved ${data.count} tour(s)!`);
-        // Clear the form and redirect to list
+        // Clear the form and refresh the saved tours list
         setTours([]);
         setSelectedFile(null);
-        router.push('/admin/daily-tours');
-        router.refresh();
+        fetchSavedTours(); // Refresh the list below
       } else {
         alert('Failed to save tours: ' + (data.error || 'Unknown error'));
       }
@@ -361,6 +381,99 @@ export default function AddDailyTourPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* Saved Tours List */}
+        {savedTours.length > 0 && (
+          <div className="bg-white rounded-lg shadow-md p-6 mt-8">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">All Daily Tours ({savedTours.length})</h2>
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Tour Code
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Title
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      City
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Duration
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Category
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      SIC Price
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {savedTours.map((tour) => (
+                    <tr key={tour.id}>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {tour.tourCode}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-900">
+                        {tour.title}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                        {tour.city}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                        {tour.duration}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                        <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                          tour.category === 'SHORE_EXCURSION'
+                            ? 'bg-blue-100 text-blue-800'
+                            : 'bg-green-100 text-green-800'
+                        }`}>
+                          {tour.category === 'SHORE_EXCURSION' ? 'Shore Excursion' : 'Daily Tour'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                        €{tour.sicPrice}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                          tour.isActive
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                        }`}>
+                          {tour.isActive ? 'Active' : 'Inactive'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div className="flex space-x-3">
+                          <Link
+                            href={`/admin/daily-tours/edit/${tour.id}`}
+                            className="text-indigo-600 hover:text-indigo-900"
+                          >
+                            <FaEdit className="inline" />
+                          </Link>
+                          <DeleteDailyTourButton
+                            tourId={tour.id}
+                            tourTitle={tour.title}
+                            onDeleted={fetchSavedTours}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         )}

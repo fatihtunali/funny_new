@@ -6,9 +6,10 @@ import { FaTrash } from 'react-icons/fa';
 interface DeleteDailyTourButtonProps {
   tourId: string;
   tourTitle: string;
+  onDeleted?: () => void;
 }
 
-export default function DeleteDailyTourButton({ tourId, tourTitle }: DeleteDailyTourButtonProps) {
+export default function DeleteDailyTourButton({ tourId, tourTitle, onDeleted }: DeleteDailyTourButtonProps) {
   const router = useRouter();
 
   const handleDelete = async () => {
@@ -25,7 +26,11 @@ export default function DeleteDailyTourButton({ tourId, tourTitle }: DeleteDaily
 
       if (data.success) {
         alert('Tour deleted successfully!');
-        router.refresh();
+        if (onDeleted) {
+          onDeleted(); // Call parent refresh function if provided
+        } else {
+          router.refresh(); // Fallback to router refresh
+        }
       } else {
         alert('Failed to delete tour: ' + (data.error || 'Unknown error'));
       }

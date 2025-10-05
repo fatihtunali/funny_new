@@ -301,7 +301,7 @@ export default function AddDailyTourPage() {
                         placeholder="0 or N/A"
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                       />
-                      <p className="text-xs text-gray-500 mt-1">Enter price or "N/A" if not available</p>
+                      <p className="text-xs text-gray-500 mt-1">Enter price or &quot;N/A&quot; if not available</p>
                     </div>
 
                     <div>

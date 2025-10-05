@@ -5,6 +5,7 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const packageType = searchParams.get('type');
+    const includeDailyTours = searchParams.get('includeDailyTours') !== 'false';
 
     const where: { isActive: boolean; packageType?: string } = { isActive: true };
 
@@ -30,7 +31,46 @@ export async function GET(req: NextRequest) {
       }
     });
 
-    return NextResponse.json({ packages });
+    // Fetch daily tours if included
+    let allPackages = packages.map(pkg => ({
+      ...pkg,
+      id: pkg.packageId,
+      slug: pkg.packageId.toLowerCase(),
+    }));
+
+    if (includeDailyTours) {
+      const dailyTours = await prisma.dailyTour.findMany({
+        where: { isActive: true },
+        orderBy: { tourCode: 'asc' },
+      });
+
+      // Map daily tours to package format
+      const dailyToursAsPackages = dailyTours.map(tour => ({
+        id: tour.tourCode,
+        packageId: tour.tourCode,
+        packageType: tour.category === 'SHORE_EXCURSION' ? 'SHORE_EXCURSION' : 'DAILY_TOUR',
+        title: tour.title,
+        duration: tour.duration,
+        destinations: tour.city,
+        image: tour.image || '/images/destinations/istanbul.jpg',
+        description: tour.description,
+        pdfUrl: tour.pdfUrl,
+        highlights: tour.description,
+        pricing: {
+          sicPrice: tour.sicPrice,
+          privateMin2: tour.privateMin2,
+          privateMin4: tour.privateMin4,
+          privateMin6: tour.privateMin6,
+          privateMin8: tour.privateMin8,
+          privateMin10: tour.privateMin10,
+        },
+        slug: tour.tourCode.toLowerCase(),
+      }));
+
+      allPackages = [...allPackages, ...dailyToursAsPackages];
+    }
+
+    return NextResponse.json({ packages: allPackages });
   } catch (error) {
     console.error('Fetch packages error:', error);
     return NextResponse.json(

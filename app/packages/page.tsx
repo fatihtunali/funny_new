@@ -132,6 +132,11 @@ export default function AllPackagesPage() {
     try {
       const pricing = typeof pkg.pricing === 'string' ? JSON.parse(pkg.pricing) : pkg.pricing;
 
+      // Daily tours and shore excursions - use SIC price
+      if (pricing?.sicPrice) {
+        return pricing.sicPrice;
+      }
+
       // Check if using new paxTiers structure
       if (pricing?.paxTiers) {
         // Use 6 pax tier pricing if available (standard group size)
@@ -184,7 +189,9 @@ export default function AllPackagesPage() {
   const destinations = ['Istanbul', 'Cappadocia', 'Ephesus', 'Pamukkale', 'Antalya', 'Bodrum'];
   const packageTypes = [
     { value: 'WITH_HOTEL', label: 'Hotel Packages' },
-    { value: 'LAND_ONLY', label: 'Land Packages' }
+    { value: 'LAND_ONLY', label: 'Land Packages' },
+    { value: 'DAILY_TOUR', label: 'Daily Tours' },
+    { value: 'SHORE_EXCURSION', label: 'Shore Excursions' }
   ];
   const durations = [
     { value: '1', label: '1 Day' },

@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { FaCheckCircle, FaUsers, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 function InquiryFormContent() {
@@ -213,12 +214,12 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                 </svg>
                 Chat on WhatsApp
               </a>
-              <a
+              <Link
                 href="/packages"
                 className="inline-block bg-white hover:bg-gray-50 text-primary-600 border-2 border-primary-600 font-semibold py-3 px-6 rounded-lg transition-colors"
               >
                 Browse More Tours
-              </a>
+              </Link>
             </div>
           </div>
         </div>

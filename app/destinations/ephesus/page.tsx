@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaClock, FaLandmark } from 'react-icons/fa';
+import { FaClock, FaLandmark } from 'react-icons/fa';
 
 export default function EphesusPage() {
   const attractions = [

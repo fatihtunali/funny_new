@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     const category = searchParams.get('category');
     const limit = searchParams.get('limit');
 
-    const where: any = { status: 'PUBLISHED' };
+    const where: { status: string; category?: string } = { status: 'PUBLISHED' };
     if (category) {
       where.category = category;
     }

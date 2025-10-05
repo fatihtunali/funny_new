@@ -22,10 +22,10 @@ export async function GET() {
     }
 
     return NextResponse.json({ nextId });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Next package ID error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to get next package ID' },
+      { error: error instanceof Error ? error.message : 'Failed to get next package ID' },
       { status: 500 }
     );
   }

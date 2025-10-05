@@ -1,12 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import AgentBookingModal from '@/components/agent/AgentBookingModal';
 
 interface Props {
   packageId: string;
+}
+
+interface PricingData {
+  paxTiers?: Record<string, Record<string, { double: number; triple: number; singleSupplement: number | null }>>;
+  perPerson?: number;
+  [key: string]: unknown;
 }
 
 interface Package {
@@ -16,7 +23,7 @@ interface Package {
   duration: string;
   description: string;
   destinations: string;
-  pricing: any; // Already parsed from API - single pricing for everyone
+  pricing: PricingData;
   packageType: string;
   image: string;
   itinerary: string;
@@ -50,12 +57,7 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
     specialRequests: '',
   });
 
-  useEffect(() => {
-    fetchPackage();
-    fetchAgentData();
-  }, [packageId]);
-
-  const fetchPackage = async () => {
+  const fetchPackage = useCallback(async () => {
     try {
       const res = await fetch(`/api/packages/${packageId}`);
       if (!res.ok) throw new Error('Package not found');
@@ -67,9 +69,9 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [packageId, router]);
 
-  const fetchAgentData = async () => {
+  const fetchAgentData = useCallback(async () => {
     try {
       const res = await fetch('/api/agent/me');
       if (!res.ok) throw new Error('Not authenticated');
@@ -78,7 +80,12 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
     } catch (error) {
       console.error('Error fetching agent data:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchPackage();
+    fetchAgentData();
+  }, [fetchPackage, fetchAgentData]);
 
   const calculatePrice = () => {
     if (!pkg) return 0;
@@ -134,10 +141,8 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
           // Calculate based on room configuration
           const doubleRooms = Math.floor(adults / 2);
           const singleRooms = adults % 2;
-          const tripleRooms = 0; // Can be enhanced later for triple room selection
 
           const doublePrice = tierPricing.double || 0;
-          const triplePrice = tierPricing.triple || 0;
           const singleSupplement = tierPricing.singleSupplement || 0;
 
           // Calculate total: (double rooms * 2 people * PP in DBL) + (single rooms * (PP in DBL + single supplement))
@@ -168,7 +173,7 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
 
         } else {
           // Fallback: Old simple pricing format (for backward compatibility)
-          const hotelPricing = pricing[bookingData.hotelCategory];
+          const hotelPricing = pricing[bookingData.hotelCategory] as { double?: number; single?: number; triple?: number } | undefined;
           console.log(`🏨 Hotel category lookup (legacy):`, JSON.stringify({
             lookingFor: bookingData.hotelCategory,
             availableCategories: Object.keys(pricing),
@@ -259,7 +264,9 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
           {/* Package Details */}
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-              <img src={pkg.image} alt={pkg.title} className="w-full h-64 object-cover" />
+              <div className="relative w-full h-64">
+                <Image src={pkg.image} alt={pkg.title} fill className="object-cover" />
+              </div>
               <div className="p-6">
                 <div className="flex items-center space-x-4 text-sm text-gray-600 mb-4">
                   <span>📍 {pkg.destinations}</span>

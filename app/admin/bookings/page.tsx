@@ -33,7 +33,6 @@ export default async function AdminBookingsPage() {
   });
 
   const agentBookings = bookings.filter(b => b.agentId);
-  const directBookings = bookings.filter(b => !b.agentId);
   const totalCommission = agentBookings.reduce((sum, b) => sum + (b.commissionAmount || 0), 0);
 
   return (

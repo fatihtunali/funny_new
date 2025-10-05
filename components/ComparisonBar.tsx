@@ -6,7 +6,7 @@ import { useComparison } from '@/contexts/ComparisonContext';
 import ComparisonModal from './ComparisonModal';
 
 export default function ComparisonBar() {
-  const { comparisonList, removeFromComparison, clearComparison } = useComparison();
+  const { comparisonList, clearComparison } = useComparison();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (comparisonList.length === 0) return null;

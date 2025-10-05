@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { FaPlus, FaMagic, FaEdit, FaTrash, FaEye, FaCalendar, FaRobot, FaCheckCircle, FaArrowLeft } from 'react-icons/fa';
 
 interface BlogPost {
@@ -19,17 +18,12 @@ interface BlogPost {
 }
 
 export default function AdminBlogPage() {
-  const router = useRouter();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [filter, setFilter] = useState('ALL');
 
-  useEffect(() => {
-    fetchPosts();
-  }, [filter]);
-
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     try {
       const url = filter === 'ALL' ? '/api/admin/blog' : `/api/admin/blog?status=${filter}`;
       const res = await fetch(url);
@@ -42,7 +36,11 @@ export default function AdminBlogPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filter]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
 
   const handleGeneratePost = async () => {
     if (!confirm('Generate a new AI blog post? This will create a draft that you can review and edit.')) {

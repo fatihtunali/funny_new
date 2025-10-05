@@ -3,19 +3,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaClock, FaParachuteBox } from 'react-icons/fa';
+import { FaClock, FaParachuteBox } from 'react-icons/fa';
 
 export default function FethiyePage() {
   const attractions = [
     {
       name: 'Ölüdeniz Beach & Blue Lagoon',
-      description: 'One of Turkey\'s most photographed beaches with stunning turquoise waters',
+      description: 'One of Turkey&apos;s most photographed beaches with stunning turquoise waters',
       image: '/images/cappadociaballoonride.jpg',
       duration: 'Full day'
     },
     {
       name: 'Paragliding from Babadağ',
-      description: 'Experience one of the world\'s best paragliding spots with breathtaking views',
+      description: 'Experience one of the world&apos;s best paragliding spots with breathtaking views',
       image: '/images/cappadociaballoonride.jpg',
       duration: '2-3 hours'
     },
@@ -73,13 +73,13 @@ export default function FethiyePage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Discover Fethiye</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
-            Fethiye is a stunning coastal town on Turkey\'s Turquoise Coast, famous for the
+            Fethiye is a stunning coastal town on Turkey&apos;s Turquoise Coast, famous for the
             legendary Blue Lagoon at Ölüdeniz and world-class paragliding. This vibrant destination
             offers perfect beaches, ancient Lycian ruins, and endless adventure opportunities.
           </p>
           <p className="text-lg text-gray-700 leading-relaxed">
             From soaring above the coastline to exploring hidden valleys and swimming in pristine waters,
-            Fethiye is an outdoor enthusiast\'s dream destination.
+            Fethiye is an outdoor enthusiast&apos;s dream destination.
           </p>
         </div>
       </section>

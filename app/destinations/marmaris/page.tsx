@@ -3,13 +3,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaClock, FaAnchor } from 'react-icons/fa';
+import { FaClock, FaAnchor } from 'react-icons/fa';
 
 export default function MarmarisPage() {
   const attractions = [
     {
       name: 'Marmaris Marina',
-      description: 'Stroll along one of Turkey\'s most beautiful marinas with luxury yachts and cafes',
+      description: 'Stroll along one of Turkey&apos;s most beautiful marinas with luxury yachts and cafes',
       image: '/images/IstanbulatNight.jpeg',
       duration: '2-3 hours'
     },
@@ -73,7 +73,7 @@ export default function MarmarisPage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Discover Marmaris</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
-            Marmaris is one of Turkey\'s most popular coastal resorts, famous for its stunning natural
+            Marmaris is one of Turkey&apos;s most popular coastal resorts, famous for its stunning natural
             harbor, beautiful beaches, and vibrant atmosphere. Nestled between pine-covered mountains
             and the crystal-clear Mediterranean, it offers the perfect blend of relaxation and excitement.
           </p>

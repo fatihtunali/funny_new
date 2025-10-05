@@ -97,10 +97,10 @@ export default function AboutPage() {
                   Funny Tourism was founded by a group of travel enthusiasts who believed that the best travel experiences are those filled with laughter and joy. We noticed that most travel agencies focused solely on sightseeing, while missing the humorous and entertaining aspects of different cultures.
                 </p>
                 <p>
-                  Our mission is to create travel experiences that not only show you the world but make you laugh along the way. Whether it's through comedy-themed tours, visits to quirky attractions, or simply embracing the funny side of cultural differences, we believe that humor enhances every journey.
+                  Our mission is to create travel experiences that not only show you the world but make you laugh along the way. Whether it&apos;s through comedy-themed tours, visits to quirky attractions, or simply embracing the funny side of cultural differences, we believe that humor enhances every journey.
                 </p>
                 <p>
-                  Today, Funny Tourism operates in over 30 countries, bringing smiles to thousands of travelers each year. We're proud to be the pioneers of humor-focused tourism and continue to innovate with new funny travel concepts every season.
+                  Today, Funny Tourism operates in over 30 countries, bringing smiles to thousands of travelers each year. We&apos;re proud to be the pioneers of humor-focused tourism and continue to innovate with new funny travel concepts every season.
                 </p>
               </div>
             </motion.div>

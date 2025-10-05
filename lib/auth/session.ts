@@ -28,7 +28,7 @@ export async function getSession(): Promise<SessionUser | null> {
 
     const decoded = jwt.verify(token, JWT_SECRET) as SessionUser;
     return decoded;
-  } catch (error) {
+  } catch {
     return null;
   }
 }

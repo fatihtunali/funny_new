@@ -57,7 +57,6 @@ export default function BookingModal({ isOpen, onClose, packageData }: BookingMo
   const [specialRequests, setSpecialRequests] = useState('');
 
   // Step 3: Passenger Details
-  const totalPax = packageData.rooms.reduce((sum, pax) => sum + pax, 0);
   const [passengers, setPassengers] = useState<PassengerInfo[]>([]);
 
   const [submitting, setSubmitting] = useState(false);
@@ -67,6 +66,7 @@ export default function BookingModal({ isOpen, onClose, packageData }: BookingMo
     if (isOpen) {
       checkAuth();
       // Initialize passengers array based on total pax
+      const totalPax = packageData.rooms.reduce((sum, pax) => sum + pax, 0);
       const initialPassengers: PassengerInfo[] = Array(totalPax).fill(null).map(() => ({
         firstName: '',
         middleName: '',
@@ -81,7 +81,7 @@ export default function BookingModal({ isOpen, onClose, packageData }: BookingMo
       }));
       setPassengers(initialPassengers);
     }
-  }, [isOpen, totalPax]);
+  }, [isOpen, packageData.rooms]);
 
   const checkAuth = async () => {
     try {
@@ -95,8 +95,6 @@ export default function BookingModal({ isOpen, onClose, packageData }: BookingMo
       } else {
         setIsLoggedIn(false);
       }
-    } catch (error) {
-      setIsLoggedIn(false);
     } finally {
       setCheckingAuth(false);
     }
@@ -202,7 +200,7 @@ export default function BookingModal({ isOpen, onClose, packageData }: BookingMo
         const data = await res.json();
         setError(data.error || 'Failed to create booking');
       }
-    } catch (error) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setSubmitting(false);
@@ -210,6 +208,7 @@ export default function BookingModal({ isOpen, onClose, packageData }: BookingMo
   };
 
   const handleWhatsAppBooking = () => {
+    const totalPax = packageData.rooms.reduce((sum, pax) => sum + pax, 0);
     const roomDetails = packageData.rooms.map((pax, idx) => {
       const type = pax === 1 ? 'Single' : pax === 2 ? 'Double' : 'Triple';
       return `Room ${idx + 1}: ${type} (${pax} ${pax === 1 ? 'person' : 'people'})`;
@@ -284,7 +283,7 @@ export default function BookingModal({ isOpen, onClose, packageData }: BookingMo
                 <h3 className="font-bold text-gray-900 mb-2">{packageData.title}</h3>
                 <div className="text-sm text-gray-600 space-y-1">
                   <p>Hotel: {packageData.selectedHotel.replace('star', '-Star')}</p>
-                  <p>Guests: {totalPax}</p>
+                  <p>Guests: {packageData.rooms.reduce((sum, pax) => sum + pax, 0)}</p>
                   <p>Rooms: {packageData.rooms.length}</p>
                   <p className="font-bold text-blue-600 text-lg mt-2">Total: €{packageData.totalPrice}</p>
                 </div>

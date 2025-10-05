@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { FaCheckCircle, FaMapMarkerAlt, FaHeart, FaCalendar, FaUsers, FaEnvelope, FaPhone, FaGlobe } from 'react-icons/fa';
+import { useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { FaCheckCircle, FaUsers, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 function InquiryFormContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -163,7 +162,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
       } else {
         throw new Error('Failed to submit');
       }
-    } catch (error) {
+    } catch {
       alert('Failed to submit inquiry. Please try again or contact us directly.');
     } finally {
       setIsSubmitting(false);
@@ -200,7 +199,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
               <p className="text-sm text-blue-800 font-medium mb-2">📧 Check your email</p>
-              <p className="text-sm text-blue-700">We've sent a confirmation to <strong>{formData.email}</strong></p>
+              <p className="text-sm text-blue-700">We&apos;ve sent a confirmation to <strong>{formData.email}</strong></p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -234,7 +233,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gray-900 mb-3">Get Your Free Custom Quote</h1>
             <p className="text-lg text-gray-600">
-              Tell us about your dream Turkey vacation and we'll create a personalized itinerary just for you
+              Tell us about your dream Turkey vacation and we&apos;ll create a personalized itinerary just for you
             </p>
           </div>
 
@@ -762,7 +761,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                   </div>
 
                   <p className="text-xs text-center text-gray-500 mt-4">
-                    🔒 Your information is secure. We'll respond within 24 hours with a personalized quote.
+                    🔒 Your information is secure. We&apos;ll respond within 24 hours with a personalized quote.
                   </p>
                 </div>
               )}

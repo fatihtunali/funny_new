@@ -33,11 +33,11 @@ export async function GET(req: NextRequest) {
     });
 
     return NextResponse.json({ posts });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching blog posts:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch blog posts' },
-      { status: error.message?.includes('Unauthorized') ? 401 : 500 }
+      { error: error instanceof Error ? error.message : 'Failed to fetch blog posts' },
+      { status: error instanceof Error && error.message?.includes('Unauthorized') ? 401 : 500 }
     );
   }
 }
@@ -87,11 +87,11 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ post }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creating blog post:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to create blog post' },
-      { status: error.message?.includes('Unauthorized') ? 401 : 500 }
+      { error: error instanceof Error ? error.message : 'Failed to create blog post' },
+      { status: error instanceof Error && error.message?.includes('Unauthorized') ? 401 : 500 }
     );
   }
 }

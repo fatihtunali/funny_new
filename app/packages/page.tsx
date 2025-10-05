@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaFilter, FaTh, FaList, FaMapMarkerAlt, FaClock, FaEuroSign, FaFilePdf, FaEye, FaBalanceScale, FaTimes } from 'react-icons/fa';
+import { FaFilter, FaTh, FaList, FaMapMarkerAlt, FaClock, FaFilePdf, FaEye, FaBalanceScale, FaTimes } from 'react-icons/fa';
 import { PackageGridSkeleton } from '@/components/LoadingSkeleton';
 import QuickViewModal from '@/components/QuickViewModal';
 import { useComparison } from '@/contexts/ComparisonContext';
@@ -17,7 +17,7 @@ interface Package {
   description: string;
   destinations: string;
   image: string;
-  pricing: any;
+  pricing: Record<string, unknown>;
   packageType: string;
   highlights: string;
   pdfUrl?: string;
@@ -48,7 +48,7 @@ export default function AllPackagesPage() {
 
   useEffect(() => {
     applyFilters();
-  }, [packages, selectedDestinations, selectedTypes, selectedDurations, priceRange, searchQuery, sortBy]);
+  }, [packages, selectedDestinations, selectedTypes, selectedDurations, priceRange, searchQuery, sortBy, applyFilters]);
 
   const fetchPackages = async () => {
     try {
@@ -65,7 +65,7 @@ export default function AllPackagesPage() {
     }
   };
 
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = [...packages];
 
     // Search filter
@@ -126,7 +126,7 @@ export default function AllPackagesPage() {
     }
 
     setFilteredPackages(filtered);
-  };
+  }, [packages, searchQuery, selectedDestinations, selectedTypes, selectedDurations, priceRange, sortBy]);
 
   const getPackageMinPrice = (pkg: Package): number => {
     try {
@@ -173,7 +173,7 @@ export default function AllPackagesPage() {
     }
   };
 
-  const toggleFilter = (filterArray: string[], setFilterArray: Function, value: string) => {
+  const toggleFilter = (filterArray: string[], setFilterArray: (value: string[]) => void, value: string) => {
     if (filterArray.includes(value)) {
       setFilterArray(filterArray.filter((item: string) => item !== value));
     } else {
@@ -516,11 +516,14 @@ export default function AllPackagesPage() {
                       href={`/tours/hotels-packages/package/${pkg.packageId}`}
                       className="flex bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow"
                     >
-                      <img
-                        src={pkg.image}
-                        alt={pkg.title}
-                        className="w-48 h-48 object-cover flex-shrink-0"
-                      />
+                      <div className="relative w-48 h-48 flex-shrink-0">
+                        <Image
+                          src={pkg.image}
+                          alt={pkg.title}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
                       <div className="p-4 flex-1">
                         <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2">{pkg.title}</h3>
                         <div className="flex flex-wrap gap-3 text-sm text-gray-600 mb-3">

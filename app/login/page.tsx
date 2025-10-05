@@ -37,8 +37,8 @@ export default function LoginPage() {
       // Redirect to dashboard
       router.push('/dashboard');
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -127,7 +127,7 @@ export default function LoginPage() {
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link href="/register" className="text-primary-600 hover:text-primary-700 font-semibold">
                 Create one here
               </Link>

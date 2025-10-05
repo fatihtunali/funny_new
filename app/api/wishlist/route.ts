@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 import { getSession } from '@/lib/auth/session';
 
 // GET - Get user's wishlist
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const user = await getSession();
     if (!user) {

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaClock, FaWater } from 'react-icons/fa';
+import { FaClock, FaWater } from 'react-icons/fa';
 
 export default function PamukkalePage() {
   const attractions = [
@@ -20,7 +20,7 @@ export default function PamukkalePage() {
       duration: '2-3 hours'
     },
     {
-      name: 'Cleopatra\'s Pool',
+      name: 'Cleopatra&apos;s Pool',
       description: 'Ancient thermal pool where Cleopatra allegedly bathed, surrounded by Roman columns',
       image: '/images/PamukkaleTravertenler.jpg',
       duration: '1-2 hours'
@@ -35,7 +35,7 @@ export default function PamukkalePage() {
 
   const experiences = [
     'Walking barefoot on travertine terraces',
-    'Swimming in Cleopatra\'s thermal pool',
+    'Swimming in Cleopatra&apos;s thermal pool',
     'Watching sunset over white terraces',
     'Exploring ancient theater and necropolis',
     'Soaking in natural thermal waters',
@@ -73,7 +73,7 @@ export default function PamukkalePage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Discover Pamukkale</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
-            Pamukkale, meaning "Cotton Castle" in Turkish, is a natural wonder featuring brilliant white
+            Pamukkale, meaning &quot;Cotton Castle&quot; in Turkish, is a natural wonder featuring brilliant white
             travertine terraces cascading down the mountain slope. These terraces have been formed over
             millennia by calcium-rich thermal springs.
           </p>

@@ -6,8 +6,12 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaMap, FaClock, FaMapMarkerAlt, FaBus, FaFilePdf } from 'react-icons/fa';
 
+interface LandPackage {
+  [key: string]: unknown;
+}
+
 export default function LandPackagesPage() {
-  const [packages, setPackages] = useState<any[]>([]);
+  const [packages, setPackages] = useState<LandPackage[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -49,7 +53,7 @@ export default function LandPackagesPage() {
       {/* Description Section */}
       <section className="section-container py-12">
         <div className="max-w-4xl mx-auto text-center bg-gray-50 rounded-lg p-8 shadow-md">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">What's Included</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">What&apos;s Included</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">
             Our land-only packages provide guided tours, transportation between attractions, and all entrance fees
             without hotel accommodations. These packages are perfect for travelers who prefer to arrange their own
@@ -96,7 +100,7 @@ export default function LandPackagesPage() {
               <FaMap className="text-6xl text-green-600 mx-auto mb-6" />
               <h3 className="text-3xl font-bold text-gray-900 mb-4">Coming Soon</h3>
               <p className="text-lg text-gray-700 mb-8">
-                We're currently preparing our land-only packages. Contact us for custom arrangements.
+                We&apos;re currently preparing our land-only packages. Contact us for custom arrangements.
               </p>
               <Link href="/contact" className="btn-primary">
                 Contact Us for Custom Packages

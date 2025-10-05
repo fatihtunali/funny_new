@@ -59,11 +59,11 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true, package: package_ });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Create package error:', error);
     return NextResponse.json(
-      { error: error.message || 'Internal server error' },
-      { status: error.message === 'Unauthorized' ? 401 : 500 }
+      { error: error instanceof Error ? error.message : 'Internal server error' },
+      { status: error instanceof Error && error.message === 'Unauthorized' ? 401 : 500 }
     );
   }
 }

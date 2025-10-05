@@ -1,7 +1,7 @@
 import Script from 'next/script';
 
 interface StructuredDataProps {
-  data: any;
+  data: Record<string, unknown>;
 }
 
 export default function StructuredData({ data }: StructuredDataProps) {
@@ -14,8 +14,16 @@ export default function StructuredData({ data }: StructuredDataProps) {
   );
 }
 
+interface PackageSchemaData {
+  title: string;
+  description: string;
+  image: string;
+  packageId: string;
+  pricing: string | Record<string, unknown>;
+}
+
 // Helper function to generate Product schema for tour packages
-export function generateTourPackageSchema(pkg: any, baseUrl: string = 'https://dreamdestinationturkey.com') {
+export function generateTourPackageSchema(pkg: PackageSchemaData, baseUrl: string = 'https://dreamdestinationturkey.com') {
   // Extract min price
   let minPrice = 0;
   try {
@@ -70,8 +78,16 @@ export function generateTourPackageSchema(pkg: any, baseUrl: string = 'https://d
   };
 }
 
+interface TouristTripSchemaData {
+  title: string;
+  description: string;
+  image: string;
+  destinations?: string;
+  duration?: string;
+}
+
 // Generate TouristTrip schema (more specific for tours)
-export function generateTouristTripSchema(pkg: any, baseUrl: string = 'https://dreamdestinationturkey.com') {
+export function generateTouristTripSchema(pkg: TouristTripSchemaData, baseUrl: string = 'https://dreamdestinationturkey.com') {
   const destinations = pkg.destinations ? pkg.destinations.split(',').map((d: string) => d.trim()) : [];
   const duration = pkg.duration || '';
 

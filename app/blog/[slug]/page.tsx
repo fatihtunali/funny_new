@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { use } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -28,11 +28,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchPost();
-  }, [resolvedParams.slug]);
-
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     try {
       const res = await fetch(`/api/blog/${resolvedParams.slug}`);
       if (res.ok) {
@@ -54,7 +50,11 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
     } finally {
       setLoading(false);
     }
-  };
+  }, [resolvedParams.slug]);
+
+  useEffect(() => {
+    fetchPost();
+  }, [fetchPost]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -91,7 +91,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Post Not Found</h1>
-          <p className="text-gray-600 mb-6">The blog post you're looking for doesn't exist.</p>
+          <p className="text-gray-600 mb-6">The blog post you&apos;re looking for doesn&apos;t exist.</p>
           <Link href="/blog" className="btn-primary">
             Back to Blog
           </Link>

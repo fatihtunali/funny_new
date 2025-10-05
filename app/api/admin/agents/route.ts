@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminAuth';
 import prisma from '@/lib/prisma';
 
@@ -30,8 +30,8 @@ export async function GET() {
     });
 
     return NextResponse.json({ agents });
-  } catch (error: any) {
-    if (error.message?.includes('Unauthorized')) {
+  } catch (error) {
+    if (error instanceof Error && error.message?.includes('Unauthorized')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     console.error('Get agents error:', error);

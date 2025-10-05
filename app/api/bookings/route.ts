@@ -112,7 +112,18 @@ export async function POST(request: NextRequest) {
         paymentStatus: 'PENDING',
         // Create passengers
         passengers: {
-          create: passengers.map((passenger: any) => ({
+          create: passengers.map((passenger: {
+            firstName: string;
+            middleName?: string;
+            lastName: string;
+            dateOfBirth: string;
+            gender: string;
+            nationality: string;
+            passportNumber: string;
+            passportExpiry: string;
+            passportIssuingCountry: string;
+            passengerType?: string;
+          }) => ({
             firstName: passenger.firstName,
             middleName: passenger.middleName || null,
             lastName: passenger.lastName,
@@ -138,7 +149,17 @@ export async function POST(request: NextRequest) {
         await sendEmail({
           to: emailTo,
           subject: `Booking Confirmation - ${booking.referenceNumber}`,
-          html: generateBookingConfirmationEmail(booking)
+          html: generateBookingConfirmationEmail({
+            guestName: booking.guestName || undefined,
+            packageName: booking.packageName,
+            travelDate: booking.travelDate,
+            duration: booking.duration,
+            adults: booking.adults,
+            children3to5: booking.children3to5,
+            children6to10: booking.children6to10,
+            hotelCategory: booking.hotelCategory,
+            totalPrice: booking.totalPrice,
+          })
         });
       }
     } catch (emailError) {

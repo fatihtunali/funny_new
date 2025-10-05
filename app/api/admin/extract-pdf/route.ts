@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     // Create directory if it doesn't exist
     try {
       await mkdir(packagesDir, { recursive: true });
-    } catch (err) {
+    } catch {
       // Directory might already exist
     }
 
@@ -304,7 +304,7 @@ Example output for multiple tours:
     });
 
     // Run the assistant
-    const run = await openai.beta.threads.runs.createAndPoll(thread.id, {
+    await openai.beta.threads.runs.createAndPoll(thread.id, {
       assistant_id: assistant.id,
     });
 
@@ -328,7 +328,7 @@ Example output for multiple tours:
 
     // Add the PDF URL to each package in the array
     if (extractedData.packages && Array.isArray(extractedData.packages)) {
-      extractedData.packages = extractedData.packages.map((pkg: any) => ({
+      extractedData.packages = extractedData.packages.map((pkg: { pdfUrl?: string }) => ({
         ...pkg,
         pdfUrl: pdfUrl
       }));
@@ -339,10 +339,10 @@ Example output for multiple tours:
       data: extractedData
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('PDF extraction error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to extract PDF data' },
+      { error: error instanceof Error ? error.message : 'Failed to extract PDF data' },
       { status: 500 }
     );
   }

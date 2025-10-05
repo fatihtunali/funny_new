@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FaEuroSign, FaDollarSign, FaPoundSign } from 'react-icons/fa';
 
 interface CurrencyConverterProps {
@@ -10,15 +10,7 @@ interface CurrencyConverterProps {
 
 export default function CurrencyConverter({ basePrice, className = '' }: CurrencyConverterProps) {
   const [currency, setCurrency] = useState<'EUR' | 'USD' | 'GBP'>('EUR');
-  const [rates, setRates] = useState({ USD: 1.09, GBP: 0.86 }); // Approximate rates as fallback
-
-  // In production, you'd fetch real rates from an API
-  // useEffect(() => {
-  //   fetch('https://api.exchangerate-api.com/v4/latest/EUR')
-  //     .then(res => res.json())
-  //     .then(data => setRates({ USD: data.rates.USD, GBP: data.rates.GBP }))
-  //     .catch(err => console.error('Failed to fetch rates'));
-  // }, []);
+  const rates = { USD: 1.09, GBP: 0.86 }; // Approximate rates as fallback
 
   const convertedPrice = () => {
     switch (currency) {
@@ -28,17 +20,6 @@ export default function CurrencyConverter({ basePrice, className = '' }: Currenc
         return Math.round(basePrice * rates.GBP);
       default:
         return basePrice;
-    }
-  };
-
-  const getCurrencySymbol = () => {
-    switch (currency) {
-      case 'USD':
-        return '$';
-      case 'GBP':
-        return '£';
-      default:
-        return '€';
     }
   };
 

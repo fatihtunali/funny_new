@@ -127,8 +127,8 @@ export default function QuickAddPage() {
       }
 
       router.push('/admin/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Failed to save packages');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save packages');
       setSaving(false);
     }
   };
@@ -170,7 +170,7 @@ export default function QuickAddPage() {
           <ul className="text-sm text-blue-800 space-y-1">
             <li>• Enter tour name and basic pricing (2 pax, 4 pax, 6 pax rates)</li>
             <li>• Missing prices will be auto-calculated based on available data</li>
-            <li>• Click "+ Add Another Tour" to batch add multiple tours</li>
+            <li>• Click &quot;+ Add Another Tour&quot; to batch add multiple tours</li>
             <li>• Empty tours (without title or price) will be skipped</li>
           </ul>
         </div>

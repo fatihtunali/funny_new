@@ -57,7 +57,7 @@ function BookingSuccessContent() {
         const data = await res.json();
         setError(data.error || 'Failed to create account');
       }
-    } catch (error) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setCreating(false);
@@ -85,7 +85,7 @@ function BookingSuccessContent() {
           <FaCheckCircle className="text-6xl text-green-500 mx-auto mb-4" />
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Booking Confirmed!</h1>
           <p className="text-gray-600 mb-6">
-            Thank you for your booking. We'll contact you shortly to confirm all details.
+            Thank you for your booking. We&apos;ll contact you shortly to confirm all details.
           </p>
 
           <div className="bg-blue-50 rounded-lg p-6 mb-6">

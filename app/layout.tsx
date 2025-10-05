@@ -7,6 +7,8 @@ import WhatsAppWidget from "@/components/WhatsAppWidget";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import { ComparisonProvider } from "@/contexts/ComparisonContext";
 import ComparisonBar from "@/components/ComparisonBar";
+import Image from "next/image";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -93,21 +95,25 @@ export default function RootLayout({
           `
         }} />
         <noscript>
-          <img height="1" width="1" style={{display: 'none'}}
+          <Image height={1} width={1} style={{display: 'none'}}
             src="https://www.facebook.com/tr?id=1223991011702108&ev=PageView&noscript=1"
+            alt=""
           />
         </noscript>
 
         {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-5FM0WYP1P4"></script>
-        <script dangerouslySetInnerHTML={{
-          __html: `
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-5FM0WYP1P4"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-5FM0WYP1P4');
-          `
-        }} />
+          `}
+        </Script>
 
         {/* Yandex.Metrika */}
         <script dangerouslySetInnerHTML={{
@@ -128,7 +134,7 @@ export default function RootLayout({
         }} />
         <noscript>
           <div>
-            <img src="https://mc.yandex.ru/watch/100532902" style={{position: 'absolute', left: '-9999px'}} alt="" />
+            <Image src="https://mc.yandex.ru/watch/100532902" width={1} height={1} style={{position: 'absolute', left: '-9999px'}} alt="" />
           </div>
         </noscript>
       </head>

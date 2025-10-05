@@ -4,10 +4,15 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaHotel, FaClock, FaMapMarkerAlt, FaFilePdf, FaDownload } from 'react-icons/fa';
+import { FaHotel, FaClock, FaMapMarkerAlt, FaFilePdf } from 'react-icons/fa';
+
+interface HotelPackage {
+  pricing: Record<string, unknown>;
+  [key: string]: unknown;
+}
 
 export default function HotelsPackagesPage() {
-  const [packages, setPackages] = useState<any[]>([]);
+  const [packages, setPackages] = useState<HotelPackage[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,9 +31,9 @@ export default function HotelsPackagesPage() {
   }, []);
 
   // Get starting price: 3-star hotel, double room (per person for 6+ adults)
-  const getStartingPrice = (pkg: any) => {
+  const getStartingPrice = (pkg: HotelPackage) => {
     try {
-      const pricing = typeof pkg.pricing === 'string' ? JSON.parse(pkg.pricing) : pkg.pricing;
+      const pricing = typeof pkg.pricing === 'string' ? JSON.parse(pkg.pricing as string) : pkg.pricing;
 
       // Check if using new paxTiers structure
       if (pricing?.paxTiers) {
@@ -79,7 +84,7 @@ export default function HotelsPackagesPage() {
       {/* Description Section */}
       <section className="section-container py-12">
         <div className="max-w-4xl mx-auto text-center bg-gray-50 rounded-lg p-8 shadow-md">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">What's Included</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">What&apos;s Included</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">
             Our comprehensive hotel packages include accommodations, SIC (Seat-In-Coach) guided tours,
             private airport transfers, and more. These all-inclusive options make your travel planning effortless

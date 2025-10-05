@@ -34,11 +34,11 @@ export async function PUT(
     });
 
     return NextResponse.json({ success: true, package: package_ });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Update package error:', error);
     return NextResponse.json(
-      { error: error.message || 'Internal server error' },
-      { status: error.message === 'Unauthorized' ? 401 : 500 }
+      { error: error instanceof Error ? error.message : 'Internal server error' },
+      { status: error instanceof Error && error.message === 'Unauthorized' ? 401 : 500 }
     );
   }
 }
@@ -56,11 +56,11 @@ export async function DELETE(
     });
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Delete package error:', error);
     return NextResponse.json(
-      { error: error.message || 'Internal server error' },
-      { status: error.message === 'Unauthorized' ? 401 : 500 }
+      { error: error instanceof Error ? error.message : 'Internal server error' },
+      { status: error instanceof Error && error.message === 'Unauthorized' ? 401 : 500 }
     );
   }
 }

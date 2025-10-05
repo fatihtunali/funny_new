@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaTimes, FaClock, FaMapMarkerAlt, FaHeart, FaExternalLinkAlt, FaCheck } from 'react-icons/fa';
@@ -12,18 +12,27 @@ interface QuickViewModalProps {
   onClose: () => void;
 }
 
+interface PackageData {
+  packageId: string;
+  title: string;
+  duration: string;
+  destinations: string;
+  description: string;
+  image: string;
+  pricing: string | Record<string, unknown>;
+  highlights?: string | string[];
+  included?: string | string[];
+  notIncluded?: string | string[];
+  excluded?: string | string[];
+  itinerary?: string | unknown[];
+}
+
 export default function QuickViewModal({ packageId, isOpen, onClose }: QuickViewModalProps) {
-  const [pkg, setPkg] = useState<any>(null);
+  const [pkg, setPkg] = useState<PackageData | null>(null);
   const [loading, setLoading] = useState(false);
   const { isInWishlist, toggleWishlist } = useWishlist();
 
-  useEffect(() => {
-    if (packageId && isOpen) {
-      fetchPackage();
-    }
-  }, [packageId, isOpen]);
-
-  const fetchPackage = async () => {
+  const fetchPackage = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetch(`/api/packages/${packageId}`);
@@ -36,7 +45,13 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
     } finally {
       setLoading(false);
     }
-  };
+  }, [packageId]);
+
+  useEffect(() => {
+    if (packageId && isOpen) {
+      fetchPackage();
+    }
+  }, [packageId, isOpen, fetchPackage]);
 
   const getMinPrice = () => {
     if (!pkg) return 0;
@@ -148,7 +163,7 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                   <div className="mb-6">
                     <h3 className="text-lg font-bold text-gray-900 mb-3">Itinerary Preview</h3>
                     <div className="space-y-3">
-                      {parseItinerary().slice(0, 3).map((day: any, idx: number) => (
+                      {parseItinerary().slice(0, 3).map((day: { day: number; title: string; description: string }, idx: number) => (
                         <div key={idx} className="border-l-4 border-primary-600 pl-4">
                           <h4 className="font-semibold text-gray-900">Day {day.day}: {day.title}</h4>
                           <p className="text-sm text-gray-600 line-clamp-2">{day.description}</p>
@@ -183,10 +198,13 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                     <div>
                       <h4 className="font-semibold text-gray-900 mb-2 text-sm">Not Included</h4>
                       <ul className="text-xs text-gray-600 space-y-1">
-                        {(Array.isArray(pkg.notIncluded || pkg.excluded)
-                          ? (pkg.notIncluded || pkg.excluded)
-                          : (pkg.notIncluded || pkg.excluded).split('\n').filter((i: string) => i.trim())
-                        ).slice(0, 4).map((item: string, idx: number) => (
+                        {(() => {
+                          const items = pkg.notIncluded || pkg.excluded;
+                          if (!items) return [];
+                          if (Array.isArray(items)) return items;
+                          if (typeof items === 'string') return items.split('\n').filter((i: string) => i.trim());
+                          return [];
+                        })().slice(0, 4).map((item: string, idx: number) => (
                           <li key={idx} className="flex items-start gap-1">
                             <FaTimes className="text-red-600 mt-0.5 flex-shrink-0" size={10} />
                             <span className="line-clamp-1">{item}</span>

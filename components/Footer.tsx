@@ -36,9 +36,9 @@ export default function Footer() {
             {/* Yandex Site Info */}
             <div className="mt-4">
               <a href="https://webmaster.yandex.ru/siteinfo/?site=funnytourism.com" target="_blank" rel="noopener noreferrer" className="inline-block">
-                <img
-                  width="88"
-                  height="31"
+                <Image
+                  width={88}
+                  height={31}
                   alt="Yandex Site Info"
                   src="https://yandex.ru/cycounter?funnytourism.com&theme=light&lang=en"
                   className="rounded-lg hover:opacity-80 transition-opacity"

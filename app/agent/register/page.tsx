@@ -62,7 +62,7 @@ export default function AgentRegister() {
       setTimeout(() => {
         router.push('/agent/login');
       }, 3000);
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);

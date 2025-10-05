@@ -23,8 +23,17 @@ const itemVariants = {
   }
 };
 
+interface PackageData {
+  packageId: string;
+  title: string;
+  duration: string;
+  image: string;
+  pricing: string | Record<string, unknown>;
+  highlights?: string;
+}
+
 export default function FeaturedPackages() {
-  const [packages, setPackages] = useState<any[]>([]);
+  const [packages, setPackages] = useState<PackageData[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -44,7 +53,7 @@ export default function FeaturedPackages() {
   }, []);
 
   // Get starting price: 3-star hotel, double room (per person for 6+ adults)
-  const getStartingPrice = (pkg: any) => {
+  const getStartingPrice = (pkg: PackageData) => {
     try {
       const pricing = typeof pkg.pricing === 'string' ? JSON.parse(pkg.pricing) : pkg.pricing;
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaTimes, FaClock, FaMapMarkerAlt, FaCheck } from 'react-icons/fa';
@@ -11,18 +11,24 @@ interface ComparisonModalProps {
   onClose: () => void;
 }
 
+interface PackageData {
+  id: string;
+  packageId: string;
+  title: string;
+  image: string;
+  pricing: string | Record<string, unknown>;
+  duration: string;
+  destinations: string | string[];
+  description: string;
+  highlights?: string | string[];
+}
+
 export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProps) {
   const { comparisonList, removeFromComparison, clearComparison } = useComparison();
-  const [packages, setPackages] = useState<any[]>([]);
+  const [packages, setPackages] = useState<PackageData[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (isOpen && comparisonList.length > 0) {
-      fetchPackages();
-    }
-  }, [isOpen, comparisonList]);
-
-  const fetchPackages = async () => {
+  const fetchPackages = useCallback(async () => {
     setLoading(true);
     try {
       const promises = comparisonList.map(id =>
@@ -35,9 +41,15 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
     } finally {
       setLoading(false);
     }
-  };
+  }, [comparisonList]);
 
-  const getMinPrice = (pkg: any) => {
+  useEffect(() => {
+    if (isOpen && comparisonList.length > 0) {
+      fetchPackages();
+    }
+  }, [isOpen, comparisonList, fetchPackages]);
+
+  const getMinPrice = (pkg: PackageData) => {
     try {
       const pricing = typeof pkg.pricing === 'string' ? JSON.parse(pkg.pricing) : pkg.pricing;
       if (pricing?.paxTiers) {
@@ -50,7 +62,9 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
         }
       }
       if (pricing?.perPerson) return pricing.perPerson;
-    } catch (e) {}
+    } catch {
+      // Ignore parsing errors
+    }
     return 0;
   };
 

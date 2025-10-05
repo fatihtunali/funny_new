@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const packageType = searchParams.get('type');
 
-    const where: any = { isActive: true };
+    const where: { isActive: boolean; packageType?: string } = { isActive: true };
 
     // Filter by package type if specified
     if (packageType) {
@@ -31,10 +31,10 @@ export async function GET(req: NextRequest) {
     });
 
     return NextResponse.json({ packages });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Fetch packages error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch packages' },
+      { error: error instanceof Error ? error.message : 'Failed to fetch packages' },
       { status: 500 }
     );
   }

@@ -1,14 +1,14 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect, use, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaSave, FaArrowLeft } from 'react-icons/fa';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function EditBlogPostPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const router = useRouter();
-  const [post, setPost] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -91,16 +91,11 @@ export default function EditBlogPostPage({ params }: { params: Promise<{ id: str
     '/images/suleymaniye-istanbul.jpg',
   ];
 
-  useEffect(() => {
-    fetchPost();
-  }, []);
-
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     try {
       const res = await fetch(`/api/admin/blog/${resolvedParams.id}`);
       if (res.ok) {
         const data = await res.json();
-        setPost(data.post);
         setFormData({
           title: data.post.title,
           excerpt: data.post.excerpt,
@@ -115,7 +110,11 @@ export default function EditBlogPostPage({ params }: { params: Promise<{ id: str
     } finally {
       setLoading(false);
     }
-  };
+  }, [resolvedParams.id]);
+
+  useEffect(() => {
+    fetchPost();
+  }, [fetchPost]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -233,11 +232,12 @@ export default function EditBlogPostPage({ params }: { params: Promise<{ id: str
                 ))}
               </select>
               {formData.coverImage && (
-                <div className="mt-3">
-                  <img
+                <div className="mt-3 relative h-48">
+                  <Image
                     src={formData.coverImage}
                     alt="Cover preview"
-                    className="w-full h-48 object-cover rounded-lg"
+                    fill
+                    className="object-cover rounded-lg"
                   />
                 </div>
               )}

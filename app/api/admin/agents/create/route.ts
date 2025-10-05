@@ -106,8 +106,8 @@ export async function POST(request: NextRequest) {
         commissionRate: agent.commissionRate,
       },
     }, { status: 201 });
-  } catch (error: any) {
-    if (error.message?.includes('Unauthorized')) {
+  } catch (error) {
+    if (error instanceof Error && error.message?.includes('Unauthorized')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     console.error('Create agent error:', error);

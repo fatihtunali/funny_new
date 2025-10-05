@@ -65,7 +65,6 @@ export default function AgentBookingModal({ isOpen, onClose, packageData, bookin
   const [specialRequests, setSpecialRequests] = useState('');
 
   // Step 3: Passenger Details
-  const totalPax = bookingConfig.adults + bookingConfig.children3to5 + bookingConfig.children6to10;
   const [passengers, setPassengers] = useState<PassengerInfo[]>([]);
 
   const [submitting, setSubmitting] = useState(false);
@@ -197,13 +196,12 @@ export default function AgentBookingModal({ isOpen, onClose, packageData, bookin
       });
 
       if (res.ok) {
-        const data = await res.json();
         router.push('/agent/bookings');
       } else {
         const data = await res.json();
         setError(data.error || 'Failed to create booking');
       }
-    } catch (error) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setSubmitting(false);

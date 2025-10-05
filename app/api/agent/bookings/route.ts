@@ -23,8 +23,8 @@ export async function GET() {
     });
 
     return NextResponse.json({ bookings });
-  } catch (error: any) {
-    if (error.message?.includes('Unauthorized')) {
+  } catch (error) {
+    if (error instanceof Error && error.message?.includes('Unauthorized')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     console.error('Get agent bookings error:', error);
@@ -33,7 +33,7 @@ export async function GET() {
     return NextResponse.json(
       {
         error: 'Failed to fetch bookings',
-        details: process.env.NODE_ENV === 'development' ? error.message : undefined,
+        details: process.env.NODE_ENV === 'development' && error instanceof Error ? error.message : undefined,
         hint: 'Make sure to run "npx prisma db push" to update the database schema'
       },
       { status: 500 }
@@ -155,7 +155,18 @@ export async function POST(request: NextRequest) {
         paymentStatus: 'PENDING',
         // Create passengers
         passengers: {
-          create: passengers.map((passenger: any) => ({
+          create: passengers.map((passenger: {
+            firstName: string;
+            middleName?: string;
+            lastName: string;
+            dateOfBirth: string;
+            gender: string;
+            nationality: string;
+            passportNumber: string;
+            passportExpiry: string;
+            passportIssuingCountry: string;
+            passengerType?: string;
+          }) => ({
             firstName: passenger.firstName,
             middleName: passenger.middleName || null,
             lastName: passenger.lastName,
@@ -178,8 +189,8 @@ export async function POST(request: NextRequest) {
       message: 'Booking created successfully',
       booking,
     }, { status: 201 });
-  } catch (error: any) {
-    if (error.message?.includes('Unauthorized')) {
+  } catch (error) {
+    if (error instanceof Error && error.message?.includes('Unauthorized')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     console.error('Create agent booking error:', error);
@@ -188,7 +199,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: 'Internal server error',
-        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+        details: process.env.NODE_ENV === 'development' && error instanceof Error ? error.message : undefined
       },
       { status: 500 }
     );

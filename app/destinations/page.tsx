@@ -84,7 +84,7 @@ export default function DestinationsPage() {
           >
             <h1 className="text-5xl md:text-6xl font-bold mb-4">Explore Turkey</h1>
             <p className="text-xl md:text-2xl max-w-3xl mx-auto">
-              Discover the diverse beauty and rich history of Turkey's top destinations
+              Discover the diverse beauty and rich history of Turkey&apos;s top destinations
             </p>
           </motion.div>
         </div>
@@ -99,7 +99,7 @@ export default function DestinationsPage() {
         >
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Top Destinations</h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Experience the best of Turkey's rich history, stunning landscapes, and vibrant culture
+            Experience the best of Turkey&apos;s rich history, stunning landscapes, and vibrant culture
           </p>
         </motion.div>
 

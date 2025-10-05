@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaBus, FaClock, FaMapMarkerAlt, FaShieldAlt } from 'react-icons/fa';

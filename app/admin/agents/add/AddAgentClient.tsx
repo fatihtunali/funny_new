@@ -47,7 +47,7 @@ export default function AddAgentClient() {
       // Redirect to agents list
       router.push('/admin/agents');
       router.refresh();
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);

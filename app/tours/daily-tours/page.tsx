@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaCalendarDay, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
@@ -21,7 +20,7 @@ export default function DailyToursPage() {
             </div>
             <h1 className="text-5xl md:text-6xl font-bold mb-4">Daily Tours</h1>
             <p className="text-xl md:text-2xl max-w-3xl mx-auto">
-              Explore Turkey's best attractions with expert local guides
+              Explore Turkey&apos;s best attractions with expert local guides
             </p>
           </motion.div>
         </div>
@@ -30,9 +29,9 @@ export default function DailyToursPage() {
       {/* Description Section */}
       <section className="section-container py-12">
         <div className="max-w-4xl mx-auto text-center bg-gray-50 rounded-lg p-8 shadow-md">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">What's Included</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">What&apos;s Included</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">
-            Explore the best attractions with our daily guided tours. Whether you're looking for a historical
+            Explore the best attractions with our daily guided tours. Whether you&apos;re looking for a historical
             walking tour of Istanbul, a hot air balloon ride in Cappadocia, or a boat excursion along the
             Turkish coast, our daily tours provide memorable experiences with expert local guides.
           </p>
@@ -68,7 +67,7 @@ export default function DailyToursPage() {
             <FaCalendarDay className="text-6xl text-orange-600 mx-auto mb-6" />
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Coming Soon</h2>
             <p className="text-lg text-gray-700 mb-8">
-              We're currently preparing our daily tour offerings. These will include historical tours,
+              We&apos;re currently preparing our daily tour offerings. These will include historical tours,
               adventure activities, cultural experiences, and more across all major Turkish destinations.
             </p>
             <p className="text-gray-600 mb-8">

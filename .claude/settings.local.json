@@ -3,7 +3,13 @@
     "allow": [
       "Bash(rm:*)",
       "Bash(npm run dev:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx eslint:*)",
+      "Bash(find:*)",
+      "Bash(echo:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run lint:*)"
     ],
     "deny": [],
     "ask": []

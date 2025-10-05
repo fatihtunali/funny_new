@@ -63,7 +63,19 @@ export async function sendEmail({ to, subject, html }: EmailData) {
 
 // Email Templates
 
-export function generateBookingConfirmationEmail(booking: any) {
+interface BookingEmailData {
+  guestName?: string;
+  packageName: string;
+  travelDate: string | Date;
+  duration: string;
+  adults: number;
+  children3to5?: number;
+  children6to10?: number;
+  hotelCategory: string;
+  totalPrice: number;
+}
+
+export function generateBookingConfirmationEmail(booking: BookingEmailData) {
   return `
     <!DOCTYPE html>
     <html>
@@ -154,7 +166,14 @@ export function generateBookingConfirmationEmail(booking: any) {
   `;
 }
 
-export function generateBookingReminderEmail(booking: any, daysUntilTravel: number) {
+interface ReminderEmailData {
+  guestName: string;
+  packageName: string;
+  travelDate: string | Date;
+  duration: string;
+}
+
+export function generateBookingReminderEmail(booking: ReminderEmailData, daysUntilTravel: number) {
   return `
     <!DOCTYPE html>
     <html>

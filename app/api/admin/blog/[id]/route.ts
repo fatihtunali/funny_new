@@ -20,11 +20,11 @@ export async function GET(
     }
 
     return NextResponse.json({ post });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching blog post:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch blog post' },
-      { status: error.message?.includes('Unauthorized') ? 401 : 500 }
+      { error: error instanceof Error ? error.message : 'Failed to fetch blog post' },
+      { status: error instanceof Error && error.message?.includes('Unauthorized') ? 401 : 500 }
     );
   }
 }
@@ -59,7 +59,19 @@ export async function PUT(
           .replace(/(^-|-$)/g, '')
       : undefined;
 
-    const updateData: any = {
+    const updateData: {
+      title?: string;
+      slug?: string;
+      excerpt?: string;
+      content?: string;
+      coverImage?: string | null;
+      category?: string;
+      tags?: string;
+      metaTitle?: string;
+      metaDescription?: string;
+      status?: string;
+      publishedAt?: Date;
+    } = {
       ...(title && { title }),
       ...(slug && { slug }),
       ...(excerpt && { excerpt }),
@@ -93,11 +105,11 @@ export async function PUT(
     });
 
     return NextResponse.json({ post });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating blog post:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to update blog post' },
-      { status: error.message?.includes('Unauthorized') ? 401 : 500 }
+      { error: error instanceof Error ? error.message : 'Failed to update blog post' },
+      { status: error instanceof Error && error.message?.includes('Unauthorized') ? 401 : 500 }
     );
   }
 }
@@ -116,11 +128,11 @@ export async function DELETE(
     });
 
     return NextResponse.json({ message: 'Blog post deleted successfully' });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error deleting blog post:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to delete blog post' },
-      { status: error.message?.includes('Unauthorized') ? 401 : 500 }
+      { error: error instanceof Error ? error.message : 'Failed to delete blog post' },
+      { status: error instanceof Error && error.message?.includes('Unauthorized') ? 401 : 500 }
     );
   }
 }

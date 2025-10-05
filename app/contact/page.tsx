@@ -81,7 +81,7 @@ export default function ContactPage() {
           >
             <h1 className="text-5xl md:text-6xl font-bold mb-4">Contact Us</h1>
             <p className="text-xl md:text-2xl max-w-3xl mx-auto">
-              Have a question, feedback, or want to book a tour? We'd love to hear from you!
+              Have a question, feedback, or want to book a tour? We&apos;d love to hear from you!
             </p>
           </motion.div>
         </div>
@@ -102,7 +102,7 @@ export default function ContactPage() {
 
               {submitStatus === 'success' && (
                 <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800">
-                  Message sent successfully! We'll get back to you soon.
+                  Message sent successfully! We&apos;ll get back to you soon.
                 </div>
               )}
 

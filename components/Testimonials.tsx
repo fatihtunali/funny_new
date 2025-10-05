@@ -55,7 +55,7 @@ export default function Testimonials() {
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-lg shadow-xl p-8 md:p-12 relative">
             {/* Quote icon */}
-            <div className="text-primary-200 text-6xl absolute top-4 left-4">"</div>
+            <div className="text-primary-200 text-6xl absolute top-4 left-4">&quot;</div>
 
             {/* Testimonial content */}
             <div className="relative z-10">

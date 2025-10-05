@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 interface Package {
   id: string;
@@ -17,7 +17,6 @@ interface Package {
 }
 
 export default function AgentPackagesClient() {
-  const router = useRouter();
   const [packages, setPackages] = useState<Package[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -115,10 +114,11 @@ export default function AgentPackagesClient() {
           {filteredPackages.map((pkg) => (
             <div key={pkg.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden">
               <div className="relative h-48">
-                <img
+                <Image
                   src={pkg.image}
                   alt={pkg.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
                 <div className="absolute top-2 right-2">
                   <span className="bg-white px-2 py-1 rounded text-xs font-medium text-gray-700">

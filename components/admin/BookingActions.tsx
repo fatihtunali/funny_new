@@ -36,7 +36,7 @@ export default function BookingActions({ bookingId, currentStatus, customerPhone
         const data = await res.json();
         setError(data.error || 'Failed to update booking');
       }
-    } catch (error) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setUpdating(false);

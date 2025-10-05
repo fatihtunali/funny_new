@@ -15,7 +15,7 @@ export default function WhyChooseUs() {
     {
       icon: <FaMoneyBillWave className="text-4xl text-primary-600" />,
       title: 'Best Price Guarantee',
-      description: "Found it cheaper? We'll match the price or refund the difference"
+      description: "Found it cheaper? We&apos;ll match the price or refund the difference"
     },
     {
       icon: <FaUserTie className="text-4xl text-primary-600" />,
@@ -25,7 +25,7 @@ export default function WhyChooseUs() {
     {
       icon: <FaHeadset className="text-4xl text-primary-600" />,
       title: '24/7 Support',
-      description: "We're here to help, anytime you need us"
+      description: "We&apos;re here to help, anytime you need us"
     },
     {
       icon: <FaHotel className="text-4xl text-primary-600" />,
@@ -43,7 +43,7 @@ export default function WhyChooseUs() {
             Why Choose Funny Tourism?
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {"We're committed to making your Turkey adventure unforgettable with exceptional service and unbeatable value"}
+            We&apos;re committed to making your Turkey adventure unforgettable with exceptional service and unbeatable value
           </p>
         </div>
 

@@ -3,7 +3,7 @@ import { getAdminFromToken } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaPlus, FaEdit, FaTrash, FaEye, FaSignOutAlt } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaEye } from 'react-icons/fa';
 import LogoutButton from '@/components/admin/LogoutButton';
 import DeletePackageButton from '@/components/admin/DeletePackageButton';
 

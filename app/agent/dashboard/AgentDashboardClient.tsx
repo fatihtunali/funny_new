@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -33,12 +33,7 @@ export default function AgentDashboardClient() {
   const [stats, setStats] = useState<BookingStats>({ totalBookings: 0, totalCommission: 0, totalRevenue: 0 });
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchAgentData();
-    fetchBookingStats();
-  }, []);
-
-  const fetchAgentData = async () => {
+  const fetchAgentData = useCallback(async () => {
     try {
       const res = await fetch('/api/agent/me');
       if (!res.ok) {
@@ -52,24 +47,34 @@ export default function AgentDashboardClient() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
 
-  const fetchBookingStats = async () => {
+  const fetchBookingStats = useCallback(async () => {
     try {
       const res = await fetch('/api/agent/bookings');
       if (!res.ok) return;
       const data = await res.json();
       const bookings = data.bookings || [];
 
+      interface BookingData {
+        commissionAmount?: number;
+        totalPrice: number;
+      }
+
       setStats({
         totalBookings: bookings.length,
-        totalCommission: bookings.reduce((sum: number, b: any) => sum + (b.commissionAmount || 0), 0),
-        totalRevenue: bookings.reduce((sum: number, b: any) => sum + b.totalPrice, 0),
+        totalCommission: bookings.reduce((sum: number, b: BookingData) => sum + (b.commissionAmount || 0), 0),
+        totalRevenue: bookings.reduce((sum: number, b: BookingData) => sum + b.totalPrice, 0),
       });
     } catch (error) {
       console.error('Error fetching booking stats:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchAgentData();
+    fetchBookingStats();
+  }, [fetchAgentData, fetchBookingStats]);
 
   const handleLogout = async () => {
     try {

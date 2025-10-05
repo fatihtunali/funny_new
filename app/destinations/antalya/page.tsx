@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaClock, FaUmbrellaBeach } from 'react-icons/fa';
+import { FaClock, FaUmbrellaBeach } from 'react-icons/fa';
 
 export default function AntalyaPage() {
   const attractions = [
@@ -73,9 +73,9 @@ export default function AntalyaPage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Discover Antalya</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
-            Antalya is Turkey's most popular Mediterranean resort city, combining beautiful beaches,
+            Antalya is Turkey&apos;s most popular Mediterranean resort city, combining beautiful beaches,
             a charming old town, and impressive ancient ruins. With over 300 days of sunshine per year,
-            it's the perfect destination for beach lovers and history enthusiasts alike.
+            it&apos;s the perfect destination for beach lovers and history enthusiasts alike.
           </p>
           <p className="text-lg text-gray-700 leading-relaxed">
             From the picturesque old harbor to the stunning waterfalls and nearby ancient cities,

@@ -41,7 +41,12 @@ export async function PATCH(
     }
 
     // Update the booking
-    const updateData: any = {
+    const updateData: {
+      status: string;
+      updatedAt: Date;
+      confirmedAt?: Date;
+      completedAt?: Date;
+    } = {
       status,
       updatedAt: new Date(),
     };
@@ -69,10 +74,10 @@ export async function PATCH(
         completedAt: booking.completedAt,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Update booking error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to update booking' },
+      { error: error instanceof Error ? error.message : 'Failed to update booking' },
       { status: 500 }
     );
   }

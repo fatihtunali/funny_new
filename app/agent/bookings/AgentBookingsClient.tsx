@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -33,11 +33,7 @@ export default function AgentBookingsClient() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('ALL');
 
-  useEffect(() => {
-    fetchBookings();
-  }, []);
-
-  const fetchBookings = async () => {
+  const fetchBookings = useCallback(async () => {
     try {
       const res = await fetch('/api/agent/bookings');
       if (!res.ok) {
@@ -54,7 +50,11 @@ export default function AgentBookingsClient() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    fetchBookings();
+  }, [fetchBookings]);
 
   const filteredBookings = bookings.filter(booking =>
     filter === 'ALL' || booking.status === filter

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaShip, FaMapMarkerAlt, FaClock, FaCheckCircle, FaFilter, FaTimes } from 'react-icons/fa';
@@ -17,7 +17,7 @@ interface ShoreExcursion {
   port?: string;
   pickupType?: string;
   image: string;
-  pricing: any;
+  pricing: Record<string, unknown>;
   highlights: string;
 }
 
@@ -60,7 +60,7 @@ export default function ShoreExcursionsPage() {
 
   useEffect(() => {
     applyFilters();
-  }, [excursions, selectedPorts, selectedDurations, selectedPickupTypes]);
+  }, [excursions, selectedPorts, selectedDurations, selectedPickupTypes, applyFilters]);
 
   const fetchExcursions = async () => {
     try {
@@ -70,7 +70,7 @@ export default function ShoreExcursionsPage() {
       const data = await res.json();
 
       // Filter packages that are day tours (suitable for shore excursions)
-      const dayTours = (data.packages || []).filter((pkg: any) => {
+      const dayTours = (data.packages || []).filter((pkg: ShoreExcursion) => {
         const duration = pkg.duration.toLowerCase();
         return duration.includes('day') && !duration.includes('days');
       });
@@ -84,7 +84,7 @@ export default function ShoreExcursionsPage() {
     }
   };
 
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = [...excursions];
 
     // Port filter
@@ -109,9 +109,9 @@ export default function ShoreExcursionsPage() {
     }
 
     setFilteredExcursions(filtered);
-  };
+  }, [excursions, selectedPorts, selectedDurations]);
 
-  const toggleFilter = (filterArray: string[], setFilterArray: Function, value: string) => {
+  const toggleFilter = (filterArray: string[], setFilterArray: (value: string[]) => void, value: string) => {
     if (filterArray.includes(value)) {
       setFilterArray(filterArray.filter((item: string) => item !== value));
     } else {

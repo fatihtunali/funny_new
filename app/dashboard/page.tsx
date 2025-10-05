@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { FaCalendar, FaHotel, FaUsers, FaMoneyBill, FaCheckCircle, FaClock, FaTimesCircle, FaSignOutAlt } from 'react-icons/fa';
+import { FaCalendar, FaHotel, FaUsers, FaCheckCircle, FaClock, FaTimesCircle, FaSignOutAlt } from 'react-icons/fa';
 import Link from 'next/link';
 
 interface User {
@@ -46,6 +46,7 @@ export default function DashboardPage() {
   useEffect(() => {
     fetchUserData();
     fetchBookings();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchUserData = async () => {
@@ -237,7 +238,7 @@ export default function DashboardPage() {
           <div className="p-6">
             {bookings.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-gray-500 text-lg mb-4">You don't have any bookings yet</p>
+                <p className="text-gray-500 text-lg mb-4">You don&apos;t have any bookings yet</p>
                 <Link href="/packages/istanbul-cappadocia-kusadasi" className="btn-primary inline-block">
                   Browse Packages
                 </Link>

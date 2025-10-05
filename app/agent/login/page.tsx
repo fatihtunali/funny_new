@@ -35,7 +35,7 @@ export default function AgentLogin() {
       // Redirect to agent dashboard
       router.push('/agent/dashboard');
       router.refresh();
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);
@@ -101,7 +101,7 @@ export default function AgentLogin() {
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link href="/agent/register" className="text-primary-600 hover:text-primary-700 font-medium">
                 Register as an agent
               </Link>

@@ -43,7 +43,7 @@ export async function getAgentFromToken(): Promise<AgentToken | null> {
       companyName: agent.companyName,
       status: agent.status,
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 }

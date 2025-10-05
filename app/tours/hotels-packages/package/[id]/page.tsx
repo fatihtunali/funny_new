@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaClock, FaHotel, FaMapMarkerAlt, FaFilePdf, FaCalendarAlt, FaUsers, FaDownload } from 'react-icons/fa';
+import { FaClock, FaHotel, FaMapMarkerAlt, FaCalendarAlt, FaUsers, FaDownload } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import BookingModal from '@/components/BookingModal';
 import StructuredData, { generateTourPackageSchema, generateBreadcrumbSchema } from '@/components/StructuredData';
@@ -14,14 +14,23 @@ export default function PackageDetailPage() {
   const params = useParams();
   const packageId = params.id as string;
 
-  const [pkg, setPkg] = useState<any>(null);
+  interface PkgData {
+    itinerary: Array<{ day: number; title: string; description: string; meals: string }>;
+    included: string[];
+    notIncluded: string[];
+    hotels: Record<string, string[]>;
+    highlights: string;
+    [key: string]: unknown;
+  }
+
+  const [pkg, setPkg] = useState<PkgData | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedHotel, setSelectedHotel] = useState('fourstar');
   const [rooms, setRooms] = useState<number[]>([2]); // Array of people per room, default: 1 room with 2 people
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   useEffect(() => {
-    async function fetchPackage() {
+    const fetchPackage = async () => {
       try {
         const res = await fetch(`/api/packages/${packageId}`);
         if (res.ok) {
@@ -33,7 +42,7 @@ export default function PackageDetailPage() {
       } finally {
         setLoading(false);
       }
-    }
+    };
     fetchPackage();
   }, [packageId]);
 
@@ -187,7 +196,7 @@ export default function PackageDetailPage() {
             <section>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Day by Day Itinerary</h2>
               <div className="space-y-6">
-                {pkg.itinerary.map((day: any) => (
+                {pkg.itinerary.map((day) => (
                   <motion.div
                     key={day.day}
                     initial={{ opacity: 0, x: -20 }}
@@ -218,10 +227,10 @@ export default function PackageDetailPage() {
                     <svg className="w-6 h-6 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    What's Included
+                    What&apos;s Included
                   </h3>
                   <ul className="space-y-2">
-                    {pkg.included.map((item: string, index: number) => (
+                    {pkg.included.map((item, index) => (
                       <li key={index} className="text-gray-700 text-sm flex items-start">
                         <span className="text-green-600 mr-2">✓</span>
                         {item}
@@ -238,7 +247,7 @@ export default function PackageDetailPage() {
                     Not Included
                   </h3>
                   <ul className="space-y-2">
-                    {pkg.notIncluded.map((item: string, index: number) => (
+                    {pkg.notIncluded.map((item, index) => (
                       <li key={index} className="text-gray-700 text-sm flex items-start">
                         <span className="text-red-600 mr-2">✗</span>
                         {item}
@@ -253,12 +262,12 @@ export default function PackageDetailPage() {
             <section>
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Accommodation Options</h2>
               <div className="space-y-4">
-                {Object.entries(pkg.hotels).map(([category, hotels]: [string, any]) => (
+                {Object.entries(pkg.hotels).map(([category, hotels]) => (
                   <div key={category} className="bg-gray-50 rounded-lg p-4">
                     <h3 className="font-bold text-gray-900 capitalize mb-2">
                       {category.replace('star', '-Star')} Hotels
                     </h3>
-                    <p className="text-gray-700 text-sm">{hotels.join(', ')}</p>
+                    <p className="text-gray-700 text-sm">{(hotels as string[]).join(', ')}</p>
                   </div>
                 ))}
               </div>

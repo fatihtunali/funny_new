@@ -24,7 +24,7 @@ export default function Hero() {
       setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [heroImages.length]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,12 +73,12 @@ export default function Hero() {
 
         {/* Main Headline */}
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight">
-          Travel Memories You'll
+          Travel Memories You&apos;ll
           <span className="block text-accent-400">Never Forget</span>
         </h1>
 
         <p className="text-lg md:text-2xl mb-8 max-w-3xl mx-auto font-light">
-          Experience Turkey's breathtaking destinations with expert guides and premium accommodations
+          Experience Turkey&apos;s breathtaking destinations with expert guides and premium accommodations
         </p>
 
         {/* Large Search Bar - Viator/GetYourGuide Style */}

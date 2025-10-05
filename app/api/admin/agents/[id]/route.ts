@@ -16,7 +16,12 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     const body = await request.json();
     const { status, commissionRate } = body;
 
-    const updateData: any = {};
+    const updateData: {
+      status?: string;
+      approvedAt?: Date;
+      approvedBy?: string;
+      commissionRate?: number;
+    } = {};
 
     if (status) {
       if (!['PENDING', 'ACTIVE', 'SUSPENDED', 'REJECTED'].includes(status)) {
@@ -53,8 +58,8 @@ export async function PATCH(request: NextRequest, { params }: Params) {
       message: 'Agent updated successfully',
       agent,
     });
-  } catch (error: any) {
-    if (error.message?.includes('Unauthorized')) {
+  } catch (error) {
+    if (error instanceof Error && error.message?.includes('Unauthorized')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     console.error('Update agent error:', error);
@@ -76,8 +81,8 @@ export async function DELETE(request: NextRequest, { params }: Params) {
     });
 
     return NextResponse.json({ message: 'Agent deleted successfully' });
-  } catch (error: any) {
-    if (error.message?.includes('Unauthorized')) {
+  } catch (error) {
+    if (error instanceof Error && error.message?.includes('Unauthorized')) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     console.error('Delete agent error:', error);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -29,11 +29,7 @@ export default function AgentManagementClient() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('ALL');
 
-  useEffect(() => {
-    fetchAgents();
-  }, []);
-
-  const fetchAgents = async () => {
+  const fetchAgents = useCallback(async () => {
     try {
       const res = await fetch('/api/admin/agents');
       if (!res.ok) {
@@ -50,7 +46,11 @@ export default function AgentManagementClient() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    fetchAgents();
+  }, [fetchAgents]);
 
   const updateAgentStatus = async (agentId: string, status: string) => {
     try {

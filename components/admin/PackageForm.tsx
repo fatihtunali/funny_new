@@ -6,8 +6,33 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaArrowLeft, FaSave, FaFilePdf, FaMagic } from 'react-icons/fa';
 
+interface InitialPackageData {
+  packageId?: string;
+  packageType?: string;
+  title?: string;
+  slug?: string;
+  duration?: string;
+  description?: string;
+  destinations?: string;
+  image?: string;
+  pdfUrl?: string | null;
+  isActive?: boolean;
+  port?: string | null;
+  pickupType?: string | null;
+  highlights?: string;
+  included?: string;
+  notIncluded?: string;
+  itinerary?: string;
+  pricing?: string;
+  hotels?: string | null;
+  id?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  b2bPricing?: string | null;
+}
+
 interface PackageFormProps {
-  initialData?: any;
+  initialData?: InitialPackageData;
   isEdit?: boolean;
 }
 
@@ -77,7 +102,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
       } catch {}
     }
     // Default paxTiers structure
-    const defaultTiers: any = {};
+    const defaultTiers: Record<string, Record<string, { double: number; triple: number; singleSupplement: number | null }>> = {};
     ['2', '4', '6'].forEach(tier => {
       defaultTiers[tier] = {
         threestar: { double: 0, triple: 0, singleSupplement: null },
@@ -224,8 +249,8 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
 
       setExtractionSuccess(true);
       setTimeout(() => setExtractionSuccess(false), 5000);
-    } catch (err: any) {
-      setError(err.message || 'Failed to extract PDF data');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to extract PDF data');
     } finally {
       setExtracting(false);
     }
@@ -279,7 +304,7 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
         ...(packageType === 'SHORE_EXCURSION' && { port, pickupType }), // Add port and pickupType for shore excursions
       };
 
-      const url = isEdit ? `/api/admin/packages/${initialData.id}` : '/api/admin/packages';
+      const url = isEdit ? `/api/admin/packages/${initialData?.id}` : '/api/admin/packages';
       const method = isEdit ? 'PUT' : 'POST';
 
       const res = await fetch(url, {
@@ -297,8 +322,8 @@ export default function PackageForm({ initialData, isEdit = false }: PackageForm
       }
 
       router.push('/admin/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'An error occurred. Please check your JSON fields.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred. Please check your JSON fields.');
       setLoading(false);
     }
   };

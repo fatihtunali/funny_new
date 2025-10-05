@@ -4,11 +4,31 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaArrowLeft, FaCheck, FaTimes, FaSave } from 'react-icons/fa';
+import { FaArrowLeft, FaCheck, FaSave } from 'react-icons/fa';
+
+interface ExtractedPackage {
+  packageId?: string;
+  packageType: string;
+  title: string;
+  slug: string;
+  duration: string;
+  description: string;
+  destinations: string;
+  image: string;
+  pdfUrl?: string;
+  highlights?: string[];
+  included?: string[];
+  notIncluded?: string[];
+  itinerary?: unknown[];
+  pricing?: Record<string, unknown>;
+  hotels?: Record<string, unknown>;
+  port?: string;
+  pickupType?: string;
+}
 
 export default function BatchReviewPage() {
   const router = useRouter();
-  const [packages, setPackages] = useState<any[]>([]);
+  const [packages, setPackages] = useState<ExtractedPackage[]>([]);
   const [selectedPackages, setSelectedPackages] = useState<Set<number>>(new Set());
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -19,7 +39,7 @@ export default function BatchReviewPage() {
       const parsed = JSON.parse(extractedData);
       setPackages(parsed);
       // Select all by default
-      setSelectedPackages(new Set(parsed.map((_: any, idx: number) => idx)));
+      setSelectedPackages(new Set(parsed.map((_: ExtractedPackage, idx: number) => idx)));
     } else {
       router.push('/admin/packages/add');
     }
@@ -91,8 +111,8 @@ export default function BatchReviewPage() {
 
       // Redirect to dashboard
       router.push('/admin/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Failed to save packages');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save packages');
       setSaving(false);
     }
   };

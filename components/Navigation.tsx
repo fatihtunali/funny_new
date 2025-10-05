@@ -20,7 +20,7 @@ export default function Navigation() {
         const data = await res.json();
         setUser(data.user);
       }
-    } catch (error) {
+    } catch {
       // User not logged in
     }
   };

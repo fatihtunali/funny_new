@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaClock, FaCamera, FaUtensils } from 'react-icons/fa';
+import { FaClock, FaMapMarkerAlt } from 'react-icons/fa';
 
 export default function IstanbulPage() {
   const attractions = [

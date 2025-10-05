@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaClock, FaHotjar } from 'react-icons/fa';
+import { FaClock, FaHotjar } from 'react-icons/fa';
 
 export default function CappadociaPage() {
   const attractions = [
@@ -73,7 +73,7 @@ export default function CappadociaPage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Discover Cappadocia</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
-            Cappadocia is a geological wonderland featuring unique rock formations called "fairy chimneys,"
+            Cappadocia is a geological wonderland featuring unique rock formations called &quot;fairy chimneys,&quot;
             ancient cave dwellings, and underground cities carved thousands of years ago. This UNESCO World
             Heritage site offers one of the most extraordinary landscapes on Earth.
           </p>

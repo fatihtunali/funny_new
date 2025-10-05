@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FaMapMarkerAlt, FaClock, FaFortAwesome } from 'react-icons/fa';
+import { FaClock, FaFortAwesome } from 'react-icons/fa';
 
 export default function BodrumPage() {
   const attractions = [
@@ -73,7 +73,7 @@ export default function BodrumPage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Discover Bodrum</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
-            Bodrum is the pearl of Turkey\'s Aegean coast, where ancient history meets modern luxury.
+            Bodrum is the pearl of Turkey&apos;s Aegean coast, where ancient history meets modern luxury.
             Built on the ruins of ancient Halicarnassus, home to one of the Seven Wonders of the Ancient
             World, Bodrum today is a sophisticated resort town with pristine beaches and vibrant culture.
           </p>

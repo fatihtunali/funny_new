@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaClock, FaEye, FaTag } from 'react-icons/fa';
@@ -25,11 +25,7 @@ export default function BlogPage() {
 
   const categories = ['Travel Tips', 'Destinations', 'Culture', 'Food', 'History', 'Activities'];
 
-  useEffect(() => {
-    fetchPosts();
-  }, [selectedCategory]);
-
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     try {
       const url = selectedCategory
         ? `/api/blog?category=${encodeURIComponent(selectedCategory)}`
@@ -44,7 +40,11 @@ export default function BlogPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

@@ -227,11 +227,11 @@ Required JSON format:
       post,
       coverImageSuggestion: result.coverImageSuggestion,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error generating blog post:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to generate blog post' },
-      { status: error.message?.includes('Unauthorized') ? 401 : 500 }
+      { error: error instanceof Error ? error.message : 'Failed to generate blog post' },
+      { status: error instanceof Error && error.message?.includes('Unauthorized') ? 401 : 500 }
     );
   }
 }

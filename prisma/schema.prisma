@@ -58,11 +58,13 @@ model Booking {
   // Agent Commission (for B2B bookings)
   commissionAmount Float?
   commissionRate   Float?
+  paidAmount       Float?    @default(0)  // Amount paid to agent so far
+  remainingAmount  Float?    // Remaining amount to be paid
 
   // Booking Status
   status          BookingStatus @default(PENDING)
   paymentStatus   PaymentStatus @default(PENDING)
-  paidAt          DateTime?     // When agent paid
+  fullyPaidAt     DateTime?     // When commission fully paid to agent
 
   // Additional Information
   specialRequests String?  @db.Text
@@ -199,7 +201,10 @@ model Agent {
   approvedBy      String?     // Admin ID who approved
 
   // Relations
-  bookings        Booking[]
+  bookings            Booking[]
+  dailyTourBookings   DailyTourBooking[] @relation("DailyTourAgentBookings")
+  transferBookings    TransferBooking[]  @relation("TransferAgentBookings")
+  commissionPayments  CommissionPayment[] @relation("AgentCommissionPayments")
 
   @@index([email])
   @@index([status])
@@ -377,12 +382,22 @@ model DailyTourBooking {
   guestEmail      String
   guestPhone      String
 
+  // Agent Information (for B2B bookings)
+  agentId         String?
+  agent           Agent?    @relation("DailyTourAgentBookings", fields: [agentId], references: [id], onDelete: SetNull)
+
   // Booking details
   tourDate        DateTime
   tourType        TourType  // SIC or PRIVATE
   numberOfPax     Int
   totalPrice      Float
   currency        String    @default("EUR")
+
+  // Agent Commission (for B2B bookings)
+  commissionAmount Float?
+  commissionRate   Float?
+  paidAmount       Float?    @default(0)  // Amount paid to agent so far
+  remainingAmount  Float?    // Remaining amount to be paid
 
   // Pickup details
   pickupLocation  String?
@@ -395,6 +410,7 @@ model DailyTourBooking {
   // Status
   status          BookingStatus @default(PENDING)
   paymentStatus   PaymentStatus @default(PENDING)
+  fullyPaidAt     DateTime?     // When commission fully paid to agent
 
   // Reference number
   referenceNumber String    @unique
@@ -405,6 +421,7 @@ model DailyTourBooking {
   confirmedAt     DateTime?
 
   @@index([tourId])
+  @@index([agentId])
   @@index([guestEmail])
   @@index([status])
   @@index([tourDate])
@@ -512,6 +529,10 @@ model TransferBooking {
   guestEmail        String
   guestPhone        String
 
+  // Agent Information (for B2B bookings)
+  agentId           String?
+  agent             Agent?   @relation("TransferAgentBookings", fields: [agentId], references: [id], onDelete: SetNull)
+
   // Trip Details
   transferDate      DateTime
   transferTime      String   // "09:00", "14:30"
@@ -523,6 +544,12 @@ model TransferBooking {
   currency          String   @default("EUR")
   vehicleType       String   // Selected vehicle type
 
+  // Agent Commission (for B2B bookings)
+  commissionAmount  Float?
+  commissionRate    Float?
+  paidAmount        Float?   @default(0)  // Amount paid to agent so far
+  remainingAmount   Float?   // Remaining amount to be paid
+
   // Special Requirements
   specialRequests   String?  @db.Text
   numberOfLuggage   Int?     // Number of bags
@@ -530,6 +557,7 @@ model TransferBooking {
   // Status
   status            BookingStatus @default(PENDING)
   paymentStatus     PaymentStatus @default(PENDING)
+  fullyPaidAt       DateTime?     // When commission fully paid to agent
   referenceNumber   String   @unique
 
   // Timestamps
@@ -538,7 +566,34 @@ model TransferBooking {
   confirmedAt       DateTime?
 
   @@index([transferId])
+  @@index([agentId])
   @@index([guestEmail])
   @@index([status])
   @@index([transferDate])
+}
+
+// Commission Payment History
+model CommissionPayment {
+  id              String   @id @default(cuid())
+  agentId         String
+  agent           Agent    @relation("AgentCommissionPayments", fields: [agentId], references: [id], onDelete: Cascade)
+
+  // Booking Reference
+  bookingType     String   // "Package", "DailyTour", "Transfer"
+  bookingId       String
+  referenceNumber String
+
+  // Payment Details
+  amount          Float
+  paymentMethod   String?  // "Bank Transfer", "Cash", "PayPal", etc.
+  transactionRef  String?  // Bank reference, PayPal ID, etc.
+  notes           String?  @db.Text
+
+  // Metadata
+  paidBy          String?  // Admin who processed payment
+  createdAt       DateTime @default(now())
+
+  @@index([agentId])
+  @@index([bookingId])
+  @@index([createdAt])
 }

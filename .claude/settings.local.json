@@ -9,7 +9,10 @@
       "Bash(find:*)",
       "Bash(echo:*)",
       "Bash(npm run lint)",
-      "Bash(npm run lint:*)"
+      "Bash(npm run lint:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nChange image field to dropdown selector from public/images folder\n\n- Replace text input with select dropdown for image selection\n- Organize images by categories: Destinations, Istanbul, Cappadocia, Antalya, Ephesus, Pamukkale, Other Cities\n- Ensures images are only selected from public/images folder\n- Makes it easier to select appropriate images for daily tours\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

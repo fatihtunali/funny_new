@@ -364,17 +364,61 @@ export default function EditDailyTourPage() {
             {/* Image URL */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Image URL
+                Image
               </label>
-              <input
-                type="text"
+              <select
                 value={tour.image || ''}
                 onChange={(e) => updateField('image', e.target.value)}
-                placeholder="/images/destinations/istanbul.jpg"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              />
+              >
+                <option value="">Select an image...</option>
+                <optgroup label="Destinations">
+                  <option value="/images/destinations/istanbul.jpg">Istanbul</option>
+                  <option value="/images/destinations/cappadocia.jpg">Cappadocia</option>
+                  <option value="/images/destinations/ephesus.jpg">Ephesus</option>
+                  <option value="/images/destinations/pamukkale.jpg">Pamukkale</option>
+                  <option value="/images/destinations/antalya.jpg">Antalya</option>
+                </optgroup>
+                <optgroup label="Istanbul">
+                  <option value="/images/BlueMosqueIstanbul.jpg">Blue Mosque</option>
+                  <option value="/images/BlueMosqueIstanbul6minarets.jpg">Blue Mosque (6 Minarets)</option>
+                  <option value="/images/ayasofya.jpg">Hagia Sophia</option>
+                  <option value="/images/BosphorusCruiseIstanbul.jpg">Bosphorus Cruise</option>
+                  <option value="/images/BosphorusCruiseIstanbul2.jpg">Bosphorus Cruise 2</option>
+                  <option value="/images/BosphorusBridgeNightIstanbul.jpg">Bosphorus Bridge Night</option>
+                  <option value="/images/IstanbulatNight.jpeg">Istanbul at Night</option>
+                  <option value="/images/GalatatowerIstanbul.jpg">Galata Tower</option>
+                  <option value="/images/topkapipalace.jpg">Topkapi Palace</option>
+                  <option value="/images/grandbazaaristanbul.jpg">Grand Bazaar</option>
+                </optgroup>
+                <optgroup label="Cappadocia">
+                  <option value="/images/cappadociaballoonride.jpg">Balloon Ride</option>
+                  <option value="/images/cappadocianight.jpg">Cappadocia Night</option>
+                  <option value="/images/Cappadociavalley.jpg">Cappadocia Valley</option>
+                </optgroup>
+                <optgroup label="Antalya">
+                  <option value="/images/AntalyaHarbour.jpg">Antalya Harbour</option>
+                  <option value="/images/AntalyaOldCity.jpg">Antalya Old City</option>
+                  <option value="/images/AntalyaOldCity1.jpg">Antalya Old City 2</option>
+                  <option value="/images/antalya-port.jpg">Antalya Port</option>
+                  <option value="/images/antalyakekova.jpg">Antalya Kekova</option>
+                </optgroup>
+                <optgroup label="Ephesus">
+                  <option value="/images/Ephesus_Library.jpg">Ephesus Library</option>
+                  <option value="/images/Ephesus_Library2.jpg">Ephesus Library 2</option>
+                  <option value="/images/kusadasi.jpg">Kusadasi</option>
+                </optgroup>
+                <optgroup label="Pamukkale">
+                  <option value="/images/PamukkaleTravertenler.jpg">Pamukkale Travertines</option>
+                </optgroup>
+                <optgroup label="Other Cities">
+                  <option value="/images/bursa.webp">Bursa</option>
+                  <option value="/images/bursa1.jpg">Bursa 2</option>
+                  <option value="/images/anitkabir.jpg">Anitkabir (Ankara)</option>
+                </optgroup>
+              </select>
               <p className="text-xs text-gray-500 mt-1">
-                Example: /images/destinations/istanbul.jpg or https://example.com/image.jpg
+                Select an image from public/images folder
               </p>
             </div>
 

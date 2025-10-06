@@ -3,7 +3,7 @@ import { getAdminFromToken } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaPlus, FaEdit, FaEye, FaEnvelope, FaChartLine } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaEye, FaEnvelope, FaChartLine, FaUsers } from 'react-icons/fa';
 import LogoutButton from '@/components/admin/LogoutButton';
 import DeletePackageButton from '@/components/admin/DeletePackageButton';
 
@@ -108,6 +108,17 @@ export default async function AdminDashboard() {
               </div>
               <div className="bg-purple-100 rounded-full p-3">
                 <FaEye className="text-2xl text-purple-600" />
+              </div>
+            </div>
+          </Link>
+          <Link href="/admin/leads" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 mb-2">Agent Leads</p>
+                <p className="text-lg font-semibold text-orange-600">Extract Emails →</p>
+              </div>
+              <div className="bg-orange-100 rounded-full p-3">
+                <FaUsers className="text-2xl text-orange-600" />
               </div>
             </div>
           </Link>

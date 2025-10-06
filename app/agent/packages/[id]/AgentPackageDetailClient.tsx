@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { FaDownload } from 'react-icons/fa';
 import AgentBookingModal from '@/components/agent/AgentBookingModal';
 
 interface Props {
@@ -30,6 +31,8 @@ interface Package {
   highlights: string;
   included: string;
   notIncluded: string;
+  pdfUrl?: string;
+  hotels?: Record<string, string[]>;
 }
 
 interface Agent {
@@ -249,12 +252,24 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold text-gray-900">{pkg.title}</h1>
-            <Link
-              href="/agent/packages"
-              className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              ← Back to Packages
-            </Link>
+            <div className="flex gap-3">
+              {pkg.pdfUrl && (
+                <a
+                  href={pkg.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-4 py-2 text-sm text-primary-600 hover:text-primary-700 border border-primary-600 rounded-lg hover:bg-primary-50 transition-colors"
+                >
+                  <FaDownload /> Download PDF
+                </a>
+              )}
+              <Link
+                href="/agent/packages"
+                className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                ← Back to Packages
+              </Link>
+            </div>
           </div>
         </div>
       </header>
@@ -287,6 +302,35 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
               <h2 className="text-xl font-semibold text-gray-900 mb-4">Highlights</h2>
               <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: pkg.highlights }} />
             </div>
+
+            {/* Itinerary */}
+            {pkg.itinerary && (
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">Day by Day Itinerary</h2>
+                <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: pkg.itinerary }} />
+              </div>
+            )}
+
+            {/* Hotels */}
+            {pkg.hotels && Object.keys(pkg.hotels).length > 0 && (
+              <div className="bg-white rounded-lg shadow-sm p-6">
+                <h2 className="text-xl font-semibold text-gray-900 mb-4">Accommodation Options</h2>
+                <div className="space-y-4">
+                  {Object.entries(pkg.hotels).map(([category, hotelList]) => (
+                    <div key={category}>
+                      <h3 className="text-sm font-semibold text-gray-700 uppercase mb-2">
+                        {category.replace('star', '-Star Hotels')}
+                      </h3>
+                      <ul className="list-disc list-inside text-gray-600 space-y-1">
+                        {hotelList.map((hotel, idx) => (
+                          <li key={idx} className="text-sm">{hotel}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Included/Not Included */}
             <div className="grid md:grid-cols-2 gap-6">

@@ -27,8 +27,8 @@ export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G
 export const trackQuoteRequest = (value?: number) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'conversion', {
-      send_to: `${GA_ADS_ID}/REPLACE_WITH_QUOTE_LABEL`, // Replace with actual conversion label from Google Ads
-      value: value || 1,
+      send_to: `${GA_ADS_ID}/J2dCCK_5i6gbEJXZ8tVB`,
+      value: value || 50,
       currency: 'EUR',
     });
   }
@@ -38,7 +38,7 @@ export const trackQuoteRequest = (value?: number) => {
 export const trackPackageBooking = (value: number, transactionId?: string) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'conversion', {
-      send_to: `${GA_ADS_ID}/REPLACE_WITH_BOOKING_LABEL`, // Replace with actual conversion label from Google Ads
+      send_to: `${GA_ADS_ID}/50_dCJeXjKgbEJXZ8tVB`,
       value: value,
       currency: 'EUR',
       transaction_id: transactionId,
@@ -50,7 +50,7 @@ export const trackPackageBooking = (value: number, transactionId?: string) => {
 export const trackDailyTourBooking = (value: number, transactionId?: string) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'conversion', {
-      send_to: `${GA_ADS_ID}/REPLACE_WITH_DAILY_TOUR_LABEL`, // Replace with actual conversion label from Google Ads
+      send_to: `${GA_ADS_ID}/1BJ0CIChjKgbEJXZ8tVB`,
       value: value,
       currency: 'EUR',
       transaction_id: transactionId,
@@ -62,7 +62,7 @@ export const trackDailyTourBooking = (value: number, transactionId?: string) => 
 export const trackTransferBooking = (value: number, transactionId?: string) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'conversion', {
-      send_to: `${GA_ADS_ID}/REPLACE_WITH_TRANSFER_LABEL`, // Replace with actual conversion label from Google Ads
+      send_to: `${GA_ADS_ID}/JNxvCNTLk6gbEJXZ8tVB`,
       value: value,
       currency: 'EUR',
       transaction_id: transactionId,

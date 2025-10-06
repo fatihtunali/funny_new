@@ -612,3 +612,27 @@ model CommissionPayment {
   @@index([bookingId])
   @@index([createdAt])
 }
+
+// Agent Lead Discovery (for marketing/sales prospecting)
+model AgentLead {
+  id               String   @id @default(uuid())
+  companyName      String
+  email            String?
+  phone            String?
+  website          String?
+  address          String?  @db.Text
+  city             String?
+  country          String
+  source           String   // "google", "directory", "social", "manual"
+  searchQuery      String?  // What search query found this lead
+  discovered       DateTime @default(now())
+  contacted        Boolean  @default(false)
+  convertedToAgent Boolean  @default(false)
+  notes            String?  @db.Text
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([country, city])
+  @@index([contacted])
+  @@index([email])
+}

@@ -30,6 +30,10 @@ yarn-error.log*
 .env.production
 .env.server
 
+# sensitive files
+PRODUCTION_SECRETS.txt
+FTP_UPLOAD_CHECKLIST.md
+
 # vercel
 .vercel
 

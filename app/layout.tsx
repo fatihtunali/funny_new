@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     apple: '/images/faviconfunny.png',
   },
   verification: {
-    google: 'your-google-verification-code',
+    google: 'aUshT6plDed1SZKLMNFuyrEbqT2_GbdPOx6_cj43-8M',
     yandex: 'f61c938d7f6ad921',
   },
 };

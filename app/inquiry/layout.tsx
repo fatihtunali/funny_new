@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Get a Quote - Custom Turkey Tour Packages",
     description: "Request a personalized Turkey tour quote. Tell us your preferences and we'll create a custom itinerary with the best prices.",
-    url: "https://dreamdestinationturkey.com/inquiry",
+    url: "https://funnytourism.com/inquiry",
     type: "website",
     images: [
       {

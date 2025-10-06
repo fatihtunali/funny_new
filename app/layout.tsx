@@ -13,7 +13,7 @@ import Script from "next/script";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://dreamdestinationturkey.com'),
+  metadataBase: new URL('https://funnytourism.com'),
   title: {
     default: "Funny Tourism - Turkey Tour Packages | Istanbul, Cappadocia & More",
     template: "%s | Funny Tourism"
@@ -23,6 +23,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Funny Tourism" }],
   creator: "Funny Tourism",
   publisher: "Funny Tourism",
+  referrer: "origin",
   formatDetection: {
     email: false,
     address: false,
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://dreamdestinationturkey.com',
+    url: 'https://funnytourism.com',
     siteName: 'Funny Tourism',
     title: 'Funny Tourism - Turkey Tour Packages | Istanbul, Cappadocia & More',
     description: 'Explore Turkey with expertly curated tour packages. Visit Istanbul, Cappadocia, Ephesus, and Pamukkale with professional English-speaking guides.',

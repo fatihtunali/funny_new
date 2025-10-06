@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Istanbul Tours & Travel Guide",
     description: "Explore Istanbul with our expertly curated tours. Visit Hagia Sophia, Blue Mosque, Topkapi Palace, Grand Bazaar & more.",
-    url: "https://dreamdestinationturkey.com/destinations/istanbul",
+    url: "https://funnytourism.com/destinations/istanbul",
     type: "website",
     images: [
       {

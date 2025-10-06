@@ -15,7 +15,7 @@ export async function sendEmail({ to, subject, html, bccAdmin = true }: EmailDat
   try {
     // Use Brevo (formerly Sendinblue) API
     const BREVO_API_KEY = process.env.BREVO_API_KEY;
-    const FROM_EMAIL = process.env.EMAIL_FROM || 'info@dreamdestinationturkey.com';
+    const FROM_EMAIL = process.env.EMAIL_FROM || 'info@funnytourism.com';
     const FROM_NAME = process.env.EMAIL_FROM_NAME || 'Funny Tourism';
     const BCC_EMAIL = 'info@funnytourism.com'; // Always BCC to operations email
 
@@ -111,7 +111,7 @@ export function generateBookingConfirmationEmail(booking: BookingEmailData) {
     <body>
       <div class="container">
         <div class="header">
-          <img src="https://dreamdestinationturkey.com/images/FunnyLogo1.png" alt="Funny Tourism" style="max-width: 200px; height: auto; margin-bottom: 20px;">
+          <img src="https://funnytourism.com/images/FunnyLogo1.png" alt="Funny Tourism" style="max-width: 200px; height: auto; margin-bottom: 20px;">
           <h1>🎉 Booking Confirmed!</h1>
           <p>Thank you for choosing Funny Tourism</p>
         </div>
@@ -161,13 +161,13 @@ export function generateBookingConfirmationEmail(booking: BookingEmailData) {
           </div>
 
           <div style="text-align: center;">
-            <a href="https://dreamdestinationturkey.com/dashboard" class="button">View Booking Details</a>
+            <a href="https://funnytourism.com/dashboard" class="button">View Booking Details</a>
           </div>
 
           <p style="margin-top: 30px; color: #6b7280; font-size: 14px;">
             For any questions or changes to your booking, please contact us:
             <br>📞 Phone: +90 216 557 52 52
-            <br>📧 Email: info@dreamdestinationturkey.com
+            <br>📧 Email: info@funnytourism.com
             <br>💬 WhatsApp: +90 539 502 53 10
           </p>
         </div>
@@ -208,7 +208,7 @@ export function generateBookingReminderEmail(booking: ReminderEmailData, daysUnt
     <body>
       <div class="container">
         <div class="header">
-          <img src="https://dreamdestinationturkey.com/images/FunnyLogo1.png" alt="Funny Tourism" style="max-width: 200px; height: auto; margin-bottom: 20px;">
+          <img src="https://funnytourism.com/images/FunnyLogo1.png" alt="Funny Tourism" style="max-width: 200px; height: auto; margin-bottom: 20px;">
           <h1>🧳 Your Turkey Adventure is ${daysUntilTravel} Days Away!</h1>
         </div>
 
@@ -237,7 +237,7 @@ export function generateBookingReminderEmail(booking: ReminderEmailData, daysUnt
 
           <p style="color: #6b7280; font-size: 14px; margin-top: 20px;">
             📞 Phone: +90 216 557 52 52<br>
-            📧 Email: info@dreamdestinationturkey.com<br>
+            📧 Email: info@funnytourism.com<br>
             💬 WhatsApp: +90 539 502 53 10
           </p>
         </div>
@@ -288,7 +288,7 @@ export function generateTransferBookingEmail(booking: TransferBookingEmailData) 
     <body>
       <div class="container">
         <div class="header">
-          <img src="https://dreamdestinationturkey.com/images/FunnyLogo1.png" alt="Funny Tourism" style="max-width: 200px; height: auto; margin-bottom: 20px;">
+          <img src="https://funnytourism.com/images/FunnyLogo1.png" alt="Funny Tourism" style="max-width: 200px; height: auto; margin-bottom: 20px;">
           <h1>🚗 Transfer Booking Confirmed!</h1>
           <p>Your comfortable ride is reserved</p>
         </div>
@@ -359,7 +359,7 @@ export function generateTransferBookingEmail(booking: TransferBookingEmailData) 
           <p style="margin-top: 30px; color: #6b7280; font-size: 14px;">
             For any questions or changes to your transfer, please contact us:
             <br>📞 Phone: +90 216 557 52 52
-            <br>📧 Email: info@dreamdestinationturkey.com
+            <br>📧 Email: info@funnytourism.com
             <br>💬 WhatsApp: +90 539 502 53 10
           </p>
         </div>

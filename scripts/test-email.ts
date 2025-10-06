@@ -17,7 +17,7 @@ async function testEmailSystem() {
   console.log('\n📋 Environment Configuration:');
   console.log('─'.repeat(60));
   console.log(`BREVO_API_KEY: ${process.env.BREVO_API_KEY ? '✅ Configured' : '❌ Missing'}`);
-  console.log(`EMAIL_FROM: ${process.env.EMAIL_FROM || 'info@dreamdestinationturkey.com (default)'}`);
+  console.log(`EMAIL_FROM: ${process.env.EMAIL_FROM || 'info@funnytourism.com (default)'}`);
   console.log(`EMAIL_FROM_NAME: ${process.env.EMAIL_FROM_NAME || 'Funny Tourism (default)'}`);
   console.log(`ADMIN_EMAIL: ${process.env.ADMIN_EMAIL || 'info@funnytourism.com (default)'}`);
 

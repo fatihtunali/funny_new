@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Turkey Shore Excursions - Cruise Port Tours",
     description: "Book shore excursions in Turkey for cruise passengers. Port pickup from Istanbul, Kusadasi, Izmir, Bodrum & Antalya. Back-to-ship guarantee.",
-    url: "https://dreamdestinationturkey.com/tours/shore-excursions",
+    url: "https://funnytourism.com/tours/shore-excursions",
     type: "website",
     images: [
       {

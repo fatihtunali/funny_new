@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Turkey Hotel Packages - Multi-Day Tours with Accommodation",
     description: "Explore Turkey with our all-inclusive hotel packages. Visit Istanbul, Cappadocia, Ephesus & more.",
-    url: "https://dreamdestinationturkey.com/tours/hotels-packages",
+    url: "https://funnytourism.com/tours/hotels-packages",
     type: "website",
     images: [
       {

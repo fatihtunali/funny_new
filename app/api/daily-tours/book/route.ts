@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Send notification email to admin
-    const adminEmail = process.env.ADMIN_EMAIL || 'info@dreamdestinationturkey.com';
+    const adminEmail = process.env.ADMIN_EMAIL || 'info@funnytourism.com';
     const adminEmailHtml = generateDailyTourAdminNotification({
       guestName: guestName || 'Guest',
       guestEmail,
@@ -234,7 +234,7 @@ function generateDailyTourBookingEmail(data: {
           <p style="margin-top: 30px; color: #6b7280; font-size: 14px;">
             For any questions or changes to your tour, please contact us:
             <br>📞 Phone: +90 XXX XXX XX XX
-            <br>📧 Email: info@dreamdestinationturkey.com
+            <br>📧 Email: info@funnytourism.com
             <br>💬 WhatsApp: +90 XXX XXX XX XX
           </p>
         </div>

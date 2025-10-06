@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "About Us - Your Trusted Turkey Tour Operator",
     description: "10+ years of creating unforgettable Turkey experiences with expert local guides.",
-    url: "https://dreamdestinationturkey.com/about",
+    url: "https://funnytourism.com/about",
     type: "website"
   }
 };

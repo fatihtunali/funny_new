@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Turkey Land Packages - Tours Without Hotels",
     description: "Book Turkey land-only packages. Professional tours with guide, transfers & entrance fees. Arrange your own accommodation.",
-    url: "https://dreamdestinationturkey.com/tours/land-packages",
+    url: "https://funnytourism.com/tours/land-packages",
     type: "website",
     images: [
       {

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Cappadocia Tours & Hot Air Balloon Rides",
     description: "Discover Cappadocia's magical landscapes. Hot air balloon rides, fairy chimneys, underground cities, and cave hotels.",
-    url: "https://dreamdestinationturkey.com/destinations/cappadocia",
+    url: "https://funnytourism.com/destinations/cappadocia",
     type: "website",
     images: [
       {

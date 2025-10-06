@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Contact Us - Get Your Free Turkey Tour Quote",
     description: "Contact Funny Tourism for personalized Turkey tour packages. Get a free quote and book your dream vacation.",
-    url: "https://dreamdestinationturkey.com/contact",
+    url: "https://funnytourism.com/contact",
     type: "website"
   }
 };

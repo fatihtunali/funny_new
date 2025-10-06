@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "All Turkey Tour Packages - Hotels & Land Packages",
     description: "Browse all our Turkey tour packages. Filter by destination, duration, and price.",
-    url: "https://dreamdestinationturkey.com/packages",
+    url: "https://funnytourism.com/packages",
     type: "website",
     images: [
       {

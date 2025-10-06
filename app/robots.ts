@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin/', '/agent/', '/api/', '/dashboard/'],
       },
     ],
-    sitemap: 'https://dreamdestinationturkey.com/sitemap.xml',
+    sitemap: 'https://funnytourism.com/sitemap.xml',
   };
 }

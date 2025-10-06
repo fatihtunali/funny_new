@@ -22,7 +22,7 @@ export default function Footer() {
             </p>
             {/* TURSAB Certification */}
             <div className="mt-4 mb-4">
-              <a href="https://www.tursab.org.tr/tr/ddsv" target="_blank" rel="noopener noreferrer" className="inline-block">
+              <a href="https://www.tursab.org.tr/tr/ddsv" target="_blank" rel="noopener" className="inline-block">
                 <Image
                   src="/images/tursab-dvs-7747.png"
                   alt="TURSAB Certified Travel Agency - License 7747"

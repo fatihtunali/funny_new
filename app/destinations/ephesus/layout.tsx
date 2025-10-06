@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Ephesus Ancient City Tours",
     description: "Visit Ephesus, one of the world's best-preserved ancient cities. See the Library of Celsus, Great Theatre, Temple of Artemis & House of Virgin Mary.",
-    url: "https://dreamdestinationturkey.com/destinations/ephesus",
+    url: "https://funnytourism.com/destinations/ephesus",
     type: "website",
     images: [
       {

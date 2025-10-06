@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Turkey Travel Blog - Tips, Guides & Stories",
     description: "Read our Turkey travel blog for insider tips, destination guides, cultural insights, and travel stories.",
-    url: "https://dreamdestinationturkey.com/blog",
+    url: "https://funnytourism.com/blog",
     type: "website",
     images: [
       {

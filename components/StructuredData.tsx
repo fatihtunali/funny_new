@@ -23,7 +23,7 @@ export interface PackageSchemaData {
 }
 
 // Helper function to generate Product schema for tour packages
-export function generateTourPackageSchema(pkg: PackageSchemaData, baseUrl: string = 'https://dreamdestinationturkey.com') {
+export function generateTourPackageSchema(pkg: PackageSchemaData, baseUrl: string = 'https://funnytourism.com') {
   // Extract min price
   let minPrice = 0;
   try {
@@ -87,7 +87,7 @@ interface TouristTripSchemaData {
 }
 
 // Generate TouristTrip schema (more specific for tours)
-export function generateTouristTripSchema(pkg: TouristTripSchemaData, baseUrl: string = 'https://dreamdestinationturkey.com') {
+export function generateTouristTripSchema(pkg: TouristTripSchemaData, baseUrl: string = 'https://funnytourism.com') {
   const destinations = pkg.destinations ? pkg.destinations.split(',').map((d: string) => d.trim()) : [];
   const duration = pkg.duration || '';
 
@@ -112,7 +112,7 @@ export function generateTouristTripSchema(pkg: TouristTripSchemaData, baseUrl: s
 }
 
 // Generate Organization schema for homepage
-export function generateOrganizationSchema(baseUrl: string = 'https://dreamdestinationturkey.com') {
+export function generateOrganizationSchema(baseUrl: string = 'https://funnytourism.com') {
   return {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
@@ -138,7 +138,7 @@ export function generateOrganizationSchema(baseUrl: string = 'https://dreamdesti
 }
 
 // Generate BreadcrumbList schema
-export function generateBreadcrumbSchema(items: { name: string; url: string }[], baseUrl: string = 'https://dreamdestinationturkey.com') {
+export function generateBreadcrumbSchema(items: { name: string; url: string }[], baseUrl: string = 'https://funnytourism.com') {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

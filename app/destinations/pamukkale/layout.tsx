@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Pamukkale Tours - Cotton Castle & Hierapolis",
     description: "Explore Pamukkale's stunning white travertine terraces and ancient Hierapolis ruins. UNESCO World Heritage Site.",
-    url: "https://dreamdestinationturkey.com/destinations/pamukkale",
+    url: "https://funnytourism.com/destinations/pamukkale",
     type: "website",
     images: [
       {

@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Send notification email to admin
-    const adminEmail = process.env.ADMIN_EMAIL || 'info@dreamdestinationturkey.com';
+    const adminEmail = process.env.ADMIN_EMAIL || 'info@funnytourism.com';
     const adminEmailHtml = generateAgentBookingNotification({
       agentCompany: booking.agent?.companyName || 'Unknown Agent',
       agentEmail: booking.agent?.email || '',
@@ -163,7 +163,7 @@ function generateAgentDailyTourBookingEmail(data: any) {
           <p>Our team will contact you within 24 hours to confirm pickup details.</p>
           <p style="margin-top: 30px; color: #6b7280; font-size: 14px;">
             Booked through: ${data.agentCompany}<br>
-            For support: info@dreamdestinationturkey.com
+            For support: info@funnytourism.com
           </p>
         </div>
       </div>

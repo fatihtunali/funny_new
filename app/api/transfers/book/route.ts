@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Send notification email to admin
-    const adminEmail = process.env.ADMIN_EMAIL || 'info@dreamdestinationturkey.com';
+    const adminEmail = process.env.ADMIN_EMAIL || 'info@funnytourism.com';
     await sendEmail({
       to: adminEmail,
       subject: `New Transfer Booking - ${referenceNumber}`,

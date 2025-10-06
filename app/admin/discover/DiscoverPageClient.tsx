@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { FaSearch, FaGlobe, FaCheck, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaGlobe, FaCheck, FaTimes, FaMapMarkerAlt, FaEnvelope } from 'react-icons/fa';
 
 interface DiscoveryResult {
   companyName: string;
+  email?: string;
   website: string;
   city: string;
   country: string;
@@ -12,8 +13,10 @@ interface DiscoveryResult {
 }
 
 interface DiscoverySummary {
-  totalFound: number;
-  newLeads: number;
+  totalFound?: number;
+  totalScraped?: number;
+  withEmail?: number;
+  newLeads?: number;
   duplicates: number;
   breakdown: Record<string, number>;
 }
@@ -24,6 +27,7 @@ export default function DiscoverPageClient() {
   const [summary, setSummary] = useState<DiscoverySummary | null>(null);
   const [selectedCountries, setSelectedCountries] = useState<string[]>(['USA', 'UK', 'Canada']);
   const [limit, setLimit] = useState(10);
+  const [method, setMethod] = useState<'google-api' | 'google-maps'>('google-maps');
 
   const countries = [
     { value: 'USA', label: 'United States', cities: 7 },
@@ -40,7 +44,12 @@ export default function DiscoverPageClient() {
       return;
     }
 
-    if (!confirm(`Search for travel agencies in ${selectedCountries.join(', ')}?\n\nThis will use Google Search API credits (${limit} searches per country).`)) {
+    const methodName = method === 'google-maps' ? 'Google Maps Scraping' : 'Google Search API';
+    const warning = method === 'google-maps'
+      ? 'This will scrape Google Maps (FREE, UNLIMITED, but slower).'
+      : `This will use Google Search API (${limit} searches, may hit quota).`;
+
+    if (!confirm(`Search for travel agencies in ${selectedCountries.join(', ')}?\n\nMethod: ${methodName}\n${warning}`)) {
       return;
     }
 
@@ -49,7 +58,9 @@ export default function DiscoverPageClient() {
       setResults([]);
       setSummary(null);
 
-      const response = await fetch('/api/admin/discover-agents', {
+      const endpoint = method === 'google-maps' ? '/api/admin/scrape-google-maps' : '/api/admin/discover-agents';
+
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -92,6 +103,73 @@ export default function DiscoverPageClient() {
       {/* Discovery Controls */}
       <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Search Settings</h2>
+
+        {/* Method Selection */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-3">
+            Discovery Method
+          </label>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label
+              className={`
+                flex items-start p-4 border-2 rounded-lg cursor-pointer transition-all
+                ${method === 'google-maps'
+                  ? 'border-primary-600 bg-primary-50'
+                  : 'border-gray-200 hover:border-gray-300'
+                }
+              `}
+            >
+              <input
+                type="radio"
+                name="method"
+                value="google-maps"
+                checked={method === 'google-maps'}
+                onChange={() => setMethod('google-maps')}
+                className="mt-1 mr-3"
+              />
+              <div className="flex-1">
+                <div className="font-semibold text-gray-900 flex items-center gap-2">
+                  <FaMapMarkerAlt className="text-primary-600" />
+                  Google Maps Scraping (Recommended)
+                </div>
+                <div className="text-sm text-gray-600 mt-1">
+                  ✅ FREE & Unlimited<br />
+                  ✅ Gets emails directly<br />
+                  ⚠️ Slower (15-20 seconds per city)
+                </div>
+              </div>
+            </label>
+
+            <label
+              className={`
+                flex items-start p-4 border-2 rounded-lg cursor-pointer transition-all
+                ${method === 'google-api'
+                  ? 'border-primary-600 bg-primary-50'
+                  : 'border-gray-200 hover:border-gray-300'
+                }
+              `}
+            >
+              <input
+                type="radio"
+                name="method"
+                value="google-api"
+                checked={method === 'google-api'}
+                onChange={() => setMethod('google-api')}
+                className="mt-1 mr-3"
+              />
+              <div className="flex-1">
+                <div className="font-semibold text-gray-900">
+                  Google Search API
+                </div>
+                <div className="text-sm text-gray-600 mt-1">
+                  ⚠️ Limited (100/day free)<br />
+                  ❌ No emails (needs extraction)<br />
+                  ✅ Faster
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
 
         {/* Country Selection */}
         <div className="mb-6">
@@ -211,14 +289,22 @@ export default function DiscoverPageClient() {
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Discovery Results</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-blue-50 rounded-lg p-4">
-              <p className="text-sm text-blue-600">Total Found</p>
-              <p className="text-3xl font-bold text-blue-900">{summary.totalFound}</p>
+              <p className="text-sm text-blue-600">Total Scraped</p>
+              <p className="text-3xl font-bold text-blue-900">{summary.totalScraped || summary.totalFound || 0}</p>
             </div>
-            <div className="bg-green-50 rounded-lg p-4">
-              <p className="text-sm text-green-600">New Leads</p>
-              <p className="text-3xl font-bold text-green-900">{summary.newLeads}</p>
+            <div className="bg-green-50 rounded-lg p-4 border-2 border-green-200">
+              <p className="text-sm text-green-600 flex items-center gap-1">
+                <FaEnvelope /> With Email
+              </p>
+              <p className="text-3xl font-bold text-green-900">{summary.withEmail || summary.newLeads || 0}</p>
+            </div>
+            <div className="bg-orange-50 rounded-lg p-4">
+              <p className="text-sm text-orange-600">No Email</p>
+              <p className="text-3xl font-bold text-orange-900">
+                {(summary.totalScraped || summary.totalFound || 0) - (summary.withEmail || summary.newLeads || 0)}
+              </p>
             </div>
             <div className="bg-gray-50 rounded-lg p-4">
               <p className="text-sm text-gray-600">Duplicates</p>
@@ -255,6 +341,17 @@ export default function DiscoverPageClient() {
                         <p className="text-xs text-gray-500 mt-1">Query: {result.searchQuery}</p>
                       </div>
                     </div>
+                    {result.email && (
+                      <div className="mt-2 flex items-center gap-2">
+                        <FaEnvelope className="text-green-500" />
+                        <a
+                          href={`mailto:${result.email}`}
+                          className="text-sm text-green-600 hover:underline font-semibold"
+                        >
+                          {result.email}
+                        </a>
+                      </div>
+                    )}
                     <div className="mt-2 flex items-center gap-2">
                       <FaGlobe className="text-gray-400" />
                       <a

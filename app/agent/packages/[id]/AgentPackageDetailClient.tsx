@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { FaDownload } from 'react-icons/fa';
 import AgentBookingModal from '@/components/agent/AgentBookingModal';
+import ItineraryTimeline from '@/components/ItineraryTimeline';
 
 interface Props {
   packageId: string;
@@ -15,6 +16,14 @@ interface PricingData {
   paxTiers?: Record<string, Record<string, { double: number; triple: number; singleSupplement: number | null }>>;
   perPerson?: number;
   [key: string]: unknown;
+}
+
+interface ItineraryDay {
+  day: number;
+  title: string;
+  meals: string;
+  description: string;
+  highlights?: string[];
 }
 
 interface Package {
@@ -27,7 +36,7 @@ interface Package {
   pricing: PricingData;
   packageType: string;
   image: string;
-  itinerary: string;
+  itinerary: string | ItineraryDay[];
   highlights: string;
   included: string;
   notIncluded: string;
@@ -89,6 +98,16 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
     fetchPackage();
     fetchAgentData();
   }, [fetchPackage, fetchAgentData]);
+
+  const parseItinerary = (): ItineraryDay[] => {
+    if (!pkg?.itinerary) return [];
+    try {
+      return typeof pkg.itinerary === 'string' ? JSON.parse(pkg.itinerary) : pkg.itinerary;
+    } catch (error) {
+      console.error('Error parsing itinerary:', error);
+      return [];
+    }
+  };
 
   const calculatePrice = () => {
     if (!pkg) return 0;
@@ -304,10 +323,10 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
             </div>
 
             {/* Itinerary */}
-            {pkg.itinerary && (
+            {parseItinerary().length > 0 && (
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Day by Day Itinerary</h2>
-                <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: pkg.itinerary }} />
+                <ItineraryTimeline itinerary={parseItinerary()} />
               </div>
             )}
 

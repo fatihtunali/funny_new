@@ -127,13 +127,14 @@ export async function POST(request: NextRequest) {
 
     const { limit = 10 } = await request.json();
 
-    // Get leads without emails
+    // Get leads without emails that haven't been attempted yet
     const leads = await prisma.agentLead.findMany({
       where: {
         AND: [
           { email: null },
           { website: { not: null } },
           { website: { not: '' } },
+          { emailExtractionAttempted: false }, // Skip already attempted
         ],
       },
       take: Math.min(limit, 100), // Max 100 at once
@@ -152,6 +153,7 @@ export async function POST(request: NextRequest) {
           where: { id: lead.id },
           data: {
             email: emails[0],
+            emailExtractionAttempted: true,
             notes: `Email extracted from ${source} on ${new Date().toISOString()}`,
           },
         });
@@ -164,6 +166,15 @@ export async function POST(request: NextRequest) {
           source,
           city: lead.city,
           country: lead.country,
+        });
+      } else {
+        // Mark as attempted even if no email found
+        await prisma.agentLead.update({
+          where: { id: lead.id },
+          data: {
+            emailExtractionAttempted: true,
+            notes: `Email extraction attempted but not found on ${new Date().toISOString()}`,
+          },
         });
       }
 
@@ -208,12 +219,16 @@ export async function GET() {
         ],
       },
     });
+    const attempted = await prisma.agentLead.count({
+      where: { emailExtractionAttempted: true },
+    });
     const remaining = await prisma.agentLead.count({
       where: {
         AND: [
           { email: null },
           { website: { not: null } },
           { website: { not: '' } },
+          { emailExtractionAttempted: false }, // Only count not-yet-attempted
         ],
       },
     });
@@ -224,6 +239,7 @@ export async function GET() {
         total,
         withEmail,
         withWebsite,
+        attempted,
         remaining,
         successRate: total > 0 ? ((withEmail / total) * 100).toFixed(1) : '0.0',
       },

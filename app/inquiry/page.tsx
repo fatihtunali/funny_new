@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FaCheckCircle, FaUsers, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { trackQuoteRequest } from '@/lib/gtag';
 
 function InquiryFormContent() {
   const searchParams = useSearchParams();
@@ -161,6 +162,8 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
 
       if (response.ok) {
         setSubmitSuccess(true);
+        // Track Google Ads conversion
+        trackQuoteRequest();
       } else {
         throw new Error('Failed to submit');
       }

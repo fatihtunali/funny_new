@@ -102,7 +102,7 @@ export default function RootLayout({
           />
         </noscript>
 
-        {/* Google tag (gtag.js) */}
+        {/* Google tag (gtag.js) - Analytics & Ads */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-5FM0WYP1P4"
           strategy="afterInteractive"
@@ -113,6 +113,7 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-5FM0WYP1P4');
+            gtag('config', 'AW-17628441749');
           `}
         </Script>
 

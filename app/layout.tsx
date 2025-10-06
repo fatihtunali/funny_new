@@ -128,7 +128,7 @@ export default function RootLayout({
       <body className={inter.className}>
         {/* Google Analytics & Google Ads */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-5FM0WYP1P4"
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17628441749"
           strategy="afterInteractive"
         />
         <Script id="google-gtag" strategy="afterInteractive">
@@ -136,8 +136,8 @@ export default function RootLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-5FM0WYP1P4');
             gtag('config', 'AW-17628441749');
+            gtag('config', 'G-5FM0WYP1P4');
           `}
         </Script>
 

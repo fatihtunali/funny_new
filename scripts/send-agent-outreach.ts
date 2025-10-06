@@ -217,11 +217,11 @@ async function getEmailsSentToday(): Promise<number> {
 async function getLeadsForOutreach(limit: number) {
   return await prisma.agentLead.findMany({
     where: {
-      contacted: false,
-      email: {
-        not: null,
-        not: ''
-      }
+      AND: [
+        { contacted: false },
+        { email: { not: null } },
+        { email: { not: '' } }
+      ]
     },
     orderBy: [
       { country: 'asc' },

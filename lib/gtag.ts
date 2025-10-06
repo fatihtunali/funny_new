@@ -18,7 +18,10 @@ declare global {
 }
 
 // Google Ads Conversion ID
-export const GA_ADS_ID = 'AW-17628441749';
+export const GA_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || 'AW-17628441749';
+
+// Google Analytics Measurement ID (used by the shared gtag.js loader)
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-5FM0WYP1P4';
 
 // Conversion event: Quote Request Submitted
 export const trackQuoteRequest = (value?: number) => {

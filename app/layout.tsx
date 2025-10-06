@@ -7,6 +7,7 @@ import WhatsAppWidget from "@/components/WhatsAppWidget";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import { ComparisonProvider } from "@/contexts/ComparisonContext";
 import ComparisonBar from "@/components/ComparisonBar";
+import AnalyticsScripts, { GoogleTagManagerNoScript } from "@/components/AnalyticsScripts";
 import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -101,24 +102,8 @@ export default function RootLayout({
           />
         </noscript>
 
-        {/* Google Analytics & Google Ads */}
-        {/* eslint-disable-next-line @next/next/next-script-for-ga */}
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17628441749"
-        />
-        {/* eslint-disable-next-line @next/next/next-script-for-ga */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'AW-17628441749');
-              gtag('config', 'G-5FM0WYP1P4');
-            `,
-          }}
-        />
+        {/* Google Tag Manager + Google tag (gtag.js) */}
+        <AnalyticsScripts />
 
         {/* Yandex.Metrika */}
         <script dangerouslySetInnerHTML={{
@@ -144,6 +129,7 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={inter.className}>
+        <GoogleTagManagerNoScript />
         <WishlistProvider>
           <ComparisonProvider>
             <Navigation />

@@ -23,7 +23,12 @@ const SEARCH_QUERIES = [
   'turkey holiday specialist',
 ];
 
-async function searchGoogleAPI(query: string, country: string): Promise<any[]> {
+interface SearchResult {
+  title?: string;
+  link: string;
+}
+
+async function searchGoogleAPI(query: string): Promise<SearchResult[]> {
   const apiKey = process.env.GOOGLE_SEARCH_API_KEY;
   const searchEngineId = process.env.GOOGLE_SEARCH_ENGINE_ID;
 
@@ -43,8 +48,8 @@ async function searchGoogleAPI(query: string, country: string): Promise<any[]> {
     });
 
     return response.data.items || [];
-  } catch (error: any) {
-    if (error.response?.status === 429) {
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 429) {
       throw new Error('Daily API quota exceeded. Please try again tomorrow.');
     }
     throw error;
@@ -57,7 +62,15 @@ export async function POST(request: NextRequest) {
 
     const { countries = ['USA', 'UK', 'Canada'], limit = 10 } = await request.json();
 
-    const results: any[] = [];
+    interface DiscoveryResult {
+      companyName: string;
+      website: string;
+      city: string;
+      country: string;
+      searchQuery: string;
+    }
+
+    const results: DiscoveryResult[] = [];
     const breakdown: Record<string, number> = {};
     let totalFound = 0;
     let newLeads = 0;
@@ -75,7 +88,7 @@ export async function POST(request: NextRequest) {
           const query = `${baseQuery} ${city}`;
 
           try {
-            const searchResults = await searchGoogleAPI(query, country);
+            const searchResults = await searchGoogleAPI(query);
 
             for (const item of searchResults) {
               const companyName = item.title?.replace(/[|-].*$/, '').trim() || 'Unknown';
@@ -128,9 +141,10 @@ export async function POST(request: NextRequest) {
             // Small delay between searches
             await new Promise(resolve => setTimeout(resolve, 1000));
 
-          } catch (error: any) {
-            console.error(`Search error for "${query}":`, error.message);
-            if (error.message.includes('quota')) {
+          } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            console.error(`Search error for "${query}":`, errorMessage);
+            if (errorMessage.includes('quota')) {
               return NextResponse.json({
                 success: false,
                 error: 'Daily API quota exceeded. Please try again tomorrow.',

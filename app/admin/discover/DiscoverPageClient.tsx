@@ -182,7 +182,7 @@ export default function DiscoverPageClient() {
           <h3 className="text-sm font-semibold text-blue-900 mb-2">How it works:</h3>
           <ul className="text-sm text-blue-800 space-y-1">
             <li>• Searches Google for travel agencies in major cities with direct flights to Istanbul</li>
-            <li>• Uses search queries like "turkey tour packages", "istanbul tours", etc.</li>
+            <li>• Uses search queries like &quot;turkey tour packages&quot;, &quot;istanbul tours&quot;, etc.</li>
             <li>• Extracts company name, website, and location from search results</li>
             <li>• Automatically detects and skips duplicates</li>
             <li>• Saves leads to database for email extraction</li>
@@ -296,7 +296,7 @@ export default function DiscoverPageClient() {
             <h3 className="text-sm font-semibold text-yellow-900 mb-1">API Quota Limits</h3>
             <p className="text-sm text-yellow-800">
               Google Custom Search API has a free tier limit of <strong>100 searches per day</strong>.
-              If you exceed this, you'll need to wait until tomorrow or upgrade to a paid plan.
+              If you exceed this, you&apos;ll need to wait until tomorrow or upgrade to a paid plan.
               Current selection will use <strong>{selectedCountries.length * limit} searches</strong>.
             </p>
           </div>

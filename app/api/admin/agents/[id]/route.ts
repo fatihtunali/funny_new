@@ -9,6 +9,53 @@ interface Params {
   }>;
 }
 
+// Get single agent with details
+export async function GET(request: NextRequest, { params }: Params) {
+  try {
+    await requireAdmin();
+    const { id } = await params;
+
+    const agent = await prisma.agent.findUnique({
+      where: { id },
+      include: {
+        _count: {
+          select: { bookings: true },
+        },
+        bookings: {
+          take: 10,
+          orderBy: { createdAt: 'desc' },
+          select: {
+            id: true,
+            tourDate: true,
+            totalPrice: true,
+            status: true,
+            package: {
+              select: {
+                title: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!agent) {
+      return NextResponse.json({ error: 'Agent not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ agent });
+  } catch (error) {
+    if (error instanceof Error && error.message?.includes('Unauthorized')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error('Get agent error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
 // Update agent status (approve, reject, suspend)
 export async function PATCH(request: NextRequest, { params }: Params) {
   try {

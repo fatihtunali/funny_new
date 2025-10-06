@@ -28,6 +28,11 @@ export default function AgentManagementClient() {
   const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('ALL');
+  const [selectedAgents, setSelectedAgents] = useState<Set<string>>(new Set());
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [emailSubject, setEmailSubject] = useState('');
+  const [emailBody, setEmailBody] = useState('');
+  const [sendingEmail, setSendingEmail] = useState(false);
 
   const fetchAgents = useCallback(async () => {
     try {
@@ -105,6 +110,62 @@ export default function AgentManagementClient() {
     }
   };
 
+  const toggleAgentSelection = (agentId: string) => {
+    const newSelection = new Set(selectedAgents);
+    if (newSelection.has(agentId)) {
+      newSelection.delete(agentId);
+    } else {
+      newSelection.add(agentId);
+    }
+    setSelectedAgents(newSelection);
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedAgents.size === filteredAgents.length) {
+      setSelectedAgents(new Set());
+    } else {
+      setSelectedAgents(new Set(filteredAgents.map(a => a.id)));
+    }
+  };
+
+  const sendPromoEmail = async () => {
+    if (!emailSubject.trim() || !emailBody.trim()) {
+      alert('Please enter both subject and message');
+      return;
+    }
+
+    if (selectedAgents.size === 0) {
+      alert('Please select at least one agent');
+      return;
+    }
+
+    setSendingEmail(true);
+    try {
+      const res = await fetch('/api/admin/agents/send-promo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          agentIds: Array.from(selectedAgents),
+          subject: emailSubject,
+          body: emailBody,
+        }),
+      });
+
+      if (!res.ok) throw new Error('Failed to send emails');
+
+      alert(`Promotional email sent to ${selectedAgents.size} agent(s)!`);
+      setShowEmailModal(false);
+      setEmailSubject('');
+      setEmailBody('');
+      setSelectedAgents(new Set());
+    } catch (error) {
+      console.error('Error sending emails:', error);
+      alert('Failed to send promotional emails');
+    } finally {
+      setSendingEmail(false);
+    }
+  };
+
   const filteredAgents = agents.filter(agent =>
     filter === 'ALL' || agent.status === filter
   );
@@ -138,6 +199,14 @@ export default function AgentManagementClient() {
               <p className="text-gray-600 mt-1">Review and manage B2B travel agents</p>
             </div>
             <div className="flex items-center space-x-3">
+              {selectedAgents.size > 0 && (
+                <button
+                  onClick={() => setShowEmailModal(true)}
+                  className="px-4 py-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  📧 Send Email ({selectedAgents.size})
+                </button>
+              )}
               <Link
                 href="/admin/agents/add"
                 className="px-4 py-2 text-sm bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
@@ -219,6 +288,14 @@ export default function AgentManagementClient() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
+                  <th className="px-6 py-3 text-left">
+                    <input
+                      type="checkbox"
+                      checked={selectedAgents.size === filteredAgents.length && filteredAgents.length > 0}
+                      onChange={toggleSelectAll}
+                      className="rounded border-gray-300"
+                    />
+                  </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Company
                   </th>
@@ -241,8 +318,19 @@ export default function AgentManagementClient() {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredAgents.map((agent) => (
-                  <tr key={agent.id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                  <tr key={agent.id} className="hover:bg-gray-50 cursor-pointer">
+                    <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                      <input
+                        type="checkbox"
+                        checked={selectedAgents.has(agent.id)}
+                        onChange={() => toggleAgentSelection(agent.id)}
+                        className="rounded border-gray-300"
+                      />
+                    </td>
+                    <td
+                      className="px-6 py-4 whitespace-nowrap"
+                      onClick={() => router.push(`/admin/agents/${agent.id}`)}
+                    >
                       <div>
                         <div className="text-sm font-medium text-gray-900">{agent.companyName}</div>
                         <div className="text-sm text-gray-500">{agent.email}</div>
@@ -258,14 +346,17 @@ export default function AgentManagementClient() {
                         )}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td
+                      className="px-6 py-4 whitespace-nowrap"
+                      onClick={() => router.push(`/admin/agents/${agent.id}`)}
+                    >
                       <div className="text-sm text-gray-900">{agent.contactName}</div>
                       <div className="text-sm text-gray-500">{agent.phone}</div>
                       {agent.country && (
                         <div className="text-xs text-gray-500">{agent.country}</div>
                       )}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                       <select
                         value={agent.status}
                         onChange={(e) => updateAgentStatus(agent.id, e.target.value)}
@@ -282,7 +373,7 @@ export default function AgentManagementClient() {
                         <option value="REJECTED">Rejected</option>
                       </select>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                       <input
                         type="number"
                         min="0"
@@ -294,10 +385,13 @@ export default function AgentManagementClient() {
                       />
                       <span className="ml-1 text-sm text-gray-500">%</span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td
+                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                      onClick={() => router.push(`/admin/agents/${agent.id}`)}
+                    >
                       {agent._count.bookings}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm" onClick={(e) => e.stopPropagation()}>
                       <button
                         onClick={() => deleteAgent(agent.id, agent.companyName)}
                         className="text-red-600 hover:text-red-900"
@@ -317,6 +411,69 @@ export default function AgentManagementClient() {
             </div>
           )}
         </div>
+
+        {/* Email Modal */}
+        {showEmailModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Send Promotional Email
+              </h2>
+              <p className="text-sm text-gray-600 mb-4">
+                Sending to {selectedAgents.size} selected agent(s)
+              </p>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    value={emailSubject}
+                    onChange={(e) => setEmailSubject(e.target.value)}
+                    placeholder="e.g., Special Offer: 15% Commission on All Bookings"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Message
+                  </label>
+                  <textarea
+                    value={emailBody}
+                    onChange={(e) => setEmailBody(e.target.value)}
+                    placeholder="Write your promotional message here..."
+                    rows={10}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end space-x-3 mt-6">
+                <button
+                  onClick={() => {
+                    setShowEmailModal(false);
+                    setEmailSubject('');
+                    setEmailBody('');
+                  }}
+                  className="px-4 py-2 text-gray-700 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  disabled={sendingEmail}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={sendPromoEmail}
+                  disabled={sendingEmail}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400"
+                >
+                  {sendingEmail ? 'Sending...' : 'Send Email'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

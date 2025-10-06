@@ -356,10 +356,10 @@ async function sendOutreach() {
 async function exportToExcel() {
   const leads = await prisma.agentLead.findMany({
     where: {
-      email: {
-        not: null,
-        not: ''
-      }
+      AND: [
+        { email: { not: null } },
+        { email: { not: '' } }
+      ]
     },
     orderBy: [
       { contacted: 'asc' },
@@ -390,7 +390,14 @@ async function main() {
       break;
     case 'status':
       const sentToday = await getEmailsSentToday();
-      const totalLeads = await prisma.agentLead.count({ where: { email: { not: null, not: '' } } });
+      const totalLeads = await prisma.agentLead.count({
+        where: {
+          AND: [
+            { email: { not: null } },
+            { email: { not: '' } }
+          ]
+        }
+      });
       const contacted = await prisma.agentLead.count({ where: { contacted: true } });
       const remaining = totalLeads - contacted;
 

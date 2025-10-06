@@ -75,7 +75,7 @@ async function scrapeGoogleMaps(city: string, country: string): Promise<ScrapedL
     for (let i = 0; i < Math.min(listings.length, 20); i++) {
       try {
         await listings[i].click();
-        await page.waitForTimeout(2000);
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
         // Extract business name
         const nameElement = await page.$('h1.DUwDvf');

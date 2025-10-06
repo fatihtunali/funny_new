@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { FaTimes, FaCalendarAlt, FaWhatsapp, FaArrowLeft, FaArrowRight, FaCheck } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
+import { trackPackageBooking } from '@/lib/gtag';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -195,6 +196,8 @@ export default function BookingModal({ isOpen, onClose, packageData }: BookingMo
 
       if (res.ok) {
         const data = await res.json();
+        // Track Google Ads conversion
+        trackPackageBooking(packageData.totalPrice, data.booking.referenceNumber);
         router.push(`/booking-success?ref=${data.booking.referenceNumber}&guest=${!isLoggedIn}`);
       } else {
         const data = await res.json();

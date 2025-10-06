@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { FaTimes, FaUser, FaEnvelope, FaPhone, FaPlane, FaSuitcase } from 'react-icons/fa';
+import { trackTransferBooking } from '@/lib/gtag';
 
 interface TransferBookingModalProps {
   isOpen: boolean;
@@ -57,6 +58,8 @@ export default function TransferBookingModal({ isOpen, onClose, transferData }: 
       if (data.success) {
         setSuccess(true);
         setReferenceNumber(data.referenceNumber);
+        // Track Google Ads conversion
+        trackTransferBooking(transferData.price, data.referenceNumber);
       } else {
         alert('Booking failed: ' + (data.error || 'Unknown error'));
       }

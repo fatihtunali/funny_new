@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { FaTimes, FaCalendar, FaUsers, FaMapMarkerAlt, FaHotel } from 'react-icons/fa';
+import { trackDailyTourBooking } from '@/lib/gtag';
 
 interface DailyTourBookingModalProps {
   isOpen: boolean;
@@ -85,6 +86,8 @@ export default function DailyTourBookingModal({ isOpen, onClose, tourData }: Dai
       if (data.success) {
         setSuccess(true);
         setReferenceNumber(data.referenceNumber);
+        // Track Google Ads conversion
+        trackDailyTourBooking(totalPrice, data.referenceNumber);
       } else {
         setError(data.error || 'Failed to create booking');
       }

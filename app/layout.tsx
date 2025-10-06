@@ -8,7 +8,6 @@ import { WishlistProvider } from "@/contexts/WishlistContext";
 import { ComparisonProvider } from "@/contexts/ComparisonContext";
 import ComparisonBar from "@/components/ComparisonBar";
 import Image from "next/image";
-import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -103,19 +102,21 @@ export default function RootLayout({
         </noscript>
 
         {/* Google Analytics & Google Ads */}
-        <Script
+        <script
+          async
           src="https://www.googletagmanager.com/gtag/js?id=AW-17628441749"
-          strategy="afterInteractive"
         />
-        <Script id="google-gtag" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-17628441749');
-            gtag('config', 'G-5FM0WYP1P4');
-          `}
-        </Script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17628441749');
+              gtag('config', 'G-5FM0WYP1P4');
+            `,
+          }}
+        />
 
         {/* Yandex.Metrika */}
         <script dangerouslySetInnerHTML={{

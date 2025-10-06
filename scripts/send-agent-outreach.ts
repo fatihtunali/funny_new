@@ -286,7 +286,7 @@ async function sendOutreach() {
   }
 
   // Create transporter
-  const transporter = nodemailer.createTransporter(EMAIL_CONFIG);
+  const transporter = nodemailer.createTransport(EMAIL_CONFIG);
 
   // Verify connection
   try {

@@ -179,10 +179,11 @@ export async function POST(request: NextRequest) {
       results,
     });
 
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Email extraction failed';
     console.error('Email extraction error:', error);
     return NextResponse.json(
-      { error: error.message || 'Email extraction failed' },
+      { error: errorMessage },
       { status: 500 }
     );
   } finally {
@@ -190,7 +191,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     await requireAdmin();
 
@@ -228,9 +229,10 @@ export async function GET(request: NextRequest) {
       },
     });
 
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Failed to get stats';
     return NextResponse.json(
-      { error: error.message || 'Failed to get stats' },
+      { error: errorMessage },
       { status: 500 }
     );
   } finally {

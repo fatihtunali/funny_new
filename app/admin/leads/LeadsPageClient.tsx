@@ -25,7 +25,11 @@ export default function LeadsPageClient() {
   const [extracting, setExtracting] = useState(false);
   const [limit, setLimit] = useState(10);
   const [results, setResults] = useState<ExtractionResult[]>([]);
-  const [extractionSummary, setExtractionSummary] = useState<any>(null);
+  const [extractionSummary, setExtractionSummary] = useState<{
+    processed: number;
+    emailsFound: number;
+    successRate: string;
+  } | null>(null);
 
   useEffect(() => {
     loadStats();
@@ -75,8 +79,9 @@ export default function LeadsPageClient() {
       } else {
         alert('Extraction failed: ' + data.error);
       }
-    } catch (error: any) {
-      alert('Extraction error: ' + error.message);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      alert('Extraction error: ' + errorMessage);
     } finally {
       setExtracting(false);
     }

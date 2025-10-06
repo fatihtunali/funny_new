@@ -24,14 +24,14 @@ export default function Footer() {
             <div className="mt-4 mb-4">
               <a href="https://www.tursab.org.tr/tr/ddsv" target="_blank" rel="noopener noreferrer" className="inline-block">
                 <Image
-                  src="/images/tursablogo.png"
-                  alt="TURSAB Certified Travel Agency"
+                  src="/images/tursab-dvs-7747.png"
+                  alt="TURSAB Certified Travel Agency - License 7747"
                   width={100}
                   height={40}
                   className="object-contain brightness-90 hover:brightness-110 transition-all cursor-pointer"
                 />
               </a>
-              <p className="text-xs text-gray-400 mt-2">TURSAB Certified Agency</p>
+              <p className="text-xs text-gray-400 mt-2">TURSAB License: 7747</p>
             </div>
             {/* Yandex Site Info */}
             <div className="mt-4">

@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     const { countries = ['USA'], limit = 5 } = await request.json();
 
     // Run the scraper script as a separate process
-    return new Promise((resolve) => {
+    return new Promise<NextResponse>((resolve) => {
       const scriptPath = path.join(process.cwd(), 'scripts', 'scrape-google-maps.ts');
       const child = spawn('npx', [
         'tsx',

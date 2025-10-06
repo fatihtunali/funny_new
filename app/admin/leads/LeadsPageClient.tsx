@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FaEnvelope, FaGlobe, FaSync, FaDownload, FaChartLine, FaList, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { FaEnvelope, FaGlobe, FaSync, FaDownload, FaChartLine, FaList, FaCheckCircle, FaTimesCircle, FaTrash } from 'react-icons/fa';
 
 interface Stats {
   total: number;
@@ -159,6 +159,29 @@ export default function LeadsPageClient() {
     a.href = url;
     a.download = `all-leads-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
+  };
+
+  const deleteLead = async (leadId: string, companyName: string) => {
+    if (!confirm(`Delete "${companyName}"? This cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/leads/${leadId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        // Remove from local state
+        setAllLeads(allLeads.filter(l => l.id !== leadId));
+        // Refresh stats
+        await loadStats();
+      } else {
+        alert('Failed to delete lead');
+      }
+    } catch (error) {
+      alert('Error deleting lead');
+    }
   };
 
   return (
@@ -440,6 +463,9 @@ export default function LeadsPageClient() {
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Website
                     </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -491,6 +517,15 @@ export default function LeadsPageClient() {
                         ) : (
                           <span className="text-sm text-gray-400">—</span>
                         )}
+                      </td>
+                      <td className="px-6 py-4">
+                        <button
+                          onClick={() => deleteLead(lead.id, lead.companyName)}
+                          className="text-red-600 hover:text-red-800 transition-colors"
+                          title="Delete lead"
+                        >
+                          <FaTrash />
+                        </button>
                       </td>
                     </tr>
                   ))}

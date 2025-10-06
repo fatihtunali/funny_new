@@ -69,6 +69,7 @@ export const metadata: Metadata = {
   },
   verification: {
     google: 'your-google-verification-code',
+    yandex: 'f61c938d7f6ad921',
   },
 };
 

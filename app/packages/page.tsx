@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaFilter, FaTh, FaList, FaMapMarkerAlt, FaClock, FaFilePdf, FaEye, FaBalanceScale, FaTimes } from 'react-icons/fa';
+import { FaFilter, FaTh, FaList, FaMapMarkerAlt, FaClock, FaEye, FaBalanceScale, FaTimes } from 'react-icons/fa';
 import { PackageGridSkeleton } from '@/components/LoadingSkeleton';
 import QuickViewModal from '@/components/QuickViewModal';
 import { useComparison } from '@/contexts/ComparisonContext';
@@ -507,17 +507,6 @@ export default function AllPackagesPage() {
                             <FaEye />
                           </button>
                         </div>
-                        {pkg.pdfUrl && (
-                          <a
-                            href={pkg.pdfUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center btn-secondary text-sm mt-2"
-                          >
-                            <FaFilePdf className="mr-2" />
-                            Download PDF
-                          </a>
-                        )}
                       </div>
                     </div>
                   ) : (

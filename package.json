@@ -10,6 +10,7 @@
     "lint": "next lint",
     "create-admin": "tsx scripts/create-admin.ts",
     "create-agent": "tsx scripts/create-agent.ts",
+    "import-agents": "tsx scripts/import-agents.ts",
     "test-email": "tsx scripts/test-email.ts"
   },
   "repository": {

@@ -102,34 +102,6 @@ export default function RootLayout({
           />
         </noscript>
 
-        {/* Google Analytics */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-5FM0WYP1P4"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-5FM0WYP1P4');
-          `}
-        </Script>
-
-        {/* Google Ads Conversion Tracking */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17628441749"
-          strategy="afterInteractive"
-        />
-        <Script id="google-ads" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-17628441749');
-          `}
-        </Script>
-
         {/* Yandex.Metrika */}
         <script dangerouslySetInnerHTML={{
           __html: `
@@ -154,6 +126,21 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={inter.className}>
+        {/* Google Analytics & Google Ads */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-5FM0WYP1P4"
+          strategy="afterInteractive"
+        />
+        <Script id="google-gtag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-5FM0WYP1P4');
+            gtag('config', 'AW-17628441749');
+          `}
+        </Script>
+
         <WishlistProvider>
           <ComparisonProvider>
             <Navigation />

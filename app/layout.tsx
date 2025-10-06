@@ -102,6 +102,21 @@ export default function RootLayout({
           />
         </noscript>
 
+        {/* Google Analytics & Google Ads */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17628441749"
+          strategy="afterInteractive"
+        />
+        <Script id="google-gtag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-17628441749');
+            gtag('config', 'G-5FM0WYP1P4');
+          `}
+        </Script>
+
         {/* Yandex.Metrika */}
         <script dangerouslySetInnerHTML={{
           __html: `
@@ -126,21 +141,6 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={inter.className}>
-        {/* Google Analytics & Google Ads */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17628441749"
-          strategy="afterInteractive"
-        />
-        <Script id="google-gtag" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-17628441749');
-            gtag('config', 'G-5FM0WYP1P4');
-          `}
-        </Script>
-
         <WishlistProvider>
           <ComparisonProvider>
             <Navigation />

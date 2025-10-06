@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from 'path';
 
 const nextConfig: NextConfig = {
   images: {
@@ -15,10 +16,8 @@ const nextConfig: NextConfig = {
   },
   // Enable compression
   compress: true,
-  // Silence workspace root warning
-  experimental: {
-    outputFileTracingRoot: undefined,
-  },
+  // Silence workspace root warning by specifying the correct root
+  outputFileTracingRoot: path.join(__dirname),
 };
 
 export default nextConfig;

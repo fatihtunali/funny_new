@@ -493,11 +493,16 @@ export default function AllPackagesPage() {
                                 : `/packages/${pkg.packageId}`
                             }
                             className="flex-1 flex items-center justify-center btn-primary text-sm"
+                            onClick={(e) => {
+                              // Ensure link works on first tap on iOS
+                              e.stopPropagation();
+                            }}
                           >
                             View Details
                           </Link>
                           <button
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               setQuickViewPackageId(pkg.packageId);
                               setIsQuickViewOpen(true);
                             }}

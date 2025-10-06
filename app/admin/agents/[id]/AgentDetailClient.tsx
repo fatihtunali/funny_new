@@ -25,12 +25,10 @@ interface Agent {
   };
   bookings: Array<{
     id: string;
-    tourDate: string;
+    travelDate: string;
     totalPrice: number;
     status: string;
-    package: {
-      title: string;
-    } | null;
+    packageName: string;
   }>;
 }
 
@@ -38,28 +36,62 @@ export default function AgentDetailClient({ agentId }: { agentId: string }) {
   const router = useRouter();
   const [agent, setAgent] = useState<Agent | null>(null);
   const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false);
+
+  const fetchAgent = async () => {
+    try {
+      const res = await fetch(`/api/admin/agents/${agentId}`);
+      if (!res.ok) {
+        if (res.status === 401) {
+          router.push('/admin/login');
+          return;
+        }
+        throw new Error('Failed to fetch agent');
+      }
+      const data = await res.json();
+      setAgent(data.agent);
+    } catch (error) {
+      console.error('Error fetching agent:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchAgent = async () => {
-      try {
-        const res = await fetch(`/api/admin/agents/${agentId}`);
-        if (!res.ok) {
-          if (res.status === 401) {
-            router.push('/admin/login');
-            return;
-          }
-          throw new Error('Failed to fetch agent');
-        }
-        const data = await res.json();
-        setAgent(data.agent);
-      } catch (error) {
-        console.error('Error fetching agent:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchAgent();
-  }, [agentId, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [agentId]);
+
+  const updateAgentStatus = async (status: string) => {
+    if (!agent) return;
+
+    const confirmMessage =
+      status === 'ACTIVE' ? `Approve ${agent.companyName}? They will be able to make bookings.` :
+      status === 'REJECTED' ? `Reject ${agent.companyName}? They will not be able to access the platform.` :
+      status === 'SUSPENDED' ? `Suspend ${agent.companyName}? They will be temporarily unable to make bookings.` :
+      `Change status to ${status}?`;
+
+    if (!confirm(confirmMessage)) return;
+
+    setUpdating(true);
+    try {
+      const res = await fetch(`/api/admin/agents/${agentId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+
+      if (!res.ok) throw new Error('Failed to update agent');
+
+      await fetchAgent();
+      alert(`Agent status updated to ${status}`);
+    } catch (error) {
+      console.error('Error updating agent:', error);
+      alert('Failed to update agent status');
+    } finally {
+      setUpdating(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -95,12 +127,59 @@ export default function AgentDetailClient({ agentId }: { agentId: string }) {
               <h1 className="text-3xl font-bold text-gray-900">{agent.companyName}</h1>
               <p className="text-gray-600 mt-1">Agent Details</p>
             </div>
-            <Link
-              href="/admin/agents"
-              className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              ← Back to Agents
-            </Link>
+            <div className="flex items-center space-x-3">
+              {agent.status === 'PENDING' && (
+                <>
+                  <button
+                    onClick={() => updateAgentStatus('ACTIVE')}
+                    disabled={updating}
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400"
+                  >
+                    ✓ Approve Agent
+                  </button>
+                  <button
+                    onClick={() => updateAgentStatus('REJECTED')}
+                    disabled={updating}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:bg-gray-400"
+                  >
+                    ✗ Reject Agent
+                  </button>
+                </>
+              )}
+              {agent.status === 'ACTIVE' && (
+                <button
+                  onClick={() => updateAgentStatus('SUSPENDED')}
+                  disabled={updating}
+                  className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors disabled:bg-gray-400"
+                >
+                  Suspend Agent
+                </button>
+              )}
+              {agent.status === 'SUSPENDED' && (
+                <button
+                  onClick={() => updateAgentStatus('ACTIVE')}
+                  disabled={updating}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400"
+                >
+                  Reactivate Agent
+                </button>
+              )}
+              {agent.status === 'REJECTED' && (
+                <button
+                  onClick={() => updateAgentStatus('ACTIVE')}
+                  disabled={updating}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400"
+                >
+                  Approve Agent
+                </button>
+              )}
+              <Link
+                href="/admin/agents"
+                className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                ← Back to Agents
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -201,10 +280,10 @@ export default function AgentDetailClient({ agentId }: { agentId: string }) {
                       {agent.bookings.map((booking) => (
                         <tr key={booking.id}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {booking.package?.title || 'N/A'}
+                            {booking.packageName}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {new Date(booking.tourDate).toLocaleDateString()}
+                            {new Date(booking.travelDate).toLocaleDateString()}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             €{booking.totalPrice}

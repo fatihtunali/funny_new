@@ -392,12 +392,20 @@ export default function AgentManagementClient() {
                       {agent._count.bookings}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        onClick={() => deleteAgent(agent.id, agent.companyName)}
-                        className="text-red-600 hover:text-red-900"
-                      >
-                        Delete
-                      </button>
+                      <div className="flex items-center space-x-3">
+                        <button
+                          onClick={() => router.push(`/admin/agents/${agent.id}`)}
+                          className="text-primary-600 hover:text-primary-900 font-medium"
+                        >
+                          View Details
+                        </button>
+                        <button
+                          onClick={() => deleteAgent(agent.id, agent.companyName)}
+                          className="text-red-600 hover:text-red-900"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

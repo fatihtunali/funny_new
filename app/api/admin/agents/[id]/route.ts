@@ -26,14 +26,10 @@ export async function GET(request: NextRequest, { params }: Params) {
           orderBy: { createdAt: 'desc' },
           select: {
             id: true,
-            tourDate: true,
+            travelDate: true,
             totalPrice: true,
             status: true,
-            package: {
-              select: {
-                title: true,
-              },
-            },
+            packageName: true,
           },
         },
       },

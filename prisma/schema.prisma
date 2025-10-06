@@ -638,3 +638,17 @@ model AgentLead {
   @@index([email])
   @@index([emailExtractionAttempted])
 }
+
+// Track which cities have been searched to avoid duplicates
+model SearchedCity {
+  id          String   @id @default(uuid())
+  city        String
+  country     String
+  searchQuery String   // The query used
+  method      String   // "google-api" or "google-maps"
+  leadsFound  Int      @default(0)
+  searchedAt  DateTime @default(now())
+
+  @@unique([city, country, method])
+  @@index([country])
+}

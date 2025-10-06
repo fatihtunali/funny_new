@@ -81,8 +81,25 @@ export async function POST(request: NextRequest) {
       breakdown[country] = 0;
 
       for (const city of cities) {
+        // Check if this city was already searched
+        const alreadySearched = await prisma.searchedCity.findUnique({
+          where: {
+            city_country_method: {
+              city,
+              country,
+              method: 'google-api'
+            }
+          }
+        });
+
+        if (alreadySearched) {
+          console.log(`⏭️  Skipping ${city}, ${country} (already searched on ${alreadySearched.searchedAt.toLocaleDateString()})`);
+          continue;
+        }
+
         // Limit queries per city
         const queriesToUse = SEARCH_QUERIES.slice(0, Math.ceil(limit / cities.length));
+        let cityLeadsFound = 0;
 
         for (const baseQuery of queriesToUse) {
           const query = `${baseQuery} ${city}`;
@@ -136,6 +153,7 @@ export async function POST(request: NextRequest) {
               totalFound++;
               newLeads++;
               breakdown[country]++;
+              cityLeadsFound++;
             }
 
             // Small delay between searches
@@ -152,6 +170,19 @@ export async function POST(request: NextRequest) {
             }
           }
         }
+
+        // Mark this city as searched
+        await prisma.searchedCity.create({
+          data: {
+            city,
+            country,
+            searchQuery: SEARCH_QUERIES.join(', '),
+            method: 'google-api',
+            leadsFound: cityLeadsFound,
+          }
+        });
+
+        console.log(`✅ Completed ${city}, ${country} - Found ${cityLeadsFound} leads`);
       }
     }
 

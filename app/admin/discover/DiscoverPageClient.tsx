@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { FaSearch, FaGlobe, FaCheck, FaTimes, FaMapMarkerAlt, FaEnvelope } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { FaSearch, FaGlobe, FaCheck, FaTimes, FaMapMarkerAlt, FaEnvelope, FaRedo } from 'react-icons/fa';
 
 interface DiscoveryResult {
   companyName: string;
@@ -21,13 +21,29 @@ interface DiscoverySummary {
   breakdown: Record<string, number>;
 }
 
+interface SearchStatus {
+  overall: {
+    total: number;
+    searched: number;
+    remaining: number;
+    percentage: number;
+  };
+  byCountry: Record<string, {
+    total: number;
+    searched: number;
+    remaining: number;
+  }>;
+}
+
 export default function DiscoverPageClient() {
   const [discovering, setDiscovering] = useState(false);
   const [results, setResults] = useState<DiscoveryResult[]>([]);
   const [summary, setSummary] = useState<DiscoverySummary | null>(null);
   const [selectedCountries, setSelectedCountries] = useState<string[]>(['USA', 'UK', 'Canada']);
   const [limit, setLimit] = useState(10);
-  const [method, setMethod] = useState<'google-api' | 'google-maps'>('google-maps');
+  const [method, setMethod] = useState<'google-api' | 'google-maps'>('google-api');
+  const [searchStatus, setSearchStatus] = useState<SearchStatus | null>(null);
+  const [loadingStatus, setLoadingStatus] = useState(false);
 
   const countries = [
     { value: 'USA', label: 'United States', cities: 7 },
@@ -74,6 +90,8 @@ export default function DiscoverPageClient() {
       if (data.success) {
         setSummary(data.summary);
         setResults(data.results || []);
+        // Reload search status after discovery completes
+        await loadSearchStatus();
       } else {
         alert('Discovery failed: ' + data.error);
       }
@@ -84,6 +102,25 @@ export default function DiscoverPageClient() {
       setDiscovering(false);
     }
   };
+
+  const loadSearchStatus = async () => {
+    setLoadingStatus(true);
+    try {
+      const response = await fetch(`/api/admin/search-status?method=${method}`);
+      const data = await response.json();
+      if (data.success) {
+        setSearchStatus(data);
+      }
+    } catch (error) {
+      console.error('Failed to load search status:', error);
+    } finally {
+      setLoadingStatus(false);
+    }
+  };
+
+  useEffect(() => {
+    loadSearchStatus();
+  }, [method]);
 
   const toggleCountry = (country: string) => {
     if (selectedCountries.includes(country)) {
@@ -99,6 +136,82 @@ export default function DiscoverPageClient() {
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Agent Discovery Tool</h1>
         <p className="text-gray-600">Automatically find travel agencies using Google Search</p>
       </div>
+
+      {/* Search Progress Status */}
+      {searchStatus && (
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6 mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">Search Progress</h2>
+            <button
+              onClick={loadSearchStatus}
+              disabled={loadingStatus}
+              className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-2"
+            >
+              <FaRedo className={loadingStatus ? 'animate-spin' : ''} />
+              Refresh
+            </button>
+          </div>
+
+          {/* Overall Progress Bar */}
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-gray-700">Overall Progress</span>
+              <span className="text-sm font-semibold text-gray-900">
+                {searchStatus.overall.searched} / {searchStatus.overall.total} cities ({searchStatus.overall.percentage}%)
+              </span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-3">
+              <div
+                className="bg-gradient-to-r from-blue-500 to-indigo-600 h-3 rounded-full transition-all duration-500"
+                style={{ width: `${searchStatus.overall.percentage}%` }}
+              ></div>
+            </div>
+            <p className="text-xs text-gray-600 mt-2">
+              ✅ {searchStatus.overall.searched} searched •
+              ⏳ {searchStatus.overall.remaining} remaining
+            </p>
+          </div>
+
+          {/* Country-wise Progress */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+            {Object.entries(searchStatus.byCountry).map(([country, stats]) => {
+              const percentage = Math.round((stats.searched / stats.total) * 100);
+              return (
+                <div
+                  key={country}
+                  className={`
+                    bg-white rounded-lg p-3 border-2 transition-all
+                    ${stats.searched === stats.total
+                      ? 'border-green-500 bg-green-50'
+                      : 'border-gray-200'
+                    }
+                  `}
+                >
+                  <div className="text-xs font-semibold text-gray-700 mb-1">{country}</div>
+                  <div className="text-lg font-bold text-gray-900">{stats.searched}/{stats.total}</div>
+                  <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                    <div
+                      className={`h-1.5 rounded-full ${
+                        stats.searched === stats.total ? 'bg-green-500' : 'bg-blue-500'
+                      }`}
+                      style={{ width: `${percentage}%` }}
+                    ></div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {searchStatus.overall.remaining === 0 && (
+            <div className="mt-4 bg-green-100 border border-green-300 rounded-lg p-4 text-center">
+              <FaCheck className="inline text-green-600 mr-2" />
+              <span className="text-sm font-semibold text-green-800">
+                All cities have been searched! 🎉
+              </span>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Discovery Controls */}
       <div className="bg-white rounded-lg shadow-sm p-6 mb-8">

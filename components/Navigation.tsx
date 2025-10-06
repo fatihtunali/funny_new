@@ -25,6 +25,10 @@ export default function Navigation() {
     }
   };
 
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="section-container">
@@ -108,36 +112,36 @@ export default function Navigation() {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden py-4 space-y-2">
-            <Link href="/" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
+            <Link href="/" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
               Home
             </Link>
-            <Link href="/packages" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
+            <Link href="/packages" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
               Packages
             </Link>
-            <Link href="/daily-tours" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
+            <Link href="/daily-tours" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
               Daily Tours
             </Link>
-            <Link href="/transfers" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
+            <Link href="/transfers" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
               Transfers
             </Link>
-            <Link href="/destinations" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">
+            <Link href="/destinations" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
               Destinations
             </Link>
 
-            <Link href="/agent/register" className="block px-4 py-2 text-primary-600 font-medium hover:bg-primary-50 rounded">
+            <Link href="/agent/register" className="block px-4 py-2 text-primary-600 font-medium hover:bg-primary-50 rounded" onClick={closeMenu}>
               Partner with Us
             </Link>
 
             {user ? (
-              <Link href="/dashboard" className="block mx-4 text-center btn-primary">
+              <Link href="/dashboard" className="block mx-4 text-center btn-primary" onClick={closeMenu}>
                 My Bookings
               </Link>
             ) : (
               <>
-                <Link href="/login" className="block mx-4 text-center btn-secondary">
+                <Link href="/login" className="block mx-4 text-center btn-secondary" onClick={closeMenu}>
                   Login
                 </Link>
-                <Link href="/inquiry" className="block mx-4 text-center btn-primary">
+                <Link href="/inquiry" className="block mx-4 text-center btn-primary" onClick={closeMenu}>
                   Get Quote
                 </Link>
               </>

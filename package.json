@@ -12,6 +12,7 @@
     "create-agent": "tsx scripts/create-agent.ts",
     "import-agents": "tsx scripts/import-agents.ts",
     "discover-agents": "tsx scripts/discover-agents.ts",
+    "extract-emails": "tsx scripts/extract-emails.ts",
     "send-outreach": "tsx scripts/send-agent-outreach.ts",
     "test-email": "tsx scripts/test-email.ts"
   },
@@ -32,6 +33,7 @@
     "@types/nodemailer": "^7.0.2",
     "@types/react": "^19.2.0",
     "bcryptjs": "^3.0.2",
+    "cheerio": "^1.1.2",
     "framer-motion": "^12.23.22",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.15.1",

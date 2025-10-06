@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
   },
   // Enable compression
   compress: true,
+  // Silence workspace root warning
+  experimental: {
+    outputFileTracingRoot: undefined,
+  },
 };
 
 export default nextConfig;

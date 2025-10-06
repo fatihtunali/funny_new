@@ -85,7 +85,7 @@ async function scrapeGoogleMaps(city: string, country: string): Promise<ScrapedL
 
         // Extract phone
         const phoneElement = await page.$('button[data-item-id^="phone:"]');
-        const phone = phoneElement ? await phoneElement.evaluate(el => el.getAttribute('data-item-id')?.replace('phone:tel:', '')) : null;
+        const phone = phoneElement ? (await phoneElement.evaluate(el => el.getAttribute('data-item-id')?.replace('phone:tel:', ''))) || null : null;
 
         // Extract website
         const websiteElement = await page.$('a[data-item-id="authority"]');
@@ -93,7 +93,7 @@ async function scrapeGoogleMaps(city: string, country: string): Promise<ScrapedL
 
         // Extract address
         const addressElement = await page.$('button[data-item-id^="address"]');
-        const address = addressElement ? await addressElement.evaluate(el => el.getAttribute('aria-label')) : null;
+        const address = addressElement ? (await addressElement.evaluate(el => el.getAttribute('aria-label'))) || null : null;
 
         // Try to find email from website button text or any visible text
         const pageText = await page.evaluate(() => document.body.innerText);

@@ -71,10 +71,12 @@ export async function requireAgentWithPasswordCheck() {
 
   if (!agent) {
     redirect('/agent/login');
+    return; // TypeScript doesn't know redirect never returns
   }
 
   if (agent.requirePasswordChange) {
     redirect('/agent/change-password');
+    return; // TypeScript doesn't know redirect never returns
   }
 
   return agent;

@@ -10,6 +10,7 @@ interface AgentToken {
   companyName: string;
   status: string;
   commissionRate: number;
+  requirePasswordChange?: boolean;
 }
 
 export async function getAgentFromToken(): Promise<AgentToken | null> {
@@ -32,6 +33,7 @@ export async function getAgentFromToken(): Promise<AgentToken | null> {
         companyName: true,
         status: true,
         commissionRate: true,
+        requirePasswordChange: true,
       },
     });
 
@@ -45,6 +47,7 @@ export async function getAgentFromToken(): Promise<AgentToken | null> {
       companyName: agent.companyName,
       status: agent.status,
       commissionRate: agent.commissionRate,
+      requirePasswordChange: agent.requirePasswordChange,
     };
   } catch {
     return null;
@@ -56,6 +59,22 @@ export async function requireAgent(): Promise<AgentToken> {
 
   if (!agent) {
     throw new Error('Unauthorized - Active agent session required');
+  }
+
+  return agent;
+}
+
+// Helper function for page-level authentication with password check
+export async function requireAgentWithPasswordCheck() {
+  const { redirect } = await import('next/navigation');
+  const agent = await getAgentFromToken();
+
+  if (!agent) {
+    redirect('/agent/login');
+  }
+
+  if (agent.requirePasswordChange) {
+    redirect('/agent/change-password');
   }
 
   return agent;

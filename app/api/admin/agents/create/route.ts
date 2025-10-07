@@ -90,6 +90,7 @@ export async function POST(request: NextRequest) {
         companyWebsite: companyWebsite || null,
         commissionRate: commissionRate || 10.0,
         status: status || 'ACTIVE',
+        requirePasswordChange: true, // Force password change on first login
         approvedAt: (status === 'ACTIVE' || !status) ? new Date() : null,
         approvedBy: (status === 'ACTIVE' || !status) ? admin.adminId : null,
       },

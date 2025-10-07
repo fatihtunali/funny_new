@@ -194,6 +194,9 @@ model Agent {
   commissionRate  Float       @default(10.0)  // Percentage
   status          AgentStatus @default(PENDING)
 
+  // Security
+  requirePasswordChange Boolean   @default(false)
+
   // White Label Settings
   logoUrl         String?
   primaryColor    String?

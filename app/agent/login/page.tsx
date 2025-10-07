@@ -32,8 +32,12 @@ export default function AgentLogin() {
         return;
       }
 
-      // Redirect to agent dashboard
-      router.push('/agent/dashboard');
+      // Check if password change is required
+      if (data.requirePasswordChange) {
+        router.push('/agent/change-password');
+      } else {
+        router.push('/agent/dashboard');
+      }
       router.refresh();
     } catch {
       setError('An error occurred. Please try again.');

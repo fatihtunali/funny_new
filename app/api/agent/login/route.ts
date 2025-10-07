@@ -76,6 +76,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       message: 'Login successful',
+      requirePasswordChange: agent.requirePasswordChange,
       agent: {
         id: agent.id,
         email: agent.email,

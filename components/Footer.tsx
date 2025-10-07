@@ -127,6 +127,11 @@ export default function Footer() {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-sm text-center">
           <p>&copy; {new Date().getFullYear()} Funny Tourism. All rights reserved.</p>
+          <p className="mt-2">
+            <Link href="/admin/dashboard" className="text-gray-600 hover:text-gray-400 transition-colors text-xs">
+              Portal
+            </Link>
+          </p>
         </div>
       </div>
     </footer>

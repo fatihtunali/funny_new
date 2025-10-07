@@ -23,22 +23,23 @@ export const GA_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || 'AW-1762844174
 // Google Analytics Measurement ID (used by the shared gtag.js loader)
 export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-5FM0WYP1P4';
 
-// Conversion event: Quote Request Submitted
+// Conversion event: Quote Request Submitted (Purchase - Inquiry Form)
 export const trackQuoteRequest = (value?: number) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'conversion', {
-      send_to: `${GA_ADS_ID}/J2dCCK_5i6gbEJXZ8tVB`,
-      value: value || 50,
-      currency: 'EUR',
+      send_to: `${GA_ADS_ID}/gQ5FCJSXjKgbEJXZ8tVB`,
+      value: value || 5.0,
+      currency: 'TRY',
     });
   }
 };
 
-// Conversion event: Package Booking Completed (Purchase)
+// Conversion event: Package Booking Completed
+// TODO: Get the correct conversion label from Google Ads for actual bookings
 export const trackPackageBooking = (value: number, transactionId?: string) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'conversion', {
-      send_to: `${GA_ADS_ID}/gQ5FCJSXjKgbEJXZ8tVB`,
+      send_to: `${GA_ADS_ID}/NEED_BOOKING_CONVERSION_LABEL`,
       value: value,
       currency: 'TRY',
       transaction_id: transactionId,

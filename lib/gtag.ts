@@ -34,13 +34,13 @@ export const trackQuoteRequest = (value?: number) => {
   }
 };
 
-// Conversion event: Package Booking Completed
+// Conversion event: Package Booking Completed (Purchase)
 export const trackPackageBooking = (value: number, transactionId?: string) => {
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'conversion', {
-      send_to: `${GA_ADS_ID}/50_dCJeXjKgbEJXZ8tVB`,
+      send_to: `${GA_ADS_ID}/gQ5FCJSXjKgbEJXZ8tVB`,
       value: value,
-      currency: 'EUR',
+      currency: 'TRY',
       transaction_id: transactionId,
     });
   }

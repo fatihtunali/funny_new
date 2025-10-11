@@ -75,14 +75,14 @@ export default function KusadasiPage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Discover Kusadasi</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
-            Kusadasi, meaning "Bird Island" in Turkish, is a vibrant coastal resort town on Turkey's
+            Kusadasi, meaning &ldquo;Bird Island&rdquo; in Turkish, is a vibrant coastal resort town on Turkey&apos;s
             stunning Aegean coast. Known as the gateway to the ancient city of Ephesus, this charming
             destination perfectly combines rich historical heritage with modern beach resort amenities.
           </p>
           <p className="text-lg text-gray-700 leading-relaxed">
             With its beautiful beaches, crystal-clear waters, bustling bazaars, and proximity to some of
-            Turkey's most important archaeological sites, Kusadasi offers an unforgettable blend of
-            relaxation, culture, and adventure. It's also one of the Mediterranean's busiest cruise ports,
+            Turkey&apos;s most important archaeological sites, Kusadasi offers an unforgettable blend of
+            relaxation, culture, and adventure. It&apos;s also one of the Mediterranean&apos;s busiest cruise ports,
             welcoming visitors from around the world.
           </p>
         </div>

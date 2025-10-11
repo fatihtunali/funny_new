@@ -31,10 +31,18 @@ export default function DestinationsPage() {
       gradient: 'from-cyan-500 to-cyan-700'
     },
     {
-      name: 'Kusadasi - Ephesus',
-      description: 'Visit one of the world\'s best preserved ancient cities and nearby House of Virgin Mary',
+      name: 'Kusadasi',
+      description: 'Vibrant coastal resort town, gateway to Ancient Ephesus with beautiful beaches and bustling bazaars',
+      slug: 'kusadasi',
+      attractions: 'Ancient Ephesus, House of Virgin Mary, Pigeon Island, Ladies Beach',
+      image: '/images/Ephesus_Library2.jpg',
+      gradient: 'from-blue-500 to-blue-700'
+    },
+    {
+      name: 'Ephesus',
+      description: 'Walk through history in one of the best-preserved ancient cities in the Mediterranean',
       slug: 'ephesus',
-      attractions: 'Library of Celsus, Grand Theater, Temple of Artemis, House of Virgin Mary',
+      attractions: 'Library of Celsus, Grand Theater, Temple of Artemis, Terrace Houses',
       image: '/images/Ephesus_Library2.jpg',
       gradient: 'from-green-500 to-green-700'
     },

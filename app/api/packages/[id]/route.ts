@@ -7,11 +7,18 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const packageId = id;
 
-    const pkg = await prisma.package.findUnique({
-      where: { packageId: packageId },
+    // Try to find package by packageId first, then by slug
+    let pkg = await prisma.package.findUnique({
+      where: { packageId: id },
     });
+
+    // If not found by packageId, try by slug
+    if (!pkg) {
+      pkg = await prisma.package.findUnique({
+        where: { slug: id },
+      });
+    }
 
     if (!pkg) {
       return NextResponse.json(

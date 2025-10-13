@@ -3,7 +3,7 @@ import { getAdminFromToken } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaPlus, FaEdit, FaEye, FaEnvelope, FaChartLine, FaUsers, FaSearch } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaEye, FaEnvelope, FaChartLine, FaUsers, FaSearch, FaFileImport } from 'react-icons/fa';
 import LogoutButton from '@/components/admin/LogoutButton';
 import DeletePackageButton from '@/components/admin/DeletePackageButton';
 
@@ -86,6 +86,17 @@ export default async function AdminDashboard() {
               </div>
               <div className="bg-green-100 rounded-full p-3">
                 <FaPlus className="text-2xl text-green-600" />
+              </div>
+            </div>
+          </Link>
+          <Link href="/admin/import" className="bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-white mb-2">Import from AI ✨</p>
+                <p className="text-lg font-semibold text-white">Ruzgar Gucu AI →</p>
+              </div>
+              <div className="bg-white/20 rounded-full p-3">
+                <FaFileImport className="text-2xl text-white" />
               </div>
             </div>
           </Link>

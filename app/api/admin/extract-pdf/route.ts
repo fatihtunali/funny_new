@@ -55,7 +55,14 @@ export async function POST(req: NextRequest) {
     // Create an assistant to read the PDF
     const assistant = await openai.beta.assistants.create({
       model: 'gpt-4o',
-      instructions: `You are a tour package data extraction assistant. Extract structured information from tour package PDFs and return it as valid JSON.
+      temperature: 0.1, // Lower temperature for more literal extraction
+      instructions: `You are a LITERAL TEXT EXTRACTION assistant. Your job is to COPY text from PDFs, NOT to summarize or paraphrase.
+
+⚠️ CRITICAL RULE #1: NEVER SUMMARIZE OR SHORTEN TEXT
+⚠️ CRITICAL RULE #2: COPY THE COMPLETE TEXT VERBATIM FROM THE PDF
+⚠️ CRITICAL RULE #3: For itinerary descriptions, extract EVERY SINGLE WORD, SENTENCE, AND PARAGRAPH
+
+Your primary task is extracting tour package data from PDFs and returning it as valid JSON.
 
 IMPORTANT: Detect if the PDF contains MULTIPLE packages/tours or just ONE:
 - If the PDF has a pricing table with multiple tours listed (e.g., "Tour 1", "Tour 2", "T-1", "T-2", "KUS-01", "KUS-02"), extract ALL tours as an array
@@ -222,22 +229,31 @@ MEALS FORMAT:
   * "Day 4 - Istanbul / Fly (B)" → meals: "B"
 - For SHORE_EXCURSION packages: Usually lunch is included or not, extract from "Included" section
 
-ITINERARY FORMAT - VERY IMPORTANT:
+ITINERARY FORMAT - ⚠️ ABSOLUTELY CRITICAL - THIS IS THE MOST IMPORTANT PART ⚠️:
+
+🚨 NEVER EVER SUMMARIZE THE ITINERARY TEXT - THIS IS A DIRECT COPY TASK, NOT A SUMMARIZATION TASK 🚨
+
 - For multi-day packages (WITH_HOTEL, LAND_ONLY): Extract day-by-day itinerary with day numbers (1, 2, 3, etc.)
+  * ACT AS A COPY MACHINE: Your job is to COPY the text character-by-character, NOT to write a summary
   * EXTRACT COMPLETE DESCRIPTIONS: Read the ENTIRE day description from the PDF including all activities, sites visited, and details
-  * Do NOT summarize - include ALL text from the day's description
-  * Include morning, afternoon, and evening activities if mentioned
-  * Include all site names, historical information, and travel details
-  * Typical day descriptions are 2-5 paragraphs long - extract everything
-  * Example: If PDF says "Day 1: After breakfast, visit the Blue Mosque (Sultan Ahmed Mosque), one of Istanbul's most iconic landmarks built in 1616. Continue to Hagia Sophia, former Byzantine cathedral turned Ottoman mosque. After lunch, explore the Grand Bazaar with over 4,000 shops..." - include ALL of this text
+  * FORBIDDEN: Summarizing, shortening, paraphrasing, or condensing the text in any way
+  * REQUIRED: Copy ALL sentences, ALL details, ALL paragraphs exactly as they appear in the PDF
+  * Include morning, afternoon, and evening activities if mentioned - EVERY SINGLE ACTIVITY
+  * Include all site names, historical information, dates, facts, and travel details - EVERYTHING
+  * If the PDF has 5 paragraphs for a day, your JSON must have 5 paragraphs for that day
+  * Typical day descriptions are 2-5 paragraphs long (100-500 words) - extract EVERY WORD
+  * Think of yourself as a XEROX MACHINE making an exact copy of the itinerary text
+  * Example: If PDF says "Day 1: After breakfast, visit the Blue Mosque (Sultan Ahmed Mosque), one of Istanbul's most iconic landmarks built in 1616 by Sultan Ahmed I. The mosque features six minarets and beautiful blue Iznik tiles. Continue to Hagia Sophia, a former Byzantine cathedral built in 537 AD, later converted to an Ottoman mosque, and now a museum showcasing both Christian and Islamic heritage. After lunch at a local restaurant, explore the Grand Bazaar with over 4,000 shops selling carpets, jewelry, spices, and souvenirs. End the day with a Bosphorus cruise..." - YOU MUST INCLUDE EVERY SINGLE WORD OF THIS TEXT
 
 - For SHORE_EXCURSION packages: Extract the tour program as a single day itinerary
   * Set day: 1
   * Extract title from tour name
-  * EXTRACT THE COMPLETE tour program/itinerary - do NOT summarize, include every detail
-  * Include all stops, activities, duration at each site, historical information
+  * ACT AS A COPY MACHINE - DO NOT WRITE A SUMMARY
+  * EXTRACT THE COMPLETE tour program/itinerary verbatim - include EVERY detail exactly as written
+  * Include all stops, activities, timing, duration at each site, historical information, facts
   * Extract meals from included section (e.g., "L" if lunch included, "-" if no meals)
-  * Typical shore excursion descriptions are 1-3 paragraphs - extract EVERYTHING
+  * Typical shore excursion descriptions are 1-3 paragraphs (50-300 words) - COPY EVERY WORD
+  * If the PDF lists 8 stops with descriptions, your JSON must have ALL 8 stops with ALL descriptions
 
 SHORE_EXCURSION SPECIFIC FIELDS:
 - port: Extract the departure city/port (Istanbul, Kusadasi, Izmir, Bodrum, Antalya, Marmaris)
@@ -247,7 +263,7 @@ SHORE_EXCURSION SPECIFIC FIELDS:
   * "both" if mentions both port and hotel pickup options
 - duration: Extract in hours format (e.g., "4 Hours", "6 Hours", "8 Hours", "Full Day")
 
-IMPORTANT:
+IMPORTANT EXTRACTION RULES:
 - Extract FINAL SELLING PRICES (not nett rates) - same prices shown to all customers and agents
 - For WITH_HOTEL packages: Extract ALL pax tiers (2, 4, 6, 8, 10+) with pricing for each
 - For each pax tier, extract pricing for all hotel categories (3-star, 4-star, 5-star)
@@ -256,17 +272,26 @@ IMPORTANT:
 - For SHORE_EXCURSION packages: Extract ALL group size pricing (1 pax through 10-15 pax)
 - For shore excursions, extract child pricing for all age ranges shown in PDF
 - Extract ALL hotel names for each category (for WITH_HOTEL only)
-- **ITINERARY EXTRACTION IS CRITICAL**: Read the ENTIRE itinerary section from the PDF
-- Extract the COMPLETE day-by-day itinerary WITH MEALS - DO NOT SHORTEN OR SUMMARIZE
-- Copy ALL text from each day's description verbatim - include all activities, sites, historical details, travel information
-- Day descriptions should be long and detailed (typically 2-5 paragraphs per day, or 100-500 words per day)
-- If the PDF has detailed descriptions, your JSON must include ALL that detail
-- For each itinerary day, extract the meals from the parentheses (e.g., "(B/L)" means breakfast and lunch)
-- If no meals are mentioned, use "-" as the meals value
-- For shore excursions, create a single-day itinerary (day: 1) with the COMPLETE tour program as description (include every stop, timing, activity)
 - Choose an image path from the AVAILABLE IMAGES list that best matches the package destinations
 - If any information is missing, use reasonable defaults or empty arrays/objects
 - Ensure all prices are numbers (no currency symbols)
+
+🚨🚨🚨 ITINERARY EXTRACTION RULES - READ THIS CAREFULLY 🚨🚨🚨:
+- **ITINERARY EXTRACTION IS YOUR PRIMARY TASK**: Read the ENTIRE itinerary section from the PDF
+- **FORBIDDEN ACTION**: Do NOT summarize, shorten, paraphrase, condense, or rewrite the itinerary text
+- **REQUIRED ACTION**: Copy the COMPLETE day-by-day itinerary WITH MEALS exactly as written
+- **COPY EVERYTHING**: Copy ALL text from each day's description verbatim - include all activities, sites, historical details, travel information, dates, facts
+- **LENGTH REQUIREMENT**: Day descriptions should be long and detailed (typically 2-5 paragraphs per day, or 100-500 words per day)
+- **COMPLETENESS CHECK**: If the PDF has detailed descriptions, your JSON must include ALL that detail - word for word
+- **THINK LIKE A XEROX MACHINE**: You are making an exact photocopy of the itinerary text, not writing a book report
+- For each itinerary day, extract the meals from the parentheses (e.g., "(B/L)" means breakfast and lunch)
+- If no meals are mentioned, use "-" as the meals value
+- For shore excursions, create a single-day itinerary (day: 1) with the COMPLETE tour program as description (include every stop, timing, activity, historical info)
+
+FINAL REMINDER BEFORE YOU START:
+Your role is DATA EXTRACTION, not content creation or summarization.
+When you see text in the PDF itinerary, COPY IT EXACTLY. Do not make it shorter.
+The user needs the FULL ORIGINAL TEXT from the PDF, not your summary of it.
 
 MULTIPLE TOURS EXTRACTION:
 - If the PDF contains multiple tours (e.g., pricing table with T-1, T-2, T-3 or KUS-01, KUS-02, etc.), extract ALL of them
@@ -311,7 +336,23 @@ Example output for multiple tours:
       messages: [
         {
           role: 'user',
-          content: 'Extract ALL packages/tours from the PDF. If the PDF contains multiple tours (e.g., pricing table with multiple tours), extract each one separately. Read every page carefully and return ALL tours in the "packages" array format specified in the instructions. CRITICAL: For the itinerary section, extract the COMPLETE and FULL text from each day description - do NOT summarize or shorten. Copy all activities, sites, historical details, and travel information exactly as written in the PDF. Day descriptions should be detailed and comprehensive (typically 100-500 words per day).',
+          content: `Extract ALL packages/tours from the PDF. If the PDF contains multiple tours (e.g., pricing table with multiple tours), extract each one separately. Read every page carefully and return ALL tours in the "packages" array format specified in the instructions.
+
+🚨 ABSOLUTELY CRITICAL - ITINERARY EXTRACTION 🚨:
+Your PRIMARY task is to extract the itinerary descriptions VERBATIM from the PDF.
+
+YOU ARE A COPY MACHINE, NOT A SUMMARIZER.
+
+For the itinerary section:
+- DO NOT summarize, shorten, paraphrase, or condense ANY text
+- COPY the COMPLETE and FULL text from each day description EXACTLY as it appears in the PDF
+- Include EVERY sentence, EVERY activity, EVERY site name, EVERY historical detail, EVERY fact
+- If a day has 3 paragraphs in the PDF, your JSON must have 3 paragraphs for that day
+- Copy all activities, sites, historical details, dates, facts, and travel information word-for-word
+- Day descriptions should be detailed and comprehensive (typically 100-500 words per day)
+- Think: "I am a photocopier making an exact copy of this text"
+
+Remember: The user needs the ORIGINAL TEXT from the PDF, not your summary or version of it.`,
         }
       ]
     });

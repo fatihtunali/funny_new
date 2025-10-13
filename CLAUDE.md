@@ -35,6 +35,10 @@ npx prisma studio       # Open Prisma Studio GUI
 
 # Admin Management
 npm run create-admin    # Interactive CLI to create admin user
+
+# Deployment (Production Server: funny@188.132.230.193)
+bash deploy.sh          # Full deployment: pull + npm install + build + restart
+bash quick-deploy.sh    # Quick deployment: pull + restart (for API/config changes)
 ```
 
 ## Architecture

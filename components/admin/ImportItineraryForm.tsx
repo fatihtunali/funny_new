@@ -6,12 +6,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaArrowLeft, FaFileImport, FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa';
 
+interface ImportedPackage {
+  id: string;
+  packageId: string;
+  title: string;
+  slug: string;
+  url: string;
+}
+
 export default function ImportItineraryForm() {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [importedPackage, setImportedPackage] = useState<any>(null);
+  const [importedPackage, setImportedPackage] = useState<ImportedPackage | null>(null);
 
   // Option 1: Import from URL
   const [sourceUrl, setSourceUrl] = useState('');
@@ -161,12 +168,12 @@ export default function ImportItineraryForm() {
             <p><strong>Option 1: Import from URL</strong></p>
             <ul className="list-disc list-inside ml-4 space-y-1">
               <li>Get the export URL from Ruzgar Gucu AI system</li>
-              <li>Paste the URL below and click "Import from URL"</li>
+              <li>Paste the URL below and click &quot;Import from URL&quot;</li>
             </ul>
             <p className="mt-3"><strong>Option 2: Import from JSON</strong></p>
             <ul className="list-disc list-inside ml-4 space-y-1">
               <li>Copy the itinerary JSON from Ruzgar Gucu AI</li>
-              <li>Paste the JSON data below and click "Import from JSON"</li>
+              <li>Paste the JSON data below and click &quot;Import from JSON&quot;</li>
             </ul>
           </div>
         </div>

@@ -52,6 +52,19 @@ export default function ImportItineraryForm() {
       const result = await importResponse.json();
 
       if (!importResponse.ok) {
+        // Handle 409 conflict (package already exists)
+        if (importResponse.status === 409 && result.existingPackage) {
+          setError(`Package already exists: "${result.existingPackage.title}". Change the slug to import as a new package.`);
+          setImportedPackage({
+            id: result.existingPackage.id,
+            packageId: result.existingPackage.packageId || '',
+            title: result.existingPackage.title,
+            slug: result.existingPackage.slug,
+            url: `https://www.funnytourism.com/packages/${result.existingPackage.slug}`
+          });
+          setLoading(false);
+          return;
+        }
         throw new Error(result.error || 'Failed to import itinerary');
       }
 
@@ -85,6 +98,19 @@ export default function ImportItineraryForm() {
       const result = await importResponse.json();
 
       if (!importResponse.ok) {
+        // Handle 409 conflict (package already exists)
+        if (importResponse.status === 409 && result.existingPackage) {
+          setError(`Package already exists: "${result.existingPackage.title}". Change the slug in your JSON to import as a new package.`);
+          setImportedPackage({
+            id: result.existingPackage.id,
+            packageId: result.existingPackage.packageId || '',
+            title: result.existingPackage.title,
+            slug: result.existingPackage.slug,
+            url: `https://www.funnytourism.com/packages/${result.existingPackage.slug}`
+          });
+          setLoading(false);
+          return;
+        }
         throw new Error(result.error || 'Failed to import itinerary');
       }
 
@@ -152,9 +178,31 @@ export default function ImportItineraryForm() {
 
         {/* Error Message */}
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded mb-6 flex items-center">
-            <FaExclamationTriangle className="text-red-600 mr-3 text-xl" />
-            <p>{error}</p>
+          <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded mb-6">
+            <div className="flex items-start">
+              <FaExclamationTriangle className="text-red-600 mr-3 text-xl flex-shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <p>{error}</p>
+                {importedPackage && error.includes('already exists') && (
+                  <div className="mt-2 flex space-x-3">
+                    <a
+                      href={importedPackage.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-red-700 hover:text-red-900 underline font-semibold"
+                    >
+                      View existing package →
+                    </a>
+                    <Link
+                      href={`/admin/packages/edit/${importedPackage.id}`}
+                      className="text-sm text-red-700 hover:text-red-900 underline font-semibold"
+                    >
+                      Edit existing package →
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
 

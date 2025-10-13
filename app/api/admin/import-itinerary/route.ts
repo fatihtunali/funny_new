@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
           error: 'Package with this slug already exists',
           existingPackage: {
             id: existingPackage.id,
+            packageId: existingPackage.packageId,
             title: existingPackage.title,
             slug: existingPackage.slug
           }
@@ -99,7 +100,7 @@ export async function POST(req: NextRequest) {
         packageId: newPackage.packageId,
         title: newPackage.title,
         slug: newPackage.slug,
-        url: `https://www.funnytourism.com/packages/${newPackage.slug}`
+        url: `https://www.funnytourism.com/packages/${newPackage.packageId}`
       }
     });
 

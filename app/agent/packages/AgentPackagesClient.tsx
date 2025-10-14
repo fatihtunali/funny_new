@@ -47,10 +47,20 @@ export default function AgentPackagesClient() {
     try {
       // Use B2B pricing if available, otherwise regular pricing
       const pricingStr = pkg.b2bPricing || pkg.pricing;
+      if (!pricingStr) return 'Contact for pricing';
+
       const pricing = JSON.parse(pricingStr);
 
+      // Debug logging
+      if (pkg.packageType === 'LAND_ONLY' || pkg.packageType === 'WITH_HOTEL') {
+        console.log(`Package ${pkg.packageId} (${pkg.packageType}):`, pricing);
+      }
+
       if (pkg.packageType === 'LAND_ONLY') {
-        return `€${pricing.perPerson}/person`;
+        // Handle both perPerson and per_person formats
+        const price = pricing.perPerson || pricing.per_person;
+        if (!price || price <= 0) return 'Contact for pricing';
+        return `€${price}/person`;
       } else if (pkg.packageType === 'DAILY_TOUR') {
         // Handle daily tours with different pricing structure
         const prices = [
@@ -68,20 +78,33 @@ export default function AgentPackagesClient() {
         const max = Math.max(...prices);
         return min === max ? `€${min}/person` : `€${min} - €${max}`;
       } else {
-        // Handle WITH_HOTEL type
-        const prices = [
-          pricing.threestar?.double,
-          pricing.fourstar?.double,
-          pricing.fivestar?.double
-        ].filter(p => p != null && p > 0);
+        // Handle WITH_HOTEL type - check both old and new pricing structures
+        const prices = [];
 
-        if (prices.length === 0) return 'Contact for pricing';
+        // Try nested structure (threestar.double, etc.)
+        if (pricing.threestar?.double) prices.push(pricing.threestar.double);
+        if (pricing.fourstar?.double) prices.push(pricing.fourstar.double);
+        if (pricing.fivestar?.double) prices.push(pricing.fivestar.double);
 
-        const min = Math.min(...prices);
-        const max = Math.max(...prices);
+        // Try flat structure (threeStar_double, etc.)
+        if (pricing.threeStar_double) prices.push(pricing.threeStar_double);
+        if (pricing.fourStar_double) prices.push(pricing.fourStar_double);
+        if (pricing.fiveStar_double) prices.push(pricing.fiveStar_double);
+
+        // Try alternative flat structure
+        if (pricing.three_star_double) prices.push(pricing.three_star_double);
+        if (pricing.four_star_double) prices.push(pricing.four_star_double);
+        if (pricing.five_star_double) prices.push(pricing.five_star_double);
+
+        const validPrices = prices.filter(p => p != null && p > 0);
+        if (validPrices.length === 0) return 'Contact for pricing';
+
+        const min = Math.min(...validPrices);
+        const max = Math.max(...validPrices);
         return min === max ? `€${min}` : `€${min} - €${max}`;
       }
-    } catch {
+    } catch (error) {
+      console.error('Error parsing pricing for package:', pkg.packageId, error);
       return 'Contact for pricing';
     }
   };

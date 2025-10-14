@@ -84,6 +84,7 @@ export default function PackageDetailPage() {
 
     if (!pkg.pricing) return 0;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const pricing = pkg.pricing as any;
 
     // Handle LAND_ONLY packages with tiered per-person pricing

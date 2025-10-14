@@ -15,6 +15,9 @@ interface Props {
 interface PricingData {
   paxTiers?: Record<string, Record<string, { double: number; triple: number; singleSupplement: number | null }>>;
   perPerson?: number;
+  twoAdults?: number;
+  fourAdults?: number;
+  sixAdults?: number;
   [key: string]: unknown;
 }
 

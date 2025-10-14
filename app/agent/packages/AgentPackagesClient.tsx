@@ -68,8 +68,7 @@ export default function AgentPackagesClient() {
         if (validPrices.length === 0) return 'Contact for pricing';
 
         const min = Math.min(...validPrices);
-        const max = Math.max(...validPrices);
-        return min === max ? `€${min}/person` : `€${min} - €${max}/person`;
+        return `From €${min}/person`;
       } else if (pkg.packageType === 'DAILY_TOUR') {
         // Handle daily tours with different pricing structure
         const prices = [
@@ -84,8 +83,7 @@ export default function AgentPackagesClient() {
         if (prices.length === 0) return 'Contact for pricing';
 
         const min = Math.min(...prices);
-        const max = Math.max(...prices);
-        return min === max ? `€${min}/person` : `€${min} - €${max}`;
+        return `From €${min}/person`;
       } else {
         // Handle WITH_HOTEL type
         const prices = [];
@@ -109,8 +107,7 @@ export default function AgentPackagesClient() {
         if (validPrices.length === 0) return 'Contact for pricing';
 
         const min = Math.min(...validPrices);
-        const max = Math.max(...validPrices);
-        return min === max ? `€${min}` : `€${min} - €${max}`;
+        return `From €${min}`;
       }
     } catch (error) {
       console.error('Error parsing pricing for package:', pkg.packageId, error);

@@ -20,6 +20,7 @@ export default function PackageDetailPage() {
     image: string;
     packageId: string;
     slug: string;
+    packageType?: string;
     duration: string;
     destinations: string[];
     itinerary: Array<{ day: number; title: string; description: string; meals: string }>;
@@ -81,12 +82,33 @@ export default function PackageDetailPage() {
     const totalPax = getTotalPax();
     let totalPrice = 0;
 
+    if (!pkg.pricing) return 0;
+
+    const pricing = pkg.pricing as any;
+
+    // Handle LAND_ONLY packages with tiered per-person pricing
+    if (pricing.twoAdults || pricing.fourAdults || pricing.sixAdults) {
+      let pricePerPerson = 0;
+
+      // Select price based on total group size
+      if (totalPax >= 6 && pricing.sixAdults) {
+        pricePerPerson = pricing.sixAdults;
+      } else if (totalPax >= 4 && pricing.fourAdults) {
+        pricePerPerson = pricing.fourAdults;
+      } else if (pricing.twoAdults) {
+        pricePerPerson = pricing.twoAdults;
+      } else if (pricing.perPerson) {
+        pricePerPerson = pricing.perPerson;
+      }
+
+      totalPrice = pricePerPerson * totalPax;
+    }
     // Check if pricing uses new paxTiers structure
-    if (pkg.pricing?.paxTiers) {
+    else if (pricing.paxTiers) {
       // Find the appropriate pax tier (use the tier >= totalPax, or highest available)
-      const availableTiers = Object.keys(pkg.pricing.paxTiers).map(Number).sort((a, b) => a - b);
+      const availableTiers = Object.keys(pricing.paxTiers).map(Number).sort((a, b) => a - b);
       const paxTier = availableTiers.find(tier => tier >= totalPax) || availableTiers[availableTiers.length - 1];
-      const tierPricing = pkg.pricing.paxTiers[paxTier]?.[selectedHotel];
+      const tierPricing = pricing.paxTiers[paxTier]?.[selectedHotel];
 
       if (tierPricing) {
         rooms.forEach(paxInRoom => {
@@ -104,9 +126,8 @@ export default function PackageDetailPage() {
           totalPrice += pricePerPerson * paxInRoom;
         });
       }
-    } else if (pkg.pricing) {
-      // Fallback to old structure
-      const pricing = pkg.pricing as Record<string, Record<string, number>>;
+    } else {
+      // Fallback to old hotel structure
       rooms.forEach(paxInRoom => {
         const roomType = paxInRoom === 1 ? 'single' : paxInRoom === 2 ? 'double' : 'triple';
         const pricePerPerson = pricing[selectedHotel]?.[roomType] || 0;
@@ -292,21 +313,24 @@ export default function PackageDetailPage() {
               <div className="bg-white rounded-lg shadow-xl p-6 mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Book This Package</h3>
 
-                {/* Hotel Category */}
-                <div className="mb-4">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Hotel Category</label>
-                  <select
-                    value={selectedHotel}
-                    onChange={(e) => setSelectedHotel(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
-                  >
-                    <option value="threestar">3-Star Hotels</option>
-                    <option value="fourstar">4-Star Hotels</option>
-                    <option value="fivestar">5-Star Hotels</option>
-                  </select>
-                </div>
+                {/* Hotel Category - Only show for WITH_HOTEL packages */}
+                {pkg.packageType !== 'LAND_ONLY' && (
+                  <div className="mb-4">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Hotel Category</label>
+                    <select
+                      value={selectedHotel}
+                      onChange={(e) => setSelectedHotel(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                    >
+                      <option value="threestar">3-Star Hotels</option>
+                      <option value="fourstar">4-Star Hotels</option>
+                      <option value="fivestar">5-Star Hotels</option>
+                    </select>
+                  </div>
+                )}
 
-                {/* Room Configuration */}
+                {/* Room Configuration - Only show for WITH_HOTEL packages */}
+                {pkg.packageType !== 'LAND_ONLY' && (
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <label className="block text-sm font-semibold text-gray-700">
@@ -362,6 +386,25 @@ export default function PackageDetailPage() {
                     Maximum 3 people per room, 10 people total
                   </p>
                 </div>
+                )}
+
+                {/* Travelers - For LAND_ONLY packages */}
+                {pkg.packageType === 'LAND_ONLY' && (
+                  <div className="mb-4">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Number of Travelers</label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="50"
+                      value={getTotalPax()}
+                      onChange={(e) => setRooms([parseInt(e.target.value) || 1])}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
+                    />
+                    <p className="text-xs text-gray-500 mt-2">
+                      Per person land services pricing
+                    </p>
+                  </div>
+                )}
 
                 {/* Price Display */}
                 <div className="bg-blue-50 rounded-lg p-4 mb-6">

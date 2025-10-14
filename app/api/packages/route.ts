@@ -29,6 +29,7 @@ export async function GET(req: NextRequest) {
         pdfUrl: true,
         highlights: true,
         pricing: true,
+        b2bPricing: true,
       }
     });
 

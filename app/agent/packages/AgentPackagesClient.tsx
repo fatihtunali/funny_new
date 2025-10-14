@@ -51,15 +51,35 @@ export default function AgentPackagesClient() {
 
       if (pkg.packageType === 'LAND_ONLY') {
         return `€${pricing.perPerson}/person`;
+      } else if (pkg.packageType === 'DAILY_TOUR') {
+        // Handle daily tours with different pricing structure
+        const prices = [
+          pricing.sicPrice,
+          pricing.privateMin2,
+          pricing.privateMin4,
+          pricing.privateMin6,
+          pricing.privateMin8,
+          pricing.privateMin10
+        ].filter(p => p != null && p > 0);
+
+        if (prices.length === 0) return 'Contact for pricing';
+
+        const min = Math.min(...prices);
+        const max = Math.max(...prices);
+        return min === max ? `€${min}/person` : `€${min} - €${max}`;
       } else {
+        // Handle WITH_HOTEL type
         const prices = [
           pricing.threestar?.double,
           pricing.fourstar?.double,
           pricing.fivestar?.double
-        ].filter(Boolean);
+        ].filter(p => p != null && p > 0);
+
+        if (prices.length === 0) return 'Contact for pricing';
+
         const min = Math.min(...prices);
         const max = Math.max(...prices);
-        return `€${min} - €${max}`;
+        return min === max ? `€${min}` : `€${min} - €${max}`;
       }
     } catch {
       return 'Contact for pricing';

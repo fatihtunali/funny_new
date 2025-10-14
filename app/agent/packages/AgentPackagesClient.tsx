@@ -51,16 +51,25 @@ export default function AgentPackagesClient() {
 
       const pricing = JSON.parse(pricingStr);
 
-      // Debug logging
-      if (pkg.packageType === 'LAND_ONLY' || pkg.packageType === 'WITH_HOTEL') {
-        console.log(`Package ${pkg.packageId} (${pkg.packageType}):`, pricing);
-      }
-
       if (pkg.packageType === 'LAND_ONLY') {
-        // Handle both perPerson and per_person formats
-        const price = pricing.perPerson || pricing.per_person;
-        if (!price || price <= 0) return 'Contact for pricing';
-        return `€${price}/person`;
+        // Handle multiple formats
+        const prices = [];
+
+        // Format 1: { perPerson: 500 }
+        if (pricing.perPerson) prices.push(pricing.perPerson);
+        if (pricing.per_person) prices.push(pricing.per_person);
+
+        // Format 2: { twoAdults: 415, fourAdults: 369, sixAdults: 355 }
+        if (pricing.twoAdults) prices.push(pricing.twoAdults);
+        if (pricing.fourAdults) prices.push(pricing.fourAdults);
+        if (pricing.sixAdults) prices.push(pricing.sixAdults);
+
+        const validPrices = prices.filter(p => p != null && p > 0);
+        if (validPrices.length === 0) return 'Contact for pricing';
+
+        const min = Math.min(...validPrices);
+        const max = Math.max(...validPrices);
+        return min === max ? `€${min}/person` : `€${min} - €${max}/person`;
       } else if (pkg.packageType === 'DAILY_TOUR') {
         // Handle daily tours with different pricing structure
         const prices = [
@@ -78,23 +87,23 @@ export default function AgentPackagesClient() {
         const max = Math.max(...prices);
         return min === max ? `€${min}/person` : `€${min} - €${max}`;
       } else {
-        // Handle WITH_HOTEL type - check both old and new pricing structures
+        // Handle WITH_HOTEL type
         const prices = [];
 
-        // Try nested structure (threestar.double, etc.)
+        // Format 1: paxTiers structure { paxTiers: { "2": { threestar: {...}, fourstar: {...} } } }
+        if (pricing.paxTiers) {
+          const firstTier = pricing.paxTiers[Object.keys(pricing.paxTiers)[0]];
+          if (firstTier) {
+            if (firstTier.threestar?.double) prices.push(firstTier.threestar.double);
+            if (firstTier.fourstar?.double) prices.push(firstTier.fourstar.double);
+            if (firstTier.fivestar?.double) prices.push(firstTier.fivestar.double);
+          }
+        }
+
+        // Format 2: Direct structure { threestar: { double: 545 }, fourstar: {...} }
         if (pricing.threestar?.double) prices.push(pricing.threestar.double);
         if (pricing.fourstar?.double) prices.push(pricing.fourstar.double);
         if (pricing.fivestar?.double) prices.push(pricing.fivestar.double);
-
-        // Try flat structure (threeStar_double, etc.)
-        if (pricing.threeStar_double) prices.push(pricing.threeStar_double);
-        if (pricing.fourStar_double) prices.push(pricing.fourStar_double);
-        if (pricing.fiveStar_double) prices.push(pricing.fiveStar_double);
-
-        // Try alternative flat structure
-        if (pricing.three_star_double) prices.push(pricing.three_star_double);
-        if (pricing.four_star_double) prices.push(pricing.four_star_double);
-        if (pricing.five_star_double) prices.push(pricing.five_star_double);
 
         const validPrices = prices.filter(p => p != null && p > 0);
         if (validPrices.length === 0) return 'Contact for pricing';

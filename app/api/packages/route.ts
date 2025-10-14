@@ -65,6 +65,7 @@ export async function GET(req: NextRequest) {
           privateMin8: tour.privateMin8,
           privateMin10: tour.privateMin10,
         }),
+        b2bPricing: null,
         slug: tour.tourCode.toLowerCase(),
       }));
 

@@ -127,13 +127,40 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
       }
 
       if (pkg.packageType === 'LAND_ONLY') {
-        const total = bookingData.adults + bookingData.children3to5 + bookingData.children6to10;
-        if (!pricing.perPerson) {
-          console.error('❌ Land only package missing perPerson pricing');
+        const totalPax = bookingData.adults + bookingData.children3to5 + bookingData.children6to10;
+
+        // Handle different pricing formats
+        let pricePerPerson = 0;
+
+        // Format 1: { perPerson: 500 }
+        if (pricing.perPerson) {
+          pricePerPerson = pricing.perPerson;
+        }
+        // Format 2: { twoAdults: 415, fourAdults: 369, sixAdults: 355 }
+        else if (pricing.twoAdults || pricing.fourAdults || pricing.sixAdults) {
+          // Select price based on group size
+          if (totalPax >= 6 && pricing.sixAdults) {
+            pricePerPerson = pricing.sixAdults;
+          } else if (totalPax >= 4 && pricing.fourAdults) {
+            pricePerPerson = pricing.fourAdults;
+          } else if (pricing.twoAdults) {
+            pricePerPerson = pricing.twoAdults;
+          } else {
+            console.error('❌ No valid land-only pricing found');
+            return 0;
+          }
+        } else {
+          console.error('❌ Land only package missing pricing data');
           return 0;
         }
-        const totalPrice = pricing.perPerson * total;
-        console.log('✅ Calculated land-only price:', totalPrice);
+
+        const totalPrice = pricePerPerson * totalPax;
+        console.log('✅ Calculated land-only price:', {
+          totalPax,
+          pricePerPerson,
+          totalPrice,
+          pricingStructure: pricing
+        });
         return totalPrice;
       } else {
         // Check if using paxTiers pricing structure (new format)

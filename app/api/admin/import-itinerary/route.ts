@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminAuth';
 import prisma from '@/lib/prisma';
+import { generateSlug } from '@/lib/slugify';
 
 /**
  * API endpoint to import itineraries from Ruzgar Gucu AI system
@@ -34,8 +35,8 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
-    // Validate required fields
-    const requiredFields = ['packageId', 'packageType', 'title', 'slug', 'duration', 'description', 'destinations'];
+    // Validate required fields (slug is now optional, will be auto-generated)
+    const requiredFields = ['packageId', 'packageType', 'title', 'duration', 'description', 'destinations'];
     for (const field of requiredFields) {
       if (!body[field]) {
         return NextResponse.json(
@@ -45,9 +46,12 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Auto-generate slug from title if not provided (SEO-friendly)
+    const slug = body.slug || generateSlug(body.title);
+
     // Check if package with this slug already exists
     const existingPackage = await prisma.package.findUnique({
-      where: { slug: body.slug }
+      where: { slug }
     });
 
     if (existingPackage) {
@@ -70,7 +74,7 @@ export async function POST(req: NextRequest) {
       packageId: body.packageId,
       packageType: body.packageType,
       title: body.title,
-      slug: body.slug,
+      slug: slug, // Use auto-generated or provided slug
       duration: body.duration,
       description: body.description,
       destinations: body.destinations,

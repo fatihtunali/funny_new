@@ -19,6 +19,7 @@ export async function GET(req: NextRequest) {
       orderBy: { packageId: 'asc' },
       select: {
         packageId: true,
+        slug: true,
         packageType: true,
         title: true,
         duration: true,
@@ -35,7 +36,6 @@ export async function GET(req: NextRequest) {
     let allPackages = packages.map(pkg => ({
       ...pkg,
       id: pkg.packageId,
-      slug: pkg.packageId.toLowerCase(),
     }));
 
     if (includeDailyTours) {

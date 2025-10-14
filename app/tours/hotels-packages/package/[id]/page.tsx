@@ -19,6 +19,7 @@ export default function PackageDetailPage() {
     description: string;
     image: string;
     packageId: string;
+    slug: string;
     duration: string;
     destinations: string[];
     itinerary: Array<{ day: number; title: string; description: string; meals: string }>;
@@ -139,7 +140,7 @@ export default function PackageDetailPage() {
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Home', url: '/' },
     { name: 'Hotel Packages', url: '/tours/hotels-packages' },
-    { name: pkg.title, url: `/packages/${pkg.packageId}` }
+    { name: pkg.title, url: `/packages/${pkg.slug}` }
   ]);
 
   return (

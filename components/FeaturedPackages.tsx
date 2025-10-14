@@ -25,6 +25,7 @@ const itemVariants = {
 
 interface PackageData {
   packageId: string;
+  slug: string;
   title: string;
   duration: string;
   image: string;
@@ -192,7 +193,7 @@ export default function FeaturedPackages() {
                     <p className="text-sm text-gray-600 font-semibold">Full Details</p>
                   </div>
                   <Link
-                    href={`/packages/${pkg.packageId}`}
+                    href={`/packages/${pkg.slug}`}
                     className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors"
                   >
                     View Details

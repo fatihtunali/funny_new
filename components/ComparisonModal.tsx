@@ -14,6 +14,7 @@ interface ComparisonModalProps {
 interface PackageData {
   id: string;
   packageId: string;
+  slug: string;
   title: string;
   image: string;
   pricing: string | Record<string, unknown>;
@@ -150,7 +151,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
                       <td key={pkg.id} className="p-4">
                         <h3 className="font-bold text-lg text-gray-900 mb-2">{pkg.title}</h3>
                         <Link
-                          href={`/packages/${pkg.packageId}`}
+                          href={`/packages/${pkg.slug}`}
                           className="text-sm text-primary-600 hover:text-primary-700"
                         >
                           View Details →
@@ -243,7 +244,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
                     {packages.map((pkg) => (
                       <td key={pkg.id} className="p-4">
                         <Link
-                          href={`/packages/${pkg.packageId}`}
+                          href={`/packages/${pkg.slug}`}
                           className="btn-primary w-full text-center block"
                         >
                           Book Now

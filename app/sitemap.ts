@@ -7,13 +7,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch all packages for dynamic URLs
   const packages = await prisma.package.findMany({
     select: {
-      packageId: true,
+      slug: true,
       updatedAt: true,
     },
   });
 
   const packageUrls = packages.map((pkg) => ({
-    url: `${baseUrl}/packages/${pkg.packageId}`,
+    url: `${baseUrl}/packages/${pkg.slug}`,
     lastModified: pkg.updatedAt,
     changeFrequency: 'weekly' as const,
     priority: 0.8,

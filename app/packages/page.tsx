@@ -490,7 +490,7 @@ export default function AllPackagesPage() {
                             href={
                               pkg.packageType === 'DAILY_TOUR'
                                 ? `/daily-tours/${pkg.packageId.toLowerCase()}`
-                                : `/packages/${pkg.packageId}`
+                                : `/packages/${pkg.slug}`
                             }
                             className="flex-1 flex items-center justify-center btn-primary text-sm"
                             onClick={(e) => {
@@ -517,7 +517,7 @@ export default function AllPackagesPage() {
                   ) : (
                     <Link
                       key={pkg.id}
-                      href={`/packages/${pkg.packageId}`}
+                      href={`/packages/${pkg.slug}`}
                       className="flex bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow"
                     >
                       <div className="relative w-48 h-48 flex-shrink-0">

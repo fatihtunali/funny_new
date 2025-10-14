@@ -14,6 +14,7 @@ interface QuickViewModalProps {
 
 interface PackageData {
   packageId: string;
+  slug: string;
   title: string;
   duration: string;
   destinations: string;
@@ -218,7 +219,7 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                 {/* Action Buttons */}
                 <div className="flex gap-3 pt-4 border-t">
                   <Link
-                    href={`/packages/${pkg.packageId}`}
+                    href={`/packages/${pkg.slug}`}
                     className="flex-1 btn-primary text-center flex items-center justify-center gap-2"
                     onClick={onClose}
                   >

@@ -19,6 +19,7 @@ export interface PackageSchemaData {
   description: string;
   image: string;
   packageId: string;
+  slug: string;
   pricing: string | Record<string, unknown>;
 }
 
@@ -60,7 +61,7 @@ export function generateTourPackageSchema(pkg: PackageSchemaData, baseUrl: strin
     },
     "offers": {
       "@type": "Offer",
-      "url": `${baseUrl}/packages/${pkg.packageId}`,
+      "url": `${baseUrl}/packages/${pkg.slug}`,
       "priceCurrency": "EUR",
       "price": minPrice.toString(),
       "availability": "https://schema.org/InStock",

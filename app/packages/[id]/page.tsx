@@ -291,20 +291,22 @@ export default function PackageDetailPage() {
               </div>
             </section>
 
-            {/* Hotels */}
-            <section>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Accommodation Options</h2>
-              <div className="space-y-4">
-                {Object.entries(pkg.hotels).map(([category, hotels]) => (
-                  <div key={category} className="bg-gray-50 rounded-lg p-4">
-                    <h3 className="font-bold text-gray-900 capitalize mb-2">
-                      {category.replace('star', '-Star')} Hotels
-                    </h3>
-                    <p className="text-gray-700 text-sm">{(hotels as string[]).join(', ')}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
+            {/* Hotels - Only show for WITH_HOTEL packages */}
+            {pkg.packageType !== 'LAND_ONLY' && Object.keys(pkg.hotels).length > 0 && (
+              <section>
+                <h2 className="text-3xl font-bold text-gray-900 mb-4">Accommodation Options</h2>
+                <div className="space-y-4">
+                  {Object.entries(pkg.hotels).map(([category, hotels]) => (
+                    <div key={category} className="bg-gray-50 rounded-lg p-4">
+                      <h3 className="font-bold text-gray-900 capitalize mb-2">
+                        {category.replace('star', '-Star')} Hotels
+                      </h3>
+                      <p className="text-gray-700 text-sm">{(hotels as string[]).join(', ')}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
 
           {/* Right Column - Booking Widget */}
@@ -451,13 +453,15 @@ export default function PackageDetailPage() {
                     <FaMapMarkerAlt className="mr-3 text-blue-600" />
                     {pkg.destinations.join(', ')}
                   </li>
-                  <li className="flex items-center text-gray-700">
-                    <FaHotel className="mr-3 text-blue-600" />
-                    3/4/5-Star Hotels
-                  </li>
+                  {pkg.packageType !== 'LAND_ONLY' && (
+                    <li className="flex items-center text-gray-700">
+                      <FaHotel className="mr-3 text-blue-600" />
+                      3/4/5-Star Hotels
+                    </li>
+                  )}
                   <li className="flex items-center text-gray-700">
                     <FaUsers className="mr-3 text-blue-600" />
-                    SIC Group Tours
+                    {pkg.packageType === 'LAND_ONLY' ? 'Land Services Only' : 'SIC Group Tours'}
                   </li>
                 </ul>
               </div>

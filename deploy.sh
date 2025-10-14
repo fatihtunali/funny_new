@@ -24,7 +24,7 @@ ssh $SERVER_USER@$SERVER_HOST << 'ENDSSH'
     git pull
 
     echo "📦 Installing dependencies (if any new ones)..."
-    npm install --production
+    npm install
 
     echo "🔨 Building Next.js application..."
     npm run build

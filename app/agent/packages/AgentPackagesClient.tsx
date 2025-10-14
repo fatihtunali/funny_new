@@ -161,7 +161,7 @@ export default function AgentPackagesClient() {
         {/* Packages Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPackages.map((pkg) => (
-            <div key={pkg.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+            <div key={pkg.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
               <div className="relative h-48">
                 <Image
                   src={pkg.image}
@@ -169,31 +169,45 @@ export default function AgentPackagesClient() {
                   fill
                   className="object-cover"
                 />
-                <div className="absolute top-2 right-2">
-                  <span className="bg-white px-2 py-1 rounded text-xs font-medium text-gray-700">
+                {/* Price Badge */}
+                <div className="absolute top-3 left-3 bg-green-600 text-white px-3 py-1.5 rounded-lg shadow-lg">
+                  <span className="text-sm font-bold">{getPriceRange(pkg)}</span>
+                </div>
+                {/* Package ID */}
+                <div className="absolute top-3 right-3">
+                  <span className="bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-medium text-gray-700">
                     #{pkg.packageId}
                   </span>
                 </div>
+                {/* B2B Badge */}
                 {pkg.b2bPricing && (
-                  <div className="absolute top-2 left-2">
-                    <span className="bg-green-500 text-white px-2 py-1 rounded text-xs font-medium">
+                  <div className="absolute bottom-2 left-2">
+                    <span className="bg-blue-500 text-white px-2 py-1 rounded text-xs font-medium">
                       B2B Rate
                     </span>
                   </div>
                 )}
               </div>
-              <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">{pkg.title}</h3>
-                <div className="space-y-2 text-sm text-gray-600 mb-4">
-                  <p>📍 {pkg.destinations}</p>
-                  <p>📅 {pkg.duration}</p>
-                  <p className="text-primary-600 font-semibold">💰 {getPriceRange(pkg)}</p>
+              <div className="p-6">
+                <div className="flex items-center text-gray-600 mb-2">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="text-sm font-semibold">{pkg.duration}</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 min-h-[3.5rem] line-clamp-2">{pkg.title}</h3>
+                <div className="flex items-center text-gray-600 text-sm mb-4">
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span className="line-clamp-1">{pkg.destinations}</span>
                 </div>
                 <Link
                   href={`/agent/packages/${pkg.packageId}`}
-                  className="block w-full text-center bg-primary-600 text-white py-2 rounded-lg hover:bg-primary-700 transition-colors"
+                  className="block w-full text-center bg-primary-600 text-white py-2 rounded-lg hover:bg-primary-700 transition-colors font-medium"
                 >
-                  View & Book
+                  View Details & Book
                 </Link>
               </div>
             </div>

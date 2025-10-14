@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
         packageId: newPackage.packageId,
         title: newPackage.title,
         slug: newPackage.slug,
-        url: `https://www.funnytourism.com/packages/${newPackage.packageId}`
+        url: `https://www.funnytourism.com/packages/${newPackage.slug}` // Use SEO-friendly slug URL
       }
     });
 

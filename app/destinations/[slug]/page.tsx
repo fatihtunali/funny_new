@@ -11,16 +11,7 @@ interface DestinationPageProps {
 // Make this page dynamic so it always fetches fresh data
 export const dynamic = 'force-dynamic';
 
-export async function generateStaticParams() {
-  const destinations = await prisma.destination.findMany({
-    where: { isActive: true },
-    select: { slug: true },
-  });
-
-  return destinations.map((destination) => ({
-    slug: destination.slug,
-  }));
-}
+// Removed generateStaticParams to ensure truly dynamic rendering
 
 export async function generateMetadata({ params }: DestinationPageProps) {
   const resolvedParams = await params;

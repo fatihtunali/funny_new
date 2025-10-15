@@ -8,10 +8,9 @@ interface DestinationPageProps {
   }>;
 }
 
-// Make this page dynamic so it always fetches fresh data
-export const dynamic = 'force-dynamic';
-
-// Removed generateStaticParams to ensure truly dynamic rendering
+// Enable ISR with on-demand revalidation
+export const revalidate = 0; // Revalidate on every request
+export const dynamicParams = true; // Allow new slugs not generated at build time
 
 export async function generateMetadata({ params }: DestinationPageProps) {
   const resolvedParams = await params;
@@ -44,13 +43,6 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
   // Parse JSON fields
   const attractions = JSON.parse(destination.attractions);
   const experiences = JSON.parse(destination.experiences);
-
-  // DEBUG: Log what we're sending to client
-  console.log('=== DESTINATION DEBUG ===');
-  console.log('Slug:', resolvedParams.slug);
-  console.log('Hero Image:', destination.heroImage);
-  console.log('Attractions:', JSON.stringify(attractions, null, 2));
-  console.log('========================');
 
   return (
     <DestinationDetailClient

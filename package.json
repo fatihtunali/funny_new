@@ -14,7 +14,8 @@
     "discover-agents": "tsx scripts/discover-agents.ts",
     "extract-emails": "tsx scripts/extract-emails.ts",
     "send-outreach": "tsx scripts/send-agent-outreach.ts",
-    "test-email": "tsx scripts/test-email.ts"
+    "test-email": "tsx scripts/test-email.ts",
+    "add-turkey-blog": "tsx scripts/add-turkey-guide-blog.ts"
   },
   "repository": {
     "type": "git",

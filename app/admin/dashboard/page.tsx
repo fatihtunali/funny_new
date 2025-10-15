@@ -3,7 +3,7 @@ import { getAdminFromToken } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaPlus, FaEdit, FaEye, FaEnvelope, FaChartLine, FaUsers, FaSearch, FaFileImport } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaEye, FaEnvelope, FaChartLine, FaUsers, FaSearch, FaFileImport, FaMapMarkerAlt } from 'react-icons/fa';
 import LogoutButton from '@/components/admin/LogoutButton';
 import DeletePackageButton from '@/components/admin/DeletePackageButton';
 
@@ -108,6 +108,17 @@ export default async function AdminDashboard() {
               </div>
               <div className="bg-orange-100 rounded-full p-3">
                 <FaEdit className="text-2xl text-orange-600" />
+              </div>
+            </div>
+          </Link>
+          <Link href="/admin/destinations" className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 mb-2">Destinations</p>
+                <p className="text-lg font-semibold text-cyan-600">Manage Destinations →</p>
+              </div>
+              <div className="bg-cyan-100 rounded-full p-3">
+                <FaMapMarkerAlt className="text-2xl text-cyan-600" />
               </div>
             </div>
           </Link>

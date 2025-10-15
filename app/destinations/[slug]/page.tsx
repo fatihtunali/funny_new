@@ -45,6 +45,13 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
   const attractions = JSON.parse(destination.attractions);
   const experiences = JSON.parse(destination.experiences);
 
+  // DEBUG: Log what we're sending to client
+  console.log('=== DESTINATION DEBUG ===');
+  console.log('Slug:', resolvedParams.slug);
+  console.log('Hero Image:', destination.heroImage);
+  console.log('Attractions:', JSON.stringify(attractions, null, 2));
+  console.log('========================');
+
   return (
     <DestinationDetailClient
       name={destination.name}

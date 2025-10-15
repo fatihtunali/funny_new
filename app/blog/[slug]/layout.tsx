@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (post.tags) {
       tagsArray = typeof post.tags === 'string' ? JSON.parse(post.tags) : post.tags;
     }
-  } catch (e) {
+  } catch {
     // Ignore parsing errors
   }
 

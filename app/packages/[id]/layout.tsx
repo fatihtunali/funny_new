@@ -7,6 +7,7 @@ interface Props {
 }
 
 // Helper to get min price from pricing JSON
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getMinPrice(pricing: any): number {
   try {
     if (pricing.sicPrice) return pricing.sicPrice;

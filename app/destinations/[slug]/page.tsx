@@ -3,9 +3,9 @@ import prisma from '@/lib/prisma';
 import DestinationDetailClient from '@/components/DestinationDetailClient';
 
 interface DestinationPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -20,8 +20,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: DestinationPageProps) {
+  const resolvedParams = await params;
   const destination = await prisma.destination.findUnique({
-    where: { slug: params.slug },
+    where: { slug: resolvedParams.slug },
   });
 
   if (!destination) {
@@ -37,8 +38,9 @@ export async function generateMetadata({ params }: DestinationPageProps) {
 }
 
 export default async function DestinationPage({ params }: DestinationPageProps) {
+  const resolvedParams = await params;
   const destination = await prisma.destination.findUnique({
-    where: { slug: params.slug },
+    where: { slug: resolvedParams.slug },
   });
 
   if (!destination || !destination.isActive) {

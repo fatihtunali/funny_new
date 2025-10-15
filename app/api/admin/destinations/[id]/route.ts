@@ -5,10 +5,11 @@ import { requireAdmin } from '@/lib/adminAuth';
 // GET /api/admin/destinations/[id] - Get single destination
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
+    const params = await context.params;
 
     const destination = await prisma.destination.findUnique({
       where: { id: params.id }
@@ -35,10 +36,11 @@ export async function GET(
 // PUT /api/admin/destinations/[id] - Update destination
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
+    const params = await context.params;
 
     const body = await request.json();
     const {
@@ -121,10 +123,11 @@ export async function PUT(
 // DELETE /api/admin/destinations/[id] - Delete destination
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     await requireAdmin();
+    const params = await context.params;
 
     // Check if destination exists
     const existing = await prisma.destination.findUnique({

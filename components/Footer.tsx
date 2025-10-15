@@ -128,6 +128,15 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-8 pt-8 text-sm text-center">
           <p>&copy; {new Date().getFullYear()} Funny Tourism. All rights reserved.</p>
           <p className="mt-2 text-xs">
+            <Link href="/privacy" className="text-gray-400 hover:text-gray-200 transition-colors">
+              Privacy Policy
+            </Link>
+            {' · '}
+            <Link href="/terms" className="text-gray-400 hover:text-gray-200 transition-colors">
+              Terms & Conditions
+            </Link>
+          </p>
+          <p className="mt-2 text-xs">
             <Link href="/admin/dashboard" className="text-gray-500 hover:text-gray-300 transition-colors">
               Admin
             </Link>

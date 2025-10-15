@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaArrowLeft, FaPlus, FaTrash, FaSave } from 'react-icons/fa';
+import ImageSelector from '@/components/admin/ImageSelector';
 
 interface Attraction {
   name: string;
@@ -310,17 +311,12 @@ export default function EditDestinationPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Hero Image Path <span className="text-red-500">*</span>
+                  Hero Image <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="text"
-                  value={heroImage}
-                  onChange={(e) => setHeroImage(e.target.value)}
-                  placeholder="/images/destination.jpg"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                  required
+                <ImageSelector
+                  selectedImage={heroImage}
+                  onSelect={setHeroImage}
                 />
-                <p className="text-xs text-gray-500 mt-1">e.g., /images/istanbul.jpg</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -396,13 +392,10 @@ export default function EditDestinationPage() {
                       />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Image Path</label>
-                      <input
-                        type="text"
-                        value={attraction.image}
-                        onChange={(e) => updateAttraction(index, 'image', e.target.value)}
-                        placeholder="/images/attraction.jpg"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
+                      <ImageSelector
+                        selectedImage={attraction.image}
+                        onSelect={(path) => updateAttraction(index, 'image', path)}
                       />
                     </div>
                   </div>

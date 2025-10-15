@@ -10,7 +10,7 @@ export default function TermsPage() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Agreement to Terms</h2>
               <p className="text-gray-700 mb-4">
-                Welcome to Funny Tourism. By accessing our website funnytourism.com and using our services, you agree to be bound by these Terms and Conditions ("Terms"). Please read them carefully.
+                Welcome to Funny Tourism. By accessing our website funnytourism.com and using our services, you agree to be bound by these Terms and Conditions (&quot;Terms&quot;). Please read them carefully.
               </p>
               <p className="text-gray-700">
                 If you do not agree to these Terms, you may not access or use our services. We reserve the right to modify these Terms at any time, and your continued use of our services constitutes acceptance of any changes.

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/prisma';
 import { requireAdmin } from '@/lib/adminAuth';
 
@@ -89,6 +90,10 @@ export async function POST(request: Request) {
         metaDescription
       }
     });
+
+    // Revalidate destinations pages
+    revalidatePath('/destinations');
+    revalidatePath(`/destinations/${destination.slug}`);
 
     return NextResponse.json(destination, { status: 201 });
   } catch (error) {

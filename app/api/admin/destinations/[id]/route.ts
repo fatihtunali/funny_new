@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/prisma';
 import { requireAdmin } from '@/lib/adminAuth';
 
@@ -109,6 +110,14 @@ export async function PUT(
       }
     });
 
+    // Revalidate destinations pages
+    revalidatePath('/destinations');
+    revalidatePath(`/destinations/${destination.slug}`);
+    // Also revalidate old slug if it changed
+    if (slug && slug !== existing.slug) {
+      revalidatePath(`/destinations/${existing.slug}`);
+    }
+
     return NextResponse.json(destination);
   } catch (error) {
     console.error('Error updating destination:', error);
@@ -145,6 +154,10 @@ export async function DELETE(
     await prisma.destination.delete({
       where: { id: params.id }
     });
+
+    // Revalidate destinations pages
+    revalidatePath('/destinations');
+    revalidatePath(`/destinations/${existing.slug}`);
 
     return NextResponse.json({ message: 'Destination deleted successfully' });
   } catch (error) {

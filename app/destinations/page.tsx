@@ -8,6 +8,9 @@ interface AttractionType {
   duration: string;
 }
 
+// Revalidate every 60 seconds
+export const revalidate = 60;
+
 export default async function DestinationsPage() {
   // Fetch destinations from database
   const destinationsData = await prisma.destination.findMany({

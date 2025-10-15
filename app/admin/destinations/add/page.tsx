@@ -124,8 +124,8 @@ export default function AddDestinationPage() {
       }
 
       router.push('/admin/destinations');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
     }

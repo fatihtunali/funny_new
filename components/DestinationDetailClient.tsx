@@ -16,7 +16,6 @@ interface DestinationDetailClientProps {
   name: string;
   description: string;
   heroImage: string;
-  gradient: string;
   attractions: Attraction[];
   experiences: string[];
   category: string;
@@ -26,7 +25,6 @@ export default function DestinationDetailClient({
   name,
   description,
   heroImage,
-  gradient,
   attractions,
   experiences,
   category

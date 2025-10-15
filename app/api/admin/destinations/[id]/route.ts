@@ -22,11 +22,12 @@ export async function GET(
     }
 
     return NextResponse.json(destination);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching destination:', error);
+    const message = error instanceof Error ? error.message : 'Failed to fetch destination';
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch destination' },
-      { status: error.message?.includes('Unauthorized') ? 401 : 500 }
+      { error: message },
+      { status: message.includes('Unauthorized') ? 401 : 500 }
     );
   }
 }
@@ -107,11 +108,12 @@ export async function PUT(
     });
 
     return NextResponse.json(destination);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating destination:', error);
+    const message = error instanceof Error ? error.message : 'Failed to update destination';
     return NextResponse.json(
-      { error: error.message || 'Failed to update destination' },
-      { status: error.message?.includes('Unauthorized') ? 401 : 500 }
+      { error: message },
+      { status: message.includes('Unauthorized') ? 401 : 500 }
     );
   }
 }
@@ -142,11 +144,12 @@ export async function DELETE(
     });
 
     return NextResponse.json({ message: 'Destination deleted successfully' });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error deleting destination:', error);
+    const message = error instanceof Error ? error.message : 'Failed to delete destination';
     return NextResponse.json(
-      { error: error.message || 'Failed to delete destination' },
-      { status: error.message?.includes('Unauthorized') ? 401 : 500 }
+      { error: message },
+      { status: message.includes('Unauthorized') ? 401 : 500 }
     );
   }
 }

@@ -1,8 +1,4 @@
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { FaClock, FaMapMarkerAlt } from 'react-icons/fa';
 import prisma from '@/lib/prisma';
 import DestinationDetailClient from '@/components/DestinationDetailClient';
 
@@ -58,7 +54,6 @@ export default async function DestinationPage({ params }: DestinationPageProps) 
       name={destination.name}
       description={destination.description}
       heroImage={destination.heroImage}
-      gradient={destination.gradient}
       attractions={attractions}
       experiences={experiences}
       category={destination.category}

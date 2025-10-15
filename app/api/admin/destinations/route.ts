@@ -15,11 +15,12 @@ export async function GET() {
     });
 
     return NextResponse.json(destinations);
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching destinations:', error);
+    const message = error instanceof Error ? error.message : 'Failed to fetch destinations';
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch destinations' },
-      { status: error.message?.includes('Unauthorized') ? 401 : 500 }
+      { error: message },
+      { status: message.includes('Unauthorized') ? 401 : 500 }
     );
   }
 }
@@ -90,11 +91,12 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json(destination, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creating destination:', error);
+    const message = error instanceof Error ? error.message : 'Failed to create destination';
     return NextResponse.json(
-      { error: error.message || 'Failed to create destination' },
-      { status: error.message?.includes('Unauthorized') ? 401 : 500 }
+      { error: message },
+      { status: message.includes('Unauthorized') ? 401 : 500 }
     );
   }
 }

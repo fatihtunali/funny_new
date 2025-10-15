@@ -3,7 +3,7 @@ import { getAdminFromToken } from '@/lib/adminAuth';
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaPlus, FaEdit, FaEye, FaTrash, FaArrowLeft } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaEye, FaArrowLeft } from 'react-icons/fa';
 import LogoutButton from '@/components/admin/LogoutButton';
 
 export default async function AdminDestinationsPage() {

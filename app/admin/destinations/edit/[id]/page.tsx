@@ -77,8 +77,8 @@ export default function EditDestinationPage() {
         setExperiences(parsedExperiences.length > 0 ? parsedExperiences : ['']);
 
         setFetching(false);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
         setFetching(false);
       }
     };
@@ -163,8 +163,8 @@ export default function EditDestinationPage() {
       }
 
       router.push('/admin/destinations');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
     }

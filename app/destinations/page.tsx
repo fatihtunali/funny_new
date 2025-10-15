@@ -1,6 +1,12 @@
-import Link from 'next/link';
 import prisma from '@/lib/prisma';
 import DestinationsClient from '@/components/DestinationsClient';
+
+interface AttractionType {
+  name: string;
+  description: string;
+  image: string;
+  duration: string;
+}
 
 export default async function DestinationsPage() {
   // Fetch destinations from database
@@ -16,8 +22,8 @@ export default async function DestinationsPage() {
 
   // Transform data for client component
   const destinations = destinationsData.map(dest => {
-    const attractions = JSON.parse(dest.attractions);
-    const attractionNames = attractions.map((a: any) => a.name).join(', ');
+    const attractions = JSON.parse(dest.attractions) as AttractionType[];
+    const attractionNames = attractions.map((a) => a.name).join(', ');
 
     return {
       name: dest.name,

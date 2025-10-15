@@ -8,8 +8,8 @@ interface DestinationPageProps {
   }>;
 }
 
-// Revalidate every 60 seconds
-export const revalidate = 60;
+// Revalidate every 1 second for instant updates
+export const revalidate = 1;
 
 export async function generateStaticParams() {
   const destinations = await prisma.destination.findMany({

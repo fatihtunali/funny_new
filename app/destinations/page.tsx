@@ -26,7 +26,7 @@ export default function DestinationsPage() {
       description: 'Experience the surreal landscape of fairy chimneys and take a breathtaking hot air balloon ride over this unique region',
       slug: 'cappadocia',
       attractions: 'Hot Air Balloons, Goreme, Underground Cities, Cave Hotels',
-      image: '/images/cappadocianight.jpg',
+      image: '/images/cappadociaballoonride.jpg',
       gradient: 'from-orange-500 to-orange-700',
       category: 'Natural',
       region: 'Central Anatolia'
@@ -36,7 +36,7 @@ export default function DestinationsPage() {
       description: 'Enjoy the perfect blend of beautiful beaches, ancient ruins, and charming old town in this Mediterranean paradise',
       slug: 'antalya',
       attractions: 'Old Town (Kaleiçi), Düden Waterfalls, Ancient Ruins, Beautiful Beaches',
-      image: '/images/IstanbulatNight.jpeg',
+      image: '/images/AntalyaOldCity.jpg',
       gradient: 'from-cyan-500 to-cyan-700',
       category: 'Coastal',
       region: 'Mediterranean'
@@ -46,7 +46,7 @@ export default function DestinationsPage() {
       description: 'Vibrant coastal resort town, gateway to Ancient Ephesus with beautiful beaches and bustling bazaars',
       slug: 'kusadasi',
       attractions: 'Ancient Ephesus, House of Virgin Mary, Pigeon Island, Ladies Beach',
-      image: '/images/Ephesus_Library2.jpg',
+      image: '/images/MeryemAnaEvi.jpeg',
       gradient: 'from-blue-500 to-blue-700',
       category: 'Coastal',
       region: 'Aegean'
@@ -56,7 +56,7 @@ export default function DestinationsPage() {
       description: 'Walk through history in one of the best-preserved ancient cities in the Mediterranean',
       slug: 'ephesus',
       attractions: 'Library of Celsus, Grand Theater, Temple of Artemis, Terrace Houses',
-      image: '/images/Ephesus_Library2.jpg',
+      image: '/images/Ephesus_Library.jpg',
       gradient: 'from-green-500 to-green-700',
       category: 'Historical',
       region: 'Aegean'
@@ -76,7 +76,7 @@ export default function DestinationsPage() {
       description: 'Experience thrilling paragliding adventures, beautiful beaches, and crystal clear waters in this coastal gem',
       slug: 'fethiye',
       attractions: 'Ölüdeniz Beach, Paragliding, Blue Lagoon, Butterfly Valley',
-      image: '/images/cappadociaballoonride.jpg',
+      image: '/images/fethiye-paragliding.jpg',
       gradient: 'from-teal-500 to-teal-700',
       category: 'Adventure',
       region: 'Mediterranean'
@@ -86,7 +86,7 @@ export default function DestinationsPage() {
       description: 'Explore the beautiful marina, enjoy water sports, and discover the vibrant nightlife of this popular coastal resort',
       slug: 'marmaris',
       attractions: 'Marmaris Marina, Marmaris Castle, Beach Clubs, Boat Tours',
-      image: '/images/IstanbulatNight.jpeg',
+      image: '/images/FethiyeMarina.jpg',
       gradient: 'from-indigo-500 to-indigo-700',
       category: 'Coastal',
       region: 'Mediterranean'
@@ -96,7 +96,7 @@ export default function DestinationsPage() {
       description: 'Visit the historic castle, relax on pristine beaches, and enjoy the vibrant atmosphere of this Aegean gem',
       slug: 'bodrum',
       attractions: 'Bodrum Castle, Ancient Theater, Windmills, Beach Clubs',
-      image: '/images/cappadocianight.jpg',
+      image: '/images/antalyakekova.jpg',
       gradient: 'from-pink-500 to-pink-700',
       category: 'Coastal',
       region: 'Aegean'
@@ -106,7 +106,7 @@ export default function DestinationsPage() {
       description: 'Turkey\'s third-largest city offers ancient ruins, vibrant markets, and beautiful Aegean coastline with modern amenities',
       slug: 'izmir',
       attractions: 'Agora of Smyrna, Konak Square, Kordon Promenade, Kemeralti Bazaar',
-      image: '/images/BlueMosqueIstanbul6minarets.jpg',
+      image: '/images/izmir.jpg',
       gradient: 'from-red-500 to-red-700',
       category: 'Historical',
       region: 'Aegean'
@@ -116,7 +116,7 @@ export default function DestinationsPage() {
       description: 'Turkey\'s capital city showcases modern Turkey alongside ancient Anatolian heritage and significant national monuments',
       slug: 'ankara',
       attractions: 'Anitkabir, Museum of Anatolian Civilizations, Ankara Castle, Atakule Tower',
-      image: '/images/cappadociaballoonride.jpg',
+      image: '/images/anitkabir.jpg',
       gradient: 'from-gray-600 to-gray-800',
       category: 'Cultural',
       region: 'Central Anatolia'
@@ -126,7 +126,7 @@ export default function DestinationsPage() {
       description: 'First Ottoman capital featuring stunning mosques, thermal baths, and access to Uludag ski resort',
       slug: 'bursa',
       attractions: 'Grand Mosque, Green Tomb, Uludag Mountain, Historic Silk Market',
-      image: '/images/PamukkaleTravertenler.jpg',
+      image: '/images/bursa.jpg',
       gradient: 'from-emerald-500 to-emerald-700',
       category: 'Historical',
       region: 'Marmara'
@@ -136,7 +136,7 @@ export default function DestinationsPage() {
       description: 'Beautiful Black Sea city known for the stunning Sumela Monastery perched on mountain cliffs',
       slug: 'trabzon',
       attractions: 'Sumela Monastery, Uzungol Lake, Ataturk Pavilion, Trabzon Castle',
-      image: '/images/cappadocianight.jpg',
+      image: '/images/trabzon.jpg',
       gradient: 'from-green-600 to-green-800',
       category: 'Natural',
       region: 'Black Sea'
@@ -146,7 +146,7 @@ export default function DestinationsPage() {
       description: 'Spiritual center of Turkey, home to Rumi\'s mausoleum and the mesmerizing whirling dervishes ceremony',
       slug: 'konya',
       attractions: 'Mevlana Museum, Whirling Dervishes, Alaeddin Mosque, Ince Minare Museum',
-      image: '/images/Ephesus_Library2.jpg',
+      image: '/images/konya-mevlana.jpg',
       gradient: 'from-amber-600 to-amber-800',
       category: 'Cultural',
       region: 'Central Anatolia'
@@ -156,7 +156,7 @@ export default function DestinationsPage() {
       description: 'Historic WWI battleground offering moving memorials, cemeteries, and significant ANZAC heritage sites',
       slug: 'gallipoli',
       attractions: 'ANZAC Cove, Lone Pine Cemetery, Chunuk Bair, Turkish Martyrs Memorial',
-      image: '/images/IstanbulatNight.jpeg',
+      image: '/images/gallipoli.jpg',
       gradient: 'from-slate-600 to-slate-800',
       category: 'Historical',
       region: 'Marmara'
@@ -166,7 +166,7 @@ export default function DestinationsPage() {
       description: 'Legendary ancient city of the Trojan War, UNESCO World Heritage Site with fascinating archaeological ruins',
       slug: 'troy',
       attractions: 'Trojan Horse Replica, Ancient City Ruins, Archaeological Museum, City Walls',
-      image: '/images/Ephesus_Library2.jpg',
+      image: '/images/pergamon.jpg',
       gradient: 'from-yellow-600 to-yellow-800',
       category: 'Historical',
       region: 'Marmara'
@@ -176,7 +176,7 @@ export default function DestinationsPage() {
       description: 'Popular Mediterranean resort with spectacular castle, beautiful beaches, and vibrant entertainment options',
       slug: 'alanya',
       attractions: 'Alanya Castle, Cleopatra Beach, Damlatas Cave, Red Tower',
-      image: '/images/IstanbulatNight.jpeg',
+      image: '/images/alanya.jpg',
       gradient: 'from-orange-600 to-orange-800',
       category: 'Coastal',
       region: 'Mediterranean'

@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Ephesus Ancient City Tours - Dream Destination Turkey",
   description: "Visit Ephesus, one of the world's best-preserved ancient cities. See the Library of Celsus, Great Theatre, Temple of Artemis & House of Virgin Mary.",
   keywords: ["Ephesus tours", "Ephesus ancient city", "Library of Celsus", "Ephesus Turkey", "ancient Ephesus", "House of Virgin Mary", "Ephesus ruins"],
+  alternates: {
+    canonical: 'https://funnytourism.com/destinations/ephesus',
+  },
   openGraph: {
     title: "Ephesus Ancient City Tours",
     description: "Visit Ephesus, one of the world's best-preserved ancient cities. See the Library of Celsus, Great Theatre, Temple of Artemis & House of Virgin Mary.",

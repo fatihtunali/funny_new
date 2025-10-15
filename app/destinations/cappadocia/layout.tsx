@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Cappadocia Tours & Hot Air Balloon Rides - Dream Destination Turkey",
   description: "Discover Cappadocia's magical landscapes. Hot air balloon rides, fairy chimneys, underground cities, and cave hotels. Unforgettable Turkey adventure.",
   keywords: ["Cappadocia tours", "Cappadocia balloon", "hot air balloon Cappadocia", "Cappadocia travel", "fairy chimneys", "underground cities", "Cappadocia hotels", "Goreme"],
+  alternates: {
+    canonical: 'https://funnytourism.com/destinations/cappadocia',
+  },
   openGraph: {
     title: "Cappadocia Tours & Hot Air Balloon Rides",
     description: "Discover Cappadocia's magical landscapes. Hot air balloon rides, fairy chimneys, underground cities, and cave hotels.",

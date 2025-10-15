@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Daily Tours in Turkey - Istanbul, Cappadocia & More | Dream Destination Turkey",
   description: "Explore Turkey with our daily tours. Full-day and half-day tours in Istanbul, Cappadocia, Ephesus & more. Professional guides, lunch & transfers included.",
   keywords: ["Turkey daily tours", "Istanbul day tours", "Cappadocia day tours", "Ephesus tours", "Turkey excursions", "guided daily tours Turkey"],
+  alternates: {
+    canonical: 'https://funnytourism.com/daily-tours',
+  },
   openGraph: {
     title: "Daily Tours in Turkey - Istanbul, Cappadocia & More",
     description: "Explore Turkey with our daily tours. Full-day and half-day tours in Istanbul, Cappadocia, Ephesus & more.",

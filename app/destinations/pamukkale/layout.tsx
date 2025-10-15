@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Pamukkale Tours - Cotton Castle & Hierapolis - Dream Destination Turkey",
   description: "Explore Pamukkale's stunning white travertine terraces and ancient Hierapolis ruins. UNESCO World Heritage Site. Natural thermal pools and historical wonders.",
   keywords: ["Pamukkale tours", "Cotton Castle", "Pamukkale Turkey", "white terraces", "Hierapolis", "thermal pools", "Pamukkale travertines", "UNESCO Turkey"],
+  alternates: {
+    canonical: 'https://funnytourism.com/destinations/pamukkale',
+  },
   openGraph: {
     title: "Pamukkale Tours - Cotton Castle & Hierapolis",
     description: "Explore Pamukkale's stunning white travertine terraces and ancient Hierapolis ruins. UNESCO World Heritage Site.",

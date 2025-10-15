@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Turkey Travel Blog - Tips, Guides & Stories | Dream Destination Turkey",
   description: "Read our Turkey travel blog for insider tips, destination guides, cultural insights, and travel stories. Expert advice for your perfect Turkey vacation.",
   keywords: ["Turkey travel blog", "Turkey travel tips", "Turkey guide", "Turkey travel advice", "Istanbul tips", "Cappadocia guide", "Turkey culture"],
+  alternates: {
+    canonical: 'https://funnytourism.com/blog',
+  },
   openGraph: {
     title: "Turkey Travel Blog - Tips, Guides & Stories",
     description: "Read our Turkey travel blog for insider tips, destination guides, cultural insights, and travel stories.",

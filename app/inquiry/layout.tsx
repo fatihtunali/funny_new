@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Get a Quote - Custom Turkey Tour Packages | Dream Destination Turkey",
   description: "Request a personalized Turkey tour quote. Tell us your preferences and we'll create a custom itinerary with the best prices. Free consultation.",
   keywords: ["Turkey tour quote", "custom Turkey package", "Turkey vacation quote", "personalized Turkey tour", "Turkey travel inquiry"],
+  alternates: {
+    canonical: 'https://funnytourism.com/inquiry',
+  },
   openGraph: {
     title: "Get a Quote - Custom Turkey Tour Packages",
     description: "Request a personalized Turkey tour quote. Tell us your preferences and we'll create a custom itinerary with the best prices.",

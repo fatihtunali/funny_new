@@ -1,0 +1,26 @@
+# Funny Tourism - Robots.txt
+# https://funnytourism.com
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /agent/
+Disallow: /api/
+Disallow: /dashboard/
+
+# Sitemap
+Sitemap: https://funnytourism.com/sitemap.xml
+
+# Additional rules
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Crawl delay for other bots
+User-agent: *
+Crawl-delay: 1

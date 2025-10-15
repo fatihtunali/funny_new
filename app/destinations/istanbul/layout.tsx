@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Istanbul Tours & Travel Guide - Dream Destination Turkey",
   description: "Explore Istanbul with our expertly curated tours. Visit Hagia Sophia, Blue Mosque, Topkapi Palace, Grand Bazaar & more. Professional English-speaking guides included.",
   keywords: ["Istanbul tours", "Istanbul travel", "Istanbul packages", "Hagia Sophia", "Blue Mosque", "Topkapi Palace", "Grand Bazaar", "Istanbul guide", "Istanbul vacation"],
+  alternates: {
+    canonical: 'https://funnytourism.com/destinations/istanbul',
+  },
   openGraph: {
     title: "Istanbul Tours & Travel Guide",
     description: "Explore Istanbul with our expertly curated tours. Visit Hagia Sophia, Blue Mosque, Topkapi Palace, Grand Bazaar & more.",

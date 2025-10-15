@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Contact Us - Get Your Free Turkey Tour Quote",
   description: "Contact Funny Tourism for personalized Turkey tour packages. Get a free quote, ask questions, or book your dream Turkey vacation. 24/7 customer support available.",
   keywords: ["contact Turkey tours", "Turkey tour inquiry", "book Turkey vacation", "Turkey tour quote"],
+  alternates: {
+    canonical: 'https://funnytourism.com/contact',
+  },
   openGraph: {
     title: "Contact Us - Get Your Free Turkey Tour Quote",
     description: "Contact Funny Tourism for personalized Turkey tour packages. Get a free quote and book your dream vacation.",

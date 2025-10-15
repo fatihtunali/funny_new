@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "All Turkey Tour Packages - Hotels & Land Packages",
   description: "Browse all our Turkey tour packages. Filter by destination, duration, and price. Find the perfect Turkey vacation package for your needs.",
   keywords: ["Turkey packages", "Turkey tours", "all inclusive Turkey", "Turkey vacation packages", "Turkey holiday deals"],
+  alternates: {
+    canonical: 'https://funnytourism.com/packages',
+  },
   openGraph: {
     title: "All Turkey Tour Packages - Hotels & Land Packages",
     description: "Browse all our Turkey tour packages. Filter by destination, duration, and price.",

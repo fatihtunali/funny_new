@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Turkey Airport Transfers & Private Transportation | Dream Destination Turkey",
   description: "Book reliable airport transfers and private transportation in Turkey. Istanbul, Cappadocia, Antalya airports. Meet & greet service, comfortable vehicles, professional drivers.",
   keywords: ["Turkey airport transfers", "Istanbul airport transfer", "Cappadocia transfer", "Turkey private transfer", "airport taxi Turkey", "VIP transfer Turkey"],
+  alternates: {
+    canonical: 'https://funnytourism.com/transfers',
+  },
   openGraph: {
     title: "Turkey Airport Transfers & Private Transportation",
     description: "Book reliable airport transfers and private transportation in Turkey. Meet & greet service, comfortable vehicles, professional drivers.",

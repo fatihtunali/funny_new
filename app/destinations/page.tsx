@@ -8,8 +8,8 @@ interface AttractionType {
   duration: string;
 }
 
-// Revalidate every 1 second for instant updates
-export const revalidate = 1;
+// Make this page dynamic so it always fetches fresh data
+export const dynamic = 'force-dynamic';
 
 export default async function DestinationsPage() {
   // Fetch destinations from database

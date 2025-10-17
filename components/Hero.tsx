@@ -12,10 +12,10 @@ export default function Hero() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const heroImages = [
-    { src: '/images/MaidenTowerIstanbul.jpg', alt: 'Maiden Tower Istanbul', title: 'Discover Istanbul' },
-    { src: '/images/PamukkaleTravertenler.jpg', alt: 'Pamukkale Travertines', title: 'Explore Pamukkale' },
-    { src: '/images/BosphorusBridgeNightIstanbul.jpg', alt: 'Bosphorus Bridge at Night', title: 'Experience Istanbul' },
-    { src: '/images/antalya-sea-view-with-mountain.jpg', alt: 'Antalya Sea View', title: 'Relax in Antalya' },
+    { src: '/images/MaidenTowerIstanbul.webp', alt: 'Maiden Tower Istanbul', title: 'Discover Istanbul' },
+    { src: '/images/PamukkaleTravertenler.webp', alt: 'Pamukkale Travertines', title: 'Explore Pamukkale' },
+    { src: '/images/BosphorusBridgeNightIstanbul.webp', alt: 'Bosphorus Bridge at Night', title: 'Experience Istanbul' },
+    { src: '/images/antalya-sea-view-with-mountain.webp', alt: 'Antalya Sea View', title: 'Relax in Antalya' },
   ];
 
   // Auto-scroll carousel every 5 seconds

@@ -110,16 +110,16 @@ export default function FeaturedPackages() {
   }
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-20 bg-gradient-to-b from-white to-gray-50">
       <div className="section-container">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Tour Packages</h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Featured Tour Packages</h2>
+          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
             Carefully crafted itineraries to help you experience the best of Turkey
           </p>
         </motion.div>
@@ -140,7 +140,7 @@ export default function FeaturedPackages() {
               key={pkg.packageId}
               variants={itemVariants}
               whileHover={{ y: -10 }}
-              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100"
             >
               {/* Image */}
               <div className="relative h-64 overflow-hidden">

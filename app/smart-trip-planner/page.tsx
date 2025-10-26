@@ -174,8 +174,8 @@ function SmartTripPlannerContent() {
         throw new Error('No itinerary ID returned');
       }
 
-    } catch (err: any) {
-      setError(err.message || 'Something went wrong. Please try again.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
       setStep(3);
     } finally {
       setLoading(false);
@@ -497,7 +497,7 @@ function SmartTripPlannerContent() {
                   </h2>
                 </div>
                 <p className="text-gray-600 mb-6">
-                  We'll email your personalized itinerary with <strong>real, bookable prices</strong>. You can book immediately!
+                  We&apos;ll email your personalized itinerary with <strong>real, bookable prices</strong>. You can book immediately!
                 </p>
 
                 <div className="space-y-4">

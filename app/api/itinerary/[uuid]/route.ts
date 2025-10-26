@@ -35,10 +35,10 @@ export async function GET(
     console.log(`✅ Successfully fetched itinerary ${uuid}`);
 
     return NextResponse.json(data);
-  } catch (error: any) {
+  } catch (error) {
     console.error('❌ Error fetching itinerary:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch itinerary' },
+      { error: error instanceof Error ? error.message : 'Failed to fetch itinerary' },
       { status: 500 }
     );
   }

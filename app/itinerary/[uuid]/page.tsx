@@ -54,8 +54,8 @@ interface ItineraryData {
     star_rating: number;
     google_rating?: number;
     image_url?: string;
-    latitude?: string;
-    longitude?: string;
+    latitude?: number;
+    longitude?: number;
   }>;
   tours_visited?: Array<{
     id: number;
@@ -103,8 +103,8 @@ export default function ItineraryPage() {
 
       const data = await response.json();
       setItinerary(data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to load itinerary');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load itinerary');
     } finally {
       setLoading(false);
     }
@@ -123,7 +123,7 @@ export default function ItineraryPage() {
         }
       });
 
-      const result = await response.json();
+      await response.json();
 
       if (response.ok) {
         setBookingRequested(true);
@@ -180,6 +180,9 @@ export default function ItineraryPage() {
     return title.replace(/\s*\([BLD/]+\)\s*$/i, '').trim();
   };
 
+  // Compute destination from city_nights
+  const destination = itinerary.city_nights.map(cn => cn.city).join(' & ');
+
   const formatDateRange = () => {
     const start = new Date(itinerary.start_date);
     const end = new Date(itinerary.end_date);
@@ -192,8 +195,6 @@ export default function ItineraryPage() {
     return `${startStr} - ${endStr} • ${diffDays} Days`;
   };
 
-  const totalPeople = itinerary.adults + itinerary.children;
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50">
       {/* Header */}
@@ -204,7 +205,7 @@ export default function ItineraryPage() {
               Your Personalized Itinerary
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-3">
-              {itinerary.destination}
+              {destination}
             </h1>
             <p className="text-xl text-blue-100 mb-6">
               {formatDateRange()}
@@ -237,7 +238,7 @@ export default function ItineraryPage() {
             <div className="flex flex-wrap items-center justify-center gap-3">
               {/* WhatsApp Share */}
               <a
-                href={`https://wa.me/?text=${encodeURIComponent(`Check out my dream ${itinerary.destination} trip! ${window.location.href}`)}`}
+                href={`https://wa.me/?text=${encodeURIComponent(`Check out my dream ${destination} trip! ${window.location.href}`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg font-semibold transition-colors shadow-md"
@@ -263,7 +264,7 @@ export default function ItineraryPage() {
 
               {/* Twitter/X Share */}
               <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Planning my dream ${itinerary.destination} trip!`)}&url=${encodeURIComponent(window.location.href)}`}
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Planning my dream ${destination} trip!`)}&url=${encodeURIComponent(window.location.href)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-6 py-3 bg-black hover:bg-gray-800 text-white rounded-lg font-semibold transition-colors shadow-md"
@@ -289,7 +290,7 @@ export default function ItineraryPage() {
               </button>
 
               {/* Download PDF */}
-              <PDFDownloadButton itinerary={itinerary} />
+              <PDFDownloadButton itinerary={itinerary as unknown as Record<string, unknown>} />
             </div>
             <p className="text-sm text-gray-600 mt-4">
               Help your friends plan their perfect Turkey adventure!
@@ -304,12 +305,12 @@ export default function ItineraryPage() {
 
         {/* Map */}
         {itinerary.hotels_used && itinerary.hotels_used.length > 0 && (
-          <ItineraryMap hotels={itinerary.hotels_used} />
+          <ItineraryMap hotels={itinerary.hotels_used.filter(h => h.latitude && h.longitude) as never[]} />
         )}
 
         {/* Days */}
         <div className="space-y-6 mb-8">
-          {itinerary.itinerary_data.days.map((day: any, index: number) => (
+          {itinerary.itinerary_data.days.map((day, index: number) => (
             <div key={index} className="bg-white/70 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 overflow-hidden">
               {/* Day Header */}
               <div className="bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-4">
@@ -362,7 +363,7 @@ export default function ItineraryPage() {
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Your Accommodations</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {itinerary.hotels_used.map((hotel: any) => (
+              {itinerary.hotels_used.map((hotel) => (
                 <div key={hotel.id} className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow">
                   {hotel.image_url && (
                     <div className="h-48 overflow-hidden bg-gray-200">
@@ -376,7 +377,7 @@ export default function ItineraryPage() {
                   <div className="p-5">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex gap-1">
-                        {[...Array(hotel.star_rating || 0)].map((_: any, i: number) => (
+                        {[...Array(hotel.star_rating || 0)].map((_, i: number) => (
                           <svg key={i} className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
                             <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
                           </svg>
@@ -556,7 +557,7 @@ export default function ItineraryPage() {
           </button>
           {bookingRequested && (
             <p className="mt-4 text-green-600 font-semibold">
-              ✅ We've received your request and will contact you within 24 hours!
+              ✅ We&apos;ve received your request and will contact you within 24 hours!
             </p>
           )}
           <p className="mt-4 text-gray-600 text-sm">
@@ -579,7 +580,7 @@ export default function ItineraryPage() {
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">Booking Request Sent!</h3>
                   <p className="text-green-600 font-semibold">
-                    We've received your request successfully!
+                    We&apos;ve received your request successfully!
                   </p>
                 </div>
                 <div className="bg-blue-50 rounded-lg p-4 mb-6">
@@ -591,7 +592,7 @@ export default function ItineraryPage() {
                   </p>
                   {itinerary.customer_phone && (
                     <p className="text-sm text-gray-600">
-                      📱 We'll contact you at: <strong>{itinerary.customer_phone}</strong>
+                      📱 We&apos;ll contact you at: <strong>{itinerary.customer_phone}</strong>
                     </p>
                   )}
                 </div>
@@ -601,9 +602,9 @@ export default function ItineraryPage() {
                   </p>
                   <ul className="text-sm text-green-700 mt-2 space-y-1 list-disc list-inside">
                     <li>Our team will review your itinerary</li>
-                    <li>We'll contact you within 24 hours</li>
-                    <li>We'll confirm availability and finalize details</li>
-                    <li>You'll receive payment and booking instructions</li>
+                    <li>We&apos;ll contact you within 24 hours</li>
+                    <li>We&apos;ll confirm availability and finalize details</li>
+                    <li>You&apos;ll receive payment and booking instructions</li>
                   </ul>
                 </div>
                 <div className="text-center text-sm text-gray-600 mb-6">

@@ -66,11 +66,11 @@ export async function GET(request: NextRequest) {
     console.log(`📊 Stats:`, data.stats);
 
     return NextResponse.json(data);
-  } catch (error: any) {
+  } catch (error) {
     console.error('❌ Error fetching itineraries:', error);
     return NextResponse.json(
       {
-        error: error.message || 'Failed to fetch itineraries',
+        error: error instanceof Error ? error.message : 'Failed to fetch itineraries',
         itineraries: [],
         stats: { total: 0, pending: 0, confirmed: 0, completed: 0, cancelled: 0, online: 0, manual: 0 }
       },

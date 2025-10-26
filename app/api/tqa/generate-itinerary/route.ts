@@ -60,10 +60,10 @@ export async function POST(request: NextRequest) {
     console.log('✅ Itinerary generated via TQA:', data.uuid);
 
     return NextResponse.json(data);
-  } catch (error: any) {
+  } catch (error) {
     console.error('❌ Error generating itinerary:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to generate itinerary' },
+      { error: error instanceof Error ? error.message : 'Failed to generate itinerary' },
       { status: 500 }
     );
   }

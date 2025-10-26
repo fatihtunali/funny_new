@@ -38,7 +38,7 @@ export async function sendEmail({ to, subject, html, bccAdmin = true }: EmailDat
     }
 
     // Prepare email payload - only include bcc if there are recipients
-    const emailPayload: any = {
+    const emailPayload: Record<string, unknown> = {
       sender: {
         name: FROM_NAME,
         email: FROM_EMAIL

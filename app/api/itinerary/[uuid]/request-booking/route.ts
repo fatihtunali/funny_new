@@ -56,7 +56,7 @@ export async function POST(
     const result = await bookingResponse.json();
 
     // Send confirmation email to customer
-    const destination = itinerary.city_nights.map((cn: any) => cn.city).join(' & ');
+    const destination = itinerary.city_nights.map((cn: {city: string; nights: number}) => cn.city).join(' & ');
 
     try {
       await sendEmail({
@@ -79,7 +79,7 @@ export async function POST(
                 <h3 style="color: #059669; margin-top: 0;">✅ Your Booking Request Details</h3>
                 <ul style="color: #374151; line-height: 1.8;">
                   <li><strong>Destination:</strong> ${destination}</li>
-                  <li><strong>Duration:</strong> ${itinerary.city_nights.reduce((sum: number, cn: any) => sum + cn.nights, 0) + 1} Days</li>
+                  <li><strong>Duration:</strong> ${itinerary.city_nights.reduce((sum: number, cn: {city: string; nights: number}) => sum + cn.nights, 0) + 1} Days</li>
                   <li><strong>Start Date:</strong> ${new Date(itinerary.start_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</li>
                   <li><strong>Travelers:</strong> ${itinerary.adults} Adult${itinerary.adults > 1 ? 's' : ''}${itinerary.children > 0 ? `, ${itinerary.children} Child${itinerary.children > 1 ? 'ren' : ''}` : ''}</li>
                   <li><strong>Total Price:</strong> €${parseFloat(itinerary.total_price).toLocaleString()}</li>
@@ -158,7 +158,7 @@ export async function POST(
                 <h3 style="color: #1d4ed8; margin-top: 0;">Trip Details</h3>
                 <ul style="color: #374151; line-height: 1.8;">
                   <li><strong>Destination:</strong> ${destination}</li>
-                  <li><strong>Duration:</strong> ${itinerary.city_nights.reduce((sum: number, cn: any) => sum + cn.nights, 0) + 1} Days / ${itinerary.city_nights.reduce((sum: number, cn: any) => sum + cn.nights, 0)} Nights</li>
+                  <li><strong>Duration:</strong> ${itinerary.city_nights.reduce((sum: number, cn: {city: string; nights: number}) => sum + cn.nights, 0) + 1} Days / ${itinerary.city_nights.reduce((sum: number, cn: {city: string; nights: number}) => sum + cn.nights, 0)} Nights</li>
                   <li><strong>Start Date:</strong> ${new Date(itinerary.start_date).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</li>
                   <li><strong>Travelers:</strong> ${itinerary.adults} Adult${itinerary.adults > 1 ? 's' : ''}${itinerary.children > 0 ? `, ${itinerary.children} Child${itinerary.children > 1 ? 'ren' : ''}` : ''}</li>
                   <li><strong>Hotel Category:</strong> ${itinerary.hotel_category}-Star</li>
@@ -199,10 +199,10 @@ export async function POST(
       message: 'Booking request submitted successfully',
       data: result,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('❌ Error processing booking request:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to process booking request' },
+      { error: error instanceof Error ? error.message : 'Failed to process booking request' },
       { status: 500 }
     );
   }

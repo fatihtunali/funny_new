@@ -5,7 +5,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import ItineraryPDF from './ItineraryPDF';
 
 interface PDFDownloadButtonProps {
-  itinerary: any;
+  itinerary: Record<string, unknown>;
 }
 
 const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({ itinerary }) => {
@@ -29,7 +29,7 @@ const PDFDownloadButton: React.FC<PDFDownloadButtonProps> = ({ itinerary }) => {
     );
   }
 
-  const destination = itinerary.city_nights?.map((cn: any) => cn.city).join('-') || 'Turkey';
+  const destination = (itinerary.city_nights as Array<{city: string; nights: number}>)?.map((cn) => cn.city).join('-') || 'Turkey';
 
   return (
     <PDFDownloadLink

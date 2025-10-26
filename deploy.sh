@@ -10,7 +10,7 @@ echo ""
 SERVER_USER="funnytourism"
 SERVER_HOST="134.209.137.11"
 PROJECT_DIR="app"
-APP_NAME="funny-tourism"
+APP_NAME="funnytourism"
 
 echo "📡 Connecting to server: $SERVER_USER@$SERVER_HOST"
 echo ""

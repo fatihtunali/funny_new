@@ -67,8 +67,8 @@ export default function ItinerariesClient() {
       if (data.error) {
         setError(data.error);
       }
-    } catch (err: any) {
-      setError(err.message || 'Failed to load itineraries');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load itineraries');
       setItineraries([]);
     } finally {
       setLoading(false);
@@ -98,7 +98,7 @@ export default function ItinerariesClient() {
             <p className="text-sm font-semibold text-blue-900 mb-2">Alternative Options:</p>
             <ul className="text-sm text-blue-800 space-y-1">
               <li>• Contact TQA to add the admin itineraries endpoint</li>
-              <li>• Access TQA's admin panel directly at <a href="https://travelquoteai.com/admin" target="_blank" className="underline">travelquoteai.com/admin</a></li>
+              <li>• Access TQA&apos;s admin panel directly at <a href="https://travelquoteai.com/admin" target="_blank" className="underline">travelquoteai.com/admin</a></li>
               <li>• Implement local storage of itineraries in your database</li>
             </ul>
           </div>

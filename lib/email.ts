@@ -37,6 +37,27 @@ export async function sendEmail({ to, subject, html, bccAdmin = true }: EmailDat
       console.log('📋 BCC copy to:', BCC_EMAIL);
     }
 
+    // Prepare email payload - only include bcc if there are recipients
+    const emailPayload: any = {
+      sender: {
+        name: FROM_NAME,
+        email: FROM_EMAIL
+      },
+      to: [
+        {
+          email: to,
+          name: to.split('@')[0] // Use email username as name
+        }
+      ],
+      subject: subject,
+      htmlContent: html
+    };
+
+    // Only add bcc field if there are BCC recipients
+    if (bccArray.length > 0) {
+      emailPayload.bcc = bccArray;
+    }
+
     const response = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: {
@@ -44,21 +65,7 @@ export async function sendEmail({ to, subject, html, bccAdmin = true }: EmailDat
         'Content-Type': 'application/json',
         'api-key': BREVO_API_KEY
       },
-      body: JSON.stringify({
-        sender: {
-          name: FROM_NAME,
-          email: FROM_EMAIL
-        },
-        to: [
-          {
-            email: to,
-            name: to.split('@')[0] // Use email username as name
-          }
-        ],
-        bcc: bccArray,
-        subject: subject,
-        htmlContent: html
-      })
+      body: JSON.stringify(emailPayload)
     });
 
     const data = await response.json();

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { FaSearch, FaStar } from 'react-icons/fa';
+import { FaSearch, FaStar, FaMagic, FaList } from 'react-icons/fa';
 
 export default function Hero() {
   const router = useRouter();
@@ -102,6 +102,24 @@ export default function Hero() {
             </button>
           </div>
         </form>
+
+        {/* Dual CTA Buttons */}
+        <div className="flex flex-col sm:flex-row justify-center gap-4 mb-6 md:mb-8 max-w-2xl mx-auto">
+          <Link
+            href="/packages"
+            className="flex items-center justify-center gap-2 px-8 py-4 bg-white/20 backdrop-blur-md hover:bg-white/30 border-2 border-white/50 text-white rounded-xl text-base md:text-lg font-bold transition-all shadow-lg hover:shadow-xl"
+          >
+            <FaList />
+            Browse Packages
+          </Link>
+          <Link
+            href="/smart-trip-planner"
+            className="flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white rounded-xl text-base md:text-lg font-bold transition-all shadow-lg hover:shadow-xl"
+          >
+            <FaMagic />
+            Smart Trip Planner
+          </Link>
+        </div>
 
         {/* Quick Links */}
         <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-4 md:mb-8">

@@ -2,7 +2,7 @@
 
 ## 📦 What's in the Package
 
-This is your complete Funny Tourism website ready for deployment to your live server at **dreamdestinationturkey.com** (IP: 188.132.230.193)
+This is your complete Funny Tourism website ready for deployment to your live server at **funnytourism.com**
 
 ## 🚀 Step-by-Step Deployment Guide
 
@@ -32,10 +32,10 @@ This is your complete Funny Tourism website ready for deployment to your live se
 
 2. **Verify the .env file contains**:
    ```
-   DATABASE_URL="mysql://dream_dream:Dlr235672.-Yt@188.132.230.193:3306/dream_funny_web"
+   DATABASE_URL="mysql://funny_funny:PASSWORD@localhost:3306/funny_funny_web"
    JWT_SECRET="ecbac95566d0cfb46eda6fc6005cf69a2b7cd994dbfd3c11b885f4c72466ca47"
    NEXTAUTH_SECRET="9d7b48f0bb1906ee2ca7beedbac639461e4178060c3fb63d0aa8ced2fa37499a"
-   NEXTAUTH_URL="https://dreamdestinationturkey.com"
+   NEXTAUTH_URL="https://funnytourism.com"
    OPENAI_API_KEY="sk-proj-..."
    NODE_ENV="production"
    ```
@@ -243,10 +243,10 @@ sudo chown -R $USER:$USER /path/to/your/website
 ## 📊 Database Information
 
 **Production Database:**
-- Host: 188.132.230.193:3306
-- Database: dream_funny_web
-- User: dream_dream
-- Password: Dlr235672.-Yt
+- Host: 134.209.137.11:3306
+- Database: funny_funny_web
+- User: funny_funny
+- Password: See .env file
 
 **Tables Created:**
 - User (customer accounts)

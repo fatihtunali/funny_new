@@ -8,7 +8,7 @@ echo ""
 
 # SSH connection details
 SERVER_USER="funny"
-SERVER_HOST="188.132.230.193"
+SERVER_HOST="funnytourism.com"
 PROJECT_DIR="funny_new"
 APP_NAME="funny-tourism"
 

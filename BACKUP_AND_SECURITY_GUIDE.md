@@ -31,7 +31,7 @@ Run this **ONE TIME** on the server:
 
 ```bash
 # SSH to server
-ssh funny@188.132.230.193
+ssh funny@funnytourism.com
 
 # Make backup script executable
 chmod +x ~/funny_new/scripts/backup-database.sh
@@ -57,7 +57,7 @@ ls -lh ~/backups/database/hourly/
 ### View Available Backups
 
 ```bash
-ssh funny@188.132.230.193
+ssh funny@funnytourism.com
 ~/funny_new/scripts/restore-database.sh
 ```
 
@@ -95,7 +95,7 @@ tail -50 ~/backups/database/backup.log
 Once a month, test the restore process on a development environment:
 ```bash
 # Download a backup
-scp funny@188.132.230.193:~/backups/database/daily/daily_YYYYMMDD.sql.gz ./
+scp funny@funnytourism.com:~/backups/database/daily/daily_YYYYMMDD.sql.gz ./
 
 # Test restore on dev database
 gunzip < daily_YYYYMMDD.sql.gz | mysql -u user -p dev_database
@@ -130,7 +130,7 @@ For extra safety, download backups to your local machine weekly:
 
 ```bash
 # Download last 7 daily backups
-scp "funny@188.132.230.193:~/backups/database/daily/daily_*.sql.gz" ./backups/
+scp "funny@funnytourism.com:~/backups/database/daily/daily_*.sql.gz" ./backups/
 ```
 
 Store these on:

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { FaSearch, FaEdit, FaPlane } from 'react-icons/fa';
 
 export default function HowItWorks() {
@@ -89,12 +90,12 @@ export default function HowItWorks() {
 
         {/* CTA Button */}
         <div className="text-center mt-12">
-          <a
+          <Link
             href="/packages"
             className="inline-block bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-bold px-10 py-4 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-200"
           >
             Start Planning Your Trip
-          </a>
+          </Link>
         </div>
       </div>
     </section>

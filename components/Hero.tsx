@@ -3,13 +3,10 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { FaSearch, FaStar, FaMagic, FaList } from 'react-icons/fa';
+import { FaMagic } from 'react-icons/fa';
 
 export default function Hero() {
-  const router = useRouter();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [searchQuery, setSearchQuery] = useState('');
 
   const heroImages = [
     { src: '/images/MaidenTowerIstanbul.webp', alt: 'Maiden Tower Istanbul', title: 'Discover Istanbul' },
@@ -25,15 +22,6 @@ export default function Hero() {
     }, 5000);
     return () => clearInterval(interval);
   }, [heroImages.length]);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/packages?search=${encodeURIComponent(searchQuery)}`);
-    } else {
-      router.push('/packages');
-    }
-  };
 
   return (
     <section className="relative min-h-[700px] md:min-h-[85vh] lg:min-h-[90vh] xl:min-h-[95vh] flex items-center justify-center overflow-hidden">

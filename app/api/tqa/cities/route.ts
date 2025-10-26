@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     );
 
     // Extract city names from results
-    const cityNames = (rows as any[]).map(row => row.name);
+    const cityNames = (rows as Array<{ name: string }>).map(row => row.name);
 
     return NextResponse.json({ cities: cityNames });
   } catch (error) {

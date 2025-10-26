@@ -1,0 +1,154 @@
+
+> funny_new@1.0.0 build
+> next build
+
+   ▲ Next.js 15.5.4
+   - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 33.9s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/98) ...
+   Generating static pages (24/98) 
+   Generating static pages (48/98) 
+prisma:query SELECT `funny_funny_web`.`Package`.`id`, `funny_funny_web`.`Package`.`packageId`, `funny_funny_web`.`Package`.`updatedAt` FROM `funny_funny_web`.`Package` WHERE 1=1
+prisma:query SELECT `funny_funny_web`.`DailyTour`.`id`, `funny_funny_web`.`DailyTour`.`tourCode`, `funny_funny_web`.`DailyTour`.`updatedAt` FROM `funny_funny_web`.`DailyTour` WHERE 1=1
+   Generating static pages (73/98) 
+ ✓ Generating static pages (98/98)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                         Size  First Load JS
+┌ ○ /                                            5.35 kB         167 kB
+├ ○ /_not-found                                    998 B         103 kB
+├ ○ /about                                       4.24 kB         163 kB
+├ ○ /admin                                         313 B         102 kB
+├ ƒ /admin/agent-payments                        2.73 kB         125 kB
+├ ƒ /admin/agents                                3.11 kB         108 kB
+├ ƒ /admin/agents/[id]                           2.39 kB         108 kB
+├ ƒ /admin/agents/add                            1.88 kB         107 kB
+├ ƒ /admin/analytics                              1.5 kB         124 kB
+├ ○ /admin/blog                                  3.25 kB         120 kB
+├ ƒ /admin/blog/edit/[id]                        3.84 kB         126 kB
+├ ƒ /admin/bookings                              3.06 kB         125 kB
+├ ƒ /admin/bookings/[id]                          2.5 kB         125 kB
+├ ƒ /admin/bookings/daily-tours/[id]              2.5 kB         125 kB
+├ ƒ /admin/bookings/transfers/[id]               2.52 kB         125 kB
+├ ƒ /admin/commissions                           2.65 kB         125 kB
+├ ƒ /admin/daily-tours                           1.64 kB         119 kB
+├ ○ /admin/daily-tours/add                       3.78 kB         121 kB
+├ ƒ /admin/daily-tours/edit/[id]                 4.01 kB         126 kB
+├ ƒ /admin/dashboard                             1.81 kB         124 kB
+├ ƒ /admin/inquiries                             1.87 kB         124 kB
+├ ƒ /admin/inquiries/[id]                        1.87 kB         124 kB
+├ ○ /admin/login                                 1.76 kB         109 kB
+├ ƒ /admin/packages/add                            137 B         130 kB
+├ ○ /admin/packages/batch-review                  3.5 kB         126 kB
+├ ƒ /admin/packages/edit/[id]                      137 B         130 kB
+├ ○ /admin/packages/quick-add                    4.13 kB         126 kB
+├ ƒ /admin/transfers                               166 B         105 kB
+├ ○ /admin/transfers/add                         3.01 kB         108 kB
+├ ƒ /admin/transfers/edit/[id]                   2.75 kB         108 kB
+├ ƒ /agent/bookings                              2.05 kB         107 kB
+├ ƒ /agent/daily-tours                              2 kB         112 kB
+├ ƒ /agent/daily-tours/[id]                      2.18 kB         107 kB
+├ ƒ /agent/dashboard                             2.25 kB         108 kB
+├ ○ /agent/login                                 1.42 kB         107 kB
+├ ƒ /agent/packages                              1.96 kB         112 kB
+├ ƒ /agent/packages/[id]                         7.13 kB         129 kB
+├ ○ /agent/register                              2.21 kB         108 kB
+├ ƒ /agent/transfers                             1.62 kB         107 kB
+├ ƒ /api/admin/agents                              313 B         102 kB
+├ ƒ /api/admin/agents/[id]                         313 B         102 kB
+├ ƒ /api/admin/agents/create                       313 B         102 kB
+├ ƒ /api/admin/agents/send-promo                   313 B         102 kB
+├ ƒ /api/admin/blog                                313 B         102 kB
+├ ƒ /api/admin/blog/[id]                           313 B         102 kB
+├ ƒ /api/admin/blog/generate                       313 B         102 kB
+├ ƒ /api/admin/bookings/[id]                       313 B         102 kB
+├ ƒ /api/admin/bookings/daily-tours/[id]           313 B         102 kB
+├ ƒ /api/admin/bookings/mark-paid                  313 B         102 kB
+├ ƒ /api/admin/bookings/record-agent-payment       313 B         102 kB
+├ ƒ /api/admin/bookings/transfers/[id]             313 B         102 kB
+├ ƒ /api/admin/daily-tours                         313 B         102 kB
+├ ƒ /api/admin/daily-tours/[id]                    313 B         102 kB
+├ ƒ /api/admin/daily-tours/mark-paid               313 B         102 kB
+├ ƒ /api/admin/daily-tours/record-agent-payment    313 B         102 kB
+├ ƒ /api/admin/extract-daily-tour                  313 B         102 kB
+├ ƒ /api/admin/extract-pdf                         313 B         102 kB
+├ ƒ /api/admin/images                              313 B         102 kB
+├ ƒ /api/admin/inquiries/[id]                      313 B         102 kB
+├ ƒ /api/admin/locations                           313 B         102 kB
+├ ƒ /api/admin/locations/[id]                      313 B         102 kB
+├ ƒ /api/admin/login                               313 B         102 kB
+├ ƒ /api/admin/logout                              313 B         102 kB
+├ ƒ /api/admin/next-package-id                     313 B         102 kB
+├ ƒ /api/admin/packages                            313 B         102 kB
+├ ƒ /api/admin/packages/[id]                       313 B         102 kB
+├ ƒ /api/admin/transfers                           313 B         102 kB
+├ ƒ /api/admin/transfers/[id]                      313 B         102 kB
+├ ƒ /api/admin/transfers/mark-paid                 313 B         102 kB
+├ ƒ /api/admin/transfers/record-agent-payment      313 B         102 kB
+├ ƒ /api/admin/transfers/suggest-pricing           313 B         102 kB
+├ ƒ /api/agent/bookings                            313 B         102 kB
+├ ƒ /api/agent/daily-tours/book                    313 B         102 kB
+├ ƒ /api/agent/login                               313 B         102 kB
+├ ƒ /api/agent/logout                              313 B         102 kB
+├ ƒ /api/agent/me                                  313 B         102 kB
+├ ƒ /api/agent/register                            313 B         102 kB
+├ ƒ /api/auth/create-from-booking                  313 B         102 kB
+├ ƒ /api/auth/login                                313 B         102 kB
+├ ƒ /api/auth/logout                               313 B         102 kB
+├ ƒ /api/auth/me                                   313 B         102 kB
+├ ƒ /api/auth/register                             313 B         102 kB
+├ ƒ /api/blog                                      313 B         102 kB
+├ ƒ /api/blog/[slug]                               313 B         102 kB
+├ ƒ /api/bookings                                  313 B         102 kB
+├ ƒ /api/contact                                   313 B         102 kB
+├ ƒ /api/daily-tours                               313 B         102 kB
+├ ƒ /api/daily-tours/book                          313 B         102 kB
+├ ƒ /api/packages                                  313 B         102 kB
+├ ƒ /api/packages/[id]                             313 B         102 kB
+├ ƒ /api/transfers                                 313 B         102 kB
+├ ƒ /api/transfers/book                            313 B         102 kB
+├ ƒ /api/wishlist                                  313 B         102 kB
+├ ○ /blog                                         2.9 kB         125 kB
+├ ƒ /blog/[slug]                                 3.35 kB         125 kB
+├ ○ /booking-success                             3.07 kB         120 kB
+├ ○ /contact                                      3.6 kB         154 kB
+├ ○ /daily-tours                                 5.15 kB         164 kB
+├ ƒ /daily-tours/[tourCode]                      5.69 kB         124 kB
+├ ○ /dashboard                                   3.21 kB         157 kB
+├ ○ /destinations                                2.75 kB         150 kB
+├ ○ /destinations/antalya                        3.18 kB         162 kB
+├ ○ /destinations/bodrum                         3.15 kB         162 kB
+├ ○ /destinations/cappadocia                     3.19 kB         162 kB
+├ ○ /destinations/ephesus                        3.19 kB         162 kB
+├ ○ /destinations/fethiye                        3.17 kB         162 kB
+├ ○ /destinations/istanbul                       3.21 kB         162 kB
+├ ○ /destinations/marmaris                       3.16 kB         162 kB
+├ ○ /destinations/pamukkale                      3.23 kB         162 kB
+├ ○ /inquiry                                     10.2 kB         127 kB
+├ ○ /login                                       2.89 kB         161 kB
+├ ○ /packages                                    6.92 kB         129 kB
+├ ƒ /packages/[id]                               3.21 kB         170 kB
+├ ○ /packages/istanbul-cappadocia-kusadasi       3.51 kB         120 kB
+├ ○ /register                                     2.8 kB         156 kB
+├ ○ /robots.txt                                    313 B         102 kB
+├ ○ /sitemap.xml                                   313 B         102 kB
+├ ○ /tours                                         313 B         102 kB
+├ ○ /tours/hotels-packages                         313 B         102 kB
+├ ƒ /tours/hotels-packages/package/[id]          3.22 kB         170 kB
+├ ○ /tours/land-packages                           313 B         102 kB
+├ ○ /tours/shore-excursions                        313 B         102 kB
+└ ○ /transfers                                   5.43 kB         155 kB
++ First Load JS shared by all                     102 kB
+  ├ chunks/1255-1622f43a1c0ebec5.js              45.7 kB
+  ├ chunks/4bd1b696-f785427dddbba9fb.js          54.2 kB
+  └ other shared chunks (total)                  1.93 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

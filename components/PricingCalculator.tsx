@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import CurrencyConverter from './CurrencyConverter';
-import CountdownTimer from './CountdownTimer';
 
 interface PackageData {
   title: string;
@@ -81,15 +80,11 @@ export default function PricingCalculator({ packageData }: Props) {
   const pricing = calculatePrice();
 
   // Create a date 7 days from now for the countdown
-  const offerEndDate = new Date();
-  offerEndDate.setDate(offerEndDate.getDate() + 7);
 
   return (
     <div className="bg-white rounded-lg shadow-xl p-6 sticky top-20">
       <h3 className="text-2xl font-bold text-gray-900 mb-6">Calculate Your Price</h3>
 
-      {/* Countdown Timer */}
-      <CountdownTimer endDate={offerEndDate} />
 
       {/* Hotel Category Selection - Only for WITH_HOTEL packages */}
       {!isLandOnly && packageData.hotels && (

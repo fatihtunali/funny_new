@@ -7,8 +7,8 @@ echo "🚀 Starting deployment to funnytourism.com..."
 echo ""
 
 # SSH connection details
-SERVER_USER="funny"
-SERVER_HOST="funnytourism.com"
+SERVER_USER="funnytourism"
+SERVER_HOST="134.209.137.11"
 PROJECT_DIR="funny_new"
 APP_NAME="funny-tourism"
 

@@ -9,7 +9,7 @@ echo ""
 # SSH connection details
 SERVER_USER="funnytourism"
 SERVER_HOST="134.209.137.11"
-PROJECT_DIR="funny_new"
+PROJECT_DIR="app"
 APP_NAME="funny-tourism"
 
 echo "📡 Connecting to server: $SERVER_USER@$SERVER_HOST"
@@ -18,7 +18,7 @@ echo ""
 # Execute deployment commands on the server
 ssh $SERVER_USER@$SERVER_HOST << 'ENDSSH'
     echo "📂 Navigating to project directory..."
-    cd funny_new || exit 1
+    cd app || exit 1
 
     echo "⬇️  Pulling latest changes from GitHub..."
     git pull

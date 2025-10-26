@@ -13,7 +13,7 @@ export default function TrustIndicators() {
             <a
               href="https://www.tursab.org.tr/tr/ddsv"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener"
               className="transition-transform hover:scale-105"
             >
               <Image

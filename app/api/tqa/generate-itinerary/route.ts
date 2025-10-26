@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Set route timeout to 4 minutes for long itinerary generation
+export const maxDuration = 240; // 4 minutes in seconds
+
 /**
  * POST /api/tqa/generate-itinerary
  * Proxies to TravelQuoteAI's itinerary generation API with real pricing data
@@ -22,44 +25,59 @@ export async function POST(request: NextRequest) {
     console.log('🔗 TQA URL:', `${tqaUrl}/api/itinerary/preview`);
     console.log('📤 Request data:', JSON.stringify(requestData, null, 2));
 
-    // Call TQA's itinerary preview endpoint with organization ID
-    const response = await fetch(`${tqaUrl}/api/itinerary/preview`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestData),
-    });
+    // Create abort controller with 3.5 minute timeout (less than route timeout)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 210000); // 3.5 minutes
 
-    console.log('📥 TQA Response status:', response.status, response.statusText);
+    try {
+      // Call TQA's itinerary preview endpoint with organization ID
+      const response = await fetch(`${tqaUrl}/api/itinerary/preview`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+        signal: controller.signal,
+      });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('TQA API error response:', errorText);
+      clearTimeout(timeoutId);
 
-      let error;
-      try {
-        error = JSON.parse(errorText);
-      } catch {
-        error = { error: errorText || 'Failed to generate itinerary' };
+      console.log('📥 TQA Response status:', response.status, response.statusText);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('TQA API error response:', errorText);
+
+        let error;
+        try {
+          error = JSON.parse(errorText);
+        } catch {
+          error = { error: errorText || 'Failed to generate itinerary' };
+        }
+
+        // Handle specific error types
+        if (error.error && error.error.includes('Too many requests')) {
+          throw new Error('Our AI is currently busy. Please try again in a few minutes.');
+        }
+        if (error.details && Array.isArray(error.details)) {
+          throw new Error(`${error.error}: ${error.details.join(', ')}`);
+        }
+
+        throw new Error(error.error || 'Failed to generate itinerary');
       }
 
-      // Handle specific error types
-      if (error.error && error.error.includes('Too many requests')) {
-        throw new Error('Our AI is currently busy. Please try again in a few minutes.');
-      }
-      if (error.details && Array.isArray(error.details)) {
-        throw new Error(`${error.error}: ${error.details.join(', ')}`);
-      }
+      const data = await response.json();
 
-      throw new Error(error.error || 'Failed to generate itinerary');
+      console.log('✅ Itinerary generated via TQA:', data.uuid);
+
+      return NextResponse.json(data);
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+        throw new Error('Itinerary generation is taking longer than expected. Please try with fewer destinations or contact support.');
+      }
+      throw fetchError;
     }
-
-    const data = await response.json();
-
-    console.log('✅ Itinerary generated via TQA:', data.uuid);
-
-    return NextResponse.json(data);
   } catch (error) {
     console.error('❌ Error generating itinerary:', error);
     return NextResponse.json(

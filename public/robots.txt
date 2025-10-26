@@ -8,6 +8,15 @@ Disallow: /agent/
 Disallow: /api/
 Disallow: /dashboard/
 
+# Explicitly allow important pages for better indexing
+Allow: /smart-trip-planner
+Allow: /itinerary/
+Allow: /blog/
+Allow: /destinations/
+Allow: /packages/
+Allow: /daily-tours/
+Allow: /transfers
+
 # Sitemap
 Sitemap: https://funnytourism.com/sitemap.xml
 

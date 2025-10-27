@@ -1,7 +1,11 @@
-import Link from 'next/link';
+'use client';
+
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 export default function Footer() {
+  const t = useTranslations('footer');
   return (
     <footer className="bg-gray-100 text-gray-700">
       <div className="section-container py-12">
@@ -18,7 +22,7 @@ export default function Footer() {
               />
             </div>
             <p className="text-sm mb-4">
-              Your trusted partner for unforgettable Turkey experiences. Expertly curated tours across Istanbul, Cappadocia, and beyond.
+              {t('companyDescription')}
             </p>
             {/* TURSAB Certification */}
             <div className="mt-4 mb-4">
@@ -31,7 +35,7 @@ export default function Footer() {
                   className="object-contain hover:opacity-80 transition-all cursor-pointer"
                 />
               </a>
-              <p className="text-xs text-gray-500 mt-2">TURSAB License: 7747</p>
+              <p className="text-xs text-gray-500 mt-2">{t('tursabLicense')}</p>
             </div>
             {/* Yandex Site Info */}
             <div className="mt-4">
@@ -66,21 +70,21 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-gray-900 text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-gray-900 text-lg font-semibold mb-4">{t('quickLinks')}</h3>
             <ul className="space-y-2">
-              <li><Link href="/packages" className="hover:text-primary-600 transition-colors">Tour Packages</Link></li>
-              <li><Link href="/daily-tours" className="hover:text-primary-600 transition-colors">Daily Tours</Link></li>
-              <li><Link href="/transfers" className="hover:text-primary-600 transition-colors">Transfers</Link></li>
-              <li><Link href="/destinations" className="hover:text-primary-600 transition-colors">Destinations</Link></li>
-              <li><Link href="/blog" className="hover:text-primary-600 transition-colors">Blog</Link></li>
-              <li><Link href="/about" className="hover:text-primary-600 transition-colors">About Us</Link></li>
-              <li><Link href="/contact" className="hover:text-primary-600 transition-colors">Contact</Link></li>
+              <li><Link href="/packages" className="hover:text-primary-600 transition-colors">{t('tourPackages')}</Link></li>
+              <li><Link href="/daily-tours" className="hover:text-primary-600 transition-colors">{t('dailyTours')}</Link></li>
+              <li><Link href="/transfers" className="hover:text-primary-600 transition-colors">{t('transfers')}</Link></li>
+              <li><Link href="/destinations" className="hover:text-primary-600 transition-colors">{t('destinations')}</Link></li>
+              <li><Link href="/blog" className="hover:text-primary-600 transition-colors">{t('blog')}</Link></li>
+              <li><Link href="/about" className="hover:text-primary-600 transition-colors">{t('aboutUs')}</Link></li>
+              <li><Link href="/contact" className="hover:text-primary-600 transition-colors">{t('contact')}</Link></li>
               <li className="pt-2 border-t border-gray-300">
                 <Link href="/agent/login" className="text-primary-600 hover:text-primary-700 transition-colors font-medium flex items-center">
                   <svg className="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  Agent Login (B2B)
+                  {t('agentLogin')}
                 </Link>
               </li>
             </ul>
@@ -88,64 +92,64 @@ export default function Footer() {
 
           {/* Popular Destinations */}
           <div>
-            <h3 className="text-gray-900 text-lg font-semibold mb-4">Destinations</h3>
+            <h3 className="text-gray-900 text-lg font-semibold mb-4">{t('popularDestinations')}</h3>
             <ul className="space-y-2">
-              <li><Link href="/destinations/istanbul" className="hover:text-primary-600 transition-colors">Istanbul</Link></li>
-              <li><Link href="/destinations/cappadocia" className="hover:text-primary-600 transition-colors">Cappadocia</Link></li>
-              <li><Link href="/destinations/ephesus" className="hover:text-primary-600 transition-colors">Ephesus</Link></li>
-              <li><Link href="/destinations/pamukkale" className="hover:text-primary-600 transition-colors">Pamukkale</Link></li>
-              <li><Link href="/destinations/kusadasi" className="hover:text-primary-600 transition-colors">Kusadasi</Link></li>
+              <li><Link href="/destinations/istanbul" className="hover:text-primary-600 transition-colors">{t('istanbul')}</Link></li>
+              <li><Link href="/destinations/cappadocia" className="hover:text-primary-600 transition-colors">{t('cappadocia')}</Link></li>
+              <li><Link href="/destinations/ephesus" className="hover:text-primary-600 transition-colors">{t('ephesus')}</Link></li>
+              <li><Link href="/destinations/pamukkale" className="hover:text-primary-600 transition-colors">{t('pamukkale')}</Link></li>
+              <li><Link href="/destinations/kusadasi" className="hover:text-primary-600 transition-colors">{t('kusadasi')}</Link></li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-gray-900 text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-gray-900 text-lg font-semibold mb-4">{t('contactUs')}</h3>
             <ul className="space-y-2 text-sm">
               <li className="flex items-start">
                 <svg className="h-5 w-5 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span>Mehmet Akif Ersoy Mah Hanımeli Sok No 5/B<br />Uskudar - Istanbul</span>
+                <span dangerouslySetInnerHTML={{ __html: t('address') }} />
               </li>
               <li className="flex items-center">
                 <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <a href="mailto:info@funnytourism.com" className="hover:text-primary-600 transition-colors">info@funnytourism.com</a>
+                <a href={`mailto:${t('email')}`} className="hover:text-primary-600 transition-colors">{t('email')}</a>
               </li>
               <li className="flex items-center">
                 <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                <a href="https://wa.me/905395025310" className="hover:text-primary-600 transition-colors">WhatsApp: +90 539 502 53 10</a>
+                <a href="https://wa.me/905395025310" className="hover:text-primary-600 transition-colors">{t('whatsapp')}</a>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-gray-300 mt-8 pt-8 text-sm text-center">
-          <p>&copy; {new Date().getFullYear()} Funny Tourism. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {t('copyright')}</p>
           <p className="mt-1 text-xs text-gray-500">
-            A brand of DYF TURIZM TIC LTD STI
+            {t('brandOf')}
           </p>
           <p className="mt-2 text-xs">
             <Link href="/privacy" className="text-gray-600 hover:text-primary-600 transition-colors">
-              Privacy Policy
+              {t('privacyPolicy')}
             </Link>
             {' · '}
             <Link href="/terms" className="text-gray-600 hover:text-primary-600 transition-colors">
-              Terms & Conditions
+              {t('termsConditions')}
             </Link>
           </p>
           <p className="mt-2 text-xs">
             <Link href="/admin/dashboard" className="text-gray-500 hover:text-primary-600 transition-colors">
-              Admin
+              {t('admin')}
             </Link>
             {' · '}
             <Link href="/agent/login" className="text-gray-500 hover:text-primary-600 transition-colors">
-              B2B Portal
+              {t('b2bPortal')}
             </Link>
           </p>
         </div>

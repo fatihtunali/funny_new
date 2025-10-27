@@ -1,11 +1,13 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { FaUser, FaSignInAlt, FaMagic } from 'react-icons/fa';
 
 export default function Navigation() {
+  const t = useTranslations('navigation');
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<{ name: string } | null>(null);
 
@@ -48,42 +50,42 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link href="/" className="text-gray-700 hover:text-primary-600 transition-colors">
-              Home
+              {t('home')}
             </Link>
             <Link href="/packages" className="text-gray-700 hover:text-primary-600 transition-colors">
-              Packages
+              {t('packages')}
             </Link>
             <Link href="/daily-tours" className="text-gray-700 hover:text-primary-600 transition-colors">
-              Daily Tours
+              {t('dailyTours')}
             </Link>
             <Link href="/transfers" className="text-gray-700 hover:text-primary-600 transition-colors">
-              Transfers
+              {t('transfers')}
             </Link>
             <Link href="/destinations" className="text-gray-700 hover:text-primary-600 transition-colors">
-              Destinations
+              {t('destinations')}
             </Link>
 
             <Link href="/agent/register" className="text-sm text-primary-600 hover:text-primary-700 font-medium transition-colors">
-              Partner with Us
+              {t('partnerWithUs')}
             </Link>
 
             {user ? (
               <Link href="/dashboard" className="flex items-center btn-primary">
                 <FaUser className="mr-2" />
-                My Bookings
+                {t('myBookings')}
               </Link>
             ) : (
               <div className="flex items-center space-x-3">
                 <Link href="/login" className="flex items-center text-gray-700 hover:text-primary-600 transition-colors">
                   <FaSignInAlt className="mr-2" />
-                  Login
+                  {t('login')}
                 </Link>
                 <Link href="/smart-trip-planner" className="flex items-center bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white px-4 py-2 rounded-lg font-semibold transition-all shadow-md">
                   <FaMagic className="mr-2" />
-                  Smart Planner
+                  {t('smartPlanner')}
                 </Link>
                 <Link href="/inquiry" className="btn-primary">
-                  Get Quote
+                  {t('getQuote')}
                 </Link>
               </div>
             )}
@@ -93,7 +95,7 @@ export default function Navigation() {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden p-3 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 relative z-50"
-            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-label={isOpen ? t('closeMenu') : t('openMenu')}
           >
             <svg
               className="h-7 w-7"
@@ -117,39 +119,39 @@ export default function Navigation() {
         {isOpen && (
           <div className="md:hidden py-4 space-y-2">
             <Link href="/" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
-              Home
+              {t('home')}
             </Link>
             <Link href="/packages" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
-              Packages
+              {t('packages')}
             </Link>
             <Link href="/daily-tours" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
-              Daily Tours
+              {t('dailyTours')}
             </Link>
             <Link href="/transfers" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
-              Transfers
+              {t('transfers')}
             </Link>
             <Link href="/destinations" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
-              Destinations
+              {t('destinations')}
             </Link>
 
             <Link href="/agent/register" className="block px-4 py-2 text-primary-600 font-medium hover:bg-primary-50 rounded" onClick={closeMenu}>
-              Partner with Us
+              {t('partnerWithUs')}
             </Link>
 
             {user ? (
               <Link href="/dashboard" className="block mx-4 text-center btn-primary" onClick={closeMenu}>
-                My Bookings
+                {t('myBookings')}
               </Link>
             ) : (
               <>
                 <Link href="/login" className="block mx-4 text-center btn-secondary" onClick={closeMenu}>
-                  Login
+                  {t('login')}
                 </Link>
                 <Link href="/smart-trip-planner" className="block mx-4 text-center bg-gradient-to-r from-accent-500 to-accent-600 text-white px-4 py-3 rounded-lg font-semibold" onClick={closeMenu}>
-                  ✨ Smart Trip Planner
+                  ✨ {t('smartPlanner')}
                 </Link>
                 <Link href="/inquiry" className="block mx-4 text-center btn-primary" onClick={closeMenu}>
-                  Get Quote
+                  {t('getQuote')}
                 </Link>
               </>
             )}

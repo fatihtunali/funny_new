@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { FaEye, FaEnvelope, FaPhone, FaCalendar, FaMapMarkerAlt, FaSpinner, FaExclamationTriangle } from 'react-icons/fa';
+import { FaEye, FaEnvelope, FaPhone, FaCalendar, FaMapMarkerAlt, FaSpinner, FaExclamationTriangle, FaArrowLeft } from 'react-icons/fa';
 
 interface Itinerary {
   uuid: string;
@@ -109,6 +109,20 @@ export default function ItinerariesClient() {
 
   return (
     <div className="space-y-6">
+      {/* Header with Back to Dashboard */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Link
+            href="/admin/dashboard"
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            <FaArrowLeft className="text-sm" />
+            <span className="font-medium">Back to Dashboard</span>
+          </Link>
+          <h1 className="text-2xl font-bold text-gray-900">Customer Itineraries</h1>
+        </div>
+      </div>
+
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <div className="bg-white rounded-lg shadow p-4">

@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "restart": "npx kill-port 3000 && rm -rf .next && npm run build && npm run dev",
     "create-admin": "tsx scripts/create-admin.ts",
     "create-agent": "tsx scripts/create-agent.ts",
     "import-agents": "tsx scripts/import-agents.ts",

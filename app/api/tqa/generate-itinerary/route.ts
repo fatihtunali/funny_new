@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Set route timeout to 4 minutes for long itinerary generation
-export const maxDuration = 240; // 4 minutes in seconds
+// Set route timeout to 10 minutes for long itinerary generation
+export const maxDuration = 600; // 10 minutes in seconds
 
 /**
  * POST /api/tqa/generate-itinerary
@@ -25,9 +25,9 @@ export async function POST(request: NextRequest) {
     console.log('🔗 TQA URL:', `${tqaUrl}/api/itinerary/preview`);
     console.log('📤 Request data:', JSON.stringify(requestData, null, 2));
 
-    // Create abort controller with 3.5 minute timeout (less than route timeout)
+    // Create abort controller with 9.5 minute timeout (less than route timeout)
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 210000); // 3.5 minutes
+    const timeoutId = setTimeout(() => controller.abort(), 570000); // 9.5 minutes
 
     try {
       // Call TQA's itinerary preview endpoint with organization ID

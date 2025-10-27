@@ -30,13 +30,13 @@ ssh $SERVER_USER@$SERVER_HOST << 'ENDSSH'
     npm run build
 
     echo "🔄 Restarting application with PM2..."
-    pm2 restart funny-tourism
+    pm2 restart funnytourism
 
     echo ""
     echo "✅ Deployment completed successfully!"
     echo ""
     echo "📊 Application status:"
-    pm2 status funny-tourism
+    pm2 status funnytourism
 
     echo ""
     echo "🌐 Application is now live at https://www.funnytourism.com"

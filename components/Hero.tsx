@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import { FaMagic } from 'react-icons/fa';
+import { useTranslations } from 'next-intl';
 
 export default function Hero() {
+  const t = useTranslations('hero');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const heroImages = [
@@ -48,12 +50,12 @@ export default function Hero() {
       <div className="relative z-10 section-container text-center text-white px-4 py-8 md:py-0">
         {/* Main Headline - More focused */}
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
-          Discover the Magic of
-          <span className="block text-accent-400 mt-2">Turkey</span>
+          {t('titleLine1')}
+          <span className="block text-accent-400 mt-2">{t('titleLine2')}</span>
         </h1>
 
         <p className="text-lg md:text-2xl mb-6 md:mb-8 max-w-3xl mx-auto font-light drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-          Expert-guided tours • Premium hotels • Unforgettable experiences
+          {t('subtitle')}
         </p>
 
         {/* AI Trip Planner CTA - Single, prominent */}
@@ -65,8 +67,8 @@ export default function Hero() {
           >
             <FaMagic className="text-2xl" />
             <div className="text-left">
-              <div>Get Your Custom Quote</div>
-              <div className="text-sm font-normal opacity-90">With AI in less than a minute</div>
+              <div>{t('ctaButton')}</div>
+              <div className="text-sm font-normal opacity-90">{t('ctaSubtext')}</div>
             </div>
           </Link>
 
@@ -76,7 +78,7 @@ export default function Hero() {
               href="/packages"
               className="text-white/90 hover:text-white text-sm font-medium underline decoration-white/50 hover:decoration-white transition-all drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]"
             >
-              or browse our ready-made packages
+              {t('browsePackagesLink')}
             </Link>
           </div>
         </div>

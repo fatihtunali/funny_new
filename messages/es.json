@@ -14,17 +14,17 @@
     "closeMenu": "Cerrar menú"
   },
   "footer": {
-    "companyDescription": "Tu socio de confianza para experiencias inolvidables en Turquía. Tours cuidadosamente seleccionados por Estambul, Capadocia y más allá.",
+    "companyDescription": "Tu socio de confianza para experiencias inolvidables en Turquía. Tours cuidadosamente seleccionados en Estambul, Capadocia y más allá.",
     "tursabLicense": "Licencia TURSAB: 7747",
     "quickLinks": "Enlaces Rápidos",
-    "tourPackages": "Paquetes de Tours",
+    "tourPackages": "Paquetes Turísticos",
     "dailyTours": "Tours Diarios",
     "transfers": "Traslados",
     "destinations": "Destinos",
     "blog": "Blog",
     "aboutUs": "Sobre Nosotros",
     "contact": "Contacto",
-    "agentLogin": "Acceso Agente (B2B)",
+    "agentLogin": "Inicio de Sesión de Agente (B2B)",
     "popularDestinations": "Destinos",
     "istanbul": "Estambul",
     "cappadocia": "Capadocia",
@@ -39,7 +39,7 @@
     "brandOf": "Una marca de DYF TURIZM TIC LTD STI",
     "privacyPolicy": "Política de Privacidad",
     "termsConditions": "Términos y Condiciones",
-    "admin": "Admin",
+    "admin": "Administrador",
     "b2bPortal": "Portal B2B"
   },
   "common": {
@@ -73,31 +73,33 @@
     "contactUsForDetails": "Contáctanos para más detalles"
   },
   "hero": {
-    "title": "Descubre la Magia de Turquía",
-    "subtitle": "Experimenta la auténtica cultura turca con tours cuidadosamente seleccionados",
-    "searchPlaceholder": "¿A dónde quieres ir?",
-    "searchButton": "Buscar Tours",
-    "explorePackages": "Explora Nuestros Paquetes"
+    "titleLine1": "Descubre la Magia de",
+    "titleLine2": "Turquía",
+    "subtitle": "Tours guiados por expertos • Hoteles premium • Experiencias inolvidables",
+    "ctaButton": "Obtén tu Cotización Personalizada",
+    "ctaSubtext": "Con IA en menos de un minuto",
+    "browsePackagesLink": "o explora nuestros paquetes listos"
   },
   "trustIndicators": {
     "title": "Por Qué los Viajeros Confían en Nosotros",
     "yearsExperience": "Años de Experiencia",
     "happyCustomers": "Clientes Satisfechos",
-    "tourPackages": "Paquetes de Tours",
+    "tourPackages": "Paquetes Turísticos",
     "expertGuides": "Guías Expertos"
   },
   "howItWorks": {
     "title": "Cómo Funciona",
-    "subtitle": "Reserva tus vacaciones soñadas en Turquía en 3 sencillos pasos",
-    "step1Title": "Elige Tu Tour",
-    "step1Description": "Explora nuestra selección de paquetes de tours en Turquía",
-    "step2Title": "Personaliza Tu Experiencia",
-    "step2Description": "Adapta tu itinerario a tus preferencias",
-    "step3Title": "Disfruta Tu Viaje",
-    "step3Description": "Relájate y deja que nos encarguemos de todos los detalles"
+    "subtitle": "Planear tus vacaciones soñadas en Turquía es tan fácil como 1-2-3",
+    "step1Title": "Explora y Descubre",
+    "step1Description": "Explora nuestros paquetes turísticos seleccionados de Turquía o utiliza nuestro Planificador de Viajes Inteligente para crear un itinerario personalizado",
+    "step2Title": "Personaliza y Reserva",
+    "step2Description": "Adapta tu viaje a tus preferencias, selecciona hoteles y reserva de manera segura con opciones de pago flexibles",
+    "step3Title": "Viaja y Disfruta",
+    "step3Description": "¡Prepara tus maletas! Nos encargamos de todos los detalles mientras creas recuerdos inolvidables en Turquía",
+    "ctaButton": "Comienza a Planear tu Viaje"
   },
   "featuredPackages": {
-    "title": "Paquetes de Tours Destacados",
+    "title": "Paquetes Turísticos Destacados",
     "subtitle": "Experiencias seleccionadas que muestran lo mejor de Turquía",
     "viewAllPackages": "Ver Todos los Paquetes"
   },
@@ -106,11 +108,11 @@
     "subtitle": "Tu socio de confianza para aventuras inolvidables en Turquía",
     "expertGuides": "Guías Locales Expertos",
     "expertGuidesDesc": "Nuestros guías conocedores dan vida a la historia y cultura de Turquía",
-    "bestPrices": "Mejor Garantía de Precio",
+    "bestPrices": "Garantía del Mejor Precio",
     "bestPricesDesc": "Tarifas competitivas sin comprometer la calidad o la experiencia",
     "flexibility": "Itinerarios Flexibles",
-    "flexibilityDesc": "Personaliza los tours para que coincidan con tus intereses y estilo de viaje",
-    "support": "Atención al Cliente 24/7",
+    "flexibilityDesc": "Personaliza tours para que coincidan con tus intereses y estilo de viaje",
+    "support": "Soporte al Cliente 24/7",
     "supportDesc": "Siempre estamos aquí para ayudarte antes, durante y después de tu viaje"
   },
   "destinations": {
@@ -125,10 +127,10 @@
   "newsletter": {
     "title": "Obtén Ofertas de Viaje Exclusivas",
     "subtitle": "Suscríbete a nuestro boletín para ofertas especiales y consejos de viaje",
-    "emailPlaceholder": "Ingresa tu correo electrónico",
+    "emailPlaceholder": "Introduce tu correo electrónico",
     "subscribeButton": "Suscribirse",
     "successMessage": "¡Gracias por suscribirte!",
-    "errorMessage": "Por favor, ingresa una dirección de correo electrónico válida"
+    "errorMessage": "Por favor, introduce una dirección de correo válida"
   },
   "callToAction": {
     "title": "¿Listo para Explorar Turquía?",
@@ -137,14 +139,14 @@
     "contactUs": "Contáctanos"
   },
   "packages": {
-    "title": "Paquetes de Tours",
-    "subtitle": "Explora nuestros completos paquetes de tours por Turquía",
+    "title": "Paquetes Turísticos",
+    "subtitle": "Explora nuestros completos paquetes turísticos por Turquía",
     "filterByDestination": "Filtrar por Destino",
     "allDestinations": "Todos los Destinos",
     "noPackagesFound": "No se encontraron paquetes que coincidan con tus criterios",
     "packageDetails": "Detalles del Paquete",
-    "inclusions": "Incluye",
-    "exclusions": "No Incluye",
+    "inclusions": "Inclusiones",
+    "exclusions": "Exclusiones",
     "itinerary": "Itinerario",
     "day": "Día",
     "pricing": "Precios",
@@ -160,7 +162,7 @@
     "people": "Personas",
     "totalPrice": "Precio Total",
     "pricePerPerson": "Precio Por Persona",
-    "bookThisTour": "Reservar Este Tour",
+    "bookThisTour": "Reserva Este Tour",
     "requestQuote": "Solicitar Cotización"
   },
   "dailyTours": {
@@ -173,15 +175,15 @@
     "pickupIncluded": "Recogida Incluida",
     "guideIncluded": "Guía Incluido",
     "mealIncluded": "Comida Incluida",
-    "highlights": "Lo Más Destacado",
-    "whatsIncluded": "Qué Incluye",
-    "whatsNotIncluded": "Qué No Incluye",
+    "highlights": "Destacados",
+    "whatsIncluded": "Qué Está Incluido",
+    "whatsNotIncluded": "Qué No Está Incluido",
     "meetingPoint": "Punto de Encuentro",
     "departureTime": "Hora de Salida"
   },
   "transfers": {
     "title": "Traslados de Aeropuerto y Hotel",
-    "subtitle": "Servicios de transporte cómodos y confiables por toda Turquía",
+    "subtitle": "Servicios de transporte cómodos y confiables en toda Turquía",
     "from": "Desde",
     "to": "Hasta",
     "selectLocation": "Seleccionar Ubicación",
@@ -198,7 +200,7 @@
     "date": "Fecha",
     "time": "Hora",
     "flightNumber": "Número de Vuelo (Opcional)",
-    "specialRequests": "Solicitudes Especiales",
+    "specialRequests": "Peticiones Especiales",
     "calculatePrice": "Calcular Precio",
     "bookTransfer": "Reservar Traslado"
   },
@@ -206,13 +208,13 @@
     "loginTitle": "Bienvenido de Nuevo",
     "loginSubtitle": "Inicia sesión para gestionar tus reservas y perfil",
     "registerTitle": "Crea Tu Cuenta",
-    "registerSubtitle": "Únete a nosotros para comenzar tu aventura en Turquía",
-    "email": "Correo Electrónico",
+    "registerSubtitle": "Únete a nosotros para comenzar tu aventura turca",
+    "email": "Dirección de Correo",
     "password": "Contraseña",
     "confirmPassword": "Confirmar Contraseña",
     "fullName": "Nombre Completo",
     "phone": "Número de Teléfono",
-    "forgotPassword": "¿Olvidaste tu Contraseña?",
+    "forgotPassword": "¿Olvidaste la Contraseña?",
     "loginButton": "Iniciar Sesión",
     "registerButton": "Crear Cuenta",
     "noAccount": "¿No tienes una cuenta?",
@@ -220,7 +222,7 @@
     "signUp": "Regístrate",
     "signIn": "Inicia Sesión",
     "logoutButton": "Cerrar Sesión",
-    "loginError": "Correo electrónico o contraseña inválidos",
+    "loginError": "Correo o contraseña inválidos",
     "registerError": "Error en el registro. Por favor, inténtalo de nuevo.",
     "passwordMismatch": "Las contraseñas no coinciden",
     "requiredField": "Este campo es obligatorio"
@@ -229,7 +231,7 @@
     "title": "Mi Panel",
     "welcomeBack": "Bienvenido de nuevo",
     "myBookings": "Mis Reservas",
-    "upcomingBookings": "Próximas Reservas",
+    "upcomingBookings": "Reservas Próximas",
     "pastBookings": "Reservas Pasadas",
     "bookingReference": "Referencia de Reserva",
     "bookingDate": "Fecha de Reserva",
@@ -252,7 +254,7 @@
     "title": "Contáctanos",
     "subtitle": "Nos encantaría saber de ti. Envíanos un mensaje y te responderemos lo antes posible.",
     "name": "Tu Nombre",
-    "email": "Tu Correo Electrónico",
+    "email": "Tu Correo",
     "subject": "Asunto",
     "message": "Tu Mensaje",
     "sendMessage": "Enviar Mensaje",
@@ -260,7 +262,7 @@
     "errorMessage": "Error al enviar el mensaje. Por favor, inténtalo de nuevo.",
     "getInTouch": "Ponte en Contacto",
     "officeAddress": "Dirección de la Oficina",
-    "emailAddress": "Correo Electrónico",
+    "emailAddress": "Dirección de Correo",
     "phoneNumber": "Número de Teléfono",
     "businessHours": "Horario de Atención",
     "mondayFriday": "Lunes - Viernes",
@@ -288,7 +290,7 @@
       "history": "Sitios Históricos",
       "culture": "Experiencias Culturales",
       "nature": "Naturaleza y Aire Libre",
-      "food": "Gastronomía",
+      "food": "Gastronomía y Culinaria",
       "adventure": "Actividades de Aventura",
       "relaxation": "Relajación y Ocio"
     },
@@ -296,8 +298,8 @@
     "submitInquiry": "Enviar Consulta"
   },
   "smartPlanner": {
-    "title": "Planificador de Viajes Inteligente",
-    "subtitle": "Deja que la IA cree tu itinerario perfecto por Turquía",
+    "title": "Planificador de Viaje Inteligente",
+    "subtitle": "Deja que la IA cree tu itinerario perfecto en Turquía",
     "howManyDays": "¿Cuántos días estarás en Turquía?",
     "whatInterestsYou": "¿Qué te interesa?",
     "startingCity": "Ciudad de Inicio",

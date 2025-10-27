@@ -1,29 +1,32 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { FaSearch, FaEdit, FaPlane } from 'react-icons/fa';
+import { useTranslations } from 'next-intl';
 
 export default function HowItWorks() {
+  const t = useTranslations('howItWorks');
+
   const steps = [
     {
       icon: <FaSearch className="text-4xl" />,
       number: "1",
-      title: "Browse & Discover",
-      description: "Explore our curated Turkey tour packages or use our Smart Trip Planner to create a custom itinerary",
+      titleKey: "step1Title",
+      descriptionKey: "step1Description",
       color: "from-blue-500 to-blue-600"
     },
     {
       icon: <FaEdit className="text-4xl" />,
       number: "2",
-      title: "Customize & Book",
-      description: "Tailor your trip to your preferences, select hotels, and book securely with flexible payment options",
+      titleKey: "step2Title",
+      descriptionKey: "step2Description",
       color: "from-orange-500 to-orange-600"
     },
     {
       icon: <FaPlane className="text-4xl" />,
       number: "3",
-      title: "Travel & Enjoy",
-      description: "Pack your bags! We'll handle all the details while you create unforgettable memories in Turkey",
+      titleKey: "step3Title",
+      descriptionKey: "step3Description",
       color: "from-green-500 to-green-600"
     }
   ];
@@ -34,10 +37,10 @@ export default function HowItWorks() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            How It Works
+            {t('title')}
           </h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            Planning your dream Turkey vacation is as easy as 1-2-3
+            {t('subtitle')}
           </p>
         </div>
 
@@ -64,10 +67,10 @@ export default function HowItWorks() {
 
                 {/* Content */}
                 <h3 className="text-2xl font-bold text-gray-900 mb-3 text-center">
-                  {step.title}
+                  {t(step.titleKey)}
                 </h3>
                 <p className="text-gray-600 text-center leading-relaxed">
-                  {step.description}
+                  {t(step.descriptionKey)}
                 </p>
               </div>
 
@@ -94,7 +97,7 @@ export default function HowItWorks() {
             href="/packages"
             className="inline-block bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-bold px-10 py-4 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-200"
           >
-            Start Planning Your Trip
+            {t('ctaButton')}
           </Link>
         </div>
       </div>

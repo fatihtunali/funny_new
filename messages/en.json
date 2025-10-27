@@ -73,11 +73,12 @@
     "contactUsForDetails": "Contact us for details"
   },
   "hero": {
-    "title": "Discover the Magic of Turkey",
-    "subtitle": "Experience authentic Turkish culture with expertly curated tours",
-    "searchPlaceholder": "Where do you want to go?",
-    "searchButton": "Search Tours",
-    "explorePackages": "Explore Our Packages"
+    "titleLine1": "Discover the Magic of",
+    "titleLine2": "Turkey",
+    "subtitle": "Expert-guided tours • Premium hotels • Unforgettable experiences",
+    "ctaButton": "Get Your Custom Quote",
+    "ctaSubtext": "With AI in less than a minute",
+    "browsePackagesLink": "or browse our ready-made packages"
   },
   "trustIndicators": {
     "title": "Why Travelers Trust Us",
@@ -88,13 +89,14 @@
   },
   "howItWorks": {
     "title": "How It Works",
-    "subtitle": "Book your dream Turkey vacation in 3 easy steps",
-    "step1Title": "Choose Your Tour",
-    "step1Description": "Browse our curated selection of Turkey tour packages",
-    "step2Title": "Customize Your Experience",
-    "step2Description": "Tailor your itinerary to match your preferences",
-    "step3Title": "Enjoy Your Journey",
-    "step3Description": "Relax and let us handle all the details"
+    "subtitle": "Planning your dream Turkey vacation is as easy as 1-2-3",
+    "step1Title": "Browse & Discover",
+    "step1Description": "Explore our curated Turkey tour packages or use our Smart Trip Planner to create a custom itinerary",
+    "step2Title": "Customize & Book",
+    "step2Description": "Tailor your trip to your preferences, select hotels, and book securely with flexible payment options",
+    "step3Title": "Travel & Enjoy",
+    "step3Description": "Pack your bags! We'll handle all the details while you create unforgettable memories in Turkey",
+    "ctaButton": "Start Planning Your Trip"
   },
   "featuredPackages": {
     "title": "Featured Tour Packages",

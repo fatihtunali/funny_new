@@ -20,11 +20,12 @@ export const config = {
   // Match all pathnames except for:
   // - /api routes (API endpoints)
   // - /admin routes (admin panel - not translated)
+  // - /agent routes (B2B portal - not translated)
   // - /_next (Next.js internals)
   // - /_vercel (Vercel internals)
   // - Static files (images, fonts, etc.)
   matcher: [
-    '/((?!api|admin|_next|_vercel|.*\\..*).*)',
+    '/((?!api|admin|agent|_next|_vercel|.*\\..*).*)',
     // Include root
     '/',
     // Include paths with locale

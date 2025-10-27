@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
+import { useTranslations } from 'next-intl';
 
 export default function Newsletter() {
+  const t = useTranslations('newsletter');
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -13,7 +15,7 @@ export default function Newsletter() {
 
     if (!email) {
       setStatus('error');
-      setMessage('Please enter your email address');
+      setMessage(t('errorMessageRequired'));
       return;
     }
 
@@ -21,7 +23,7 @@ export default function Newsletter() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setStatus('error');
-      setMessage('Please enter a valid email address');
+      setMessage(t('errorMessageInvalid'));
       return;
     }
 
@@ -31,7 +33,7 @@ export default function Newsletter() {
     // In production, you'd send this to your email marketing service
     setTimeout(() => {
       setStatus('success');
-      setMessage('Thank you for subscribing! Check your inbox for exclusive deals.');
+      setMessage(t('successMessage'));
       setEmail('');
 
       // Reset after 5 seconds
@@ -54,10 +56,10 @@ export default function Newsletter() {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Get Exclusive Travel Deals
+              {t('title')}
             </h2>
             <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto">
-              Subscribe to our newsletter and receive special offers, insider tips, and early access to new tour packages
+              {t('subtitle')}
             </p>
           </div>
 
@@ -73,7 +75,7 @@ export default function Newsletter() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email address"
+                  placeholder={t('emailPlaceholder')}
                   className="flex-1 px-6 py-4 text-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
                   disabled={status === 'loading'}
                 />
@@ -85,12 +87,12 @@ export default function Newsletter() {
                   {status === 'loading' ? (
                     <>
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      <span>Subscribing...</span>
+                      <span>{t('subscribing')}</span>
                     </>
                   ) : (
                     <>
                       <FaPaperPlane />
-                      <span>Subscribe</span>
+                      <span>{t('subscribeButton')}</span>
                     </>
                   )}
                 </button>
@@ -101,7 +103,7 @@ export default function Newsletter() {
               )}
 
               <p className="text-blue-100 text-sm mt-4 text-center">
-                We respect your privacy. Unsubscribe at any time. No spam, we promise!
+                {t('privacyText')}
               </p>
             </form>
           )}
@@ -112,22 +114,22 @@ export default function Newsletter() {
               <div className="bg-white/20 backdrop-blur-sm rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
                 <span className="text-3xl">💰</span>
               </div>
-              <h3 className="text-white font-semibold mb-1">Exclusive Discounts</h3>
-              <p className="text-blue-100 text-sm">Up to 20% off selected tours</p>
+              <h3 className="text-white font-semibold mb-1">{t('benefit1Title')}</h3>
+              <p className="text-blue-100 text-sm">{t('benefit1Desc')}</p>
             </div>
             <div className="text-center">
               <div className="bg-white/20 backdrop-blur-sm rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
                 <span className="text-3xl">🎁</span>
               </div>
-              <h3 className="text-white font-semibold mb-1">Special Offers</h3>
-              <p className="text-blue-100 text-sm">Members-only flash sales</p>
+              <h3 className="text-white font-semibold mb-1">{t('benefit2Title')}</h3>
+              <p className="text-blue-100 text-sm">{t('benefit2Desc')}</p>
             </div>
             <div className="text-center">
               <div className="bg-white/20 backdrop-blur-sm rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3">
                 <span className="text-3xl">✈️</span>
               </div>
-              <h3 className="text-white font-semibold mb-1">Travel Tips</h3>
-              <p className="text-blue-100 text-sm">Expert advice for Turkey</p>
+              <h3 className="text-white font-semibold mb-1">{t('benefit3Title')}</h3>
+              <p className="text-blue-100 text-sm">{t('benefit3Desc')}</p>
             </div>
           </div>
         </div>

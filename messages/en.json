@@ -136,17 +136,40 @@
   },
   "newsletter": {
     "title": "Get Exclusive Travel Deals",
-    "subtitle": "Subscribe to our newsletter for special offers and travel tips",
-    "emailPlaceholder": "Enter your email",
+    "subtitle": "Subscribe to our newsletter and receive special offers, insider tips, and early access to new tour packages",
+    "emailPlaceholder": "Enter your email address",
     "subscribeButton": "Subscribe",
-    "successMessage": "Thank you for subscribing!",
-    "errorMessage": "Please enter a valid email address"
+    "subscribing": "Subscribing...",
+    "successMessage": "Thank you for subscribing! Check your inbox for exclusive deals.",
+    "errorMessageRequired": "Please enter your email address",
+    "errorMessageInvalid": "Please enter a valid email address",
+    "privacyText": "We respect your privacy. Unsubscribe at any time. No spam, we promise!",
+    "benefit1Title": "Exclusive Discounts",
+    "benefit1Desc": "Up to 20% off selected tours",
+    "benefit2Title": "Special Offers",
+    "benefit2Desc": "Members-only flash sales",
+    "benefit3Title": "Travel Tips",
+    "benefit3Desc": "Expert advice for Turkey"
+  },
+  "trustIndicators": {
+    "officialLicense": "Official License: 7747",
+    "securePayments": "Secure Payments",
+    "sslSecured": "SSL Secured",
+    "encryption": "256-bit Encryption",
+    "verifiedBusiness": "Verified Business",
+    "since2014": "Since 2014",
+    "happyTravelers": "500+ Happy Travelers",
+    "rating": "4.9/5 Rating",
+    "moneyBackGuarantee": "100% Money-Back Guarantee"
   },
   "callToAction": {
     "title": "Ready to Explore Turkey?",
-    "subtitle": "Let us create an unforgettable journey tailored just for you",
-    "getStarted": "Get Started Today",
-    "contactUs": "Contact Us"
+    "subtitle": "Let us create the perfect Turkish adventure for you. Get a free quote today!",
+    "getFreeQuote": "Get Free Quote",
+    "viewAllPackages": "View All Packages",
+    "noHiddenFees": "No Hidden Fees",
+    "bestPriceGuarantee": "Best Price Guarantee",
+    "support247": "24/7 Customer Support"
   },
   "packages": {
     "title": "Tour Packages",

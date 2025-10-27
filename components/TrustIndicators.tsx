@@ -2,8 +2,10 @@
 
 import Image from 'next/image';
 import { FaShieldAlt, FaLock, FaCreditCard } from 'react-icons/fa';
+import { useTranslations } from 'next-intl';
 
 export default function TrustIndicators() {
+  const t = useTranslations('trustIndicators');
   return (
     <section className="py-12 bg-white border-y border-gray-200">
       <div className="section-container">
@@ -24,7 +26,7 @@ export default function TrustIndicators() {
                 className="object-contain"
               />
             </a>
-            <p className="text-xs text-gray-600 mt-2 font-medium">Official License: 7747</p>
+            <p className="text-xs text-gray-600 mt-2 font-medium">{t('officialLicense')}</p>
           </div>
 
           {/* Divider */}
@@ -34,7 +36,7 @@ export default function TrustIndicators() {
           <div className="flex flex-col items-center">
             <div className="flex items-center gap-2 mb-2">
               <FaLock className="text-green-600 text-xl" />
-              <span className="text-sm font-semibold text-gray-900">Secure Payments</span>
+              <span className="text-sm font-semibold text-gray-900">{t('securePayments')}</span>
             </div>
             <div className="flex items-center gap-3 mt-1">
               <div className="bg-white border border-gray-200 rounded px-3 py-1 shadow-sm">
@@ -57,8 +59,8 @@ export default function TrustIndicators() {
             <div className="flex items-center gap-2">
               <FaShieldAlt className="text-blue-600 text-2xl" />
               <div>
-                <div className="text-sm font-semibold text-gray-900">SSL Secured</div>
-                <div className="text-xs text-gray-600">256-bit Encryption</div>
+                <div className="text-sm font-semibold text-gray-900">{t('sslSecured')}</div>
+                <div className="text-xs text-gray-600">{t('encryption')}</div>
               </div>
             </div>
           </div>
@@ -75,8 +77,8 @@ export default function TrustIndicators() {
                 </svg>
               </div>
               <div>
-                <div className="text-sm font-semibold text-gray-900">Verified Business</div>
-                <div className="text-xs text-gray-600">Since 2014</div>
+                <div className="text-sm font-semibold text-gray-900">{t('verifiedBusiness')}</div>
+                <div className="text-xs text-gray-600">{t('since2014')}</div>
               </div>
             </div>
           </div>
@@ -85,9 +87,9 @@ export default function TrustIndicators() {
         {/* Additional Trust Stats */}
         <div className="mt-8 text-center">
           <p className="text-sm text-gray-600">
-            <span className="font-semibold text-gray-900">500+ Happy Travelers</span> •
-            <span className="font-semibold text-gray-900 ml-1">4.9/5 Rating</span> •
-            <span className="font-semibold text-gray-900 ml-1">100% Money-Back Guarantee</span>
+            <span className="font-semibold text-gray-900">{t('happyTravelers')}</span> •
+            <span className="font-semibold text-gray-900 ml-1">{t('rating')}</span> •
+            <span className="font-semibold text-gray-900 ml-1">{t('moneyBackGuarantee')}</span>
           </p>
         </div>
       </div>

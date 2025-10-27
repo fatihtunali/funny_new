@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { FaUser, FaSignInAlt, FaMagic } from 'react-icons/fa';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Navigation() {
   const t = useTranslations('navigation');
@@ -69,6 +70,8 @@ export default function Navigation() {
               {t('partnerWithUs')}
             </Link>
 
+            <LanguageSwitcher />
+
             {user ? (
               <Link href="/dashboard" className="flex items-center btn-primary">
                 <FaUser className="mr-2" />
@@ -118,6 +121,9 @@ export default function Navigation() {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden py-4 space-y-2">
+            <div className="px-4 py-2">
+              <LanguageSwitcher />
+            </div>
             <Link href="/" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
               {t('home')}
             </Link>

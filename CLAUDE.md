@@ -36,7 +36,7 @@ npx prisma studio       # Open Prisma Studio GUI
 # Admin Management
 npm run create-admin    # Interactive CLI to create admin user
 
-# Deployment (Production Server: funny@188.132.230.193)
+# Deployment (Production Server: funny@funnytourism.com)
 bash deploy.sh          # Full deployment: pull + npm install + build + restart
 bash quick-deploy.sh    # Quick deployment: pull + restart (for API/config changes)
 ```
@@ -226,3 +226,5 @@ Uses Tailwind CSS with custom colors defined in [tailwind.config.ts](tailwind.co
 - Accent orange: `accent-500` (#f59e0b)
 
 Framer Motion used for animations (scroll effects, hover states).
+- add to memory
+- bcc info@funnytourism.com please

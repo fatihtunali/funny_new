@@ -79,10 +79,10 @@ npm run import-agents agents-import-template.csv
 
 ```bash
 # Upload your CSV file
-scp agents.csv funny@188.132.230.193:~/funny_new/
+scp agents.csv funny@funnytourism.com:~/funny_new/
 
 # SSH to server
-ssh funny@188.132.230.193
+ssh funny@funnytourism.com
 
 # Run import
 cd ~/funny_new

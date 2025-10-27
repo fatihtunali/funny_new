@@ -7,7 +7,7 @@
 echo "⚡ Quick deployment to funnytourism.com..."
 echo ""
 
-ssh funny@188.132.230.193 << 'ENDSSH'
+ssh funny@funnytourism.com << 'ENDSSH'
     echo "📂 Navigating to project directory..."
     cd funny_new || exit 1
 

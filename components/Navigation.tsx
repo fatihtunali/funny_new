@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { FaUser, FaSignInAlt } from 'react-icons/fa';
+import { FaUser, FaSignInAlt, FaMagic } from 'react-icons/fa';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -78,6 +78,10 @@ export default function Navigation() {
                   <FaSignInAlt className="mr-2" />
                   Login
                 </Link>
+                <Link href="/smart-trip-planner" className="flex items-center bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white px-4 py-2 rounded-lg font-semibold transition-all shadow-md">
+                  <FaMagic className="mr-2" />
+                  Smart Planner
+                </Link>
                 <Link href="/inquiry" className="btn-primary">
                   Get Quote
                 </Link>
@@ -140,6 +144,9 @@ export default function Navigation() {
               <>
                 <Link href="/login" className="block mx-4 text-center btn-secondary" onClick={closeMenu}>
                   Login
+                </Link>
+                <Link href="/smart-trip-planner" className="block mx-4 text-center bg-gradient-to-r from-accent-500 to-accent-600 text-white px-4 py-3 rounded-lg font-semibold" onClick={closeMenu}>
+                  ✨ Smart Trip Planner
                 </Link>
                 <Link href="/inquiry" className="block mx-4 text-center btn-primary" onClick={closeMenu}>
                   Get Quote

@@ -7,10 +7,10 @@ echo "🚀 Starting deployment to funnytourism.com..."
 echo ""
 
 # SSH connection details
-SERVER_USER="funny"
-SERVER_HOST="188.132.230.193"
-PROJECT_DIR="funny_new"
-APP_NAME="funny-tourism"
+SERVER_USER="funnytourism"
+SERVER_HOST="134.209.137.11"
+PROJECT_DIR="app"
+APP_NAME="funnytourism"
 
 echo "📡 Connecting to server: $SERVER_USER@$SERVER_HOST"
 echo ""
@@ -18,7 +18,7 @@ echo ""
 # Execute deployment commands on the server
 ssh $SERVER_USER@$SERVER_HOST << 'ENDSSH'
     echo "📂 Navigating to project directory..."
-    cd funny_new || exit 1
+    cd app || exit 1
 
     echo "⬇️  Pulling latest changes from GitHub..."
     git pull

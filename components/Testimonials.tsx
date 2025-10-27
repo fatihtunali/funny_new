@@ -45,7 +45,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="py-16 bg-primary-50">
+    <section className="pt-12 pb-16 bg-primary-50">
       <div className="section-container">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our Travelers Say</h2>

@@ -127,6 +127,9 @@ export default function Footer() {
 
         <div className="border-t border-gray-300 mt-8 pt-8 text-sm text-center">
           <p>&copy; {new Date().getFullYear()} Funny Tourism. All rights reserved.</p>
+          <p className="mt-1 text-xs text-gray-500">
+            A brand of DYF TURIZM TIC LTD STI
+          </p>
           <p className="mt-2 text-xs">
             <Link href="/privacy" className="text-gray-600 hover:text-primary-600 transition-colors">
               Privacy Policy

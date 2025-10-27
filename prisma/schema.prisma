@@ -626,6 +626,7 @@ model AgentLead {
   address                   String?  @db.Text
   city                      String?
   country                   String
+  googlePlaceId             String?  @db.VarChar(255) // Google Maps Place ID - preserving existing data
   source                    String   // "google", "directory", "social", "manual"
   searchQuery               String?  // What search query found this lead
   discovered                DateTime @default(now())
@@ -640,6 +641,7 @@ model AgentLead {
   @@index([contacted])
   @@index([email])
   @@index([emailExtractionAttempted])
+  @@index([googlePlaceId])
 }
 
 // Track which cities have been searched to avoid duplicates
@@ -697,4 +699,101 @@ model Destination {
   @@index([category])
   @@index([region])
   @@index([isActive])
+}
+
+// Turkish Cities for Smart Trip Planner autocomplete
+model TurkishCity {
+  id              String   @id @default(cuid())
+  name            String   @unique  // "Istanbul", "Cappadocia", "Antalya"
+  displayName     String   // "Istanbul - The Historic Capital"
+  region          String   // "Marmara", "Central Anatolia", "Mediterranean"
+  type            String   @default("DESTINATION") // DESTINATION, AIRPORT, REGION
+
+  // For display in autocomplete
+  description     String?  @db.Text
+  popularityScore Int      @default(0)  // Higher = show first
+
+  // Geographic info
+  latitude        Float?
+  longitude       Float?
+
+  // Status
+  isActive        Boolean  @default(true)
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([name])
+  @@index([popularityScore])
+  @@index([isActive])
+}
+
+// AI-Generated Custom Itineraries
+model CustomItinerary {
+  id                  String   @id @default(uuid())
+
+  // Customer Information
+  customerName        String
+  customerEmail       String
+  customerPhone       String?
+
+  // Trip Request Details (what they submitted)
+  requestedCities     String   @db.Text  // JSON array: [{city: "Istanbul", nights: 3}, ...]
+  startDate           DateTime
+  adults              Int
+  children            Int      @default(0)
+  hotelCategory       String   // "3", "4", "5"
+  tourType            String   // "PRIVATE", "SIC"
+  specialRequests     String?  @db.Text
+
+  // AI Generated Content
+  generatedItinerary  String   @db.LongText  // JSON: {days: [{day: 1, title, description, activities, meals, hotel}, ...]}
+  hotelRecommendations String  @db.Text  // JSON array of recommended hotels per city
+  includedServices    String   @db.Text  // JSON array
+  notIncludedServices String   @db.Text  // JSON array
+
+  // Pricing
+  totalPrice          Float
+  priceBreakdown      String   @db.Text  // JSON: {hotels: 1200, tours: 500, transfers: 300, ...}
+  currency            String   @default("EUR")
+
+  // Generation Metadata
+  aiModel             String   @default("claude-sonnet-4.5")  // Which AI model generated this
+  generationTimeMs    Int?     // How long it took to generate
+  tokensUsed          Int?     // AI tokens consumed
+
+  // Customer Actions
+  status              ItineraryStatus @default(PENDING)
+  viewCount           Int      @default(0)
+  lastViewedAt        DateTime?
+  bookingId           String?  @unique  // If converted to booking
+
+  // Email tracking
+  emailSentAt         DateTime?
+  emailOpenedAt       DateTime?
+
+  // Admin notes
+  adminNotes          String?  @db.Text
+  followUpRequired    Boolean  @default(true)
+
+  // Timestamps
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  convertedToBookingAt DateTime?
+
+  @@index([customerEmail])
+  @@index([status])
+  @@index([createdAt])
+  @@index([followUpRequired])
+  @@index([startDate])
+}
+
+enum ItineraryStatus {
+  PENDING           // Just generated, awaiting customer action
+  VIEWED            // Customer viewed the itinerary
+  INTERESTED        // Customer expressed interest
+  QUOTE_REQUESTED   // Customer wants modifications
+  BOOKED            // Converted to booking
+  CANCELLED         // Customer not interested
 }

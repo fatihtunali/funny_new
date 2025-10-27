@@ -3,7 +3,7 @@ import { getAdminFromToken } from '@/lib/adminAuth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaPlus, FaEdit, FaEye, FaEnvelope, FaChartLine, FaUsers, FaSearch, FaFileImport, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaEye, FaEnvelope, FaChartLine, FaUsers, FaSearch, FaFileImport, FaMapMarkerAlt, FaRoute } from 'react-icons/fa';
 import LogoutButton from '@/components/admin/LogoutButton';
 import DeletePackageButton from '@/components/admin/DeletePackageButton';
 
@@ -97,6 +97,17 @@ export default async function AdminDashboard() {
               </div>
               <div className="bg-white/20 rounded-full p-3">
                 <FaFileImport className="text-2xl text-white" />
+              </div>
+            </div>
+          </Link>
+          <Link href="/admin/itineraries" className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-white mb-2">Smart Trip Planner ✨</p>
+                <p className="text-lg font-semibold text-white">View Itineraries →</p>
+              </div>
+              <div className="bg-white/20 rounded-full p-3">
+                <FaRoute className="text-2xl text-white" />
               </div>
             </div>
           </Link>

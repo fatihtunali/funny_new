@@ -18,7 +18,7 @@ Your website is **95% optimized** and running well! Found 5 issues to fix and 8 
 ## ✅ What's Working Great
 
 ### 1. **Infrastructure** ✅
-- **Server**: Running on `188.132.230.193` with PM2 (online, stable)
+- **Server**: Running on production server with PM2 (online, stable)
 - **CDN**: Cloudflare proxy enabled (excellent performance)
 - **SSL**: Valid HTTPS certificate
 - **Uptime**: Site responding with 200 OK status
@@ -42,7 +42,7 @@ Your website is **95% optimized** and running well! Found 5 issues to fix and 8 
 - **Structured Data**: Ready for implementation
 
 ### 4. **DNS Configuration** ✅
-- **Main Domain**: `funnytourism.com` → `188.132.230.193` (Proxied)
+- **Main Domain**: `funnytourism.com` (Cloudflare Proxied)
 - **WWW**: Properly redirects to main domain
 - **Email Setup**: Microsoft 365 with SPF, DKIM, DMARC ✅
 - **Brevo Integration**: DKIM verified for transactional emails ✅

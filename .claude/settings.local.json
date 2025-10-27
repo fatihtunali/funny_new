@@ -18,7 +18,8 @@
       "Bash(ssh funny@funnytourism.com \"curl -I http://127.0.0.1:3000 2>&1 | grep -i ''etag\\|cache''\")",
       "Bash(ssh funny@funnytourism.com \"pm2 start funny-tourism\")",
       "Bash(ssh:*)",
-      "Bash(scp:*)"
+      "Bash(scp:*)",
+      "Bash(npx tsx:*)"
     ],
     "deny": [],
     "ask": []

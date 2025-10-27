@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
-import WhatsAppWidget from "@/components/WhatsAppWidget";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import { ComparisonProvider } from "@/contexts/ComparisonContext";
-import ComparisonBar from "@/components/ComparisonBar";
 import AnalyticsScripts, { GoogleTagManagerNoScript } from "@/components/AnalyticsScripts";
 import Image from "next/image";
 
@@ -132,11 +128,7 @@ export default function RootLayout({
         <GoogleTagManagerNoScript />
         <WishlistProvider>
           <ComparisonProvider>
-            <Navigation />
-            <main>{children}</main>
-            <Footer />
-            <WhatsAppWidget />
-            <ComparisonBar />
+            {children}
           </ComparisonProvider>
         </WishlistProvider>
       </body>

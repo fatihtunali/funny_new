@@ -19,7 +19,8 @@
       "Bash(ssh funny@funnytourism.com \"pm2 start funny-tourism\")",
       "Bash(ssh:*)",
       "Bash(scp:*)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nRestructure app directory for locale-based routing\n\nMajor Changes:\n- Created app/[locale] directory for internationalized routes\n- Moved all customer-facing pages into [locale]: home, packages, tours, transfers, destinations, auth, dashboard, etc.\n- Kept non-localized routes at root: /api, /admin, /agent\n- Split layout into root (HTML/providers) and locale (nav/footer/i18n)\n\nLayout Structure:\n- app/layout.tsx: Root layout with HTML, analytics, global providers\n- app/[locale]/layout.tsx: Locale-specific with NextIntlClientProvider, Navigation, Footer\n- Added generateMetadata with language alternates\n\nCustomer Routes Now Localized:\n✓ Homepage, packages, daily tours, transfers\n✓ Destinations, login, register, dashboard\n✓ Contact, inquiry, smart trip planner\n✓ About, blog, privacy, terms\n✓ Booking success, itinerary viewer\n\nRoutes Remaining Non-Localized:\n✓ /api/* - API endpoints\n✓ /admin/* - Admin panel\n✓ /agent/* - B2B portal\n\nDev server starts successfully ✓\n\nNext: Update components to use translation hooks\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

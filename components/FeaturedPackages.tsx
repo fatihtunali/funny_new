@@ -1,9 +1,10 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -34,6 +35,7 @@ interface PackageData {
 }
 
 export default function FeaturedPackages() {
+  const t = useTranslations('featuredPackages');
   const [packages, setPackages] = useState<PackageData[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -88,7 +90,7 @@ export default function FeaturedPackages() {
     return (
       <section className="py-16 bg-gray-50">
         <div className="section-container text-center">
-          <p className="text-gray-600">Loading featured packages...</p>
+          <p className="text-gray-600">{t('loading')}</p>
         </div>
       </section>
     );
@@ -99,10 +101,10 @@ export default function FeaturedPackages() {
     return (
       <section className="py-16 bg-gray-50">
         <div className="section-container text-center">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Tour Packages</h2>
-          <p className="text-gray-600">No packages available at the moment. Please check back soon!</p>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('title')}</h2>
+          <p className="text-gray-600">{t('noPackages')}</p>
           <Link href="/packages" className="btn-primary text-lg mt-6 inline-block">
-            View All Tours
+            {t('viewAllTours')}
           </Link>
         </div>
       </section>
@@ -118,9 +120,9 @@ export default function FeaturedPackages() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Featured Tour Packages</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">{t('title')}</h2>
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            Carefully crafted itineraries to help you experience the best of Turkey
+            {t('subtitle')}
           </p>
         </motion.div>
 
@@ -179,7 +181,7 @@ export default function FeaturedPackages() {
                 {getStartingPrice(pkg) && (
                   <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-3">
                     <div className="flex items-baseline justify-center">
-                      <span className="text-sm text-green-700 font-medium mr-2">From</span>
+                      <span className="text-sm text-green-700 font-medium mr-2">{t('from')}</span>
                       <span className="text-2xl font-bold text-green-600">€{getStartingPrice(pkg)}</span>
                       <span className="text-sm text-green-700 ml-1">pp</span>
                     </div>
@@ -207,7 +209,7 @@ export default function FeaturedPackages() {
 
         <div className="text-center mt-12">
           <Link href="/packages" className="btn-primary text-lg">
-            View All Packages
+            {t('viewAllTours')}
           </Link>
         </div>
       </div>

@@ -100,8 +100,12 @@
   },
   "featuredPackages": {
     "title": "Featured Tour Packages",
-    "subtitle": "Handpicked experiences showcasing the best of Turkey",
-    "viewAllPackages": "View All Packages"
+    "subtitle": "Carefully crafted itineraries to help you experience the best of Turkey",
+    "loading": "Loading featured packages...",
+    "noPackages": "No packages available at the moment. Please check back soon!",
+    "viewAllTours": "View All Tours",
+    "nights": "nights",
+    "from": "From"
   },
   "whyChooseUs": {
     "title": "Why Choose Funny Tourism?",
@@ -126,13 +130,34 @@
     "trustContact": "WhatsApp & Email"
   },
   "destinations": {
-    "title": "Popular Destinations",
-    "subtitle": "Explore Turkey's most iconic locations",
-    "exploreDestination": "Explore {destination}"
+    "title": "Explore Turkey's Top Destinations",
+    "subtitle": "From ancient ruins to natural wonders, discover the diverse beauty of Turkey",
+    "topAttractions": "Top Attractions:",
+    "exploreButton": "Explore {destination}",
+    "istanbul": {
+      "name": "Istanbul",
+      "description": "Where East meets West - explore ancient mosques, palaces, and bustling bazaars",
+      "attractions": "Blue Mosque, Hagia Sophia, Grand Bazaar, Topkapi Palace"
+    },
+    "cappadocia": {
+      "name": "Cappadocia",
+      "description": "Fairy chimneys, hot air balloons, and underground cities in a magical landscape",
+      "attractions": "Hot Air Balloons, Goreme, Underground Cities, Cave Hotels"
+    },
+    "ephesus": {
+      "name": "Ephesus",
+      "description": "Walk through one of the best-preserved ancient cities in the Mediterranean",
+      "attractions": "Library of Celsus, Grand Theater, Temple of Artemis"
+    },
+    "pamukkale": {
+      "name": "Pamukkale",
+      "description": "Natural thermal springs and stunning white travertine terraces",
+      "attractions": "Travertine Terraces, Hierapolis, Thermal Pools"
+    }
   },
   "testimonials": {
-    "title": "What Our Customers Say",
-    "subtitle": "Real experiences from travelers who've explored Turkey with us"
+    "title": "What Our Travelers Say",
+    "subtitle": "Real experiences from real travelers"
   },
   "newsletter": {
     "title": "Get Exclusive Travel Deals",

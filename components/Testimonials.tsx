@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function Testimonials() {
+  const t = useTranslations('testimonials');
   const testimonials = [
     {
       name: 'Sarah Johnson',
@@ -48,8 +50,8 @@ export default function Testimonials() {
     <section className="pt-12 pb-16 bg-primary-50">
       <div className="section-container">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our Travelers Say</h2>
-          <p className="text-xl text-gray-600">Real experiences from real travelers</p>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('title')}</h2>
+          <p className="text-xl text-gray-600">{t('subtitle')}</p>
         </div>
 
         <div className="max-w-4xl mx-auto">

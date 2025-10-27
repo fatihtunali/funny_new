@@ -1,37 +1,32 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
 export default function Destinations() {
+  const t = useTranslations('destinations');
+
   const destinations = [
     {
-      name: 'Istanbul',
-      description: 'Where East meets West - explore ancient mosques, palaces, and bustling bazaars',
+      key: 'istanbul',
       slug: 'istanbul',
-      attractions: 'Blue Mosque, Hagia Sophia, Grand Bazaar, Topkapi Palace',
       image: '/images/BlueMosqueIstanbul6minarets.jpg'
     },
     {
-      name: 'Cappadocia',
-      description: 'Fairy chimneys, hot air balloons, and underground cities in a magical landscape',
+      key: 'cappadocia',
       slug: 'cappadocia',
-      attractions: 'Hot Air Balloons, Goreme, Underground Cities, Cave Hotels',
       image: '/images/cappadocianight.jpg'
     },
     {
-      name: 'Ephesus',
-      description: 'Walk through one of the best-preserved ancient cities in the Mediterranean',
+      key: 'ephesus',
       slug: 'ephesus',
-      attractions: 'Library of Celsus, Grand Theater, Temple of Artemis',
       image: '/images/Ephesus_Library2.jpg'
     },
     {
-      name: 'Pamukkale',
-      description: 'Natural thermal springs and stunning white travertine terraces',
+      key: 'pamukkale',
       slug: 'pamukkale',
-      attractions: 'Travertine Terraces, Hierapolis, Thermal Pools',
       image: '/images/PamukkaleTravertenler.jpg'
     }
   ];
@@ -52,9 +47,9 @@ export default function Destinations() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Explore Turkey&apos;s Top Destinations</h2>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('title')}</h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            From ancient ruins to natural wonders, discover the diverse beauty of Turkey
+            {t('subtitle')}
           </p>
         </motion.div>
 
@@ -73,28 +68,28 @@ export default function Destinations() {
               <div className="relative h-64 overflow-hidden">
                 <Image
                   src={destination.image}
-                  alt={destination.name}
+                  alt={t(`${destination.key}.name`)}
                   fill
                   className="object-cover hover:scale-110 transition-transform duration-500"
                 />
                 <div className={`absolute inset-0 bg-gradient-to-br ${gradients[index]} opacity-20`} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-                  <h3 className="text-4xl font-bold text-white p-6">{destination.name}</h3>
+                  <h3 className="text-4xl font-bold text-white p-6">{t(`${destination.key}.name`)}</h3>
                 </div>
               </div>
 
               {/* Content */}
               <div className="p-6">
-                <p className="text-gray-700 mb-4">{destination.description}</p>
+                <p className="text-gray-700 mb-4">{t(`${destination.key}.description`)}</p>
                 <div className="mb-4">
-                  <p className="text-sm font-semibold text-gray-900 mb-2">Top Attractions:</p>
-                  <p className="text-sm text-gray-600">{destination.attractions}</p>
+                  <p className="text-sm font-semibold text-gray-900 mb-2">{t('topAttractions')}</p>
+                  <p className="text-sm text-gray-600">{t(`${destination.key}.attractions`)}</p>
                 </div>
                 <Link
                   href={`/destinations/${destination.slug}`}
                   className="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold group"
                 >
-                  Explore {destination.name}
+                  {t('exploreButton', { destination: t(`${destination.key}.name`) })}
                   <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>

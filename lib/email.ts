@@ -58,25 +58,41 @@ export async function sendEmail({ to, subject, html, bccAdmin = true }: EmailDat
       emailPayload.bcc = bccArray;
     }
 
-    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'api-key': BREVO_API_KEY
-      },
-      body: JSON.stringify(emailPayload)
-    });
+    // Add 30 second timeout to email API calls
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-    const data = await response.json();
+    try {
+      const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'api-key': BREVO_API_KEY
+        },
+        body: JSON.stringify(emailPayload),
+        signal: controller.signal
+      });
 
-    if (!response.ok) {
-      console.error('Brevo API error:', data);
-      throw new Error(`Brevo API error: ${data.message || 'Unknown error'}`);
+      clearTimeout(timeoutId);
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Brevo API error:', data);
+        throw new Error(`Brevo API error: ${data.message || 'Unknown error'}`);
+      }
+
+      console.log('✅ Email sent successfully via Brevo:', data.messageId);
+      return { success: true, message: 'Email sent successfully', messageId: data.messageId };
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+        console.error('❌ Email API timeout after 30 seconds');
+        throw new Error('Email service timeout');
+      }
+      throw fetchError;
     }
-
-    console.log('✅ Email sent successfully via Brevo:', data.messageId);
-    return { success: true, message: 'Email sent successfully', messageId: data.messageId };
   } catch (error) {
     console.error('❌ Email sending error:', error);
     return { success: false, message: 'Failed to send email', error: String(error) };

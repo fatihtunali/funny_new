@@ -1,5 +1,5 @@
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, getTranslations } from 'next-intl/server';
+import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import type { Metadata } from "next";
 import { locales } from '@/i18n';
@@ -12,10 +12,7 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale });
-
+export async function generateMetadata(): Promise<Metadata> {
   return {
     title: {
       default: "Funny Tourism - Turkey Tour Packages | Istanbul, Cappadocia & More",
@@ -42,7 +39,7 @@ export default async function LocaleLayout({
   const { locale } = await params;
 
   // Validate that the incoming `locale` parameter is valid
-  if (!locales.includes(locale as any)) {
+  if (!locales.includes(locale as 'en' | 'es')) {
     notFound();
   }
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { FaSearch, FaGlobe, FaCheck, FaTimes, FaMapMarkerAlt, FaEnvelope, FaRedo } from 'react-icons/fa';
 
 interface DiscoveryResult {
@@ -489,7 +490,7 @@ export default function DiscoverPageClient() {
               Next Steps:
             </h3>
             <ul className="text-sm text-green-800 space-y-1">
-              <li>1. Go to <a href="/admin/leads" className="underline font-semibold">Agent Leads</a> page</li>
+              <li>1. Go to <Link href="/admin/leads" className="underline font-semibold">Agent Leads</Link> page</li>
               <li>2. Run email extraction to find contact emails</li>
               <li>3. View and export the contacts</li>
               <li>4. Send partnership emails (100/day limit)</li>

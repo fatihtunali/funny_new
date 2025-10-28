@@ -290,6 +290,7 @@ export default function ItineraryPage() {
 
               {/* Copy Link */}
               <button
+                type="button"
                 onClick={() => {
                   navigator.clipboard.writeText(window.location.href);
                   alert('Link copied to clipboard!');
@@ -539,6 +540,7 @@ export default function ItineraryPage() {
         {/* CTA Button */}
         <div className="text-center">
           <button
+            type="button"
             onClick={handleBookingRequest}
             disabled={submittingBooking || bookingRequested}
             className={`px-12 py-5 rounded-xl font-bold text-xl shadow-xl transition-all duration-200 ${
@@ -574,7 +576,7 @@ export default function ItineraryPage() {
             </p>
           )}
           <p className="mt-4 text-gray-600 text-sm">
-            Have questions? <button onClick={() => setShowContact(true)} className="text-blue-600 hover:underline font-semibold">Contact us</button> or call +90 532 585 8786
+            Have questions? <button type="button" onClick={() => setShowContact(true)} className="text-blue-600 hover:underline font-semibold">Contact us</button> or call +90 532 585 8786
           </p>
         </div>
       </div>
@@ -630,6 +632,7 @@ export default function ItineraryPage() {
                   </p>
                 </div>
                 <button
+                  type="button"
                   onClick={() => setShowContact(false)}
                   className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition-all"
                 >
@@ -680,6 +683,7 @@ export default function ItineraryPage() {
                   </a>
                 </div>
                 <button
+                  type="button"
                   onClick={() => setShowContact(false)}
                   className="w-full mt-6 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition-all"
                 >

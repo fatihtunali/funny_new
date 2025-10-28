@@ -145,6 +145,7 @@ export default function LoginPage() {
             </svg>
             <p className="text-sm font-medium text-gray-700">
               Travel Agent?{' '}
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
               <a
                 href="/agent/login"
                 className="text-purple-600 hover:text-purple-700 font-bold underline"

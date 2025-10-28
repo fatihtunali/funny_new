@@ -1,9 +1,10 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface Destination {
   name: string;
@@ -21,6 +22,7 @@ interface DestinationsClientProps {
 }
 
 export default function DestinationsClient({ destinations }: DestinationsClientProps) {
+  const t = useTranslations('destinationsPage');
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [regionFilter, setRegionFilter] = useState('all');
@@ -42,8 +44,8 @@ export default function DestinationsClient({ destinations }: DestinationsClientP
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold mb-4">Explore Turkey Destinations</h1>
-          <p className="text-xl text-primary-100">Discover the diverse beauty and rich history of Turkey&apos;s top destinations</p>
+          <h1 className="text-4xl font-bold mb-4">{t('header.title')}</h1>
+          <p className="text-xl text-primary-100">{t('header.subtitle')}</p>
         </div>
       </div>
 
@@ -54,9 +56,9 @@ export default function DestinationsClient({ destinations }: DestinationsClientP
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Top Destinations</h2>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('section.title')}</h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Experience the best of Turkey&apos;s rich history, stunning landscapes, and vibrant culture
+            {t('section.description')}
           </p>
         </motion.div>
 
@@ -66,13 +68,13 @@ export default function DestinationsClient({ destinations }: DestinationsClientP
             {/* Search Bar */}
             <div className="md:col-span-1">
               <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
-                Search Destinations
+                {t('filters.searchLabel')}
               </label>
               <div className="relative">
                 <input
                   type="text"
                   id="search"
-                  placeholder="Search by name, description..."
+                  placeholder={t('filters.searchPlaceholder')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
@@ -86,7 +88,7 @@ export default function DestinationsClient({ destinations }: DestinationsClientP
             {/* Category Filter */}
             <div>
               <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
-                Category
+                {t('filters.category')}
               </label>
               <select
                 id="category"
@@ -94,19 +96,19 @@ export default function DestinationsClient({ destinations }: DestinationsClientP
                 onChange={(e) => setCategoryFilter(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
-                <option value="all">All Categories</option>
-                <option value="Historical">Historical</option>
-                <option value="Coastal">Coastal</option>
-                <option value="Natural">Natural Wonders</option>
-                <option value="Cultural">Cultural</option>
-                <option value="Adventure">Adventure</option>
+                <option value="all">{t('filters.allCategories')}</option>
+                <option value="Historical">{t('filters.categories.historical')}</option>
+                <option value="Coastal">{t('filters.categories.coastal')}</option>
+                <option value="Natural">{t('filters.categories.natural')}</option>
+                <option value="Cultural">{t('filters.categories.cultural')}</option>
+                <option value="Adventure">{t('filters.categories.adventure')}</option>
               </select>
             </div>
 
             {/* Region Filter */}
             <div>
               <label htmlFor="region" className="block text-sm font-medium text-gray-700 mb-2">
-                Region
+                {t('filters.region')}
               </label>
               <select
                 id="region"
@@ -114,19 +116,19 @@ export default function DestinationsClient({ destinations }: DestinationsClientP
                 onChange={(e) => setRegionFilter(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
-                <option value="all">All Regions</option>
-                <option value="Marmara">Marmara</option>
-                <option value="Aegean">Aegean Coast</option>
-                <option value="Mediterranean">Mediterranean Coast</option>
-                <option value="Central Anatolia">Central Anatolia</option>
-                <option value="Black Sea">Black Sea</option>
+                <option value="all">{t('filters.allRegions')}</option>
+                <option value="Marmara">{t('filters.regions.marmara')}</option>
+                <option value="Aegean">{t('filters.regions.aegean')}</option>
+                <option value="Mediterranean">{t('filters.regions.mediterranean')}</option>
+                <option value="Central Anatolia">{t('filters.regions.centralAnatolia')}</option>
+                <option value="Black Sea">{t('filters.regions.blackSea')}</option>
               </select>
             </div>
           </div>
 
           {/* Results Count */}
           <div className="mt-4 text-sm text-gray-600">
-            Showing <span className="font-semibold text-primary-600">{filteredDestinations.length}</span> of <span className="font-semibold">{destinations.length}</span> destinations
+            {t('filters.showing')} <span className="font-semibold text-primary-600">{filteredDestinations.length}</span> {t('filters.of')} <span className="font-semibold">{destinations.length}</span> {t('filters.destinations')}
           </div>
         </div>
 
@@ -135,8 +137,8 @@ export default function DestinationsClient({ destinations }: DestinationsClientP
             <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <h3 className="mt-2 text-lg font-medium text-gray-900">No destinations found</h3>
-            <p className="mt-1 text-sm text-gray-500">Try adjusting your search or filter criteria</p>
+            <h3 className="mt-2 text-lg font-medium text-gray-900">{t('noResults.title')}</h3>
+            <p className="mt-1 text-sm text-gray-500">{t('noResults.message')}</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -176,14 +178,14 @@ export default function DestinationsClient({ destinations }: DestinationsClientP
                 <div className="p-6">
                   <p className="text-gray-700 mb-4">{destination.description}</p>
                   <div className="mb-4">
-                    <p className="text-sm font-semibold text-gray-900 mb-2">Top Attractions:</p>
+                    <p className="text-sm font-semibold text-gray-900 mb-2">{t('card.topAttractions')}</p>
                     <p className="text-sm text-gray-600">{destination.attractions}</p>
                   </div>
                   <Link
                     href={`/destinations/${destination.slug}`}
                     className="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold group"
                   >
-                    Explore {destination.name}
+                    {t('card.explore')} {destination.name}
                     <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
@@ -198,16 +200,16 @@ export default function DestinationsClient({ destinations }: DestinationsClientP
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-primary-600 to-primary-800 py-16">
         <div className="section-container text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Your Journey?</h2>
+          <h2 className="text-3xl font-bold text-white mb-4">{t('cta.title')}</h2>
           <p className="text-xl text-white mb-8">
-            Book our comprehensive package and experience all these amazing destinations
+            {t('cta.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/packages/istanbul-cappadocia-kusadasi" className="btn-primary bg-white text-primary-600 hover:bg-gray-100">
-              View Our Packages
+              {t('cta.viewPackages')}
             </Link>
             <Link href="/#contact" className="btn-primary bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary-600">
-              Contact Us
+              {t('cta.contactUs')}
             </Link>
           </div>
         </div>

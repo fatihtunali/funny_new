@@ -1,8 +1,11 @@
+'use client';
+
 import PricingCalculator from '@/components/PricingCalculator';
 import ItineraryTimeline from '@/components/ItineraryTimeline';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations, useLocale } from 'next-intl';
 
-const packageData = {
+const packageDataEn = {
   title: 'Istanbul & Cappadocia & Kusadasi Package',
   duration: '9 Nights / 10 Days',
   description: 'Experience the best of Turkey with our comprehensive tour covering Istanbul\'s historic sites, Cappadocia\'s fairy chimneys, and the ancient wonders of Ephesus and Pamukkale.',
@@ -146,7 +149,155 @@ const packageData = {
   }
 };
 
+const packageDataEs = {
+  title: 'Paquete Estambul & Capadocia & Kusadasi',
+  duration: '9 Noches / 10 Días',
+  description: 'Experimente lo mejor de Turquía con nuestro tour integral que cubre los sitios históricos de Estambul, las chimeneas de hadas de Capadocia y las antiguas maravillas de Éfeso y Pamukkale.',
+
+  itinerary: [
+    {
+      day: 1,
+      title: 'Vuelo / Estambul',
+      meals: '-',
+      description: 'Llegada al aeropuerto IST o SAW de Estambul. Traslado de llegada al hotel y check-in. El resto del día es libre. Alojamiento en Estambul.'
+    },
+    {
+      day: 2,
+      title: 'Estambul – Tour de Día Completo',
+      meals: 'D',
+      description: 'Después del desayuno en el hotel, comenzará un tour guiado al Hipódromo, el Palacio de Topkapi, Santa Sofía, la Mezquita Azul y el Gran Bazar. Después del tour, traslado de regreso al hotel. Alojamiento en Estambul.',
+      highlights: ['Hipódromo', 'Palacio de Topkapi', 'Santa Sofía', 'Mezquita Azul', 'Gran Bazar']
+    },
+    {
+      day: 3,
+      title: 'Estambul – Tour de Día Completo con Crucero por el Bósforo',
+      meals: 'D',
+      description: 'Después del desayuno, su tour comenzará con el Bazar de las Especias y luego continuará con un Crucero por el Bósforo (el barco no es privado). Por la tarde cruzaremos el Puente del Bósforo hacia Asia y visitaremos la Colina de Camlica. Traslado de regreso a su hotel para alojamiento.',
+      highlights: ['Bazar de las Especias', 'Crucero por el Bósforo', 'Colina de Camlica']
+    },
+    {
+      day: 4,
+      title: 'Estambul / Vuelo / Capadocia',
+      meals: 'D',
+      description: 'Después del desayuno, según la hora de su vuelo, será trasladado al aeropuerto IST o SAW para su vuelo a Kayseri o Nevsehir. Llegada al aeropuerto de Kayseri o Nevsehir y traslado a su hotel. Alojamiento en Capadocia.'
+    },
+    {
+      day: 5,
+      title: 'Capadocia – Tour de Día Completo',
+      meals: 'D',
+      description: 'Después del desayuno, partimos para nuestro tour de Capadocia que incluye Dervent (Valle de la Imaginación), Museo al Aire Libre de Zelve, Valle de Pasabag y Pueblo de Cavusin. Después del almuerzo, realizaremos un tour de compras donde podrá conocer las artes antiguas de Turquía como el tejido de alfombras, la fabricación de cuero y la joyería.',
+      highlights: ['Valle de Dervent', 'Museo al Aire Libre de Zelve', 'Valle de Pasabag', 'Pueblo de Cavusin']
+    },
+    {
+      day: 6,
+      title: 'Capadocia – Tour de Día Completo',
+      meals: 'D',
+      description: 'Después del desayuno, partimos para nuestro tour de Capadocia que incluye la Ciudad Subterránea de Ozkonak, Panorama de Göreme, Valle de las Palomas y Castillo de Uchisar desde el exterior. Después del tour, traslado a su hotel.',
+      highlights: ['Ciudad Subterránea de Ozkonak', 'Panorama de Göreme', 'Valle de las Palomas', 'Castillo de Uchisar']
+    },
+    {
+      day: 7,
+      title: 'Capadocia - Kayseri / Vuelo / Izmir - Kusadasi',
+      meals: 'D',
+      description: 'Después del desayuno, le trasladaremos al aeropuerto de Kayseri para su vuelo doméstico a Izmir. A la llegada se registrará en su hotel. El resto del día es libre. Alojamiento en Kusadasi.'
+    },
+    {
+      day: 8,
+      title: 'Kusadasi – Tour de Día Completo a Éfeso & Sirince',
+      meals: 'D',
+      description: 'Después del desayuno, salida para un tour de día completo a la antigua ciudad de Éfeso, uno de los sitios arqueológicos mejor conservados del mundo y también incluye una visita al icónico Templo de Artemisa, una de las Siete Maravillas del Mundo Antiguo.',
+      highlights: ['Antigua Éfeso', 'Templo de Artemisa', 'Gran Teatro', 'Biblioteca de Celso', 'Pueblo de Sirince']
+    },
+    {
+      day: 9,
+      title: 'Kusadasi – Tour de Día Completo a Pamukkale',
+      meals: 'D',
+      description: 'Después del desayuno, conduciremos a Pamukkale, que es el centro de aguas termales naturales con propiedades curativas. Luego visitaremos las travertinos y la antigua ciudad de Hierápolis, que tiene la necrópolis más grande con 1200 lápidas en Anatolia.',
+      highlights: ['Travertinos de Pamukkale', 'Antigua Hierápolis', 'Piscinas Termales']
+    },
+    {
+      day: 10,
+      title: 'Kusadasi / Vuelo / Estambul / Vuelo',
+      meals: 'D',
+      description: 'Después del desayuno, check-out del hotel. Tendrá tiempo libre hasta el traslado al aeropuerto de Izmir para su vuelo de regreso a Estambul para tomar su vuelo a su próximo destino. El tour termina con grandes recuerdos.'
+    }
+  ],
+
+  inclusions: [
+    '9 noches de alojamiento en hoteles seleccionados',
+    'Comidas según el itinerario (D=Desayuno)',
+    'Traslados de ida y vuelta al aeropuerto en base Privada',
+    'Boleto de Crucero por el Bósforo',
+    'Guía Profesional de Habla Inglesa en los días de tour',
+    'Visitas turísticas según el itinerario en base Privada con tarifas de entrada',
+    'Impuestos Locales'
+  ],
+
+  exclusions: [
+    'Vuelos internacionales',
+    'Vuelos domésticos (Turquía)',
+    'Gastos personales',
+    'Bebidas en las comidas',
+    'Propinas y portería en hoteles',
+    'Propinas para el conductor y el guía',
+    'Paseo en globo aerostático (extra opcional)'
+  ],
+
+  importantInfo: [
+    'El Gran Bazar y el Bazar de las Especias están cerrados en días festivos oficiales y festivales religiosos',
+    'El Gran Bazar está cerrado los domingos',
+    'El Palacio de Topkapi está cerrado los martes',
+    'Se recomienda calzado cómodo y ropa de algodón',
+    'No se permiten pantalones cortos en las mezquitas - traiga un pañuelo para la Mezquita Azul y Santa Sofía',
+    'Esté listo en el vestíbulo del hotel 5 minutos antes de la hora de recogida'
+  ],
+
+  hotels: {
+    threestar: {
+      istanbul: 'Hera Montagna o similar',
+      cappadocia: 'Floria o similar',
+      kusadasi: 'By Karaaslan Inn o similar'
+    },
+    fourstar: {
+      istanbul: 'Elite World Comfy Taksim o similar',
+      cappadocia: 'Burcu Kaya o similar',
+      kusadasi: 'Suhan Seaport 360 o similar'
+    },
+    fivestar: {
+      istanbul: 'Elite World Istanbul Taksim o similar',
+      cappadocia: 'Signature Garden Avanos o similar',
+      kusadasi: 'Seven For Life o similar'
+    }
+  },
+
+  pricing: {
+    threestar: {
+      twoAdults: 1765,
+      fourAdults: 1245,
+      sixAdults: 1029
+    },
+    fourstar: {
+      twoAdults: 1875,
+      fourAdults: 1355,
+      sixAdults: 1139
+    },
+    fivestar: {
+      twoAdults: 2019,
+      fourAdults: 1499,
+      sixAdults: 1285
+    },
+    children: {
+      age3to5: 320,
+      age6to10: 695
+    }
+  }
+};
+
 export default function PackagePage() {
+  const locale = useLocale();
+  const t = useTranslations('staticPackagePage');
+  const packageData = locale === 'es' ? packageDataEs : packageDataEn;
+
   return (
     <div className="bg-gray-50">
       {/* Hero Section */}
@@ -167,7 +318,7 @@ export default function PackagePage() {
           <div className="lg:col-span-2 space-y-8">
             {/* Itinerary */}
             <div className="bg-white rounded-lg shadow-lg p-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Day-by-Day Itinerary</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('dayByDayItinerary')}</h2>
               <ItineraryTimeline itinerary={packageData.itinerary} />
             </div>
 
@@ -178,7 +329,7 @@ export default function PackagePage() {
                   <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  What&apos;s Included
+                  {t('whatsIncluded')}
                 </h3>
                 <ul className="space-y-2">
                   {packageData.inclusions.map((item, index) => (
@@ -197,7 +348,7 @@ export default function PackagePage() {
                   <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                  Not Included
+                  {t('notIncluded')}
                 </h3>
                 <ul className="space-y-2">
                   {packageData.exclusions.map((item, index) => (
@@ -218,7 +369,7 @@ export default function PackagePage() {
                 <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                Important Information
+                {t('importantInformation')}
               </h3>
               <ul className="space-y-2 text-sm text-amber-900">
                 {packageData.importantInfo.map((info, index) => (
@@ -238,16 +389,16 @@ export default function PackagePage() {
 
               {/* Contact Info */}
               <div className="bg-primary-50 rounded-lg p-6 mt-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">Need Help?</h3>
-                <p className="text-sm text-gray-700 mb-4">Our travel experts are here to help you plan your perfect Turkey vacation.</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-4">{t('needHelp')}</h3>
+                <p className="text-sm text-gray-700 mb-4">{t('needHelpText')}</p>
                 <a href="https://wa.me/905XXXXXXXXX" className="flex items-center justify-center bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors mb-3">
                   <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
                   </svg>
-                  WhatsApp Us
+                  {t('whatsAppUs')}
                 </a>
                 <Link href="/inquiry" className="block text-center bg-white hover:bg-gray-50 text-primary-600 font-semibold py-3 px-4 rounded-lg border-2 border-primary-600 transition-colors">
-                  Email Inquiry
+                  {t('emailInquiry')}
                 </Link>
               </div>
             </div>

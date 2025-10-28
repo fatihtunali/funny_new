@@ -2,9 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { use } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import { FaClock, FaEye, FaTag, FaArrowLeft, FaShare } from 'react-icons/fa';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface BlogPost {
   id: string;
@@ -36,6 +37,8 @@ interface Package {
 }
 
 export default function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const t = useTranslations('blogDetailPage');
+  const locale = useLocale();
   const resolvedParams = use(params);
   const [post, setPost] = useState<BlogPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
@@ -44,13 +47,13 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
 
   const fetchPost = useCallback(async () => {
     try {
-      const res = await fetch(`/api/blog/${resolvedParams.slug}`);
+      const res = await fetch(`/api/blog/${resolvedParams.slug}?locale=${locale}`);
       if (res.ok) {
         const data = await res.json();
         setPost(data.post);
 
         // Fetch related posts
-        const relatedRes = await fetch(`/api/blog?category=${encodeURIComponent(data.post.category)}&limit=3`);
+        const relatedRes = await fetch(`/api/blog?category=${encodeURIComponent(data.post.category)}&limit=3&locale=${locale}`);
         if (relatedRes.ok) {
           const relatedData = await relatedRes.json();
           setRelatedPosts(relatedData.posts.filter((p: BlogPost) => p.slug !== resolvedParams.slug));
@@ -71,7 +74,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
     } finally {
       setLoading(false);
     }
-  }, [resolvedParams.slug]);
+  }, [resolvedParams.slug, locale]);
 
   useEffect(() => {
     fetchPost();
@@ -169,10 +172,10 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Post Not Found</h1>
-          <p className="text-gray-600 mb-6">The blog post you&apos;re looking for doesn&apos;t exist.</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">{t('postNotFound')}</h1>
+          <p className="text-gray-600 mb-6">{t('postNotFoundMessage')}</p>
           <Link href="/blog" className="btn-primary">
-            Back to Blog
+            {t('backToBlog')}
           </Link>
         </div>
       </div>
@@ -189,7 +192,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
             className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
           >
             <FaArrowLeft />
-            Back to Blog
+            {t('backToBlog')}
           </Link>
         </div>
       </div>
@@ -219,9 +222,9 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
               </div>
               <div className="flex items-center gap-2">
                 <FaEye />
-                {post.views} views
+                {post.views} {t('views')}
               </div>
-              <div>By {post.authorName}</div>
+              <div>{t('by')} {post.authorName}</div>
             </div>
           </div>
         </div>
@@ -242,7 +245,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
               className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors"
             >
               <FaShare />
-              Share
+              {t('share')}
             </button>
           </div>
 
@@ -263,7 +266,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (
             <div className="mt-12 pt-8 border-t">
-              <h3 className="text-sm font-semibold text-gray-700 mb-3">Tags:</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">{t('tags')}</h3>
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag, idx) => (
                   <span
@@ -282,8 +285,8 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         {/* Related Packages */}
         {relatedPackages.length > 0 && (
           <div className="mt-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Explore Related Tour Packages</h2>
-            <p className="text-gray-600 mb-8">Turn your travel inspiration into reality with these carefully selected tours</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('exploreRelatedPackages')}</h2>
+            <p className="text-gray-600 mb-8">{t('turnTravelInspiration')}</p>
             <div className="grid md:grid-cols-3 gap-6">
               {relatedPackages.map((pkg) => (
                 <Link key={pkg.id} href={`/packages/${pkg.slug}`}>
@@ -334,7 +337,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
         {/* Related Posts */}
         {relatedPosts.length > 0 && (
           <div className="mt-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">Related Posts</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">{t('relatedPosts')}</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {relatedPosts.map((relatedPost) => (
                 <Link key={relatedPost.id} href={`/blog/${relatedPost.slug}`}>
@@ -362,10 +365,10 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
 
         {/* Call to Action */}
         <div className="mt-16 bg-gradient-to-r from-primary-600 to-primary-800 text-white rounded-lg p-8 text-center">
-          <h3 className="text-2xl font-bold mb-4">Ready to Experience Turkey?</h3>
-          <p className="mb-6">Explore our curated tour packages and start planning your adventure!</p>
+          <h3 className="text-2xl font-bold mb-4">{t('readyToExperience')}</h3>
+          <p className="mb-6">{t('explorePackagesText')}</p>
           <Link href="/packages" className="btn-secondary bg-white hover:bg-gray-100 text-primary-600">
-            View Tour Packages
+            {t('viewTourPackages')}
           </Link>
         </div>
       </div>

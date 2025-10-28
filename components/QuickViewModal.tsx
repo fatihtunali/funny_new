@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { FaTimes, FaClock, FaMapMarkerAlt, FaHeart, FaExternalLinkAlt, FaCheck } from 'react-icons/fa';
 import { useWishlist } from '@/contexts/WishlistContext';
 
@@ -29,6 +30,8 @@ interface PackageData {
 }
 
 export default function QuickViewModal({ packageId, isOpen, onClose }: QuickViewModalProps) {
+  const t = useTranslations('quickViewModal');
+
   const [pkg, setPkg] = useState<PackageData | null>(null);
   const [loading, setLoading] = useState(false);
   const { isInWishlist, toggleWishlist } = useWishlist();
@@ -107,6 +110,7 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
           {loading ? (
             <div className="flex items-center justify-center h-96">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+              <span className="sr-only">{t('loading')}</span>
             </div>
           ) : pkg ? (
             <div className="grid md:grid-cols-2 gap-0">
@@ -119,7 +123,7 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                   className="object-cover"
                 />
                 <div className="absolute top-4 left-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg">
-                  <span className="text-lg font-bold">From €{getMinPrice()}</span>
+                  <span className="text-lg font-bold">{t('priceFrom', { price: getMinPrice() })}</span>
                 </div>
               </div>
 
@@ -144,7 +148,7 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                 {/* Highlights */}
                 {pkg.highlights && (
                   <div className="mb-6">
-                    <h3 className="text-lg font-bold text-gray-900 mb-3">Highlights</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mb-3">{t('sections.highlights')}</h3>
                     <div className="space-y-2">
                       {(Array.isArray(pkg.highlights)
                         ? pkg.highlights
@@ -162,16 +166,16 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                 {/* Itinerary Preview */}
                 {parseItinerary().length > 0 && (
                   <div className="mb-6">
-                    <h3 className="text-lg font-bold text-gray-900 mb-3">Itinerary Preview</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mb-3">{t('sections.itinerary')}</h3>
                     <div className="space-y-3">
                       {parseItinerary().slice(0, 3).map((day: { day: number; title: string; description: string }, idx: number) => (
                         <div key={idx} className="border-l-4 border-primary-600 pl-4">
-                          <h4 className="font-semibold text-gray-900">Day {day.day}: {day.title}</h4>
+                          <h4 className="font-semibold text-gray-900">{t('dayLabel', { day: day.day })}: {day.title}</h4>
                           <p className="text-sm text-gray-600 line-clamp-2">{day.description}</p>
                         </div>
                       ))}
                       {parseItinerary().length > 3 && (
-                        <p className="text-sm text-gray-500 italic">+ {parseItinerary().length - 3} more days...</p>
+                        <p className="text-sm text-gray-500 italic">{t('moreDays', { count: parseItinerary().length - 3 })}</p>
                       )}
                     </div>
                   </div>
@@ -181,7 +185,7 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   {pkg.included && (
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-2 text-sm">Included</h4>
+                      <h4 className="font-semibold text-gray-900 mb-2 text-sm">{t('sections.included')}</h4>
                       <ul className="text-xs text-gray-600 space-y-1">
                         {(Array.isArray(pkg.included)
                           ? pkg.included
@@ -197,7 +201,7 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                   )}
                   {(pkg.notIncluded || pkg.excluded) && (
                     <div>
-                      <h4 className="font-semibold text-gray-900 mb-2 text-sm">Not Included</h4>
+                      <h4 className="font-semibold text-gray-900 mb-2 text-sm">{t('sections.notIncluded')}</h4>
                       <ul className="text-xs text-gray-600 space-y-1">
                         {(() => {
                           const items = pkg.notIncluded || pkg.excluded;
@@ -223,7 +227,7 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                     className="flex-1 btn-primary text-center flex items-center justify-center gap-2"
                     onClick={onClose}
                   >
-                    View Full Details
+                    {t('buttons.viewFullDetails')}
                     <FaExternalLinkAlt size={14} />
                   </Link>
                   <button
@@ -233,7 +237,7 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
                         ? 'bg-red-600 text-white hover:bg-red-700'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
-                    title={isInWishlist(pkg.packageId) ? 'Remove from wishlist' : 'Add to wishlist'}
+                    title={isInWishlist(pkg.packageId) ? t('buttons.removeFromWishlist') : t('buttons.addToWishlist')}
                   >
                     <FaHeart className={isInWishlist(pkg.packageId) ? 'text-white' : ''} />
                   </button>
@@ -242,7 +246,7 @@ export default function QuickViewModal({ packageId, isOpen, onClose }: QuickView
             </div>
           ) : (
             <div className="p-12 text-center">
-              <p className="text-gray-600">Package not found</p>
+              <p className="text-gray-600">{t('notFound')}</p>
             </div>
           )}
         </div>

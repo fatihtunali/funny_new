@@ -32,12 +32,17 @@ export const spanishSpeakingCountries = [
   'GQ', // Equatorial Guinea
 ];
 
-export default getRequestConfig(async ({ locale }) => {
+export default getRequestConfig(async ({ requestLocale }) => {
+  // Await the requestLocale (Next.js 15 async API)
+  let locale = await requestLocale;
+
   // Validate that the incoming `locale` parameter is valid
-  if (!locales.includes(locale as Locale)) notFound();
+  if (!locale || !locales.includes(locale as Locale)) {
+    locale = defaultLocale;
+  }
 
   return {
-    locale: locale as string,
+    locale,
     messages: (await import(`./messages/${locale}.json`)).default,
   };
 });

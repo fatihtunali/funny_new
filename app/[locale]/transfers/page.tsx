@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { FaCar, FaPlane, FaUsers, FaCalendarAlt, FaClock, FaEuroSign, FaMapMarkerAlt } from 'react-icons/fa';
 import TransferBookingModal from '@/components/TransferBookingModal';
 
@@ -29,6 +30,7 @@ interface Transfer {
 }
 
 export default function TransfersPage() {
+  const t = useTranslations('transfersPage');
   const [transfers, setTransfers] = useState<Transfer[]>([]);
   const [locations, setLocations] = useState<Location[]>([]);
   const [, setLoading] = useState(true);
@@ -150,9 +152,9 @@ export default function TransfersPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Airport & Inter-City Transfers</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">{t('title')}</h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto">
-              Comfortable, reliable transfers across Turkey. From airports to hotels, city centers to tourist areas.
+              {t('subtitle')}
             </p>
           </motion.div>
         </div>
@@ -166,18 +168,18 @@ export default function TransfersPage() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="bg-white rounded-lg shadow-xl p-6 md:p-8"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Search Transfer</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('searchTransfer')}</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {/* From Location Autocomplete */}
             <div className="relative">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <FaMapMarkerAlt className="inline mr-2 text-blue-600" />
-                From Location
+                {t('fromLocation')}
               </label>
               <input
                 type="text"
-                placeholder="Search airports, cities, hotels..."
+                placeholder={t('locationPlaceholder')}
                 value={selectedFromLocation ? selectedFromLocation.name : searchFrom}
                 onChange={(e) => {
                   setSearchFrom(e.target.value);
@@ -214,11 +216,11 @@ export default function TransfersPage() {
             <div className="relative">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <FaMapMarkerAlt className="inline mr-2 text-blue-600" />
-                To Location
+                {t('toLocation')}
               </label>
               <input
                 type="text"
-                placeholder="Search airports, cities, hotels..."
+                placeholder={t('locationPlaceholder')}
                 value={selectedToLocation ? selectedToLocation.name : searchTo}
                 onChange={(e) => {
                   setSearchTo(e.target.value);
@@ -255,7 +257,7 @@ export default function TransfersPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <FaUsers className="inline mr-2 text-blue-600" />
-                Number of Passengers
+                {t('numberOfPassengers')}
               </label>
               <select
                 value={passengers}
@@ -263,9 +265,9 @@ export default function TransfersPage() {
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
-                  <option key={num} value={num}>{num} {num === 1 ? 'Passenger' : 'Passengers'}</option>
+                  <option key={num} value={num}>{num} {num === 1 ? t('passenger') : t('passengers')}</option>
                 ))}
-                <option value={11}>10+ Passengers (On Request)</option>
+                <option value={11}>{t('passengersCount', { count: '10+' })}</option>
               </select>
             </div>
 
@@ -273,7 +275,7 @@ export default function TransfersPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <FaCalendarAlt className="inline mr-2 text-blue-600" />
-                Transfer Date
+                {t('transferDate')}
               </label>
               <input
                 type="date"
@@ -288,7 +290,7 @@ export default function TransfersPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <FaClock className="inline mr-2 text-blue-600" />
-                Transfer Time
+                {t('transferTime')}
               </label>
               <input
                 type="time"
@@ -316,9 +318,8 @@ export default function TransfersPage() {
                       <div className="flex items-center gap-2 mb-2">
                         <FaEuroSign className="text-blue-600" />
                         <span className="text-3xl font-bold text-gray-900">
-                          €{calculatedPrice.price}
+                          {t('priceDisplay', { price: calculatedPrice.price })}
                         </span>
-                        <span className="text-gray-600">total</span>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-gray-700">
                         <FaCar />
@@ -335,8 +336,8 @@ export default function TransfersPage() {
                   ) : (
                     <div className="text-lg font-semibold text-gray-900">
                       {selectedTransfer.onRequestOnly || passengers > 10 ?
-                        'Price available on request' :
-                        'No pricing available for this route'}
+                        t('priceOnRequest') :
+                        t('noPricing')}
                     </div>
                   )}
                 </div>
@@ -345,7 +346,7 @@ export default function TransfersPage() {
                   disabled={!calculatedPrice || !transferDate}
                   className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
                 >
-                  Book Now
+                  {t('bookNow')}
                 </button>
               </div>
             </motion.div>
@@ -353,7 +354,7 @@ export default function TransfersPage() {
 
           {selectedFromId && selectedToId && !selectedTransfer && (
             <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800">
-              No transfer route available for this combination. Please try different locations.
+              {t('noRoute')}
             </div>
           )}
         </motion.div>
@@ -371,8 +372,8 @@ export default function TransfersPage() {
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaPlane className="text-3xl text-blue-600" />
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">All Turkish Airports</h3>
-            <p className="text-gray-600">Coverage across 35+ airports including IST, SAW, AYT, ADB, and more</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{t('features.airports')}</h3>
+            <p className="text-gray-600">{t('features.airportsDesc')}</p>
           </motion.div>
 
           <motion.div
@@ -385,8 +386,8 @@ export default function TransfersPage() {
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaCar className="text-3xl text-blue-600" />
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Modern Fleet</h3>
-            <p className="text-gray-600">Sedans, minivans, and minibuses with professional drivers</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{t('features.modernFleet')}</h3>
+            <p className="text-gray-600">{t('features.modernFleetDesc')}</p>
           </motion.div>
 
           <motion.div
@@ -399,8 +400,8 @@ export default function TransfersPage() {
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaEuroSign className="text-3xl text-blue-600" />
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Fixed Pricing</h3>
-            <p className="text-gray-600">No hidden fees. Price you see is the price you pay</p>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">{t('features.fixedPricing')}</h3>
+            <p className="text-gray-600">{t('features.fixedPricingDesc')}</p>
           </motion.div>
         </div>
       </div>

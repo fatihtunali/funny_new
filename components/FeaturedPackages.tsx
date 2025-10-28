@@ -185,20 +185,20 @@ export default function FeaturedPackages() {
                       <span className="text-2xl font-bold text-green-600">€{getStartingPrice(pkg)}</span>
                       <span className="text-sm text-green-700 ml-1">pp</span>
                     </div>
-                    <p className="text-xs text-green-600 text-center mt-1">PP in double room (6+ adults)</p>
+                    <p className="text-xs text-green-600 text-center mt-1">{t('pricingNote')}</p>
                   </div>
                 )}
 
                 <div className="flex items-center justify-between border-t pt-4">
                   <div>
-                    <p className="text-sm text-gray-500">View Package</p>
-                    <p className="text-sm text-gray-600 font-semibold">Full Details</p>
+                    <p className="text-sm text-gray-500">{t('viewPackage')}</p>
+                    <p className="text-sm text-gray-600 font-semibold">{t('fullDetails')}</p>
                   </div>
                   <Link
                     href={`/packages/${pkg.slug}`}
                     className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors"
                   >
-                    View Details
+                    {t('viewDetails')}
                   </Link>
                 </div>
               </div>

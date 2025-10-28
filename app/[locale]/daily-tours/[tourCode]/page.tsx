@@ -5,9 +5,10 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { FaClock, FaMapMarkerAlt, FaEuroSign, FaUsers, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import DailyTourBookingModal from '@/components/DailyTourBookingModal';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface PageProps {
-  params: Promise<{ tourCode: string }>;
+  params: Promise<{ tourCode: string; locale: string }>;
 }
 
 interface DailyTour {
@@ -33,6 +34,8 @@ interface DailyTour {
 }
 
 export default function DailyTourDetailPage({ params }: PageProps) {
+  const t = useTranslations('tourDetailPage');
+  const locale = useLocale();
   const [tour, setTour] = useState<DailyTour | null>(null);
   const [loading, setLoading] = useState(true);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
@@ -42,7 +45,7 @@ export default function DailyTourDetailPage({ params }: PageProps) {
       const resolvedParams = await params;
 
       try {
-        const res = await fetch(`/api/daily-tours?tourCode=${resolvedParams.tourCode.toUpperCase()}`);
+        const res = await fetch(`/api/daily-tours?tourCode=${resolvedParams.tourCode.toUpperCase()}&locale=${locale}`);
         if (res.ok) {
           const data = await res.json();
           const foundTour = data.tours?.find((t: DailyTour) =>
@@ -58,14 +61,14 @@ export default function DailyTourDetailPage({ params }: PageProps) {
     };
 
     fetchTour();
-  }, [params]);
+  }, [params, locale]);
 
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading tour details...</p>
+          <p className="text-gray-600">{t('loadingTourDetails')}</p>
         </div>
       </div>
     );
@@ -107,7 +110,7 @@ export default function DailyTourDetailPage({ params }: PageProps) {
                 {tour.port && (
                   <div className="flex items-center gap-2">
                     <FaMapMarkerAlt />
-                    <span>Port: {tour.port}</span>
+                    <span>{t('port')}: {tour.port}</span>
                   </div>
                 )}
               </div>
@@ -123,7 +126,7 @@ export default function DailyTourDetailPage({ params }: PageProps) {
           <div className="lg:col-span-2">
             {/* Description */}
             <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Tour Description</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('tourDescription')}</h2>
               <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{tour.description}</p>
             </div>
 
@@ -133,7 +136,7 @@ export default function DailyTourDetailPage({ params }: PageProps) {
                 <div className="bg-white rounded-lg shadow-lg p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                     <FaCheckCircle className="text-green-600" />
-                    What&apos;s Included
+                    {t('whatsIncluded')}
                   </h3>
                   <p className="text-gray-700 whitespace-pre-wrap">{tour.included}</p>
                 </div>
@@ -143,7 +146,7 @@ export default function DailyTourDetailPage({ params }: PageProps) {
                 <div className="bg-white rounded-lg shadow-lg p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
                     <FaTimesCircle className="text-red-600" />
-                    Not Included
+                    {t('notIncluded')}
                   </h3>
                   <p className="text-gray-700 whitespace-pre-wrap">{tour.notIncluded}</p>
                 </div>
@@ -153,7 +156,7 @@ export default function DailyTourDetailPage({ params }: PageProps) {
             {/* Notes */}
             {tour.notes && (
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8">
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Important Notes</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{t('importantNotes')}</h3>
                 <p className="text-gray-700 whitespace-pre-wrap">{tour.notes}</p>
               </div>
             )}
@@ -163,7 +166,7 @@ export default function DailyTourDetailPage({ params }: PageProps) {
               <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
                 <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
                   <FaMapMarkerAlt className="text-blue-600" />
-                  Pickup Information
+                  {t('pickupInformation')}
                 </h3>
                 <p className="text-gray-700">{tour.pickupLocations}</p>
               </div>
@@ -173,14 +176,14 @@ export default function DailyTourDetailPage({ params }: PageProps) {
           {/* Sidebar - Pricing */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-xl p-6 sticky top-4">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Pricing</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">{t('pricing')}</h3>
 
               {/* SIC Pricing */}
               <div className="bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 rounded-lg p-6 mb-6">
                 <div className="flex items-center justify-between mb-3">
                   <div>
-                    <h4 className="font-bold text-gray-900">SIC (Group Tour)</h4>
-                    <p className="text-xs text-gray-600">Guaranteed from 1 pax</p>
+                    <h4 className="font-bold text-gray-900">{t('sicGroupTour')}</h4>
+                    <p className="text-xs text-gray-600">{t('guaranteedFromOnePax')}</p>
                   </div>
                   <FaUsers className="text-2xl text-orange-600" />
                 </div>
@@ -189,10 +192,10 @@ export default function DailyTourDetailPage({ params }: PageProps) {
                     <>
                       <FaEuroSign className="text-orange-700" />
                       <span className="text-3xl font-bold text-orange-700">{tour.sicPrice}</span>
-                      <span className="text-gray-600">/ person</span>
+                      <span className="text-gray-600">{t('perPerson')}</span>
                     </>
                   ) : (
-                    <span className="text-2xl font-bold text-gray-600">N/A</span>
+                    <span className="text-2xl font-bold text-gray-600">{t('notAvailable')}</span>
                   )}
                 </div>
               </div>
@@ -201,28 +204,28 @@ export default function DailyTourDetailPage({ params }: PageProps) {
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-lg p-6 mb-6">
                 <h4 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
                   <FaUsers className="text-blue-600" />
-                  Private Tour Pricing
+                  {t('privateTourPricing')}
                 </h4>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-700">2 Passengers</span>
-                    <span className="font-bold text-gray-900">€{tour.privateMin2} / person</span>
+                    <span className="text-gray-700">2 {t('passengers')}</span>
+                    <span className="font-bold text-gray-900">€{tour.privateMin2} {t('perPerson')}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-700">4 Passengers</span>
-                    <span className="font-bold text-gray-900">€{tour.privateMin4} / person</span>
+                    <span className="text-gray-700">4 {t('passengers')}</span>
+                    <span className="font-bold text-gray-900">€{tour.privateMin4} {t('perPerson')}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-700">6 Passengers</span>
-                    <span className="font-bold text-gray-900">€{tour.privateMin6} / person</span>
+                    <span className="text-gray-700">6 {t('passengers')}</span>
+                    <span className="font-bold text-gray-900">€{tour.privateMin6} {t('perPerson')}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-700">8 Passengers</span>
-                    <span className="font-bold text-gray-900">€{tour.privateMin8} / person</span>
+                    <span className="text-gray-700">8 {t('passengers')}</span>
+                    <span className="font-bold text-gray-900">€{tour.privateMin8} {t('perPerson')}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-700">10+ Passengers</span>
-                    <span className="font-bold text-gray-900">€{tour.privateMin10} / person</span>
+                    <span className="text-gray-700">10+ {t('passengers')}</span>
+                    <span className="font-bold text-gray-900">€{tour.privateMin10} {t('perPerson')}</span>
                   </div>
                 </div>
               </div>
@@ -232,7 +235,7 @@ export default function DailyTourDetailPage({ params }: PageProps) {
                 onClick={() => setIsBookingModalOpen(true)}
                 className="block w-full text-center bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 rounded-lg transition-colors"
               >
-                Book This Tour
+                {t('bookThisTour')}
               </button>
             </div>
           </div>

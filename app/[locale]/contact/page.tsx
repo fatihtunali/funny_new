@@ -3,8 +3,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
+import { useTranslations } from 'next-intl';
 
 export default function ContactPage() {
+  const t = useTranslations('contactPage');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -56,16 +58,16 @@ export default function ContactPage() {
 
   const faqs = [
     {
-      question: 'How can I book a tour?',
-      answer: 'You can book our tours directly through our website by visiting the Tours page, or by contacting our customer service team via phone or email.'
+      question: t('faq.question1'),
+      answer: t('faq.answer1')
     },
     {
-      question: 'What makes Funny Tourism different from other travel agencies?',
-      answer: 'We specialize in humor-focused travel experiences that highlight the funny and entertaining aspects of destinations worldwide, creating joyful memories alongside traditional sightseeing.'
+      question: t('faq.question2'),
+      answer: t('faq.answer2')
     },
     {
-      question: 'Do I need to be a comedian to enjoy your tours?',
-      answer: 'Not at all! Our tours are designed for anyone who enjoys a good laugh. We welcome travelers of all backgrounds who appreciate humor and want to have fun while exploring new places.'
+      question: t('faq.question3'),
+      answer: t('faq.answer3')
     }
   ];
 
@@ -74,8 +76,8 @@ export default function ContactPage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
-          <p className="text-xl text-primary-100">Have a question, feedback, or want to book a tour? We&apos;d love to hear from you!</p>
+          <h1 className="text-4xl font-bold mb-4">{t('header.title')}</h1>
+          <p className="text-xl text-primary-100">{t('header.subtitle')}</p>
         </div>
       </div>
 
@@ -90,24 +92,24 @@ export default function ContactPage() {
               viewport={{ once: true }}
               className="bg-white rounded-lg shadow-lg p-8"
             >
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('form.title')}</h2>
 
               {submitStatus === 'success' && (
                 <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800">
-                  Message sent successfully! We&apos;ll get back to you soon.
+                  {t('form.successMessage')}
                 </div>
               )}
 
               {submitStatus === 'error' && (
                 <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800">
-                  An error occurred. Please try again later.
+                  {t('form.errorMessage')}
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Full Name
+                    {t('form.nameLabel')}
                   </label>
                   <input
                     type="text"
@@ -122,7 +124,7 @@ export default function ContactPage() {
 
                 <div>
                   <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Email Address
+                    {t('form.emailLabel')}
                   </label>
                   <input
                     type="email"
@@ -137,7 +139,7 @@ export default function ContactPage() {
 
                 <div>
                   <label htmlFor="subject" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Subject
+                    {t('form.subjectLabel')}
                   </label>
                   <input
                     type="text"
@@ -152,7 +154,7 @@ export default function ContactPage() {
 
                 <div>
                   <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Your Message
+                    {t('form.messageLabel')}
                   </label>
                   <textarea
                     id="message"
@@ -170,7 +172,7 @@ export default function ContactPage() {
                   disabled={isSubmitting}
                   className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                  {isSubmitting ? t('form.sending') : t('form.submitButton')}
                 </button>
               </form>
             </motion.div>
@@ -184,19 +186,19 @@ export default function ContactPage() {
               viewport={{ once: true }}
               className="bg-white rounded-lg shadow-lg p-6"
             >
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Contact Information</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">{t('info.title')}</h3>
               <ul className="space-y-4">
                 <li className="flex items-start">
                   <FaMapMarkerAlt className="text-primary-600 mt-1 mr-3 flex-shrink-0" />
                   <div>
-                    <span className="font-semibold text-gray-900 block mb-1">Address:</span>
-                    <span className="text-gray-700">Mehmet Akif Ersoy Mah Hanimeli Sok No 5/B Uskudar - Istanbul</span>
+                    <span className="font-semibold text-gray-900 block mb-1">{t('info.addressLabel')}</span>
+                    <span className="text-gray-700">{t('info.address')}</span>
                   </div>
                 </li>
                 <li className="flex items-start">
                   <FaPhone className="text-primary-600 mt-1 mr-3 flex-shrink-0" />
                   <div>
-                    <span className="font-semibold text-gray-900 block mb-1">Phone:</span>
+                    <span className="font-semibold text-gray-900 block mb-1">{t('info.phoneLabel')}</span>
                     <a href="tel:+902165575252" className="text-gray-700 hover:text-primary-600">
                       +90 (216) 557 52 52
                     </a>
@@ -205,7 +207,7 @@ export default function ContactPage() {
                 <li className="flex items-start">
                   <FaEnvelope className="text-primary-600 mt-1 mr-3 flex-shrink-0" />
                   <div>
-                    <span className="font-semibold text-gray-900 block mb-1">Email:</span>
+                    <span className="font-semibold text-gray-900 block mb-1">{t('info.emailLabel')}</span>
                     <a href="mailto:info@funnytourism.com" className="text-gray-700 hover:text-primary-600">
                       info@funnytourism.com
                     </a>
@@ -214,8 +216,8 @@ export default function ContactPage() {
                 <li className="flex items-start">
                   <FaClock className="text-primary-600 mt-1 mr-3 flex-shrink-0" />
                   <div>
-                    <span className="font-semibold text-gray-900 block mb-1">Hours:</span>
-                    <span className="text-gray-700">Monday - Friday: 9am - 6pm</span>
+                    <span className="font-semibold text-gray-900 block mb-1">{t('info.hoursLabel')}</span>
+                    <span className="text-gray-700">{t('info.hours')}</span>
                   </div>
                 </li>
               </ul>
@@ -233,7 +235,7 @@ export default function ContactPage() {
             viewport={{ once: true }}
             className="text-center mb-8"
           >
-            <h3 className="text-3xl font-bold text-gray-900">Our Location</h3>
+            <h3 className="text-3xl font-bold text-gray-900">{t('map.title')}</h3>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -262,7 +264,7 @@ export default function ContactPage() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('faq.title')}</h2>
         </motion.div>
 
         <div className="max-w-4xl mx-auto space-y-6">

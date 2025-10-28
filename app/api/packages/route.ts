@@ -6,6 +6,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const packageType = searchParams.get('type');
     const includeDailyTours = searchParams.get('includeDailyTours') !== 'false';
+    const locale = searchParams.get('locale') || 'en';
 
     const where: { isActive: boolean; packageType?: string } = { isActive: true };
 
@@ -22,12 +23,15 @@ export async function GET(req: NextRequest) {
         slug: true,
         packageType: true,
         title: true,
+        titleEs: true,
         duration: true,
         destinations: true,
         image: true,
         description: true,
+        descriptionEs: true,
         pdfUrl: true,
         highlights: true,
+        highlightsEs: true,
         pricing: true,
         b2bPricing: true,
       }
@@ -37,6 +41,10 @@ export async function GET(req: NextRequest) {
     let allPackages = packages.map(pkg => ({
       ...pkg,
       id: pkg.packageId,
+      // Use Spanish content if locale is 'es', fallback to English
+      title: locale === 'es' && pkg.titleEs ? pkg.titleEs : pkg.title,
+      description: locale === 'es' && pkg.descriptionEs ? pkg.descriptionEs : pkg.description,
+      highlights: locale === 'es' && pkg.highlightsEs ? pkg.highlightsEs : pkg.highlights,
     }));
 
     if (includeDailyTours) {
@@ -50,13 +58,16 @@ export async function GET(req: NextRequest) {
         id: tour.tourCode,
         packageId: tour.tourCode,
         packageType: 'DAILY_TOUR',
-        title: tour.title,
+        title: locale === 'es' && tour.titleEs ? tour.titleEs : tour.title,
+        titleEs: tour.titleEs,
         duration: tour.duration,
         destinations: tour.city,
         image: tour.image || '/images/destinations/istanbul.jpg',
-        description: tour.description,
+        description: locale === 'es' && tour.descriptionEs ? tour.descriptionEs : tour.description,
+        descriptionEs: tour.descriptionEs,
         pdfUrl: tour.pdfUrl,
-        highlights: tour.description,
+        highlights: locale === 'es' && tour.descriptionEs ? tour.descriptionEs : tour.description,
+        highlightsEs: tour.descriptionEs,
         pricing: JSON.stringify({
           sicPrice: tour.sicPrice,
           privateMin2: tour.privateMin2,

@@ -6,12 +6,15 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaClock, FaHotel, FaMapMarkerAlt, FaCalendarAlt, FaUsers, FaDownload } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
 import BookingModal from '@/components/BookingModal';
 import StructuredData, { generateTourPackageSchema, generateBreadcrumbSchema, type PackageSchemaData } from '@/components/StructuredData';
 import { PackageDetailSkeleton } from '@/components/LoadingSkeleton';
 
 export default function PackageDetailPage() {
   const params = useParams();
+  const locale = useLocale();
+  const t = useTranslations('packageDetailPage');
   const packageId = params.id as string;
 
   interface PkgData {
@@ -42,7 +45,7 @@ export default function PackageDetailPage() {
   useEffect(() => {
     const fetchPackage = async () => {
       try {
-        const res = await fetch(`/api/packages/${packageId}`);
+        const res = await fetch(`/api/packages/${packageId}?locale=${locale}`);
         if (res.ok) {
           const data = await res.json();
           setPkg(data.package);
@@ -54,7 +57,7 @@ export default function PackageDetailPage() {
       }
     };
     fetchPackage();
-  }, [packageId]);
+  }, [packageId, locale]);
 
   if (loading) {
     return <PackageDetailSkeleton />;
@@ -64,9 +67,9 @@ export default function PackageDetailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Package Not Found</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">{t('packageNotFound')}</h1>
           <Link href="/tours/hotels-packages" className="btn-primary">
-            Back to Packages
+            {t('backToPackages')}
           </Link>
         </div>
       </div>
@@ -184,13 +187,13 @@ export default function PackageDetailPage() {
           <div className="lg:col-span-2 space-y-8">
             {/* Overview */}
             <section>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Overview</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('overview')}</h2>
               <p className="text-gray-700 leading-relaxed text-lg">{pkg.description}</p>
             </section>
 
             {/* Highlights */}
             <section>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Package Highlights</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('packageHighlights')}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {(Array.isArray(pkg.highlights) ? pkg.highlights : [pkg.highlights]).map((highlight: string, index: number) => (
                   <div key={index} className="flex items-start">
@@ -205,7 +208,7 @@ export default function PackageDetailPage() {
 
             {/* Itinerary */}
             <section>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Day by Day Itinerary</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('dayByDayItinerary')}</h2>
               <div className="space-y-6">
                 {pkg.itinerary.map((day) => (
                   <motion.div
@@ -223,7 +226,7 @@ export default function PackageDetailPage() {
                     </div>
                     <p className="text-gray-700 mb-2">{day.description}</p>
                     <p className="text-sm text-gray-500">
-                      <span className="font-semibold">Meals:</span> {day.meals}
+                      <span className="font-semibold">{t('meals')}:</span> {day.meals}
                     </p>
                   </motion.div>
                 ))}
@@ -238,7 +241,7 @@ export default function PackageDetailPage() {
                     <svg className="w-6 h-6 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    What&apos;s Included
+                    {t('whatsIncluded')}
                   </h3>
                   <ul className="space-y-2">
                     {pkg.included.map((item, index) => (
@@ -255,7 +258,7 @@ export default function PackageDetailPage() {
                     <svg className="w-6 h-6 text-red-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                     </svg>
-                    Not Included
+                    {t('notIncluded')}
                   </h3>
                   <ul className="space-y-2">
                     {pkg.notIncluded.map((item, index) => (
@@ -271,7 +274,7 @@ export default function PackageDetailPage() {
 
             {/* Hotels */}
             <section>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Accommodation Options</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('accommodationOptions')}</h2>
               <div className="space-y-4">
                 {Object.entries(pkg.hotels).map(([category, hotels]) => (
                   <div key={category} className="bg-gray-50 rounded-lg p-4">
@@ -290,19 +293,19 @@ export default function PackageDetailPage() {
             <div className="sticky top-24">
               {/* Price Calculator */}
               <div className="bg-white rounded-lg shadow-xl p-6 mb-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Book This Package</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">{t('bookThisPackage')}</h3>
 
                 {/* Hotel Category */}
                 <div className="mb-4">
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Hotel Category</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">{t('hotelCategory')}</label>
                   <select
                     value={selectedHotel}
                     onChange={(e) => setSelectedHotel(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600"
                   >
-                    <option value="threestar">3-Star Hotels</option>
-                    <option value="fourstar">4-Star Hotels</option>
-                    <option value="fivestar">5-Star Hotels</option>
+                    <option value="threestar">{t('threeStarHotels')}</option>
+                    <option value="fourstar">{t('fourStarHotels')}</option>
+                    <option value="fivestar">{t('fiveStarHotels')}</option>
                   </select>
                 </div>
 
@@ -310,28 +313,28 @@ export default function PackageDetailPage() {
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <label className="block text-sm font-semibold text-gray-700">
-                      Room Configuration
+                      {t('roomConfiguration')}
                     </label>
                     <span className="text-xs text-gray-500">
-                      Total: {getTotalPax()} {getTotalPax() === 1 ? 'person' : 'people'}
+                      {t('total')}: {getTotalPax()} {getTotalPax() === 1 ? t('person') : t('people')}
                     </span>
                   </div>
 
                   <div className="space-y-3">
                     {rooms.map((pax, index) => {
-                      const roomType = pax === 1 ? 'Single' : pax === 2 ? 'Double' : 'Triple';
+                      const roomType = pax === 1 ? t('single') : pax === 2 ? t('double') : t('triple');
                       return (
                         <div key={index} className="bg-gray-50 rounded-lg p-3">
                           <div className="flex items-center justify-between mb-2">
                             <span className="text-sm font-semibold text-gray-700">
-                              Room {index + 1}: {roomType}
+                              {t('room')} {index + 1}: {roomType}
                             </span>
                             {rooms.length > 1 && (
                               <button
                                 onClick={() => removeRoom(index)}
                                 className="text-red-500 hover:text-red-700 text-xs"
                               >
-                                Remove
+                                {t('remove')}
                               </button>
                             )}
                           </div>
@@ -340,9 +343,9 @@ export default function PackageDetailPage() {
                             onChange={(e) => updateRoomPax(index, parseInt(e.target.value))}
                             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 text-sm"
                           >
-                            <option value={1}>1 Person (Single)</option>
-                            <option value={2}>2 People (Double)</option>
-                            <option value={3}>3 People (Triple)</option>
+                            <option value={1}>{t('onePerson')}</option>
+                            <option value={2}>{t('twoPeople')}</option>
+                            <option value={3}>{t('threePeople')}</option>
                           </select>
                         </div>
                       );
@@ -354,24 +357,24 @@ export default function PackageDetailPage() {
                       onClick={addRoom}
                       className="mt-3 w-full px-4 py-2 border-2 border-dashed border-blue-300 rounded-lg text-blue-600 hover:bg-blue-50 text-sm font-semibold transition-colors"
                     >
-                      + Add Another Room
+                      {t('addAnotherRoom')}
                     </button>
                   )}
 
                   <p className="text-xs text-gray-500 mt-2">
-                    Maximum 3 people per room, 10 people total
+                    {t('maximumRoomInfo')}
                   </p>
                 </div>
 
                 {/* Price Display */}
                 <div className="bg-blue-50 rounded-lg p-4 mb-6">
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-gray-700">Total Price:</span>
+                    <span className="text-gray-700">{t('totalPrice')}:</span>
                     <span className="text-3xl font-bold text-blue-600">€{calculatePrice()}</span>
                   </div>
                   <div className="text-xs text-gray-600 space-y-1">
-                    <p>Per person: €{getTotalPax() > 0 ? (calculatePrice() / getTotalPax()).toFixed(0) : 0}</p>
-                    <p>Rooms: {rooms.length}</p>
+                    <p>{t('perPerson')}: €{getTotalPax() > 0 ? (calculatePrice() / getTotalPax()).toFixed(0) : 0}</p>
+                    <p>{t('rooms')}: {rooms.length}</p>
                   </div>
                 </div>
 
@@ -382,7 +385,7 @@ export default function PackageDetailPage() {
                     className="btn-primary w-full text-center flex items-center justify-center"
                   >
                     <FaCalendarAlt className="mr-2" />
-                    Request Booking
+                    {t('requestBooking')}
                   </button>
                   <a
                     href={pkg.pdfUrl}
@@ -390,14 +393,14 @@ export default function PackageDetailPage() {
                     className="btn-secondary w-full text-center flex items-center justify-center"
                   >
                     <FaDownload className="mr-2" />
-                    Download PDF
+                    {t('downloadPDF')}
                   </a>
                 </div>
               </div>
 
               {/* Quick Info */}
               <div className="bg-gray-50 rounded-lg p-6">
-                <h4 className="font-bold text-gray-900 mb-4">Quick Info</h4>
+                <h4 className="font-bold text-gray-900 mb-4">{t('quickInfo')}</h4>
                 <ul className="space-y-3 text-sm">
                   <li className="flex items-center text-gray-700">
                     <FaClock className="mr-3 text-blue-600" />
@@ -409,11 +412,11 @@ export default function PackageDetailPage() {
                   </li>
                   <li className="flex items-center text-gray-700">
                     <FaHotel className="mr-3 text-blue-600" />
-                    3/4/5-Star Hotels
+                    {t('hotelStars')}
                   </li>
                   <li className="flex items-center text-gray-700">
                     <FaUsers className="mr-3 text-blue-600" />
-                    SIC Group Tours
+                    {t('sicGroupTours')}
                   </li>
                 </ul>
               </div>

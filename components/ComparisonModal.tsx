@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { FaTimes, FaClock, FaMapMarkerAlt, FaCheck } from 'react-icons/fa';
 import { useComparison } from '@/contexts/ComparisonContext';
 
@@ -25,6 +26,8 @@ interface PackageData {
 }
 
 export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProps) {
+  const t = useTranslations('comparisonModal');
+
   const { comparisonList, removeFromComparison, clearComparison } = useComparison();
   const [packages, setPackages] = useState<PackageData[]>([]);
   const [loading, setLoading] = useState(false);
@@ -85,7 +88,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
           {/* Header */}
           <div className="sticky top-0 bg-white border-b p-4 flex items-center justify-between z-10">
             <h2 className="text-2xl font-bold text-gray-900">
-              Compare Packages ({packages.length})
+              {t('title', { count: packages.length })}
             </h2>
             <div className="flex items-center gap-3">
               {packages.length > 0 && (
@@ -96,7 +99,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
                   }}
                   className="text-sm text-red-600 hover:text-red-700 font-medium"
                 >
-                  Clear All
+                  {t('buttons.clearAll')}
                 </button>
               )}
               <button
@@ -111,11 +114,12 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
           {loading ? (
             <div className="flex items-center justify-center h-96">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+              <span className="sr-only">{t('loading')}</span>
             </div>
           ) : packages.length === 0 ? (
             <div className="p-12 text-center">
-              <p className="text-gray-600 text-lg mb-4">No packages to compare</p>
-              <p className="text-sm text-gray-500">Add packages from the packages page to start comparing</p>
+              <p className="text-gray-600 text-lg mb-4">{t('empty.title')}</p>
+              <p className="text-sm text-gray-500">{t('empty.description')}</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -123,7 +127,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
                 <tbody>
                   {/* Images */}
                   <tr className="border-b">
-                    <td className="p-4 font-semibold text-gray-700 bg-gray-50 sticky left-0">Image</td>
+                    <td className="p-4 font-semibold text-gray-700 bg-gray-50 sticky left-0">{t('table.image')}</td>
                     {packages.map((pkg) => (
                       <td key={pkg.id} className="p-4">
                         <div className="relative h-48 w-full">
@@ -146,7 +150,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
 
                   {/* Title */}
                   <tr className="border-b">
-                    <td className="p-4 font-semibold text-gray-700 bg-gray-50 sticky left-0">Package</td>
+                    <td className="p-4 font-semibold text-gray-700 bg-gray-50 sticky left-0">{t('table.package')}</td>
                     {packages.map((pkg) => (
                       <td key={pkg.id} className="p-4">
                         <h3 className="font-bold text-lg text-gray-900 mb-2">{pkg.title}</h3>
@@ -154,7 +158,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
                           href={`/packages/${pkg.slug}`}
                           className="text-sm text-primary-600 hover:text-primary-700"
                         >
-                          View Details →
+                          {t('table.viewDetails')}
                         </Link>
                       </td>
                     ))}
@@ -162,11 +166,11 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
 
                   {/* Price */}
                   <tr className="border-b bg-green-50">
-                    <td className="p-4 font-semibold text-gray-700 bg-gray-50 sticky left-0">Price (from)</td>
+                    <td className="p-4 font-semibold text-gray-700 bg-gray-50 sticky left-0">{t('table.priceFrom')}</td>
                     {packages.map((pkg) => (
                       <td key={pkg.id} className="p-4">
                         <div className="text-3xl font-bold text-green-600">€{getMinPrice(pkg)}</div>
-                        <p className="text-xs text-gray-600 mt-1">per person</p>
+                        <p className="text-xs text-gray-600 mt-1">{t('table.perPerson')}</p>
                       </td>
                     ))}
                   </tr>
@@ -175,7 +179,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
                   <tr className="border-b">
                     <td className="p-4 font-semibold text-gray-700 bg-gray-50 sticky left-0">
                       <FaClock className="inline mr-2" />
-                      Duration
+                      {t('table.duration')}
                     </td>
                     {packages.map((pkg) => (
                       <td key={pkg.id} className="p-4">
@@ -188,7 +192,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
                   <tr className="border-b">
                     <td className="p-4 font-semibold text-gray-700 bg-gray-50 sticky left-0">
                       <FaMapMarkerAlt className="inline mr-2" />
-                      Destinations
+                      {t('table.destinations')}
                     </td>
                     {packages.map((pkg) => (
                       <td key={pkg.id} className="p-4">
@@ -211,7 +215,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
 
                   {/* Description */}
                   <tr className="border-b">
-                    <td className="p-4 font-semibold text-gray-700 bg-gray-50 sticky left-0">Description</td>
+                    <td className="p-4 font-semibold text-gray-700 bg-gray-50 sticky left-0">{t('table.description')}</td>
                     {packages.map((pkg) => (
                       <td key={pkg.id} className="p-4">
                         <p className="text-sm text-gray-600">{pkg.description}</p>
@@ -221,7 +225,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
 
                   {/* Highlights */}
                   <tr className="border-b">
-                    <td className="p-4 font-semibold text-gray-700 bg-gray-50 sticky left-0 align-top">Highlights</td>
+                    <td className="p-4 font-semibold text-gray-700 bg-gray-50 sticky left-0 align-top">{t('table.highlights')}</td>
                     {packages.map((pkg) => (
                       <td key={pkg.id} className="p-4">
                         {pkg.highlights && (
@@ -247,7 +251,7 @@ export default function ComparisonModal({ isOpen, onClose }: ComparisonModalProp
                           href={`/packages/${pkg.slug}`}
                           className="btn-primary w-full text-center block"
                         >
-                          Book Now
+                          {t('buttons.bookNow')}
                         </Link>
                       </td>
                     ))}

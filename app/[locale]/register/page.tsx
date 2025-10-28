@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaLock, FaUser, FaPhone, FaGlobe, FaUserPlus } from 'react-icons/fa';
+import { useTranslations } from 'next-intl';
 
 export default function RegisterPage() {
+  const t = useTranslations('registerPage');
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
@@ -25,12 +27,12 @@ export default function RegisterPage() {
 
     // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError(t('errors.passwordMismatch'));
       return;
     }
 
     if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setError(t('errors.passwordLength'));
       return;
     }
 
@@ -52,14 +54,14 @@ export default function RegisterPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || 'Failed to register');
+        throw new Error(data.error || t('errors.registerFailed'));
       }
 
       // Redirect to dashboard
       router.push('/dashboard');
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError(err instanceof Error ? err.message : t('errors.generic'));
     } finally {
       setIsLoading(false);
     }
@@ -73,8 +75,8 @@ export default function RegisterPage() {
         className="max-w-md w-full"
       >
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Create Account</h1>
-          <p className="text-gray-600">Join us and start booking your Turkey adventures</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">{t('title')}</h1>
+          <p className="text-gray-600">{t('subtitle')}</p>
         </div>
 
         <div className="bg-white rounded-lg shadow-xl p-8">
@@ -87,7 +89,7 @@ export default function RegisterPage() {
 
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                Full Name *
+                {t('form.fullName')} *
               </label>
               <div className="relative">
                 <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -98,14 +100,14 @@ export default function RegisterPage() {
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="John Doe"
+                  placeholder={t('form.fullNamePlaceholder')}
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address *
+                {t('form.email')} *
               </label>
               <div className="relative">
                 <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -116,7 +118,7 @@ export default function RegisterPage() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="you@example.com"
+                  placeholder={t('form.emailPlaceholder')}
                 />
               </div>
             </div>
@@ -124,7 +126,7 @@ export default function RegisterPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                  Phone
+                  {t('form.phone')}
                 </label>
                 <div className="relative">
                   <FaPhone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -134,14 +136,14 @@ export default function RegisterPage() {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    placeholder="+1234567890"
+                    placeholder={t('form.phonePlaceholder')}
                   />
                 </div>
               </div>
 
               <div>
                 <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
-                  Country
+                  {t('form.country')}
                 </label>
                 <div className="relative">
                   <FaGlobe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -151,7 +153,7 @@ export default function RegisterPage() {
                     value={formData.country}
                     onChange={(e) => setFormData({ ...formData, country: e.target.value })}
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    placeholder="USA"
+                    placeholder={t('form.countryPlaceholder')}
                   />
                 </div>
               </div>
@@ -159,7 +161,7 @@ export default function RegisterPage() {
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Password *
+                {t('form.password')} *
               </label>
               <div className="relative">
                 <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -170,14 +172,14 @@ export default function RegisterPage() {
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   required
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="••••••••"
+                  placeholder={t('form.passwordPlaceholder')}
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                Confirm Password *
+                {t('form.confirmPassword')} *
               </label>
               <div className="relative">
                 <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -188,7 +190,7 @@ export default function RegisterPage() {
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   required
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="••••••••"
+                  placeholder={t('form.confirmPasswordPlaceholder')}
                 />
               </div>
             </div>
@@ -199,11 +201,11 @@ export default function RegisterPage() {
               className="w-full btn-primary flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
-                'Creating account...'
+                t('form.creating')
               ) : (
                 <>
                   <FaUserPlus className="mr-2" />
-                  Create Account
+                  {t('form.createButton')}
                 </>
               )}
             </button>
@@ -211,9 +213,9 @@ export default function RegisterPage() {
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Already have an account?{' '}
+              {t('haveAccount')}{' '}
               <Link href="/login" className="text-primary-600 hover:text-primary-700 font-semibold">
-                Sign in here
+                {t('signInLink')}
               </Link>
             </p>
           </div>
@@ -221,7 +223,7 @@ export default function RegisterPage() {
 
         <div className="mt-6 text-center">
           <Link href="/" className="text-sm text-gray-600 hover:text-gray-900">
-            ← Back to Home
+            {t('backToHome')}
           </Link>
         </div>
       </motion.div>

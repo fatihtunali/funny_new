@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
+import { useTranslations, useLocale } from 'next-intl';
 import { FaFilter, FaTh, FaList, FaMapMarkerAlt, FaClock, FaEye, FaBalanceScale, FaTimes } from 'react-icons/fa';
 import { PackageGridSkeleton } from '@/components/LoadingSkeleton';
 import QuickViewModal from '@/components/QuickViewModal';
@@ -24,6 +25,8 @@ interface Package {
 }
 
 export default function AllPackagesPage() {
+  const t = useTranslations('packagesPage');
+  const locale = useLocale();
   const [packages, setPackages] = useState<Package[]>([]);
   const [filteredPackages, setFilteredPackages] = useState<Package[]>([]);
   const [loading, setLoading] = useState(true);
@@ -44,7 +47,7 @@ export default function AllPackagesPage() {
 
   const fetchPackages = async () => {
     try {
-      const res = await fetch('/api/packages');
+      const res = await fetch(`/api/packages?locale=${locale}`);
       const data = await res.json();
       console.log('📦 Fetched packages:', data.packages?.length);
       console.log('📦 Package types:', data.packages?.map((p: Package) => ({ id: p.packageId, type: p.packageType })));
@@ -122,7 +125,8 @@ export default function AllPackagesPage() {
 
   useEffect(() => {
     fetchPackages();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locale]);
 
   useEffect(() => {
     applyFilters();
@@ -188,15 +192,15 @@ export default function AllPackagesPage() {
 
   const destinations = ['Istanbul', 'Cappadocia', 'Ephesus', 'Pamukkale', 'Antalya', 'Bodrum'];
   const packageTypes = [
-    { value: 'WITH_HOTEL', label: 'Hotel Packages' },
-    { value: 'LAND_ONLY', label: 'Land Packages' },
-    { value: 'DAILY_TOUR', label: 'Daily Tours' }
+    { value: 'WITH_HOTEL', label: t('packageTypes.withHotel') },
+    { value: 'LAND_ONLY', label: t('packageTypes.landOnly') },
+    { value: 'DAILY_TOUR', label: t('packageTypes.dailyTour') }
   ];
   const durations = [
-    { value: '1', label: '1 Day' },
-    { value: '2-5', label: '2-5 Days' },
-    { value: '6-10', label: '6-10 Days' },
-    { value: '10+', label: '10+ Days' }
+    { value: '1', label: t('durations.oneDay') },
+    { value: '2-5', label: t('durations.twoToFive') },
+    { value: '6-10', label: t('durations.sixToTen') },
+    { value: '10+', label: t('durations.tenPlus') }
   ];
 
   if (loading) {
@@ -205,8 +209,8 @@ export default function AllPackagesPage() {
         {/* Header */}
         <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-bold mb-4">Explore All Turkey Tours</h1>
-            <p className="text-xl text-primary-100">Discover amazing experiences across Turkey</p>
+            <h1 className="text-4xl font-bold mb-4">{t('title')}</h1>
+            <p className="text-xl text-primary-100">{t('subtitle')}</p>
           </div>
         </div>
 
@@ -242,8 +246,8 @@ export default function AllPackagesPage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold mb-4">Explore All Turkey Tours</h1>
-          <p className="text-xl text-primary-100">Discover amazing experiences across Turkey</p>
+          <h1 className="text-4xl font-bold mb-4">{t('title')}</h1>
+          <p className="text-xl text-primary-100">{t('subtitle')}</p>
         </div>
       </div>
 
@@ -267,7 +271,7 @@ export default function AllPackagesPage() {
           `}>
             <div className="bg-white rounded-lg shadow-sm p-6 lg:sticky lg:top-4 h-full lg:h-auto overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-bold text-gray-900">Filters</h2>
+                <h2 className="text-lg font-bold text-gray-900">{t('filters')}</h2>
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => {
@@ -279,7 +283,7 @@ export default function AllPackagesPage() {
                     }}
                     className="text-sm text-primary-600 hover:text-primary-700"
                   >
-                    Clear All
+                    {t('clearAll')}
                   </button>
                   <button
                     onClick={() => setShowFilters(false)}
@@ -292,19 +296,19 @@ export default function AllPackagesPage() {
 
               {/* Search */}
               <div className="mb-6">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Search</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">{t('search')}</label>
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search tours..."
+                  placeholder={t('searchPlaceholder')}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
                 />
               </div>
 
               {/* Destinations */}
               <div className="mb-6">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Destinations</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">{t('destinations')}</label>
                 <div className="space-y-2">
                   {destinations.map(dest => (
                     <label key={dest} className="flex items-center">
@@ -322,7 +326,7 @@ export default function AllPackagesPage() {
 
               {/* Package Type */}
               <div className="mb-6">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Package Type</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">{t('packageType')}</label>
                 <div className="space-y-2">
                   {packageTypes.map(type => (
                     <label key={type.value} className="flex items-center">
@@ -340,7 +344,7 @@ export default function AllPackagesPage() {
 
               {/* Duration */}
               <div className="mb-6">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Duration</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">{t('duration')}</label>
                 <div className="space-y-2">
                   {durations.map(dur => (
                     <label key={dur.value} className="flex items-center">
@@ -359,7 +363,7 @@ export default function AllPackagesPage() {
               {/* Price Range */}
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Price Range: €{priceRange[0]} - €{priceRange[1]}
+                  {t('priceRange', { min: priceRange[0], max: priceRange[1] })}
                 </label>
                 <input
                   type="range"
@@ -389,7 +393,7 @@ export default function AllPackagesPage() {
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div className="flex items-center gap-4">
                   <p className="text-sm text-gray-600">
-                    <span className="font-semibold">{filteredPackages.length}</span> tours found
+                    {t('toursFound', { count: filteredPackages.length })}
                   </p>
                 </div>
 
@@ -399,24 +403,24 @@ export default function AllPackagesPage() {
                     onChange={(e) => setSortBy(e.target.value)}
                     className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 text-sm"
                   >
-                    <option value="newest">Newest First</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                    <option value="duration">Duration</option>
+                    <option value="newest">{t('sortBy.newest')}</option>
+                    <option value="price-low">{t('sortBy.priceLow')}</option>
+                    <option value="price-high">{t('sortBy.priceHigh')}</option>
+                    <option value="duration">{t('sortBy.duration')}</option>
                   </select>
 
                   <div className="flex gap-2">
                     <button
                       onClick={() => setViewMode('grid')}
                       className={`p-2 border rounded-lg ${viewMode === 'grid' ? 'bg-primary-600 text-white' : 'bg-white text-gray-600'}`}
-                      title="Grid view"
+                      title={t('viewMode.grid')}
                     >
                       <FaTh />
                     </button>
                     <button
                       onClick={() => setViewMode('list')}
                       className={`p-2 border rounded-lg ${viewMode === 'list' ? 'bg-primary-600 text-white' : 'bg-white text-gray-600'}`}
-                      title="List view"
+                      title={t('viewMode.list')}
                     >
                       <FaList />
                     </button>
@@ -428,7 +432,7 @@ export default function AllPackagesPage() {
             {/* Packages Grid/List */}
             {filteredPackages.length === 0 ? (
               <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-                <p className="text-gray-600 text-lg">No tours found matching your criteria.</p>
+                <p className="text-gray-600 text-lg">{t('noToursFound')}</p>
                 <button
                   onClick={() => {
                     setSelectedDestinations([]);
@@ -439,7 +443,7 @@ export default function AllPackagesPage() {
                   }}
                   className="mt-4 text-primary-600 hover:text-primary-700 font-semibold"
                 >
-                  Clear all filters
+                  {t('clearFilters')}
                 </button>
               </div>
             ) : (
@@ -459,7 +463,7 @@ export default function AllPackagesPage() {
                         />
                         {getPackageMinPrice(pkg) > 0 && (
                           <div className="absolute top-3 left-3 bg-green-600 text-white px-3 py-1.5 rounded-lg shadow-lg">
-                            <span className="text-sm font-bold">From €{getPackageMinPrice(pkg)}</span>
+                            <span className="text-sm font-bold">{t('fromPrice', { price: getPackageMinPrice(pkg) })}</span>
                           </div>
                         )}
                         {/* Comparison Checkbox */}
@@ -498,7 +502,7 @@ export default function AllPackagesPage() {
                               e.stopPropagation();
                             }}
                           >
-                            View Details
+                            {t('viewDetails')}
                           </Link>
                           <button
                             onClick={(e) => {
@@ -507,7 +511,7 @@ export default function AllPackagesPage() {
                               setIsQuickViewOpen(true);
                             }}
                             className="btn-secondary px-4 text-sm"
-                            title="Quick View"
+                            title={t('quickView')}
                           >
                             <FaEye />
                           </button>
@@ -544,15 +548,15 @@ export default function AllPackagesPage() {
                         {getPackageMinPrice(pkg) > 0 && (
                           <div className="mb-3 bg-green-50 border border-green-200 rounded-lg p-2">
                             <div className="flex items-baseline justify-center">
-                              <span className="text-xs text-green-700 font-medium mr-1">From</span>
+                              <span className="text-xs text-green-700 font-medium mr-1">{t('fromPrice', { price: '' }).split('€')[0]}</span>
                               <span className="text-2xl font-bold text-green-600">€{getPackageMinPrice(pkg)}</span>
-                              <span className="text-xs text-green-700 ml-1">per person</span>
+                              <span className="text-xs text-green-700 ml-1">{t('perPerson')}</span>
                             </div>
                           </div>
                         )}
                         <div className="text-center">
                           <span className="text-sm text-primary-600 font-semibold hover:text-primary-700">
-                            View Details & Book →
+                            {t('viewDetailsBook')}
                           </span>
                         </div>
                       </div>

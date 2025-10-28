@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import { FaClock, FaEye, FaTag } from 'react-icons/fa';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface BlogPost {
   id: string;
@@ -19,6 +20,8 @@ interface BlogPost {
 }
 
 export default function BlogPage() {
+  const t = useTranslations('blogPage');
+  const locale = useLocale();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -28,8 +31,8 @@ export default function BlogPage() {
   const fetchPosts = useCallback(async () => {
     try {
       const url = selectedCategory
-        ? `/api/blog?category=${encodeURIComponent(selectedCategory)}`
-        : '/api/blog';
+        ? `/api/blog?category=${encodeURIComponent(selectedCategory)}&locale=${locale}`
+        : `/api/blog?locale=${locale}`;
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
@@ -40,7 +43,7 @@ export default function BlogPage() {
     } finally {
       setLoading(false);
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, locale]);
 
   useEffect(() => {
     fetchPosts();
@@ -60,9 +63,9 @@ export default function BlogPage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-5xl font-bold mb-4">Travel Blog</h1>
+          <h1 className="text-5xl font-bold mb-4">{t('title')}</h1>
           <p className="text-xl text-primary-100 max-w-2xl">
-            Discover Turkey through our travel guides, tips, and insider knowledge
+            {t('subtitle')}
           </p>
         </div>
       </div>
@@ -79,7 +82,7 @@ export default function BlogPage() {
                   : 'bg-white text-gray-700 hover:bg-gray-100'
               }`}
             >
-              All Posts
+              {t('allPosts')}
             </button>
             {categories.map((category) => (
               <button
@@ -114,7 +117,7 @@ export default function BlogPage() {
           </div>
         ) : posts.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-gray-600 text-lg">No blog posts found in this category.</p>
+            <p className="text-gray-600 text-lg">{t('noPosts')}</p>
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -173,7 +176,7 @@ export default function BlogPage() {
 
                     {/* Read More */}
                     <div className="mt-4 text-primary-600 font-semibold flex items-center gap-2">
-                      Read More
+                      {t('readMore')}
                       <span className="text-xl">→</span>
                     </div>
                   </div>

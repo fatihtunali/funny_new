@@ -8,10 +8,19 @@ interface AttractionType {
   duration: string;
 }
 
+interface DestinationsPageProps {
+  params: Promise<{
+    locale: string;
+  }>;
+}
+
 // Make this page dynamic so it always fetches fresh data
 export const dynamic = 'force-dynamic';
 
-export default async function DestinationsPage() {
+export default async function DestinationsPage({ params }: DestinationsPageProps) {
+  const resolvedParams = await params;
+  const locale = resolvedParams.locale || 'en';
+
   // Fetch destinations from database
   const destinationsData = await prisma.destination.findMany({
     where: {
@@ -25,12 +34,19 @@ export default async function DestinationsPage() {
 
   // Transform data for client component
   const destinations = destinationsData.map(dest => {
-    const attractions = JSON.parse(dest.attractions) as AttractionType[];
+    // Use Spanish content if locale is 'es' and Spanish content is available
+    const useSpanish = locale === 'es';
+    const name = useSpanish && dest.nameEs ? dest.nameEs : dest.name;
+    const description = useSpanish && dest.descriptionEs ? dest.descriptionEs : dest.description;
+
+    // Parse attractions
+    const attractionsJson = useSpanish && dest.attractionsEs ? dest.attractionsEs : dest.attractions;
+    const attractions = JSON.parse(attractionsJson) as AttractionType[];
     const attractionNames = attractions.map((a) => a.name).join(', ');
 
     return {
-      name: dest.name,
-      description: dest.description,
+      name,
+      description,
       slug: dest.slug,
       attractions: attractionNames,
       image: dest.heroImage,

@@ -8,6 +8,8 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
+    const { searchParams } = new URL(req.url);
+    const locale = searchParams.get('locale') || 'en';
 
     const post = await prisma.blogPost.findUnique({
       where: { slug, status: 'PUBLISHED' },
@@ -23,9 +25,12 @@ export async function GET(
       data: { views: { increment: 1 } },
     });
 
-    // Parse tags
+    // Parse tags and return locale-specific content
     const formattedPost = {
       ...post,
+      title: locale === 'es' && post.titleEs ? post.titleEs : post.title,
+      excerpt: locale === 'es' && post.excerptEs ? post.excerptEs : post.excerpt,
+      content: locale === 'es' && post.contentEs ? post.contentEs : post.content,
       tags: post.tags ? JSON.parse(post.tags) : [],
     };
 

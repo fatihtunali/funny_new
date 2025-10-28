@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -24,79 +21,51 @@ model User {
 }
 
 model Booking {
-  id              String   @id @default(cuid())
-  userId          String?
-  user            User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  // Agent Information (for B2B bookings)
-  agentId         String?
-  agent           Agent?   @relation(fields: [agentId], references: [id], onDelete: SetNull)
-
-  // Guest Information (for non-logged-in users)
-  guestName       String?
-  guestEmail      String?
-  guestPhone      String?
-
-  // Package Details
-  packageName     String
-  packageId       String?
-
-  // Travel Details
-  travelDate      DateTime
-  duration        String
-  hotelCategory   String   // threestar, fourstar, fivestar
-
-  // Traveler Information
-  adults          Int      @default(2)
-  children3to5    Int      @default(0)
-  children6to10   Int      @default(0)
-
-  // Pricing
-  totalPrice      Float
-  currency        String   @default("EUR")
-
-  // Agent Commission (for B2B bookings)
-  commissionAmount Float?
-  commissionRate   Float?
-  paidAmount       Float?    @default(0)  // Amount paid to agent so far
-  remainingAmount  Float?    // Remaining amount to be paid
-
-  // Agent Payment Tracking (money received FROM agent for customer booking)
-  agentPaidAmount      Float?    @default(0)  // Amount agent has paid us for this booking
-  agentRemainingAmount Float?    // Remaining amount agent owes us (totalPrice - commissionAmount - agentPaidAmount)
-
-  // Booking Status
-  status          BookingStatus @default(PENDING)
-  paymentStatus   PaymentStatus @default(PENDING)
-  fullyPaidAt     DateTime?     // When commission fully paid to agent
-  agentFullyPaidAt DateTime?    // When agent has paid us in full for customer booking
-
-  // Additional Information
-  specialRequests String?  @db.Text
-
-  // Flight & Preferences (JSON format)
+  id                    String        @id @default(cuid())
+  userId                String?
+  packageName           String
+  packageId             String?
+  travelDate            DateTime
+  duration              String
+  hotelCategory         String
+  adults                Int           @default(2)
+  children3to5          Int           @default(0)
+  children6to10         Int           @default(0)
+  totalPrice            Float
+  currency              String        @default("EUR")
+  status                BookingStatus @default(PENDING)
+  paymentStatus         PaymentStatus @default(PENDING)
+  specialRequests       String?       @db.Text
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  confirmedAt           DateTime?
+  completedAt           DateTime?
+  referenceNumber       String        @unique
+  guestEmail            String?
+  guestName             String?
+  guestPhone            String?
+  agentId               String?
+  commissionAmount      Float?
+  commissionRate        Float?
   arrivalFlightNumber   String?
   arrivalFlightTime     String?
+  celebrationOccasion   String?
   departureFlightNumber String?
   departureFlightTime   String?
-  dietaryRequirements   String?  @db.Text  // JSON array
-  roomPreferences       String?  @db.Text  // Twin beds, King bed, High floor, etc.
+  dietaryRequirements   String?       @db.Text
   emergencyContactName  String?
   emergencyContactPhone String?
-  travelInsurance       Boolean  @default(false)
-  celebrationOccasion   String?  // Honeymoon, Anniversary, Birthday, etc.
-
-  // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  confirmedAt     DateTime?
-  completedAt     DateTime?
-
-  // Booking Reference Number
-  referenceNumber String   @unique
-
-  // Relations
-  passengers      Passenger[]
+  roomPreferences       String?       @db.Text
+  travelInsurance       Boolean       @default(false)
+  fullyPaidAt           DateTime?
+  paidAmount            Float?        @default(0)
+  remainingAmount       Float?
+  agentFullyPaidAt      DateTime?
+  agentPaidAmount       Float?        @default(0)
+  agentRemainingAmount  Float?
+  agent                 Agent?        @relation(fields: [agentId], references: [id])
+  user                  User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  passengers            Passenger[]
 
   @@index([userId])
   @@index([agentId])
@@ -106,51 +75,23 @@ model Booking {
 }
 
 model Passenger {
-  id                  String   @id @default(cuid())
-  bookingId           String
-  booking             Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
-
-  // Personal Information (as per passport)
-  firstName           String
-  middleName          String?
-  lastName            String
-  dateOfBirth         DateTime
-  gender              String   // M, F, Other
-  nationality         String
-
-  // Passport Information
-  passportNumber      String
-  passportExpiry      DateTime
+  id                     String        @id @default(cuid())
+  bookingId              String
+  firstName              String
+  middleName             String?
+  lastName               String
+  dateOfBirth            DateTime
+  gender                 String
+  nationality            String
+  passportNumber         String
+  passportExpiry         DateTime
   passportIssuingCountry String
-
-  // Passenger Type
-  passengerType       PassengerType  // ADULT, CHILD_3_5, CHILD_6_10
-
-  // Metadata
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  passengerType          PassengerType
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+  booking                Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
 
   @@index([bookingId])
-}
-
-enum PassengerType {
-  ADULT
-  CHILD_3_5
-  CHILD_6_10
-}
-
-enum BookingStatus {
-  PENDING
-  CONFIRMED
-  IN_PROGRESS
-  COMPLETED
-  CANCELLED
-}
-
-enum PaymentStatus {
-  PENDING
-  PAID
-  REFUNDED
 }
 
 model ContactInquiry {
@@ -179,101 +120,65 @@ model Admin {
 }
 
 model Agent {
-  id              String      @id @default(cuid())
-  email           String      @unique
-  password        String
-
-  // Company Details
-  companyName     String
-  contactName     String
-  phone           String
-  country         String?
-  address         String?     @db.Text
-
-  // Business Details
-  commissionRate  Float       @default(10.0)  // Percentage
-  status          AgentStatus @default(PENDING)
-
-  // Security
-  requirePasswordChange Boolean   @default(false)
-
-  // White Label Settings
-  logoUrl         String?
-  primaryColor    String?
-  companyWebsite  String?
-
-  // Metadata
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  approvedAt      DateTime?
-  approvedBy      String?     // Admin ID who approved
-
-  // Relations
-  bookings            Booking[]
-  dailyTourBookings   DailyTourBooking[] @relation("DailyTourAgentBookings")
-  transferBookings    TransferBooking[]  @relation("TransferAgentBookings")
-  commissionPayments  CommissionPayment[] @relation("AgentCommissionPayments")
+  id                    String              @id @default(cuid())
+  email                 String              @unique
+  password              String
+  companyName           String
+  contactName           String
+  phone                 String
+  country               String?
+  address               String?             @db.Text
+  commissionRate        Float               @default(10)
+  status                AgentStatus         @default(PENDING)
+  logoUrl               String?
+  primaryColor          String?
+  companyWebsite        String?
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  approvedAt            DateTime?
+  approvedBy            String?
+  requirePasswordChange Boolean             @default(false)
+  bookings              Booking[]
+  commissionPayments    CommissionPayment[] @relation("AgentCommissionPayments")
+  dailyTourBookings     DailyTourBooking[]  @relation("DailyTourAgentBookings")
+  transferBookings      TransferBooking[]   @relation("TransferAgentBookings")
 
   @@index([email])
   @@index([status])
 }
 
-enum AgentStatus {
-  PENDING
-  ACTIVE
-  SUSPENDED
-  REJECTED
-}
-
 model Package {
-  id          String   @id @default(cuid())
-  packageId   String   @unique  // 01, 02, etc.
-  title       String
-  slug        String   @unique
-  duration    String
-  description String   @db.Text
-
-  // Package Type
-  packageType String   @default("WITH_HOTEL")  // WITH_HOTEL, LAND_ONLY, or SHORE_EXCURSION
-
-  // Shore Excursion specific fields
-  port        String?  // Cruise port (Istanbul, Kusadasi, Izmir, etc.) - Only for SHORE_EXCURSION
-  pickupType  String?  // port, hotel, or both - Only for SHORE_EXCURSION
-
-  // Itinerary (JSON format)
-  itinerary   String   @db.Text
-
-  // Highlights
-  highlights  String   @db.Text
-
-  // Included/Not Included
-  included    String   @db.Text
-  notIncluded String   @db.Text
-
-  // Destinations (comma-separated)
-  destinations String
-
-  // Pricing (JSON format: {threestar: {single: 450, double: 320, triple: 290}, ...} or {perPerson: 350} for land only or {perPerson: {1pax: 180, 2pax: 95, ...}, children: {...}} for shore excursions)
-  pricing     String   @db.Text
-
-  // B2B Agent Pricing (Nett rates - lower than public pricing)
-  b2bPricing  String?  @db.Text
-
-  // Hotels (JSON format) - Optional for land-only packages, null for shore excursions
-  hotels      String?  @db.Text
-
-  // PDF URL
-  pdfUrl      String?
-
-  // Images
-  image       String
-
-  // Status
-  isActive    Boolean  @default(true)
-
-  // Timestamps
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                  String   @id @default(cuid())
+  packageId           String   @unique
+  title               String
+  slug                String   @unique
+  duration            String
+  description         String   @db.Text
+  packageType         String   @default("WITH_HOTEL")
+  itinerary           String   @db.Text
+  highlights          String   @db.Text
+  included            String   @db.Text
+  notIncluded         String   @db.Text
+  destinations        String
+  pricing             String   @db.Text
+  hotels              String?  @db.Text
+  pdfUrl              String?
+  image               String
+  isActive            Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  b2bPricing          String?  @db.Text
+  pickupType          String?
+  port                String?
+  accommodationInfoEs String?  @db.Text
+  descriptionEs       String?  @db.Text
+  excludedEs          String?  @db.Text
+  highlightsEs        String?  @db.Text
+  hotelsEs            String?  @db.Text
+  importantInfoEs     String?  @db.Text
+  includedEs          String?  @db.Text
+  itineraryEs         String?  @db.Text
+  titleEs             String?
 
   @@index([packageId])
   @@index([slug])
@@ -293,37 +198,28 @@ model Wishlist {
 }
 
 model BlogPost {
-  id              String   @id @default(cuid())
+  id              String     @id @default(cuid())
   title           String
-  slug            String   @unique
-  excerpt         String   @db.Text
-  content         String   @db.LongText
+  slug            String     @unique
+  excerpt         String     @db.Text
+  content         String     @db.LongText
   coverImage      String
-  category        String   // Travel Tips, Destinations, Culture, Food, etc.
-  tags            String?  @db.Text  // JSON array
-
-  // SEO
+  category        String
+  tags            String?    @db.Text
   metaTitle       String?
-  metaDescription String?  @db.Text
-
-  // AI Generation
-  isAIGenerated   Boolean  @default(false)
-  aiPrompt        String?  @db.Text
-
-  // Publishing
+  metaDescription String?    @db.Text
+  isAIGenerated   Boolean    @default(false)
+  aiPrompt        String?    @db.Text
   status          BlogStatus @default(DRAFT)
   publishedAt     DateTime?
-
-  // Author
-  authorName      String   @default("Funny Tourism")
+  authorName      String     @default("Funny Tourism")
   authorId        String?
-
-  // Stats
-  views           Int      @default(0)
-
-  // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  views           Int        @default(0)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  contentEs       String?    @db.LongText
+  excerptEs       String?    @db.Text
+  titleEs         String?
 
   @@index([slug])
   @@index([status])
@@ -331,47 +227,34 @@ model BlogPost {
   @@index([publishedAt])
 }
 
-enum BlogStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
-
 model DailyTour {
-  id              String   @id @default(cuid())
-  tourCode        String   @unique  // T1, T2, etc.
+  id              String             @id @default(cuid())
+  tourCode        String             @unique
   title           String
-  description     String   @db.Text
-  duration        String   // "Half Day", "Full Day", "4 Hours", etc.
-  city            String   // Istanbul, Cappadocia, Izmir, etc.
-
-  // Pricing structure
-  sicPrice        Float    // Per person SIC (Seat-in-Coach) price - guaranteed from 1 pax
-  privateMin2     Float    // Per person price for private tour with 2 pax
-  privateMin4     Float    // Per person price for private tour with 4 pax
-  privateMin6     Float    // Per person price for private tour with 6 pax
-  privateMin8     Float    // Per person price for private tour with 8 pax
-  privateMin10    Float    // Per person price for private tour with 10 pax
-
-  // Tour details
-  included        String?  @db.Text
-  notIncluded     String?  @db.Text
-  notes           String?  @db.Text
-
-  // Tour information
-  port            String?  // Cruise port if applicable (for shore excursions)
-  pickupLocations String?  @db.Text  // Pickup points
-
-  // Images & PDF
+  description     String             @db.Text
+  duration        String
+  city            String
+  sicPrice        Float
+  privateMin2     Float
+  privateMin4     Float
+  privateMin6     Float
+  privateMin8     Float
+  privateMin10    Float
+  included        String?            @db.Text
+  notIncluded     String?            @db.Text
+  notes           String?            @db.Text
+  port            String?
+  pickupLocations String?            @db.Text
   image           String?
   pdfUrl          String?
-
-  // Status
-  isActive        Boolean  @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  // Relations
+  isActive        Boolean            @default(true)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  descriptionEs   String?            @db.Text
+  excludedEs      String?            @db.Text
+  includedEs      String?            @db.Text
+  notesEs         String?            @db.Text
+  titleEs         String?
   bookings        DailyTourBooking[]
 
   @@index([tourCode])
@@ -380,58 +263,38 @@ model DailyTour {
 }
 
 model DailyTourBooking {
-  id              String    @id @default(cuid())
-  tourId          String
-  tour            DailyTour @relation(fields: [tourId], references: [id], onDelete: Cascade)
-
-  // User/Guest info
-  userId          String?
-  guestName       String?
-  guestEmail      String
-  guestPhone      String
-
-  // Agent Information (for B2B bookings)
-  agentId         String?
-  agent           Agent?    @relation("DailyTourAgentBookings", fields: [agentId], references: [id], onDelete: SetNull)
-
-  // Booking details
-  tourDate        DateTime
-  tourType        TourType  // SIC or PRIVATE
-  numberOfPax     Int
-  totalPrice      Float
-  currency        String    @default("EUR")
-
-  // Agent Commission (for B2B bookings)
-  commissionAmount Float?
-  commissionRate   Float?
-  paidAmount       Float?    @default(0)  // Amount paid to agent so far
-  remainingAmount  Float?    // Remaining amount to be paid
-
-  // Agent Payment Tracking (money received FROM agent for customer booking)
-  agentPaidAmount      Float?    @default(0)  // Amount agent has paid us for this booking
-  agentRemainingAmount Float?    // Remaining amount agent owes us (totalPrice - commissionAmount - agentPaidAmount)
-
-  // Pickup details
-  pickupLocation  String?
-  pickupTime      String?
-  hotelName       String?   // If hotel pickup
-
-  // Special requests
-  specialRequests String?   @db.Text
-
-  // Status
-  status          BookingStatus @default(PENDING)
-  paymentStatus   PaymentStatus @default(PENDING)
-  fullyPaidAt     DateTime?     // When commission fully paid to agent
-  agentFullyPaidAt DateTime?    // When agent has paid us in full for customer booking
-
-  // Reference number
-  referenceNumber String    @unique
-
-  // Timestamps
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  confirmedAt     DateTime?
+  id                   String        @id @default(cuid())
+  tourId               String
+  userId               String?
+  guestName            String?
+  guestEmail           String
+  guestPhone           String
+  tourDate             DateTime
+  tourType             TourType
+  numberOfPax          Int
+  totalPrice           Float
+  currency             String        @default("EUR")
+  pickupLocation       String?
+  pickupTime           String?
+  hotelName            String?
+  specialRequests      String?       @db.Text
+  status               BookingStatus @default(PENDING)
+  paymentStatus        PaymentStatus @default(PENDING)
+  referenceNumber      String        @unique
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  confirmedAt          DateTime?
+  agentId              String?
+  commissionAmount     Float?
+  commissionRate       Float?
+  fullyPaidAt          DateTime?
+  paidAmount           Float?        @default(0)
+  remainingAmount      Float?
+  agentFullyPaidAt     DateTime?
+  agentPaidAmount      Float?        @default(0)
+  agentRemainingAmount Float?
+  agent                Agent?        @relation("DailyTourAgentBookings", fields: [agentId], references: [id])
+  tour                 DailyTour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
 
   @@index([tourId])
   @@index([agentId])
@@ -440,43 +303,286 @@ model DailyTourBooking {
   @@index([tourDate])
 }
 
-enum TourType {
-  SIC       // Seat-in-Coach (group tour)
-  PRIVATE   // Private tour
-}
-
-// ==================== TRANSFER SYSTEM ====================
-
-// Location model for flexible point-to-point transfers
 model TransferLocation {
-  id              String   @id @default(cuid())
-
-  // Location Details
-  name            String   // "Istanbul Atatürk Airport (IST)", "Taksim Square", "Kalkan Hotels"
-  code            String?  @unique // "IST", "SAW", "AYT" for airports
-  type            LocationType
-
-  // Geographic Info
-  region          String   // "Istanbul", "Antalya", "Aegean Coast", etc.
-  city            String?  // "Istanbul", "Kalkan", "Kas"
-  address         String?  @db.Text // Full address if needed
-
-  // Metadata
-  isActive        Boolean  @default(true)
-  displayOrder    Int      @default(0) // For sorting in dropdowns
-
-  // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  // Relations
-  transfersFrom   Transfer[] @relation("FromLocation")
-  transfersTo     Transfer[] @relation("ToLocation")
+  id            String       @id @default(cuid())
+  name          String
+  code          String?      @unique
+  type          LocationType
+  region        String
+  city          String?
+  address       String?      @db.Text
+  isActive      Boolean      @default(true)
+  displayOrder  Int          @default(0)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  transfersFrom Transfer[]   @relation("FromLocation")
+  transfersTo   Transfer[]   @relation("ToLocation")
 
   @@index([type])
   @@index([region])
   @@index([isActive])
   @@index([code])
+}
+
+model Transfer {
+  id                String            @id @default(cuid())
+  sicPricePerPerson Float?
+  price1to2Pax      Float?
+  price3to5Pax      Float?
+  price6to10Pax     Float?
+  onRequestOnly     Boolean           @default(false)
+  vehicleType1to2   String?           @default("Sedan")
+  vehicleType3to5   String?           @default("Minivan (Transporter)")
+  vehicleType6to10  String?           @default("Minibus (Sprinter)")
+  distance          String?
+  duration          String?
+  isActive          Boolean           @default(true)
+  validFrom         DateTime?
+  validTo           DateTime?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  fromLocationId    String
+  toLocationId      String
+  fromLocation      TransferLocation  @relation("FromLocation", fields: [fromLocationId], references: [id], onDelete: Cascade)
+  toLocation        TransferLocation  @relation("ToLocation", fields: [toLocationId], references: [id], onDelete: Cascade)
+  bookings          TransferBooking[]
+
+  @@unique([fromLocationId, toLocationId])
+  @@index([fromLocationId])
+  @@index([toLocationId])
+  @@index([isActive])
+}
+
+model TransferBooking {
+  id                   String        @id @default(cuid())
+  transferId           String
+  userId               String?
+  guestName            String
+  guestEmail           String
+  guestPhone           String
+  transferDate         DateTime
+  transferTime         String
+  numberOfPassengers   Int
+  flightNumber         String?
+  totalPrice           Float
+  currency             String        @default("EUR")
+  vehicleType          String
+  specialRequests      String?       @db.Text
+  numberOfLuggage      Int?
+  status               BookingStatus @default(PENDING)
+  paymentStatus        PaymentStatus @default(PENDING)
+  referenceNumber      String        @unique
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  confirmedAt          DateTime?
+  agentId              String?
+  commissionAmount     Float?
+  commissionRate       Float?
+  fullyPaidAt          DateTime?
+  paidAmount           Float?        @default(0)
+  remainingAmount      Float?
+  agentFullyPaidAt     DateTime?
+  agentPaidAmount      Float?        @default(0)
+  agentRemainingAmount Float?
+  agent                Agent?        @relation("TransferAgentBookings", fields: [agentId], references: [id])
+  transfer             Transfer      @relation(fields: [transferId], references: [id], onDelete: Cascade)
+
+  @@index([transferId])
+  @@index([agentId])
+  @@index([guestEmail])
+  @@index([status])
+  @@index([transferDate])
+}
+
+model CommissionPayment {
+  id              String   @id @default(cuid())
+  agentId         String
+  bookingType     String
+  bookingId       String
+  referenceNumber String?
+  amount          Float
+  paymentMethod   String?
+  transactionRef  String?
+  notes           String?  @db.Text
+  paidBy          String?
+  createdAt       DateTime @default(now())
+  agent           Agent    @relation("AgentCommissionPayments", fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([agentId])
+  @@index([bookingId])
+  @@index([createdAt])
+}
+
+model AgentLead {
+  id                       String   @id @default(uuid())
+  companyName              String
+  email                    String?
+  phone                    String?
+  website                  String?
+  address                  String?  @db.Text
+  city                     String?
+  country                  String
+  source                   String
+  searchQuery              String?
+  googlePlaceId            String?  @db.VarChar(255)
+  discovered               DateTime @default(now())
+  contacted                Boolean  @default(false)
+  convertedToAgent         Boolean  @default(false)
+  notes                    String?  @db.Text
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+  emailExtractionAttempted Boolean  @default(false)
+
+  @@index([country, city])
+  @@index([contacted])
+  @@index([email])
+  @@index([emailExtractionAttempted])
+  @@index([googlePlaceId])
+}
+
+model SearchedCity {
+  id          String   @id @default(uuid())
+  city        String
+  country     String
+  searchQuery String
+  method      String
+  leadsFound  Int      @default(0)
+  searchedAt  DateTime @default(now())
+
+  @@unique([city, country, method])
+  @@index([country])
+}
+
+model Destination {
+  id                String   @id @default(cuid())
+  name              String   @unique
+  slug              String   @unique
+  description       String   @db.Text
+  category          String
+  region            String
+  heroImage         String
+  gradient          String   @default("from-blue-500 to-blue-700")
+  attractions       String   @db.Text
+  experiences       String   @db.Text
+  bestTimeToVisit   String?  @db.Text
+  gettingThere      String?  @db.Text
+  isActive          Boolean  @default(true)
+  displayOrder      Int      @default(0)
+  metaTitle         String?
+  metaDescription   String?  @db.Text
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  attractionsEs     String?  @db.Text
+  bestTimeToVisitEs String?  @db.Text
+  descriptionEs     String?  @db.Text
+  experiencesEs     String?  @db.Text
+  gettingThereEs    String?  @db.Text
+  metaDescriptionEs String?  @db.Text
+  metaTitleEs       String?
+  nameEs            String?
+
+  @@index([slug])
+  @@index([category])
+  @@index([region])
+  @@index([isActive])
+}
+
+model TurkishCity {
+  id              String   @id @default(cuid())
+  name            String   @unique
+  displayName     String
+  region          String
+  type            String   @default("DESTINATION")
+  description     String?  @db.Text
+  popularityScore Int      @default(0)
+  latitude        Float?
+  longitude       Float?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([name])
+  @@index([popularityScore])
+  @@index([isActive])
+}
+
+model CustomItinerary {
+  id                   String          @id @default(uuid())
+  customerName         String
+  customerEmail        String
+  customerPhone        String?
+  requestedCities      String          @db.Text
+  startDate            DateTime
+  adults               Int
+  children             Int             @default(0)
+  hotelCategory        String
+  tourType             String
+  specialRequests      String?         @db.Text
+  generatedItinerary   String          @db.LongText
+  hotelRecommendations String          @db.Text
+  includedServices     String          @db.Text
+  notIncludedServices  String          @db.Text
+  totalPrice           Float
+  priceBreakdown       String          @db.Text
+  currency             String          @default("EUR")
+  aiModel              String          @default("claude-sonnet-4.5")
+  generationTimeMs     Int?
+  tokensUsed           Int?
+  status               ItineraryStatus @default(PENDING)
+  viewCount            Int             @default(0)
+  lastViewedAt         DateTime?
+  bookingId            String?         @unique
+  emailSentAt          DateTime?
+  emailOpenedAt        DateTime?
+  adminNotes           String?         @db.Text
+  followUpRequired     Boolean         @default(true)
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  convertedToBookingAt DateTime?
+
+  @@index([customerEmail])
+  @@index([status])
+  @@index([createdAt])
+  @@index([followUpRequired])
+  @@index([startDate])
+}
+
+enum PassengerType {
+  ADULT
+  CHILD_3_5
+  CHILD_6_10
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  REFUNDED
+}
+
+enum AgentStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  REJECTED
+}
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum TourType {
+  SIC
+  PRIVATE
 }
 
 enum LocationType {
@@ -488,312 +594,11 @@ enum LocationType {
   CUSTOM
 }
 
-model Transfer {
-  id              String   @id @default(cuid())
-
-  // Route Information (using Location references)
-  fromLocationId  String
-  fromLocation    TransferLocation @relation("FromLocation", fields: [fromLocationId], references: [id], onDelete: Cascade)
-  toLocationId    String
-  toLocation      TransferLocation @relation("ToLocation", fields: [toLocationId], references: [id], onDelete: Cascade)
-
-  // Pricing Structure (per vehicle, one way, EUR)
-  sicPricePerPerson Float?    // NULL if not available
-  price1to2Pax      Float?    // Sedan/small vehicle
-  price3to5Pax      Float?    // Minivan (Transporter)
-  price6to10Pax     Float?    // Minibus (Sprinter)
-  onRequestOnly     Boolean   @default(false) // 10+ pax = "OR"
-
-  // Vehicle Details
-  vehicleType1to2   String?   @default("Sedan")
-  vehicleType3to5   String?   @default("Minivan (Transporter)")
-  vehicleType6to10  String?   @default("Minibus (Sprinter)")
-
-  // Distance & Duration (optional, for display)
-  distance          String?   // "45 km"
-  duration          String?   // "45 minutes"
-
-  // Status & Validity
-  isActive          Boolean   @default(true)
-  validFrom         DateTime? // Season validity
-  validTo           DateTime?
-
-  // Timestamps
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-
-  // Relations
-  bookings          TransferBooking[]
-
-  @@index([fromLocationId])
-  @@index([toLocationId])
-  @@index([isActive])
-  @@unique([fromLocationId, toLocationId]) // Prevent duplicate routes
-}
-
-model TransferBooking {
-  id                String   @id @default(cuid())
-  transferId        String
-  transfer          Transfer @relation(fields: [transferId], references: [id], onDelete: Cascade)
-
-  // Customer Info
-  userId            String?  // If logged in
-  guestName         String
-  guestEmail        String
-  guestPhone        String
-
-  // Agent Information (for B2B bookings)
-  agentId           String?
-  agent             Agent?   @relation("TransferAgentBookings", fields: [agentId], references: [id], onDelete: SetNull)
-
-  // Trip Details
-  transferDate      DateTime
-  transferTime      String   // "09:00", "14:30"
-  numberOfPassengers Int
-  flightNumber      String?  // Optional
-
-  // Pricing
-  totalPrice        Float
-  currency          String   @default("EUR")
-  vehicleType       String   // Selected vehicle type
-
-  // Agent Commission (for B2B bookings)
-  commissionAmount  Float?
-  commissionRate    Float?
-  paidAmount        Float?   @default(0)  // Amount paid to agent so far
-  remainingAmount   Float?   // Remaining amount to be paid
-
-  // Agent Payment Tracking (money received FROM agent for customer booking)
-  agentPaidAmount      Float?    @default(0)  // Amount agent has paid us for this booking
-  agentRemainingAmount Float?    // Remaining amount agent owes us (totalPrice - commissionAmount - agentPaidAmount)
-
-  // Special Requirements
-  specialRequests   String?  @db.Text
-  numberOfLuggage   Int?     // Number of bags
-
-  // Status
-  status            BookingStatus @default(PENDING)
-  paymentStatus     PaymentStatus @default(PENDING)
-  fullyPaidAt       DateTime?     // When commission fully paid to agent
-  agentFullyPaidAt  DateTime?    // When agent has paid us in full for customer booking
-  referenceNumber   String   @unique
-
-  // Timestamps
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  confirmedAt       DateTime?
-
-  @@index([transferId])
-  @@index([agentId])
-  @@index([guestEmail])
-  @@index([status])
-  @@index([transferDate])
-}
-
-// Commission Payment History
-model CommissionPayment {
-  id              String   @id @default(cuid())
-  agentId         String
-  agent           Agent    @relation("AgentCommissionPayments", fields: [agentId], references: [id], onDelete: Cascade)
-
-  // Booking Reference
-  bookingType     String   // "Package", "DailyTour", "Transfer"
-  bookingId       String
-  referenceNumber String?  // Optional - can be used for tracking payment reference
-
-  // Payment Details
-  amount          Float
-  paymentMethod   String?  // "Bank Transfer", "Cash", "PayPal", etc.
-  transactionRef  String?  // Bank reference, PayPal ID, etc.
-  notes           String?  @db.Text
-
-  // Metadata
-  paidBy          String?  // Admin who processed payment
-  createdAt       DateTime @default(now())
-
-  @@index([agentId])
-  @@index([bookingId])
-  @@index([createdAt])
-}
-
-// Agent Lead Discovery (for marketing/sales prospecting)
-model AgentLead {
-  id                        String   @id @default(uuid())
-  companyName               String
-  email                     String?
-  phone                     String?
-  website                   String?
-  address                   String?  @db.Text
-  city                      String?
-  country                   String
-  googlePlaceId             String?  @db.VarChar(255) // Google Maps Place ID - preserving existing data
-  source                    String   // "google", "directory", "social", "manual"
-  searchQuery               String?  // What search query found this lead
-  discovered                DateTime @default(now())
-  contacted                 Boolean  @default(false)
-  convertedToAgent          Boolean  @default(false)
-  emailExtractionAttempted  Boolean  @default(false)  // Track if we tried to extract email
-  notes                     String?  @db.Text
-  createdAt                 DateTime @default(now())
-  updatedAt                 DateTime @updatedAt
-
-  @@index([country, city])
-  @@index([contacted])
-  @@index([email])
-  @@index([emailExtractionAttempted])
-  @@index([googlePlaceId])
-}
-
-// Track which cities have been searched to avoid duplicates
-model SearchedCity {
-  id          String   @id @default(uuid())
-  city        String
-  country     String
-  searchQuery String   // The query used
-  method      String   // "google-api" or "google-maps"
-  leadsFound  Int      @default(0)
-  searchedAt  DateTime @default(now())
-
-  @@unique([city, country, method])
-  @@index([country])
-}
-
-// Destinations (for managing destination pages)
-model Destination {
-  id              String   @id @default(cuid())
-  name            String   @unique
-  slug            String   @unique
-  description     String   @db.Text
-
-  // Categories
-  category        String   // Historical, Coastal, Natural, Cultural, Adventure
-  region          String   // Marmara, Aegean, Mediterranean, Central Anatolia, Black Sea
-
-  // Hero Image
-  heroImage       String
-  gradient        String   @default("from-blue-500 to-blue-700")
-
-  // Top Attractions (JSON array: [{name, description, image, duration}, ...])
-  attractions     String   @db.Text
-
-  // Unique Experiences (JSON array of strings)
-  experiences     String   @db.Text
-
-  // Additional Info
-  bestTimeToVisit String?  @db.Text
-  gettingThere    String?  @db.Text
-
-  // Status
-  isActive        Boolean  @default(true)
-  displayOrder    Int      @default(0)
-
-  // SEO
-  metaTitle       String?
-  metaDescription String?  @db.Text
-
-  // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  @@index([slug])
-  @@index([category])
-  @@index([region])
-  @@index([isActive])
-}
-
-// Turkish Cities for Smart Trip Planner autocomplete
-model TurkishCity {
-  id              String   @id @default(cuid())
-  name            String   @unique  // "Istanbul", "Cappadocia", "Antalya"
-  displayName     String   // "Istanbul - The Historic Capital"
-  region          String   // "Marmara", "Central Anatolia", "Mediterranean"
-  type            String   @default("DESTINATION") // DESTINATION, AIRPORT, REGION
-
-  // For display in autocomplete
-  description     String?  @db.Text
-  popularityScore Int      @default(0)  // Higher = show first
-
-  // Geographic info
-  latitude        Float?
-  longitude       Float?
-
-  // Status
-  isActive        Boolean  @default(true)
-
-  // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
-  @@index([name])
-  @@index([popularityScore])
-  @@index([isActive])
-}
-
-// AI-Generated Custom Itineraries
-model CustomItinerary {
-  id                  String   @id @default(uuid())
-
-  // Customer Information
-  customerName        String
-  customerEmail       String
-  customerPhone       String?
-
-  // Trip Request Details (what they submitted)
-  requestedCities     String   @db.Text  // JSON array: [{city: "Istanbul", nights: 3}, ...]
-  startDate           DateTime
-  adults              Int
-  children            Int      @default(0)
-  hotelCategory       String   // "3", "4", "5"
-  tourType            String   // "PRIVATE", "SIC"
-  specialRequests     String?  @db.Text
-
-  // AI Generated Content
-  generatedItinerary  String   @db.LongText  // JSON: {days: [{day: 1, title, description, activities, meals, hotel}, ...]}
-  hotelRecommendations String  @db.Text  // JSON array of recommended hotels per city
-  includedServices    String   @db.Text  // JSON array
-  notIncludedServices String   @db.Text  // JSON array
-
-  // Pricing
-  totalPrice          Float
-  priceBreakdown      String   @db.Text  // JSON: {hotels: 1200, tours: 500, transfers: 300, ...}
-  currency            String   @default("EUR")
-
-  // Generation Metadata
-  aiModel             String   @default("claude-sonnet-4.5")  // Which AI model generated this
-  generationTimeMs    Int?     // How long it took to generate
-  tokensUsed          Int?     // AI tokens consumed
-
-  // Customer Actions
-  status              ItineraryStatus @default(PENDING)
-  viewCount           Int      @default(0)
-  lastViewedAt        DateTime?
-  bookingId           String?  @unique  // If converted to booking
-
-  // Email tracking
-  emailSentAt         DateTime?
-  emailOpenedAt       DateTime?
-
-  // Admin notes
-  adminNotes          String?  @db.Text
-  followUpRequired    Boolean  @default(true)
-
-  // Timestamps
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-  convertedToBookingAt DateTime?
-
-  @@index([customerEmail])
-  @@index([status])
-  @@index([createdAt])
-  @@index([followUpRequired])
-  @@index([startDate])
-}
-
 enum ItineraryStatus {
-  PENDING           // Just generated, awaiting customer action
-  VIEWED            // Customer viewed the itinerary
-  INTERESTED        // Customer expressed interest
-  QUOTE_REQUESTED   // Customer wants modifications
-  BOOKED            // Converted to booking
-  CANCELLED         // Customer not interested
+  PENDING
+  VIEWED
+  INTERESTED
+  QUOTE_REQUESTED
+  BOOKED
+  CANCELLED
 }

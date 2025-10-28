@@ -3,11 +3,13 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaWhatsapp, FaTimes } from 'react-icons/fa';
+import { useTranslations } from 'next-intl';
 
 export default function WhatsAppWidget() {
+  const t = useTranslations('whatsappWidget');
   const [isOpen, setIsOpen] = useState(false);
   const whatsappNumber = '905395025310';
-  const message = 'Hello! I\'m interested in your Turkey tour packages.';
+  const message = t('defaultMessage');
 
   const handleWhatsAppClick = () => {
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -43,17 +45,17 @@ export default function WhatsAppWidget() {
                   <FaWhatsapp size={24} />
                 </div>
                 <div className="ml-3">
-                  <h4 className="font-bold text-gray-900">Funny Tourism</h4>
+                  <h4 className="font-bold text-gray-900">{t('companyName')}</h4>
                   <p className="text-xs text-green-500 flex items-center">
                     <span className="w-2 h-2 bg-green-500 rounded-full mr-1 animate-pulse"></span>
-                    Online - Reply in minutes
+                    {t('onlineStatus')}
                   </p>
                 </div>
               </div>
 
               <p className="text-sm text-gray-600 mb-4">
-                Hi there! 👋<br />
-                How can we help you plan your perfect Turkey vacation?
+                {t('greeting')} 👋<br />
+                {t('greetingMessage')}
               </p>
 
               <button
@@ -61,11 +63,11 @@ export default function WhatsAppWidget() {
                 className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center transition-colors"
               >
                 <FaWhatsapp size={20} className="mr-2" />
-                Start Chat
+                {t('startChat')}
               </button>
 
               <p className="text-xs text-gray-500 text-center mt-3">
-                We typically reply within 5 minutes
+                {t('replyTime')}
               </p>
             </motion.div>
           )}

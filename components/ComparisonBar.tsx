@@ -3,9 +3,11 @@
 import { useState } from 'react';
 import { FaBalanceScale, FaTimes } from 'react-icons/fa';
 import { useComparison } from '@/contexts/ComparisonContext';
+import { useTranslations } from 'next-intl';
 import ComparisonModal from './ComparisonModal';
 
 export default function ComparisonBar() {
+  const t = useTranslations('comparisonBar');
   const { comparisonList, clearComparison } = useComparison();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -19,20 +21,20 @@ export default function ComparisonBar() {
           <FaBalanceScale className="text-2xl" />
           <div>
             <p className="font-bold text-sm">
-              {comparisonList.length} {comparisonList.length === 1 ? 'Package' : 'Packages'} Selected
+              {comparisonList.length} {comparisonList.length === 1 ? t('package') : t('packages')} {t('selected')}
             </p>
-            <p className="text-xs text-primary-100">Click to compare</p>
+            <p className="text-xs text-primary-100">{t('clickToCompare')}</p>
           </div>
           <button
             onClick={() => setIsModalOpen(true)}
             className="bg-white text-primary-600 px-6 py-2 rounded-full font-bold hover:bg-primary-50 transition-colors"
           >
-            Compare
+            {t('compare')}
           </button>
           <button
             onClick={clearComparison}
             className="bg-primary-700 p-2 rounded-full hover:bg-primary-800 transition-colors"
-            title="Clear all"
+            title={t('clearAll')}
           >
             <FaTimes />
           </button>

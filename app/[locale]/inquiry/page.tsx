@@ -2,11 +2,13 @@
 
 import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { FaCheckCircle, FaUsers, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import { trackQuoteRequest } from '@/lib/gtag';
+import { useTranslations } from 'next-intl';
 
 function InquiryFormContent() {
+  const t = useTranslations('inquiryPage');
   const searchParams = useSearchParams();
 
   const [step, setStep] = useState(1);
@@ -42,63 +44,63 @@ function InquiryFormContent() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const destinationOptions = [
-    { value: 'Istanbul', label: 'Istanbul', icon: '🕌' },
-    { value: 'Cappadocia', label: 'Cappadocia', icon: '🎈' },
-    { value: 'Ephesus', label: 'Ephesus', icon: '🏛️' },
-    { value: 'Pamukkale', label: 'Pamukkale', icon: '💎' },
-    { value: 'Antalya', label: 'Antalya', icon: '🏖️' },
-    { value: 'Bodrum', label: 'Bodrum', icon: '⛵' },
-    { value: 'Fethiye', label: 'Fethiye', icon: '🌊' },
-    { value: 'Trabzon', label: 'Trabzon', icon: '⛰️' },
+    { value: 'Istanbul', label: t('destinations.istanbul'), icon: '🕌' },
+    { value: 'Cappadocia', label: t('destinations.cappadocia'), icon: '🎈' },
+    { value: 'Ephesus', label: t('destinations.ephesus'), icon: '🏛️' },
+    { value: 'Pamukkale', label: t('destinations.pamukkale'), icon: '💎' },
+    { value: 'Antalya', label: t('destinations.antalya'), icon: '🏖️' },
+    { value: 'Bodrum', label: t('destinations.bodrum'), icon: '⛵' },
+    { value: 'Fethiye', label: t('destinations.fethiye'), icon: '🌊' },
+    { value: 'Trabzon', label: t('destinations.trabzon'), icon: '⛰️' },
   ];
 
   const interestOptions = [
-    { value: 'Historical Sites', label: 'Historical Sites & Museums', icon: '🏛️' },
-    { value: 'Hot Air Balloon', label: 'Hot Air Balloon Rides', icon: '🎈' },
-    { value: 'Beach', label: 'Beach & Relaxation', icon: '🏖️' },
-    { value: 'Cuisine', label: 'Turkish Cuisine & Food Tours', icon: '🍽️' },
-    { value: 'Shopping', label: 'Shopping & Bazaars', icon: '🛍️' },
-    { value: 'Adventure', label: 'Adventure & Outdoor', icon: '🏔️' },
-    { value: 'Culture', label: 'Cultural Experiences', icon: '🎭' },
-    { value: 'Photography', label: 'Photography Tours', icon: '📸' },
+    { value: 'Historical Sites', label: t('interests.historical'), icon: '🏛️' },
+    { value: 'Hot Air Balloon', label: t('interests.balloon'), icon: '🎈' },
+    { value: 'Beach', label: t('interests.beach'), icon: '🏖️' },
+    { value: 'Cuisine', label: t('interests.cuisine'), icon: '🍽️' },
+    { value: 'Shopping', label: t('interests.shopping'), icon: '🛍️' },
+    { value: 'Adventure', label: t('interests.adventure'), icon: '🏔️' },
+    { value: 'Culture', label: t('interests.culture'), icon: '🎭' },
+    { value: 'Photography', label: t('interests.photography'), icon: '📸' },
   ];
 
   const durationOptions = [
-    '1-3 days',
-    '4-7 days',
-    '8-14 days',
-    '15+ days',
+    t('duration.short'),
+    t('duration.week'),
+    t('duration.twoWeeks'),
+    t('duration.long'),
   ];
 
   const budgetOptions = [
-    'Under €500 per person',
-    '€500-€1000 per person',
-    '€1000-€2000 per person',
-    '€2000+ per person',
+    t('budget.low'),
+    t('budget.medium'),
+    t('budget.high'),
+    t('budget.premium'),
   ];
 
   const validateStep = (currentStep: number) => {
     const newErrors: Record<string, string> = {};
 
     if (currentStep === 1) {
-      if (!formData.name.trim()) newErrors.name = 'Name is required';
+      if (!formData.name.trim()) newErrors.name = t('validation.nameRequired');
       if (!formData.email.trim()) {
-        newErrors.email = 'Email is required';
+        newErrors.email = t('validation.emailRequired');
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-        newErrors.email = 'Invalid email format';
+        newErrors.email = t('validation.emailInvalid');
       }
-      if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-      if (!formData.country.trim()) newErrors.country = 'Country is required';
+      if (!formData.phone.trim()) newErrors.phone = t('validation.phoneRequired');
+      if (!formData.country.trim()) newErrors.country = t('validation.countryRequired');
     }
 
     if (currentStep === 2) {
-      if (formData.destinations.length === 0) newErrors.destinations = 'Select at least one destination';
-      if (!formData.duration) newErrors.duration = 'Trip duration is required';
-      if (!formData.budgetRange) newErrors.budgetRange = 'Budget range is required';
+      if (formData.destinations.length === 0) newErrors.destinations = t('validation.destinationRequired');
+      if (!formData.duration) newErrors.duration = t('validation.durationRequired');
+      if (!formData.budgetRange) newErrors.budgetRange = t('validation.budgetRequired');
     }
 
     if (currentStep === 3) {
-      if (!formData.travelDate) newErrors.travelDate = 'Travel date is required';
+      if (!formData.travelDate) newErrors.travelDate = t('validation.dateRequired');
     }
 
     setErrors(newErrors);
@@ -168,7 +170,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
         throw new Error('Failed to submit');
       }
     } catch {
-      alert('Failed to submit inquiry. Please try again or contact us directly.');
+      alert(t('error.submitFailed'));
     } finally {
       setIsSubmitting(false);
     }
@@ -194,17 +196,17 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
             <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <FaCheckCircle className="w-12 h-12 text-green-500" />
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Thank You!</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('success.title')}</h2>
             <p className="text-lg text-gray-700 mb-2">
-              Your quote request has been received successfully!
+              {t('success.message')}
             </p>
             <p className="text-gray-600 mb-8">
-              Our travel experts will review your preferences and send you a customized quote within 24 hours.
+              {t('success.followUp')}
             </p>
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-              <p className="text-sm text-blue-800 font-medium mb-2">📧 Check your email</p>
-              <p className="text-sm text-blue-700">We&apos;ve sent a confirmation to <strong>{formData.email}</strong></p>
+              <p className="text-sm text-blue-800 font-medium mb-2">{t('success.emailCheck')}</p>
+              <p className="text-sm text-blue-700">{t('success.emailSent', { email: formData.email })}</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -215,13 +217,13 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                 <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
                 </svg>
-                Chat on WhatsApp
+                {t('success.whatsappButton')}
               </a>
               <Link
                 href="/packages"
                 className="inline-block bg-white hover:bg-gray-50 text-primary-600 border-2 border-primary-600 font-semibold py-3 px-6 rounded-lg transition-colors"
               >
-                Browse More Tours
+                {t('success.browseButton')}
               </Link>
             </div>
           </div>
@@ -236,9 +238,9 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-3">Get Your Free Custom Quote</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-3">{t('header.title')}</h1>
             <p className="text-lg text-gray-600">
-              Tell us about your dream Turkey vacation and we&apos;ll create a personalized itinerary just for you
+              {t('header.subtitle')}
             </p>
           </div>
 
@@ -246,9 +248,9 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
           <div className="mb-8">
             <div className="flex justify-between items-center max-w-2xl mx-auto">
               {[
-                { num: 1, label: 'Contact Info' },
-                { num: 2, label: 'Trip Preferences' },
-                { num: 3, label: 'Group & Date' },
+                { num: 1, label: t('steps.step1') },
+                { num: 2, label: t('steps.step2') },
+                { num: 3, label: t('steps.step3') },
               ].map((item, idx) => (
                 <div key={item.num} className="flex items-center flex-1">
                   <div className="flex flex-col items-center flex-1">
@@ -286,15 +288,15 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                       <FaEnvelope className="text-primary-600 text-xl" />
                     </div>
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-900">Contact Information</h2>
-                      <p className="text-sm text-gray-600">How should we reach you?</p>
+                      <h2 className="text-2xl font-bold text-gray-900">{t('step1.title')}</h2>
+                      <p className="text-sm text-gray-600">{t('step1.subtitle')}</p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Full Name *
+                        {t('step1.nameLabel')}
                       </label>
                       <input
                         type="text"
@@ -303,14 +305,14 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                         className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all ${
                           errors.name ? 'border-red-500' : 'border-gray-200'
                         }`}
-                        placeholder="John Smith"
+                        placeholder={t('step1.namePlaceholder')}
                       />
                       {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                     </div>
 
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Email Address *
+                        {t('step1.emailLabel')}
                       </label>
                       <input
                         type="email"
@@ -319,14 +321,14 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                         className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all ${
                           errors.email ? 'border-red-500' : 'border-gray-200'
                         }`}
-                        placeholder="john@example.com"
+                        placeholder={t('step1.emailPlaceholder')}
                       />
                       {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                     </div>
 
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Phone Number *
+                        {t('step1.phoneLabel')}
                       </label>
                       <input
                         type="tel"
@@ -335,27 +337,27 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                         className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all ${
                           errors.phone ? 'border-red-500' : 'border-gray-200'
                         }`}
-                        placeholder="+1 234 567 8900"
+                        placeholder={t('step1.phonePlaceholder')}
                       />
                       {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
                     </div>
 
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        WhatsApp Number <span className="text-gray-400 text-xs">(Optional)</span>
+                        {t('step1.whatsappLabel')}
                       </label>
                       <input
                         type="tel"
                         value={formData.whatsapp}
                         onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all"
-                        placeholder="Same as phone or different"
+                        placeholder={t('step1.whatsappPlaceholder')}
                       />
                     </div>
 
                     <div className="md:col-span-2">
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Country *
+                        {t('step1.countryLabel')}
                       </label>
                       <input
                         type="text"
@@ -364,7 +366,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                         className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all ${
                           errors.country ? 'border-red-500' : 'border-gray-200'
                         }`}
-                        placeholder="United States"
+                        placeholder={t('step1.countryPlaceholder')}
                       />
                       {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
                     </div>
@@ -376,7 +378,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                       onClick={handleNext}
                       className="btn-primary px-8 py-3 text-lg"
                     >
-                      Continue →
+                      {t('buttons.continue')}
                     </button>
                   </div>
                 </div>
@@ -390,15 +392,15 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                       <FaMapMarkerAlt className="text-accent-600 text-xl" />
                     </div>
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-900">Trip Preferences</h2>
-                      <p className="text-sm text-gray-600">What would you like to experience?</p>
+                      <h2 className="text-2xl font-bold text-gray-900">{t('step2.title')}</h2>
+                      <p className="text-sm text-gray-600">{t('step2.subtitle')}</p>
                     </div>
                   </div>
 
                   {/* Destinations */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-3">
-                      Which destinations interest you? * <span className="text-gray-400 font-normal">(Select all that apply)</span>
+                      {t('step2.destinationsLabel')}
                     </label>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                       {destinationOptions.map((dest) => (
@@ -423,7 +425,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                   {/* Interests */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-3">
-                      What are your interests? <span className="text-gray-400 font-normal">(Optional)</span>
+                      {t('step2.interestsLabel')}
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {interestOptions.map((interest) => (
@@ -452,7 +454,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Trip Duration *
+                        {t('step2.durationLabel')}
                       </label>
                       <select
                         value={formData.duration}
@@ -461,7 +463,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                           errors.duration ? 'border-red-500' : 'border-gray-200'
                         }`}
                       >
-                        <option value="">Select duration</option>
+                        <option value="">{t('step2.durationPlaceholder')}</option>
                         {durationOptions.map((dur) => (
                           <option key={dur} value={dur}>{dur}</option>
                         ))}
@@ -471,7 +473,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
 
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Budget Range *
+                        {t('step2.budgetLabel')}
                       </label>
                       <select
                         value={formData.budgetRange}
@@ -480,7 +482,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                           errors.budgetRange ? 'border-red-500' : 'border-gray-200'
                         }`}
                       >
-                        <option value="">Select budget range</option>
+                        <option value="">{t('step2.budgetPlaceholder')}</option>
                         {budgetOptions.map((budget) => (
                           <option key={budget} value={budget}>{budget}</option>
                         ))}
@@ -492,7 +494,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                   {/* Package Type */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-3">
-                      Package Type
+                      {t('step2.packageTypeLabel')}
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <label className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
@@ -507,8 +509,8 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                           className="w-5 h-5 text-primary-600"
                         />
                         <div className="flex-1">
-                          <div className="font-semibold text-gray-900">With Hotels</div>
-                          <div className="text-xs text-gray-600">Accommodation included</div>
+                          <div className="font-semibold text-gray-900">{t('step2.withHotel')}</div>
+                          <div className="text-xs text-gray-600">{t('step2.withHotelDesc')}</div>
                         </div>
                       </label>
 
@@ -524,8 +526,8 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                           className="w-5 h-5 text-primary-600"
                         />
                         <div className="flex-1">
-                          <div className="font-semibold text-gray-900">Land Services Only</div>
-                          <div className="text-xs text-gray-600">Tours & transport only</div>
+                          <div className="font-semibold text-gray-900">{t('step2.landOnly')}</div>
+                          <div className="text-xs text-gray-600">{t('step2.landOnlyDesc')}</div>
                         </div>
                       </label>
                     </div>
@@ -535,10 +537,10 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                   {formData.packageType === 'WITH_HOTEL' && (
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-3">
-                        Hotel Category
+                        {t('step2.hotelCategoryLabel')}
                       </label>
                       <div className="grid grid-cols-3 gap-3">
-                        {['3-Star', '4-Star', '5-Star'].map((category, idx) => (
+                        {[t('step2.threeStar'), t('step2.fourStar'), t('step2.fiveStar')].map((category, idx) => (
                           <label
                             key={category}
                             className={`flex items-center justify-center gap-2 p-4 rounded-lg border-2 cursor-pointer transition-all ${
@@ -566,14 +568,14 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                       onClick={handleBack}
                       className="px-8 py-3 text-gray-600 hover:text-gray-900 font-semibold transition-colors"
                     >
-                      ← Back
+                      {t('buttons.back')}
                     </button>
                     <button
                       type="button"
                       onClick={handleNext}
                       className="btn-primary px-8 py-3 text-lg"
                     >
-                      Continue →
+                      {t('buttons.continue')}
                     </button>
                   </div>
                 </div>
@@ -587,8 +589,8 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                       <FaUsers className="text-green-600 text-xl" />
                     </div>
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-900">Group Details & Travel Date</h2>
-                      <p className="text-sm text-gray-600">Almost done! Just a few more details</p>
+                      <h2 className="text-2xl font-bold text-gray-900">{t('step3.title')}</h2>
+                      <p className="text-sm text-gray-600">{t('step3.subtitle')}</p>
                     </div>
                   </div>
 
@@ -596,7 +598,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                   {formData.packageName && (
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                       <p className="text-sm text-blue-800">
-                        <strong>Package:</strong> {formData.packageName}
+                        <strong>{t('step3.packageLabel')}</strong> {formData.packageName}
                       </p>
                     </div>
                   )}
@@ -604,7 +606,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Number of Adults
+                        {t('step3.adultsLabel')}
                       </label>
                       <div className="flex items-center gap-3">
                         <button
@@ -633,7 +635,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
 
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Children (3-5 yrs)
+                        {t('step3.children3to5Label')}
                       </label>
                       <div className="flex items-center gap-3">
                         <button
@@ -662,7 +664,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
 
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Children (6-10 yrs)
+                        {t('step3.children6to10Label')}
                       </label>
                       <div className="flex items-center gap-3">
                         <button
@@ -692,7 +694,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Preferred Travel Date *
+                      {t('step3.travelDateLabel')}
                     </label>
                     <input
                       type="date"
@@ -708,14 +710,14 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Special Requests or Questions <span className="text-gray-400 font-normal">(Optional)</span>
+                      {t('step3.specialRequestsLabel')}
                     </label>
                     <textarea
                       value={formData.specialRequests}
                       onChange={(e) => setFormData({ ...formData, specialRequests: e.target.value })}
                       rows={4}
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                      placeholder="Dietary restrictions, accessibility needs, special occasions, etc."
+                      placeholder={t('step3.specialRequestsPlaceholder')}
                     />
                   </div>
 
@@ -723,26 +725,26 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                   <div className="bg-gradient-to-br from-primary-50 to-accent-50 rounded-xl p-6 border border-primary-200">
                     <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
                       <FaCheckCircle className="text-primary-600" />
-                      Your Quote Summary
+                      {t('step3.summaryTitle')}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
                       <div>
-                        <span className="text-gray-600">Destinations:</span>
-                        <p className="font-semibold text-gray-900">{formData.destinations.join(', ') || 'Not specified'}</p>
+                        <span className="text-gray-600">{t('step3.summaryDestinations')}</span>
+                        <p className="font-semibold text-gray-900">{formData.destinations.join(', ') || t('step3.notSpecified')}</p>
                       </div>
                       <div>
-                        <span className="text-gray-600">Duration:</span>
-                        <p className="font-semibold text-gray-900">{formData.duration || 'Not specified'}</p>
+                        <span className="text-gray-600">{t('step3.summaryDuration')}</span>
+                        <p className="font-semibold text-gray-900">{formData.duration || t('step3.notSpecified')}</p>
                       </div>
                       <div>
-                        <span className="text-gray-600">Budget:</span>
-                        <p className="font-semibold text-gray-900">{formData.budgetRange || 'Not specified'}</p>
+                        <span className="text-gray-600">{t('step3.summaryBudget')}</span>
+                        <p className="font-semibold text-gray-900">{formData.budgetRange || t('step3.notSpecified')}</p>
                       </div>
                       <div>
-                        <span className="text-gray-600">Travelers:</span>
+                        <span className="text-gray-600">{t('step3.summaryTravelers')}</span>
                         <p className="font-semibold text-gray-900">
-                          {formData.adults} adult{parseInt(formData.adults) !== 1 ? 's' : ''}
-                          {(parseInt(formData.children3to5) + parseInt(formData.children6to10)) > 0 && `, ${parseInt(formData.children3to5) + parseInt(formData.children6to10)} children`}
+                          {formData.adults} {parseInt(formData.adults) !== 1 ? t('step3.adults') : t('step3.adult')}
+                          {(parseInt(formData.children3to5) + parseInt(formData.children6to10)) > 0 && `, ${parseInt(formData.children3to5) + parseInt(formData.children6to10)} ${t('step3.children')}`}
                         </p>
                       </div>
                     </div>
@@ -754,19 +756,19 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                       onClick={handleBack}
                       className="px-8 py-3 text-gray-600 hover:text-gray-900 font-semibold transition-colors"
                     >
-                      ← Back
+                      {t('buttons.back')}
                     </button>
                     <button
                       type="submit"
                       disabled={isSubmitting}
                       className={`btn-primary px-8 py-3 text-lg ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
-                      {isSubmitting ? 'Sending...' : 'Get My Free Quote →'}
+                      {isSubmitting ? t('buttons.sending') : t('buttons.submit')}
                     </button>
                   </div>
 
                   <p className="text-xs text-center text-gray-500 mt-4">
-                    🔒 Your information is secure. We&apos;ll respond within 24 hours with a personalized quote.
+                    {t('step3.securityNote')}
                   </p>
                 </div>
               )}
@@ -775,14 +777,14 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
 
           {/* Contact Alternatives */}
           <div className="mt-8 text-center">
-            <p className="text-gray-600 mb-4">Prefer to talk to us directly?</p>
+            <p className="text-gray-600 mb-4">{t('footer.contactText')}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="mailto:info@funnytourism.com"
                 className="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-primary-600 font-semibold py-3 px-6 rounded-lg border-2 border-primary-600 transition-colors"
               >
                 <FaEnvelope className="mr-2" />
-                Email Us
+                {t('footer.emailButton')}
               </a>
               <a
                 href="https://wa.me/905395025310?text=Hello!%20I%27m%20interested%20in%20getting%20a%20quote%20for%20Turkey%20tours."
@@ -793,7 +795,7 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
                 <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
                 </svg>
-                WhatsApp
+                {t('footer.whatsappButton')}
               </a>
             </div>
           </div>
@@ -819,16 +821,21 @@ ${formData.specialRequests ? `Special Requests:\n${formData.specialRequests}` : 
   );
 }
 
+function LoadingFallback() {
+  const t = useTranslations('inquiryPage');
+  return (
+    <div className="min-h-screen bg-gray-50 py-16 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+        <p className="mt-4 text-gray-600">{t('loading')}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function InquiryPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 py-16 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading quote form...</p>
-        </div>
-      </div>
-    }>
+    <Suspense fallback={<LoadingFallback />}>
       <InquiryFormContent />
     </Suspense>
   );

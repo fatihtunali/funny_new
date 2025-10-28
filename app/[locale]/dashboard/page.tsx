@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { FaCalendar, FaHotel, FaUsers, FaCheckCircle, FaClock, FaTimesCircle, FaSignOutAlt } from 'react-icons/fa';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 interface User {
   id: string;
@@ -38,6 +39,7 @@ interface Booking {
 }
 
 export default function DashboardPage() {
+  const t = useTranslations('dashboardPage');
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -128,19 +130,19 @@ export default function DashboardPage() {
         <div className="section-container py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">My Dashboard</h1>
-              <p className="text-gray-600 mt-1">Welcome back, {user.name}!</p>
+              <h1 className="text-3xl font-bold text-gray-900">{t('title')}</h1>
+              <p className="text-gray-600 mt-1">{t('welcomeBack', { name: user.name })}</p>
             </div>
             <div className="flex items-center space-x-4">
               <Link href="/" className="text-sm text-gray-600 hover:text-gray-900">
-                ← Back to Home
+                {t('backToHome')}
               </Link>
               <button
                 onClick={handleLogout}
                 className="flex items-center text-sm text-red-600 hover:text-red-700 font-semibold"
               >
                 <FaSignOutAlt className="mr-2" />
-                Logout
+                {t('logout')}
               </button>
             </div>
           </div>
@@ -157,7 +159,7 @@ export default function DashboardPage() {
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Bookings</p>
+                <p className="text-sm text-gray-600">{t('stats.totalBookings')}</p>
                 <p className="text-3xl font-bold text-gray-900 mt-1">{user._count.bookings}</p>
               </div>
               <div className="bg-primary-100 p-3 rounded-full">
@@ -174,7 +176,7 @@ export default function DashboardPage() {
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Confirmed</p>
+                <p className="text-sm text-gray-600">{t('stats.confirmed')}</p>
                 <p className="text-3xl font-bold text-green-600 mt-1">
                   {bookings.filter(b => b.status === 'CONFIRMED').length}
                 </p>
@@ -193,7 +195,7 @@ export default function DashboardPage() {
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Pending</p>
+                <p className="text-sm text-gray-600">{t('stats.pending')}</p>
                 <p className="text-3xl font-bold text-yellow-600 mt-1">
                   {bookings.filter(b => b.status === 'PENDING').length}
                 </p>
@@ -212,7 +214,7 @@ export default function DashboardPage() {
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Member Since</p>
+                <p className="text-sm text-gray-600">{t('stats.memberSince')}</p>
                 <p className="text-lg font-bold text-gray-900 mt-1">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </p>
@@ -228,9 +230,9 @@ export default function DashboardPage() {
         <div className="bg-white rounded-lg shadow">
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-gray-900">My Bookings</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{t('bookings.title')}</h2>
               <Link href="/packages/istanbul-cappadocia-kusadasi" className="btn-primary">
-                Book New Trip
+                {t('bookings.bookNewTrip')}
               </Link>
             </div>
           </div>
@@ -238,9 +240,9 @@ export default function DashboardPage() {
           <div className="p-6">
             {bookings.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-gray-500 text-lg mb-4">You don&apos;t have any bookings yet</p>
+                <p className="text-gray-500 text-lg mb-4">{t('bookings.noBookings')}</p>
                 <Link href="/packages/istanbul-cappadocia-kusadasi" className="btn-primary inline-block">
-                  Browse Packages
+                  {t('bookings.browsePackages')}
                 </Link>
               </div>
             ) : (
@@ -262,7 +264,7 @@ export default function DashboardPage() {
                           </span>
                         </div>
                         <p className="text-sm text-gray-600">
-                          Reference: <span className="font-semibold">{booking.referenceNumber}</span>
+                          {t('bookings.reference')}: <span className="font-semibold">{booking.referenceNumber}</span>
                         </p>
                       </div>
                       <div className="text-right">
@@ -277,7 +279,7 @@ export default function DashboardPage() {
                       <div className="flex items-center text-sm text-gray-600">
                         <FaCalendar className="mr-2 text-primary-600" />
                         <div>
-                          <p className="text-xs text-gray-500">Travel Date</p>
+                          <p className="text-xs text-gray-500">{t('bookings.travelDate')}</p>
                           <p className="font-semibold">{new Date(booking.travelDate).toLocaleDateString()}</p>
                         </div>
                       </div>
@@ -285,7 +287,7 @@ export default function DashboardPage() {
                       <div className="flex items-center text-sm text-gray-600">
                         <FaClock className="mr-2 text-primary-600" />
                         <div>
-                          <p className="text-xs text-gray-500">Duration</p>
+                          <p className="text-xs text-gray-500">{t('bookings.duration')}</p>
                           <p className="font-semibold">{booking.duration}</p>
                         </div>
                       </div>
@@ -293,7 +295,7 @@ export default function DashboardPage() {
                       <div className="flex items-center text-sm text-gray-600">
                         <FaHotel className="mr-2 text-primary-600" />
                         <div>
-                          <p className="text-xs text-gray-500">Hotel</p>
+                          <p className="text-xs text-gray-500">{t('bookings.hotel')}</p>
                           <p className="font-semibold capitalize">{booking.hotelCategory.replace('star', '-Star')}</p>
                         </div>
                       </div>
@@ -301,11 +303,11 @@ export default function DashboardPage() {
                       <div className="flex items-center text-sm text-gray-600">
                         <FaUsers className="mr-2 text-primary-600" />
                         <div>
-                          <p className="text-xs text-gray-500">Travelers</p>
+                          <p className="text-xs text-gray-500">{t('bookings.travelers')}</p>
                           <p className="font-semibold">
-                            {booking.adults} Adults
+                            {booking.adults} {t('bookings.adults')}
                             {(booking.children3to5 > 0 || booking.children6to10 > 0) &&
-                              `, ${booking.children3to5 + booking.children6to10} Children`
+                              `, ${booking.children3to5 + booking.children6to10} ${t('bookings.children')}`
                             }
                           </p>
                         </div>
@@ -314,15 +316,15 @@ export default function DashboardPage() {
 
                     <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                       <div className="text-xs text-gray-500">
-                        Booked on {new Date(booking.createdAt).toLocaleDateString()}
+                        {t('bookings.bookedOn', { date: new Date(booking.createdAt).toLocaleDateString() })}
                       </div>
                       <div className="flex items-center space-x-2">
                         {getStatusIcon(booking.status)}
                         <span className="text-sm text-gray-600">
-                          {booking.status === 'CONFIRMED' && 'Your booking is confirmed!'}
-                          {booking.status === 'PENDING' && 'Awaiting confirmation...'}
-                          {booking.status === 'COMPLETED' && 'Trip completed'}
-                          {booking.status === 'CANCELLED' && 'Booking cancelled'}
+                          {booking.status === 'CONFIRMED' && t('bookings.statusMessages.confirmed')}
+                          {booking.status === 'PENDING' && t('bookings.statusMessages.pending')}
+                          {booking.status === 'COMPLETED' && t('bookings.statusMessages.completed')}
+                          {booking.status === 'CANCELLED' && t('bookings.statusMessages.cancelled')}
                         </span>
                       </div>
                     </div>

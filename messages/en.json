@@ -85,7 +85,16 @@
     "yearsExperience": "Years of Experience",
     "happyCustomers": "Happy Customers",
     "tourPackages": "Tour Packages",
-    "expertGuides": "Expert Guides"
+    "expertGuides": "Expert Guides",
+    "officialLicense": "Official License: 7747",
+    "securePayments": "Secure Payments",
+    "sslSecured": "SSL Secured",
+    "encryption": "256-bit Encryption",
+    "verifiedBusiness": "Verified Business",
+    "since2014": "Since 2014",
+    "happyTravelers": "500+ Happy Travelers",
+    "rating": "4.9/5 Rating",
+    "moneyBackGuarantee": "100% Money-Back Guarantee"
   },
   "howItWorks": {
     "title": "How It Works",
@@ -105,7 +114,11 @@
     "noPackages": "No packages available at the moment. Please check back soon!",
     "viewAllTours": "View All Tours",
     "nights": "nights",
-    "from": "From"
+    "from": "From",
+    "pricingNote": "PP in double room (6+ adults)",
+    "viewPackage": "View Package",
+    "fullDetails": "Full Details",
+    "viewDetails": "View Details"
   },
   "whyChooseUs": {
     "title": "Why Choose Funny Tourism?",
@@ -175,17 +188,6 @@
     "benefit2Desc": "Members-only flash sales",
     "benefit3Title": "Travel Tips",
     "benefit3Desc": "Expert advice for Turkey"
-  },
-  "trustIndicators": {
-    "officialLicense": "Official License: 7747",
-    "securePayments": "Secure Payments",
-    "sslSecured": "SSL Secured",
-    "encryption": "256-bit Encryption",
-    "verifiedBusiness": "Verified Business",
-    "since2014": "Since 2014",
-    "happyTravelers": "500+ Happy Travelers",
-    "rating": "4.9/5 Rating",
-    "moneyBackGuarantee": "100% Money-Back Guarantee"
   },
   "callToAction": {
     "title": "Ready to Explore Turkey?",
@@ -356,6 +358,7 @@
     "submitInquiry": "Submit Inquiry"
   },
   "smartPlanner": {
+    "loading": "Loading...",
     "title": "Smart Trip Planner",
     "subtitle": "Let AI create your perfect Turkey itinerary",
     "howManyDays": "How many days will you be in Turkey?",
@@ -366,6 +369,902 @@
     "yourItinerary": "Your Personalized Itinerary",
     "saveItinerary": "Save Itinerary",
     "downloadPDF": "Download PDF",
-    "shareItinerary": "Share Itinerary"
+    "shareItinerary": "Share Itinerary",
+    "header": {
+      "badge": "AI-Powered",
+      "title": "Plan Your Perfect Turkey Adventure",
+      "subtitle": "Get a custom itinerary with hotels, tours, and pricing in minutes",
+      "feature1": "100% Free & No Obligation",
+      "feature2": "Personalized to Your Interests",
+      "feature3": "Instant Pricing & Availability"
+    },
+    "steps": {
+      "destinations": "Destinations",
+      "preferences": "Preferences",
+      "contact": "Contact",
+      "itinerary": "Your Itinerary"
+    },
+    "step1": {
+      "title": "Where would you like to go?",
+      "destination": "Destination",
+      "nights": "Nights",
+      "cityPlaceholder": "Start typing a city...",
+      "remove": "Remove",
+      "addCity": "+ Add Another City",
+      "startDate": "When do you want to start your trip?",
+      "adults": "Adults",
+      "children": "Children (under 11)",
+      "next": "Next: Preferences →"
+    },
+    "step2": {
+      "title": "Customize your experience",
+      "hotelCategory": "Hotel Category",
+      "hotel3Star": "3-Star Hotels",
+      "hotel4Star": "4-Star Hotels",
+      "hotel5Star": "5-Star Hotels",
+      "tourType": "Tour Type",
+      "privateTours": "Private Tours (Just your group)",
+      "groupTours": "Small Group Tours (SIC)",
+      "specialRequests": "Special Requests (Optional)",
+      "requestsPlaceholder": "Any specific preferences, dietary requirements, or special occasions?",
+      "back": "← Back",
+      "next": "Next: Contact Info →"
+    },
+    "step3": {
+      "title": "How can we reach you?",
+      "subtitle": "We'll send your personalized itinerary to your email",
+      "fullName": "Full Name",
+      "namePlaceholder": "John Doe",
+      "email": "Email Address",
+      "emailPlaceholder": "john@example.com",
+      "phone": "Phone Number",
+      "phonePlaceholder": "+1 234 567 8900",
+      "whatsapp": "WhatsApp (Optional)",
+      "whatsappPlaceholder": "Same as phone or different",
+      "infoBoxTitle": "What happens next?",
+      "infoBoxText": "We'll create a custom itinerary with hotel recommendations, daily tours, and exact pricing. You'll receive it via email within 5-10 minutes. No payment required!",
+      "back": "← Back",
+      "generate": "Generate My Itinerary"
+    },
+    "step4": {
+      "title": "Creating Your Dream Itinerary",
+      "subtitle": "Our AI is working its magic...",
+      "progress1": "Analyzing your preferences",
+      "progress2": "Finding the best hotels",
+      "progress3": "Planning daily activities",
+      "progress4": "Calculating pricing"
+    },
+    "trustSignals": {
+      "licensed": "Licensed Tour Operator",
+      "travelers": "500+ Happy Travelers",
+      "experience": "10+ Years Experience"
+    },
+    "errors": {
+      "destinationRequired": "Please add at least one destination with a start date",
+      "contactRequired": "Please provide your name and email",
+      "generateFailed": "Failed to generate itinerary. Please try again.",
+      "noItineraryId": "No itinerary ID received",
+      "somethingWrong": "Something went wrong. Please try again."
+    }
+  },
+  "whatsappWidget": {
+    "companyName": "Funny Tourism",
+    "onlineStatus": "Online - Reply in minutes",
+    "greeting": "Hi there!",
+    "greetingMessage": "How can we help you plan your perfect Turkey vacation?",
+    "startChat": "Start Chat",
+    "replyTime": "We typically reply within 5 minutes",
+    "defaultMessage": "Hello! I'm interested in your Turkey tour packages."
+  },
+  "comparisonBar": {
+    "package": "Package",
+    "packages": "Packages",
+    "selected": "Selected",
+    "clickToCompare": "Click to compare",
+    "compare": "Compare",
+    "clearAll": "Clear all"
+  },
+  "packagesPage": {
+    "title": "Explore All Turkey Tours",
+    "subtitle": "Discover amazing experiences across Turkey",
+    "filters": "Filters",
+    "clearAll": "Clear All",
+    "search": "Search",
+    "searchPlaceholder": "Search tours...",
+    "destinations": "Destinations",
+    "packageType": "Package Type",
+    "packageTypes": {
+      "withHotel": "Hotel Packages",
+      "landOnly": "Land Packages",
+      "dailyTour": "Daily Tours"
+    },
+    "duration": "Duration",
+    "durations": {
+      "oneDay": "1 Day",
+      "twoToFive": "2-5 Days",
+      "sixToTen": "6-10 Days",
+      "tenPlus": "10+ Days"
+    },
+    "priceRange": "Price Range: €{min} - €{max}",
+    "toursFound": "{count} tours found",
+    "sortBy": {
+      "label": "Sort By",
+      "newest": "Newest First",
+      "priceLow": "Price: Low to High",
+      "priceHigh": "Price: High to Low",
+      "duration": "Duration"
+    },
+    "viewMode": {
+      "grid": "Grid view",
+      "list": "List view"
+    },
+    "noToursFound": "No tours found matching your criteria.",
+    "clearFilters": "Clear all filters",
+    "fromPrice": "From €{price}",
+    "viewDetails": "View Details",
+    "viewDetailsBook": "View Details & Book →",
+    "quickView": "Quick View",
+    "total": "total",
+    "perPerson": "per person"
+  },
+  "dailyToursPage": {
+    "header": {
+      "title": "Daily Tours in Turkey",
+      "subtitle": "Explore Turkey's best attractions with expert local guides"
+    },
+    "section": {
+      "title": "Available Daily Tours",
+      "description": "Choose from our selection of expertly curated daily tours"
+    },
+    "filters": {
+      "title": "Filter Tours",
+      "city": "City",
+      "duration": "Duration",
+      "priceRange": "Price Range: €{min} - €{max}",
+      "reset": "Reset Filters",
+      "showing": "Showing",
+      "of": "of",
+      "tours": "tours"
+    },
+    "comingSoon": {
+      "title": "Coming Soon",
+      "description": "We're currently preparing our daily tour offerings. These will include historical tours, adventure activities, cultural experiences, and more across all major Turkish destinations.",
+      "contact": "Contact us to arrange custom daily tours in Istanbul, Cappadocia, Ephesus, and beyond.",
+      "cta": "Contact Us for Custom Tours"
+    },
+    "noResults": {
+      "message": "No tours match your filters.",
+      "reset": "Reset Filters"
+    },
+    "tourCard": {
+      "sicPrice": "SIC Price",
+      "perPerson": "per person",
+      "cta": "View Details & Book"
+    },
+    "kusadasiInfo": {
+      "title": "Important Information for Kusadasi - Izmir Daily Tours",
+      "item1": "All SIC (Seat in Coach) Tours are operational everyday between 15th April – 15th October, except Pergamon Acropol – operates on Tuesday – Saturday on SIC (Seat in Coach) basis",
+      "item2": "During the tours, the pickups & drop offs from airports require arrivals no later than 08:30 am, departures no earlier than 20:00 hrs",
+      "item3": "All tours are accompanied by a Professional English-Speaking Tour Guide, any other language will be charged separately and operated on PVT (Private) basis only",
+      "item4": "Spanish, Portuguese, Italian, Japanese will require EUR 100.- / per tour",
+      "item5": "All tours will be operated with A/C Deluxe Mercedes Sprinter or same category vehicles",
+      "item6": "All entrance fees, parking fees, toll fees as per following itineraries are included in the given prices",
+      "item7": "All Full Day Tours are inclusive of local lunch",
+      "item8": "70% no-show applied to tour and transfer cancellations within 24 hours to departure",
+      "item9": "All clients arriving to Izmir airport and depart directly for tours, need to pay EUR 20.- / per person / supplement cost / one way",
+      "item10": "Pick up times will be given one day prior to departure by our office"
+    },
+    "whatsIncluded": {
+      "title": "What's Included in Our Daily Tours",
+      "description": "Explore the best attractions with our daily guided tours. Whether you're looking for a historical walking tour of Istanbul, a hot air balloon ride in Cappadocia, or a boat excursion along the Turkish coast, our daily tours provide memorable experiences with expert local guides.",
+      "feature1Title": "Expert Guides",
+      "feature1Desc": "Local professionals",
+      "feature2Title": "Flexible Duration",
+      "feature2Desc": "Half-day to full-day",
+      "feature3Title": "Daily Departures",
+      "feature3Desc": "Available every day"
+    },
+    "cta": {
+      "title": "Plan Your Daily Adventure",
+      "subtitle": "We can arrange custom daily tours tailored to your interests",
+      "contact": "Contact Us",
+      "browse": "Browse All Tours"
+    }
+  },
+  "transfersPage": {
+    "title": "Airport & Inter-City Transfers",
+    "subtitle": "Comfortable, reliable transfers across Turkey. From airports to hotels, city centers to tourist areas.",
+    "searchTransfer": "Search Transfer",
+    "fromLocation": "From Location",
+    "toLocation": "To Location",
+    "locationPlaceholder": "Search airports, cities, hotels...",
+    "numberOfPassengers": "Number of Passengers",
+    "passengers": "Passengers",
+    "passenger": "Passenger",
+    "transferDate": "Transfer Date",
+    "transferTime": "Transfer Time",
+    "priceDisplay": "€{price}",
+    "bookNow": "Book Now",
+    "priceOnRequest": "Price available on request",
+    "noPricing": "No pricing available for this route",
+    "noRoute": "No transfer route available for this combination. Please try different locations.",
+    "features": {
+      "airports": "All Turkish Airports",
+      "airportsDesc": "Coverage across 35+ airports including IST, SAW, AYT, ADB, and more",
+      "modernFleet": "Modern Fleet",
+      "modernFleetDesc": "Sedans, minivans, and minibuses with professional drivers",
+      "fixedPricing": "Fixed Pricing",
+      "fixedPricingDesc": "No hidden fees. Price you see is the price you pay"
+    },
+    "passengersCount": "{count} Passengers (On Request)"
+  },
+  "loginPage": {
+    "title": "Welcome Back",
+    "subtitle": "Sign in to access your bookings",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "signingIn": "Signing in...",
+    "signIn": "Sign In",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create one here",
+    "backToHome": "← Back to Home"
+  },
+  "registerPage": {
+    "title": "Create Account",
+    "subtitle": "Join us and start booking your Turkey adventures",
+    "nameLabel": "Full Name *",
+    "namePlaceholder": "John Doe",
+    "emailLabel": "Email Address *",
+    "emailPlaceholder": "you@example.com",
+    "phoneLabel": "Phone",
+    "phonePlaceholder": "+1234567890",
+    "countryLabel": "Country",
+    "countryPlaceholder": "USA",
+    "passwordLabel": "Password *",
+    "passwordPlaceholder": "••••••••",
+    "confirmPasswordLabel": "Confirm Password *",
+    "creatingAccount": "Creating account...",
+    "createAccount": "Create Account",
+    "haveAccount": "Already have an account?",
+    "signInHere": "Sign in here",
+    "backToHome": "← Back to Home"
+  },
+  "dashboardPage": {
+    "title": "My Dashboard",
+    "welcomeBack": "Welcome back, {name}!",
+    "backToHome": "← Back to Home",
+    "logout": "Logout",
+    "stats": {
+      "totalBookings": "Total Bookings",
+      "confirmed": "Confirmed",
+      "pending": "Pending",
+      "memberSince": "Member Since"
+    },
+    "myBookings": "My Bookings",
+    "bookNewTrip": "Book New Trip",
+    "noBookings": "You don't have any bookings yet",
+    "browsePackages": "Browse Packages",
+    "reference": "Reference",
+    "travelDate": "Travel Date",
+    "hotel": "Hotel",
+    "travelers": "Travelers",
+    "adults": "Adults",
+    "children": "Children",
+    "bookedOn": "Booked on {date}",
+    "status": {
+      "confirmed": "Your booking is confirmed!",
+      "pending": "Awaiting confirmation...",
+      "completed": "Trip completed",
+      "cancelled": "Booking cancelled"
+    }
+  },
+  "contactPage": {
+    "title": "Contact Us",
+    "subtitle": "Have a question, feedback, or want to book a tour? We'd love to hear from you!",
+    "sendMessage": "Send Us a Message",
+    "successMessage": "Message sent successfully! We'll get back to you soon.",
+    "errorMessage": "An error occurred. Please try again later.",
+    "fullName": "Full Name",
+    "emailAddress": "Email Address",
+    "subject": "Subject",
+    "yourMessage": "Your Message",
+    "sending": "Sending...",
+    "sendMessageButton": "Send Message",
+    "contactInfo": "Contact Information",
+    "address": "Address:",
+    "addressText": "Mehmet Akif Ersoy Mah Hanimeli Sok No 5/B Uskudar - Istanbul",
+    "phone": "Phone:",
+    "emailLabel": "Email:",
+    "hours": "Hours:",
+    "hoursText": "Monday - Friday: 9am - 6pm",
+    "ourLocation": "Our Location",
+    "faqTitle": "Frequently Asked Questions"
+  },
+  "aboutPage": {
+    "title": "About Funny Tourism",
+    "subtitle": "Bringing laughter and joy to every travel experience since 2010",
+    "ourStory": "Our Story",
+    "meetOurTeam": "Meet Our Team",
+    "teamSubtitle": "Our staff is made up of travel experts with a great sense of humor",
+    "ourValues": "Our Values",
+    "values": {
+      "laughOften": "Laugh Often",
+      "laughOftenDesc": "We believe laughter is an essential part of any great journey.",
+      "respectCultures": "Respect Cultures",
+      "respectCulturesDesc": "We appreciate cultural differences and share humor in respectful ways.",
+      "buildConnections": "Build Connections",
+      "buildConnectionsDesc": "Humor brings people together across language and cultural barriers.",
+      "travelResponsibly": "Travel Responsibly",
+      "travelResponsiblyDesc": "We're committed to sustainable tourism practices that protect our planet."
+    },
+    "cta": {
+      "title": "Ready to Start Your Journey?",
+      "subtitle": "Join thousands of happy travelers who have experienced Turkey with us",
+      "viewPackages": "View Our Packages",
+      "contactUs": "Contact Us"
+    }
+  },
+  "bookingModal": {
+    "title": "Complete Your Booking",
+    "loading": "Loading...",
+    "packageSummary": "Package Summary",
+    "hotel": "Hotel",
+    "guests": "Guests",
+    "rooms": "Rooms",
+    "total": "Total",
+    "step1Title": "Contact Info",
+    "step2Title": "Travel Details",
+    "step3Title": "Passengers",
+    "stepOf": "Step {current} of 3",
+    "contactInfoTitle": "Contact & Travel Information",
+    "fullName": "Full Name *",
+    "email": "Email *",
+    "phone": "Phone *",
+    "travelDate": "Travel Date *",
+    "flightDetailsTitle": "Flight Details & Preferences",
+    "arrivalFlightNumber": "Arrival Flight Number",
+    "arrivalTime": "Arrival Time",
+    "departureFlightNumber": "Departure Flight Number",
+    "departureTime": "Departure Time",
+    "dietaryRequirements": "Dietary Requirements",
+    "dietaryOptions": {
+      "vegetarian": "Vegetarian",
+      "vegan": "Vegan",
+      "halal": "Halal",
+      "kosher": "Kosher",
+      "glutenFree": "Gluten-free",
+      "dairyFree": "Dairy-free",
+      "none": "None"
+    },
+    "otherDietary": "Other dietary requirements...",
+    "roomPreferences": "Room Preferences",
+    "roomPrefOptions": {
+      "twinBeds": "Twin Beds",
+      "kingBed": "King Bed",
+      "highFloor": "High Floor",
+      "lowFloor": "Low Floor",
+      "nonSmoking": "Non-Smoking",
+      "connectingRooms": "Connecting Rooms"
+    },
+    "emergencyContactName": "Emergency Contact Name *",
+    "emergencyContactPhone": "Emergency Contact Phone *",
+    "travelInsurance": "I have travel insurance",
+    "celebrationOccasion": "Celebrating Something Special?",
+    "celebrationOptions": {
+      "none": "None",
+      "honeymoon": "Honeymoon",
+      "anniversary": "Anniversary",
+      "birthday": "Birthday",
+      "other": "Other Celebration"
+    },
+    "specialRequests": "Special Requests",
+    "specialRequestsPlaceholder": "Any special requirements...",
+    "passengerInfoTitle": "Passenger Information",
+    "passengerInfoNote": "Please provide details as they appear on passports",
+    "passenger": "Passenger {number}",
+    "firstName": "First Name *",
+    "middleName": "Middle Name",
+    "lastName": "Last Name *",
+    "dateOfBirth": "Date of Birth *",
+    "gender": "Gender *",
+    "genderOptions": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    },
+    "nationality": "Nationality *",
+    "passportNumber": "Passport Number *",
+    "passportExpiry": "Passport Expiry *",
+    "issuingCountry": "Issuing Country *",
+    "previous": "Previous",
+    "next": "Next",
+    "confirmBooking": "Confirm Booking",
+    "creatingBooking": "Creating Booking...",
+    "orSeparator": "or",
+    "bookViaWhatsApp": "Book via WhatsApp",
+    "whatsAppMessage": {
+      "greeting": "Hello! I'm interested in booking:",
+      "package": "Package",
+      "hotelCategory": "Hotel Category",
+      "totalGuests": "Total Guests",
+      "totalPrice": "Total Price",
+      "duration": "Duration",
+      "helpComplete": "Please help me complete this booking."
+    },
+    "roomDetails": {
+      "room": "Room {number}",
+      "single": "Single",
+      "double": "Double",
+      "triple": "Triple",
+      "person": "person",
+      "people": "people"
+    },
+    "errors": {
+      "selectTravelDate": "Please select a travel date",
+      "fillContactInfo": "Please fill in all contact information",
+      "emergencyContactRequired": "Emergency contact information is required",
+      "completePassengerInfo": "Please complete all required fields for Passenger {number}",
+      "bookingFailed": "Failed to create booking",
+      "tryAgain": "An error occurred. Please try again."
+    }
+  },
+  "dailyTourBookingModal": {
+    "title": "Book Your Tour",
+    "confirmed": "Booking Confirmed!",
+    "confirmationMessage": "Your tour booking has been successfully created.",
+    "referenceNumber": "Your Reference Number:",
+    "emailSent": "We've sent a confirmation email to {email}.",
+    "contactWithin24h": "Our team will contact you within 24 hours to confirm pickup details.",
+    "closeButton": "Close",
+    "contactInformation": "Contact Information",
+    "fullName": "Full Name *",
+    "emailAddress": "Email Address *",
+    "phoneNumber": "Phone Number *",
+    "tourDetails": "Tour Details",
+    "tourDate": "Tour Date *",
+    "tourType": "Tour Type *",
+    "sharedTour": "Shared Tour (SIC) - €{price}/person",
+    "privateTour": "Private Tour",
+    "numberOfGuests": "Number of Guests *",
+    "guest": "guest",
+    "guests": "guests",
+    "pickupInformation": "Pickup Information",
+    "pickupLocation": "Pickup Location (Optional)",
+    "pickupLocationPlaceholder": "e.g., Sultanahmet, Taksim, etc.",
+    "hotelName": "Hotel Name (Optional)",
+    "hotelNamePlaceholder": "Your hotel name",
+    "specialRequests": "Special Requests (Optional)",
+    "specialRequestsPlaceholder": "Any dietary requirements, accessibility needs, or special requests...",
+    "priceSummary": "Price Summary",
+    "totalPrice": "Total Price",
+    "pricingBreakdown": "{count} guests × €{price}/person",
+    "pricingBreakdownPrivate": "{count} guests × €{price}/person (private)",
+    "confirmBooking": "Confirm Booking",
+    "processing": "Processing...",
+    "termsAgreement": "By clicking \"Confirm Booking\", you agree to our terms and conditions. You'll receive a confirmation email with all the details.",
+    "tourCode": "Tour Code: {code}",
+    "errors": {
+      "bookingFailed": "Failed to create booking. Please try again."
+    }
+  },
+  "transferBookingModal": {
+    "title": "Complete Your Booking",
+    "confirmed": "Booking Confirmed!",
+    "confirmationMessage": "Your transfer has been booked successfully.",
+    "referenceNumber": "Reference Number:",
+    "emailSent": "A confirmation email has been sent to {email}",
+    "closeButton": "Close",
+    "transferDetails": "Transfer Details",
+    "from": "From",
+    "to": "To",
+    "dateTime": "Date & Time",
+    "passengers": "Passengers",
+    "passenger": "passenger",
+    "vehicle": "Vehicle",
+    "totalPrice": "Total Price",
+    "contactInformation": "Contact Information",
+    "fullName": "Full Name *",
+    "emailAddress": "Email Address *",
+    "phoneNumber": "Phone Number *",
+    "flightNumber": "Flight Number (Optional)",
+    "flightNumberHelp": "For airport pickups, we'll track your flight",
+    "numberOfLuggage": "Number of Luggage (Optional)",
+    "specialRequests": "Special Requests (Optional)",
+    "specialRequestsPlaceholder": "Child seat, extra stop, etc.",
+    "cancelButton": "Cancel",
+    "confirmBooking": "Confirm Booking - €{price}",
+    "processing": "Processing...",
+    "termsAgreement": "By confirming, you agree to our terms and conditions",
+    "errors": {
+      "bookingFailed": "Booking failed",
+      "unknownError": "Unknown error",
+      "errorCreating": "Error creating booking"
+    }
+  },
+  "quickViewModal": {
+    "loading": "Loading...",
+    "packageNotFound": "Package not found",
+    "from": "From €{price}",
+    "highlights": "Highlights",
+    "itineraryPreview": "Itinerary Preview",
+    "day": "Day {number}: {title}",
+    "moreDays": "+ {count} more days...",
+    "included": "Included",
+    "notIncluded": "Not Included",
+    "viewFullDetails": "View Full Details",
+    "addToWishlist": "Add to wishlist",
+    "removeFromWishlist": "Remove from wishlist"
+  },
+  "comparisonModal": {
+    "title": "Compare Packages ({count})",
+    "clearAll": "Clear All",
+    "noPackages": "No packages to compare",
+    "noPackagesMessage": "Add packages from the packages page to start comparing",
+    "loading": "Loading...",
+    "image": "Image",
+    "package": "Package",
+    "viewDetails": "View Details →",
+    "priceFrom": "Price (from)",
+    "perPerson": "per person",
+    "duration": "Duration",
+    "destinations": "Destinations",
+    "description": "Description",
+    "highlights": "Highlights",
+    "bookNow": "Book Now"
+  },
+  "pricingCalculator": {
+    "title": "Calculate Your Price",
+    "hotelCategory": "Hotel Category",
+    "threeStarHotels": "3-Star Hotels",
+    "fourStarHotels": "4-Star Hotels",
+    "fiveStarHotels": "5-Star Hotels",
+    "landServicesOnly": "Land Services Only",
+    "landServicesOnlyNote": "This package includes transportation, guides, and activities. Hotels not included.",
+    "numberOfAdults": "Number of Adults",
+    "minimumAdultsRequired": "Minimum 2 adults required",
+    "children3to5": "Children (3-5 years)",
+    "children6to10": "Children (6-10 years)",
+    "priceBreakdown": "Price Breakdown",
+    "adults": "{count} Adults × €{price}",
+    "children3to5Breakdown": "{count} Children (3-5 yrs) × €{price}",
+    "children6to10Breakdown": "{count} Children (6-10 yrs) × €{price}",
+    "totalPrice": "Total Price",
+    "perAdult": "€{price} per adult",
+    "bookThisPackage": "Book This Package",
+    "pricesValid": "Prices valid from 01/04/2025 till 31/10/2025"
+  },
+  "itineraryTimeline": {
+    "meals": "Meals: {meals}",
+    "highlights": "Highlights:"
+  },
+  "currencyConverter": {
+    "currencies": {
+      "eur": "EUR",
+      "usd": "USD",
+      "gbp": "GBP"
+    }
+  },
+  "packageDetailPage": {
+    "packageNotFound": "Package Not Found",
+    "backToPackages": "Back to Packages",
+    "overview": "Overview",
+    "packageHighlights": "Package Highlights",
+    "dayByDayItinerary": "Day by Day Itinerary",
+    "meals": "Meals",
+    "whatsIncluded": "What's Included",
+    "notIncluded": "Not Included",
+    "accommodationOptions": "Accommodation Options",
+    "bookThisPackage": "Book This Package",
+    "hotelCategory": "Hotel Category",
+    "threeStarHotels": "3-Star Hotels",
+    "fourStarHotels": "4-Star Hotels",
+    "fiveStarHotels": "5-Star Hotels",
+    "roomConfiguration": "Room Configuration",
+    "total": "Total",
+    "person": "person",
+    "people": "people",
+    "room": "Room",
+    "single": "Single",
+    "double": "Double",
+    "triple": "Triple",
+    "remove": "Remove",
+    "onePerson": "1 Person (Single)",
+    "twoPeople": "2 People (Double)",
+    "threePeople": "3 People (Triple)",
+    "addAnotherRoom": "+ Add Another Room",
+    "maximumRoomInfo": "Maximum 3 people per room, 10 people total",
+    "numberOfTravelers": "Number of Travelers",
+    "perPersonPricing": "Per person land services pricing",
+    "totalPrice": "Total Price",
+    "perPerson": "Per person",
+    "rooms": "Rooms",
+    "requestBooking": "Request Booking",
+    "downloadPDF": "Download PDF",
+    "quickInfo": "Quick Info",
+    "landServicesOnly": "Land Services Only",
+    "sicGroupTours": "SIC Group Tours",
+    "hotelStars": "3/4/5-Star Hotels"
+  },
+  "tourDetailPage": {
+    "loadingTourDetails": "Loading tour details...",
+    "tourDescription": "Tour Description",
+    "whatsIncluded": "What's Included",
+    "notIncluded": "Not Included",
+    "importantNotes": "Important Notes",
+    "pickupInformation": "Pickup Information",
+    "pricing": "Pricing",
+    "sicGroupTour": "SIC (Group Tour)",
+    "guaranteedFromOnePax": "Guaranteed from 1 pax",
+    "perPerson": "/ person",
+    "notAvailable": "N/A",
+    "privateTourPricing": "Private Tour Pricing",
+    "passengers": "Passengers",
+    "bookThisTour": "Book This Tour",
+    "port": "Port"
+  },
+  "destinationsPage": {
+    "header": {
+      "title": "Explore Turkey Destinations",
+      "subtitle": "Discover the diverse beauty and rich history of Turkey's top destinations"
+    },
+    "section": {
+      "title": "Our Top Destinations",
+      "description": "Experience the best of Turkey's rich history, stunning landscapes, and vibrant culture"
+    },
+    "filters": {
+      "searchLabel": "Search Destinations",
+      "searchPlaceholder": "Search by name, description...",
+      "category": "Category",
+      "allCategories": "All Categories",
+      "categories": {
+        "historical": "Historical",
+        "coastal": "Coastal",
+        "natural": "Natural Wonders",
+        "cultural": "Cultural",
+        "adventure": "Adventure"
+      },
+      "region": "Region",
+      "allRegions": "All Regions",
+      "regions": {
+        "marmara": "Marmara",
+        "aegean": "Aegean Coast",
+        "mediterranean": "Mediterranean Coast",
+        "centralAnatolia": "Central Anatolia",
+        "blackSea": "Black Sea"
+      },
+      "showing": "Showing",
+      "of": "of",
+      "destinations": "destinations"
+    },
+    "noResults": {
+      "title": "No destinations found",
+      "message": "Try adjusting your search or filter criteria"
+    },
+    "card": {
+      "topAttractions": "Top Attractions:",
+      "explore": "Explore"
+    },
+    "cta": {
+      "title": "Ready to Start Your Journey?",
+      "subtitle": "Book our comprehensive package and experience all these amazing destinations",
+      "viewPackages": "View Our Packages",
+      "contactUs": "Contact Us"
+    }
+  },
+  "destinationDetailPage": {
+    "introduction": {
+      "discover": "Discover"
+    },
+    "attractions": {
+      "title": "Must-See Attractions"
+    },
+    "experiences": {
+      "title": "Unique Experiences"
+    },
+    "cta": {
+      "title": "Ready to Explore {name}?",
+      "subtitle": "Experience the best of {name} with our carefully curated tour packages",
+      "viewPackages": "View Tour Packages",
+      "contactUs": "Contact Us"
+    }
+  },
+  "staticPackagePage": {
+    "dayByDayItinerary": "Day-by-Day Itinerary",
+    "whatsIncluded": "What's Included",
+    "notIncluded": "Not Included",
+    "importantInformation": "Important Information",
+    "needHelp": "Need Help?",
+    "needHelpText": "Our travel experts are here to help you plan your perfect Turkey vacation.",
+    "whatsAppUs": "WhatsApp Us",
+    "emailInquiry": "Email Inquiry"
+  },
+  "agentRegister": {
+    "title": "Become a Partner Agent",
+    "subtitle": "Register your travel agency to access B2B rates and manage bookings",
+    "emailLabel": "Email Address *",
+    "emailPlaceholder": "agent@company.com",
+    "companyNameLabel": "Company Name *",
+    "companyNamePlaceholder": "Your Travel Agency",
+    "contactNameLabel": "Contact Name *",
+    "contactNamePlaceholder": "John Doe",
+    "phoneLabel": "Phone Number *",
+    "phonePlaceholder": "+1 234 567 8900",
+    "countryLabel": "Country",
+    "countryPlaceholder": "United States",
+    "websiteLabel": "Company Website",
+    "websitePlaceholder": "https://yourcompany.com",
+    "addressLabel": "Company Address",
+    "addressPlaceholder": "Street address, city, state, zip code",
+    "passwordLabel": "Password *",
+    "passwordPlaceholder": "Minimum 8 characters",
+    "confirmPasswordLabel": "Confirm Password *",
+    "confirmPasswordPlaceholder": "Re-enter password",
+    "registerButton": "Register as Agent",
+    "registering": "Registering...",
+    "haveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "backToWebsite": "← Back to website",
+    "passwordMismatch": "Passwords do not match",
+    "registrationFailed": "Registration failed. Please try again.",
+    "errorOccurred": "An error occurred. Please try again.",
+    "successTitle": "Registration Successful!",
+    "successMessage": "Your account is pending approval. You will receive an email notification once your account is approved by our team.",
+    "redirecting": "Redirecting to login page..."
+  },
+  "blogPage": {
+    "title": "Travel Blog",
+    "subtitle": "Discover Turkey through our travel guides, tips, and insider knowledge",
+    "allPosts": "All Posts",
+    "readMore": "Read More",
+    "noPosts": "No blog posts found in this category."
+  },
+  "blogDetailPage": {
+    "postNotFound": "Post Not Found",
+    "postNotFoundMessage": "The blog post you're looking for doesn't exist.",
+    "backToBlog": "Back to Blog",
+    "share": "Share",
+    "tags": "Tags:",
+    "relatedPosts": "Related Posts",
+    "views": "views",
+    "by": "By",
+    "exploreRelatedPackages": "Explore Related Tour Packages",
+    "turnTravelInspiration": "Turn your travel inspiration into reality with these carefully selected tours",
+    "readyToExperience": "Ready to Experience Turkey?",
+    "explorePackagesText": "Explore our curated tour packages and start planning your adventure!",
+    "viewTourPackages": "View Tour Packages"
+  },
+  "inquiryPage": {
+    "loading": "Loading...",
+    "header": {
+      "title": "Get Your Custom Turkey Itinerary",
+      "subtitle": "Tell us about your dream trip and we'll create a personalized quote tailored just for you"
+    },
+    "steps": {
+      "step1": "Contact Info",
+      "step2": "Trip Preferences",
+      "step3": "Final Details"
+    },
+    "destinations": {
+      "istanbul": "Istanbul",
+      "cappadocia": "Cappadocia",
+      "ephesus": "Ephesus",
+      "pamukkale": "Pamukkale",
+      "antalya": "Antalya",
+      "bodrum": "Bodrum",
+      "fethiye": "Fethiye",
+      "trabzon": "Trabzon"
+    },
+    "interests": {
+      "historical": "Historical Sites",
+      "balloon": "Hot Air Balloon",
+      "beach": "Beach & Coast",
+      "cuisine": "Turkish Cuisine",
+      "shopping": "Shopping",
+      "adventure": "Adventure",
+      "culture": "Culture & Arts",
+      "photography": "Photography"
+    },
+    "duration": {
+      "short": "3-5 Days",
+      "week": "6-8 Days",
+      "twoWeeks": "9-14 Days",
+      "long": "15+ Days"
+    },
+    "budget": {
+      "low": "Economy ($50-100/day)",
+      "medium": "Standard ($100-200/day)",
+      "high": "Comfort ($200-300/day)",
+      "premium": "Luxury ($300+/day)"
+    },
+    "validation": {
+      "nameRequired": "Please enter your name",
+      "emailRequired": "Please enter your email",
+      "emailInvalid": "Please enter a valid email address",
+      "phoneRequired": "Please enter your phone number",
+      "countryRequired": "Please enter your country",
+      "destinationRequired": "Please select at least one destination",
+      "durationRequired": "Please select trip duration",
+      "budgetRequired": "Please select your budget range",
+      "dateRequired": "Please select your preferred travel date"
+    },
+    "error": {
+      "submitFailed": "Failed to submit your request. Please try again or contact us directly."
+    },
+    "success": {
+      "title": "Quote Request Received!",
+      "message": "Thank you for choosing Funny Tourism!",
+      "followUp": "Our travel experts will review your preferences and send you a personalized itinerary within 24 hours.",
+      "emailCheck": "Check your email inbox",
+      "emailSent": "We've sent a confirmation to {email}",
+      "whatsappButton": "Chat on WhatsApp",
+      "browseButton": "Browse Tour Packages"
+    },
+    "step1": {
+      "title": "Let's Get Started",
+      "subtitle": "First, we need your contact information",
+      "nameLabel": "Full Name *",
+      "namePlaceholder": "John Doe",
+      "emailLabel": "Email Address *",
+      "emailPlaceholder": "john@example.com",
+      "phoneLabel": "Phone Number *",
+      "phonePlaceholder": "+1 234 567 8900",
+      "whatsappLabel": "WhatsApp Number (Optional)",
+      "whatsappPlaceholder": "Same as phone or different",
+      "countryLabel": "Country *",
+      "countryPlaceholder": "United States"
+    },
+    "step2": {
+      "title": "Plan Your Perfect Trip",
+      "subtitle": "Tell us what you'd like to experience in Turkey",
+      "destinationsLabel": "Which destinations interest you? *",
+      "interestsLabel": "What are your interests? (Optional)",
+      "durationLabel": "How long will you stay? *",
+      "durationPlaceholder": "Select duration",
+      "budgetLabel": "What's your budget per person? *",
+      "budgetPlaceholder": "Select budget range",
+      "packageTypeLabel": "What type of package do you prefer?",
+      "withHotel": "With Hotels",
+      "withHotelDesc": "Includes accommodation in your package",
+      "landOnly": "Land Services Only",
+      "landOnlyDesc": "Tours, transfers & guides only",
+      "hotelCategoryLabel": "Preferred Hotel Category",
+      "threeStar": "3-Star",
+      "fourStar": "4-Star",
+      "fiveStar": "5-Star"
+    },
+    "step3": {
+      "title": "Almost Done!",
+      "subtitle": "Just a few more details to complete your quote request",
+      "packageLabel": "Package of Interest:",
+      "adultsLabel": "Adults (11+ years)",
+      "children3to5Label": "Children (3-5 years)",
+      "children6to10Label": "Children (6-10 years)",
+      "travelDateLabel": "Preferred Travel Date *",
+      "specialRequestsLabel": "Special Requests (Optional)",
+      "specialRequestsPlaceholder": "Any dietary requirements, accessibility needs, or special occasions we should know about?",
+      "summaryTitle": "Your Trip Summary",
+      "summaryDestinations": "Destinations:",
+      "summaryDuration": "Duration:",
+      "summaryBudget": "Budget:",
+      "summaryTravelers": "Travelers:",
+      "notSpecified": "Not specified",
+      "adults": "adults",
+      "adult": "adult",
+      "children": "children",
+      "securityNote": "🔒 Your information is secure and will only be used to prepare your personalized quote"
+    },
+    "buttons": {
+      "continue": "Continue",
+      "back": "← Back",
+      "submit": "Submit Quote Request",
+      "sending": "Sending..."
+    },
+    "footer": {
+      "contactText": "Prefer to talk directly? Get in touch now:",
+      "emailButton": "Email Us",
+      "whatsappButton": "WhatsApp Us"
+    }
   }
 }

@@ -1,14 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaLock, FaSignInAlt } from 'react-icons/fa';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 
 export default function LoginPage() {
   const router = useRouter();
+  const t = useTranslations('loginPage');
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -61,8 +63,8 @@ export default function LoginPage() {
               className="object-contain"
             />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-          <p className="text-gray-600">Sign in to access your bookings</p>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">{t('title')}</h1>
+          <p className="text-gray-600">{t('subtitle')}</p>
         </div>
 
         <div className="bg-white rounded-lg shadow-xl p-8">
@@ -75,7 +77,7 @@ export default function LoginPage() {
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
+                {t('emailLabel')}
               </label>
               <div className="relative">
                 <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -86,14 +88,14 @@ export default function LoginPage() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="you@example.com"
+                  placeholder={t('emailPlaceholder')}
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                Password
+                {t('passwordLabel')}
               </label>
               <div className="relative">
                 <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -104,7 +106,7 @@ export default function LoginPage() {
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   required
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="••••••••"
+                  placeholder={t('passwordPlaceholder')}
                 />
               </div>
             </div>
@@ -115,11 +117,11 @@ export default function LoginPage() {
               className="w-full btn-primary flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
-                'Signing in...'
+                t('signingIn')
               ) : (
                 <>
                   <FaSignInAlt className="mr-2" />
-                  Sign In
+                  {t('signIn')}
                 </>
               )}
             </button>
@@ -127,9 +129,9 @@ export default function LoginPage() {
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Don&apos;t have an account?{' '}
+              {t('noAccount')}{' '}
               <Link href="/register" className="text-primary-600 hover:text-primary-700 font-semibold">
-                Create one here
+                {t('createAccount')}
               </Link>
             </p>
           </div>
@@ -137,7 +139,7 @@ export default function LoginPage() {
 
         <div className="mt-6 text-center">
           <Link href="/" className="text-sm text-gray-600 hover:text-gray-900">
-            ← Back to Home
+            {t('backToHome')}
           </Link>
         </div>
       </motion.div>

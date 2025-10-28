@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const category = searchParams.get('category');
     const limit = searchParams.get('limit');
+    const locale = searchParams.get('locale') || 'en';
 
     const where: { status: BlogStatus; category?: string } = { status: BlogStatus.PUBLISHED };
     if (category) {
@@ -21,8 +22,10 @@ export async function GET(req: NextRequest) {
       select: {
         id: true,
         title: true,
+        titleEs: true,
         slug: true,
         excerpt: true,
+        excerptEs: true,
         coverImage: true,
         category: true,
         tags: true,
@@ -32,9 +35,11 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    // Parse tags
+    // Parse tags and return locale-specific content
     const formattedPosts = posts.map((post) => ({
       ...post,
+      title: locale === 'es' && post.titleEs ? post.titleEs : post.title,
+      excerpt: locale === 'es' && post.excerptEs ? post.excerptEs : post.excerpt,
       tags: post.tags ? JSON.parse(post.tags) : [],
     }));
 

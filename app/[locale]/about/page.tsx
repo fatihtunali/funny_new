@@ -1,52 +1,54 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { motion } from 'framer-motion';
 import { FaLaugh, FaGlobeAmericas, FaHandshake, FaSeedling } from 'react-icons/fa';
+import { useTranslations } from 'next-intl';
 
 export default function AboutPage() {
+  const t = useTranslations('aboutPage');
   const teamMembers = [
     {
       name: 'Fatih TUNALI',
-      title: 'Founder & CEO',
+      title: t('team.fatih.title'),
       image: '/images/fatih.png',
-      bio: `With a passion for tourism ignited at the young age of 14, Fatih Tunali has dedicated his life to the travel industry. He pursued formal education in Travel Agency and Tourism Hospitality, laying the foundation for a successful career. At 20 years old, Fatih began working for travel agencies, gaining invaluable experience and insights into the intricacies of the tourism sector. Today, with over two decades of experience under his belt, Fatih stands as a seasoned veteran in the field. As the founder, owner, and CEO of Funny Tourism & DMC, Fatih leads with vision, determination, and a deep-seated commitment to excellence. Beyond his professional endeavors, Fatih finds fulfillment as a father to his son, balancing his roles with grace and dedication.`
+      bio: t('team.fatih.bio')
     },
     {
       name: 'Diler TUNALI',
-      title: 'Head of Tour Operations',
+      title: t('team.diler.title'),
       image: '/images/diler.png',
-      bio: `Diler Tunali's journey in tourism began at the age of 26, where her innate talents and passion for hospitality propelled her into the industry. She pursued education in Professional Guidance, equipping herself with the knowledge and skills necessary to excel in her field. As the Head of Sales and Operations at Funny Tourism & DMC, Diler plays a pivotal role in driving the company's success. Her unwavering support, dedication, and attention to detail contribute significantly to the seamless execution of operations and the delivery of exceptional service to clients. Beyond her professional role, Diler is the supportive partner of Fatih Tunali, providing invaluable support and encouragement as they navigate the journey of entrepreneurship together.`
+      bio: t('team.diler.bio')
     },
     {
       name: 'Gul AKBURAK',
-      title: 'Accounting',
+      title: t('team.gul.title'),
       image: null,
-      bio: `With 18 years of experience in accounting within the tourism sector, Gul Akburak is the numerical backbone of Funny Tourism & DMC. Her expertise ensures the financial health and stability of the company.`
+      bio: t('team.gul.bio')
     }
   ];
 
   const values = [
     {
       icon: <FaLaugh className="text-5xl text-accent-500" />,
-      title: 'Laugh Often',
-      description: 'We believe laughter is an essential part of any great journey.'
+      title: t('values.laugh.title'),
+      description: t('values.laugh.description')
     },
     {
       icon: <FaGlobeAmericas className="text-5xl text-primary-600" />,
-      title: 'Respect Cultures',
-      description: 'We appreciate cultural differences and share humor in respectful ways.'
+      title: t('values.respect.title'),
+      description: t('values.respect.description')
     },
     {
       icon: <FaHandshake className="text-5xl text-green-600" />,
-      title: 'Build Connections',
-      description: 'Humor brings people together across language and cultural barriers.'
+      title: t('values.connect.title'),
+      description: t('values.connect.description')
     },
     {
       icon: <FaSeedling className="text-5xl text-green-500" />,
-      title: 'Travel Responsibly',
-      description: 'We\'re committed to sustainable tourism practices that protect our planet.'
+      title: t('values.responsible.title'),
+      description: t('values.responsible.description')
     }
   ];
 
@@ -55,8 +57,8 @@ export default function AboutPage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold mb-4">About Funny Tourism</h1>
-          <p className="text-xl text-primary-100">Bringing laughter and joy to every travel experience since 2010</p>
+          <h1 className="text-4xl font-bold mb-4">{t('header.title')}</h1>
+          <p className="text-xl text-primary-100">{t('header.subtitle')}</p>
         </div>
       </div>
 
@@ -83,16 +85,16 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">{t('story.title')}</h2>
               <div className="space-y-4 text-gray-700 leading-relaxed">
                 <p>
-                  Funny Tourism was founded by a group of travel enthusiasts who believed that the best travel experiences are those filled with laughter and joy. We noticed that most travel agencies focused solely on sightseeing, while missing the humorous and entertaining aspects of different cultures.
+                  {t('story.paragraph1')}
                 </p>
                 <p>
-                  Our mission is to create travel experiences that not only show you the world but make you laugh along the way. Whether it&apos;s through comedy-themed tours, visits to quirky attractions, or simply embracing the funny side of cultural differences, we believe that humor enhances every journey.
+                  {t('story.paragraph2')}
                 </p>
                 <p>
-                  Today, Funny Tourism operates in over 30 countries, bringing smiles to thousands of travelers each year. We&apos;re proud to be the pioneers of humor-focused tourism and continue to innovate with new funny travel concepts every season.
+                  {t('story.paragraph3')}
                 </p>
               </div>
             </motion.div>
@@ -109,9 +111,9 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('team.title')}</h2>
             <p className="text-xl text-gray-600">
-              Our staff is made up of travel experts with a great sense of humor
+              {t('team.subtitle')}
             </p>
           </motion.div>
 
@@ -160,7 +162,7 @@ export default function AboutPage() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Values</h2>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('values.title')}</h2>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
@@ -184,16 +186,16 @@ export default function AboutPage() {
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-primary-600 to-primary-800 py-16">
         <div className="section-container text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Your Journey?</h2>
+          <h2 className="text-3xl font-bold text-white mb-4">{t('cta.title')}</h2>
           <p className="text-xl text-white mb-8">
-            Join thousands of happy travelers who have experienced Turkey with us
+            {t('cta.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/packages" className="btn-primary bg-white text-primary-600 hover:bg-gray-100">
-              View Our Packages
+              {t('cta.packagesButton')}
             </Link>
             <Link href="/#contact" className="btn-primary bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary-600">
-              Contact Us
+              {t('cta.contactButton')}
             </Link>
           </div>
         </div>

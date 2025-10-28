@@ -1,11 +1,58 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
+// Manual locale detection for /agent routes (excluded from middleware)
+function detectLocale(): 'en' | 'es' {
+  if (typeof window === 'undefined') return 'en';
+
+  // Check localStorage first
+  const stored = localStorage.getItem('agent-locale');
+  if (stored === 'en' || stored === 'es') return stored;
+
+  // Check browser language
+  const browserLang = navigator.language.toLowerCase();
+  if (browserLang.startsWith('es')) return 'es';
+
+  return 'en';
+}
+
+// Translation types
+interface AgentTranslations {
+  agentRegister?: Record<string, string>;
+}
+
+// Translation hook for agent pages
+function useAgentTranslations() {
+  const [locale, setLocale] = useState<'en' | 'es'>('en');
+  const [translations, setTranslations] = useState<AgentTranslations | null>(null);
+
+  useEffect(() => {
+    const detectedLocale = detectLocale();
+    setLocale(detectedLocale);
+
+    // Load translations
+    import(`@/messages/${detectedLocale}.json`).then((module) => {
+      setTranslations(module.default);
+    });
+  }, []);
+
+  const switchLocale = (newLocale: 'en' | 'es') => {
+    setLocale(newLocale);
+    localStorage.setItem('agent-locale', newLocale);
+    import(`@/messages/${newLocale}.json`).then((module) => {
+      setTranslations(module.default);
+    });
+  };
+
+  return { locale, translations, switchLocale, t: (key: string) => translations?.agentRegister?.[key] || key };
+}
+
 export default function AgentRegister() {
   const router = useRouter();
+  const { locale, translations, switchLocale, t } = useAgentTranslations();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -28,7 +75,7 @@ export default function AgentRegister() {
 
     // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError(t('passwordMismatch'));
       setLoading(false);
       return;
     }
@@ -52,7 +99,7 @@ export default function AgentRegister() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || 'Registration failed');
+        setError(data.error || t('registrationFailed'));
         return;
       }
 
@@ -63,11 +110,20 @@ export default function AgentRegister() {
         router.push('/agent/login');
       }, 3000);
     } catch {
-      setError('An error occurred. Please try again.');
+      setError(t('errorOccurred'));
     } finally {
       setLoading(false);
     }
   };
+
+  // Show loading state while translations load
+  if (!translations) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center">
+        <div className="text-gray-600">{locale === 'es' ? 'Cargando...' : 'Loading...'}</div>
+      </div>
+    );
+  }
 
   if (success) {
     return (
@@ -78,12 +134,12 @@ export default function AgentRegister() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Registration Successful!</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('successTitle')}</h2>
           <p className="text-gray-600 mb-4">
-            Your account is pending approval. You will receive an email notification once your account is approved by our team.
+            {t('successMessage')}
           </p>
           <p className="text-sm text-gray-500">
-            Redirecting to login page...
+            {t('redirecting')}
           </p>
         </div>
       </div>
@@ -94,10 +150,36 @@ export default function AgentRegister() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-2xl shadow-xl p-8">
+          {/* Language Switcher */}
+          <div className="flex justify-end mb-4">
+            <div className="flex gap-2">
+              <button
+                onClick={() => switchLocale('en')}
+                className={`px-3 py-1 text-sm rounded ${
+                  locale === 'en'
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                English
+              </button>
+              <button
+                onClick={() => switchLocale('es')}
+                className={`px-3 py-1 text-sm rounded ${
+                  locale === 'es'
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                Español
+              </button>
+            </div>
+          </div>
+
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Become a Partner Agent</h2>
+            <h2 className="text-3xl font-bold text-gray-900">{t('title')}</h2>
             <p className="mt-2 text-sm text-gray-600">
-              Register your travel agency to access B2B rates and manage bookings
+              {t('subtitle')}
             </p>
           </div>
 
@@ -111,7 +193,7 @@ export default function AgentRegister() {
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address *
+                  {t('emailLabel')}
                 </label>
                 <input
                   id="email"
@@ -120,13 +202,13 @@ export default function AgentRegister() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                  placeholder="agent@company.com"
+                  placeholder={t('emailPlaceholder')}
                 />
               </div>
 
               <div>
                 <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-2">
-                  Company Name *
+                  {t('companyNameLabel')}
                 </label>
                 <input
                   id="companyName"
@@ -135,13 +217,13 @@ export default function AgentRegister() {
                   value={formData.companyName}
                   onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                  placeholder="Your Travel Agency"
+                  placeholder={t('companyNamePlaceholder')}
                 />
               </div>
 
               <div>
                 <label htmlFor="contactName" className="block text-sm font-medium text-gray-700 mb-2">
-                  Contact Name *
+                  {t('contactNameLabel')}
                 </label>
                 <input
                   id="contactName"
@@ -150,13 +232,13 @@ export default function AgentRegister() {
                   value={formData.contactName}
                   onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                  placeholder="John Doe"
+                  placeholder={t('contactNamePlaceholder')}
                 />
               </div>
 
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                  Phone Number *
+                  {t('phoneLabel')}
                 </label>
                 <input
                   id="phone"
@@ -165,13 +247,13 @@ export default function AgentRegister() {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                  placeholder="+1 234 567 8900"
+                  placeholder={t('phonePlaceholder')}
                 />
               </div>
 
               <div>
                 <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
-                  Country
+                  {t('countryLabel')}
                 </label>
                 <input
                   id="country"
@@ -179,13 +261,13 @@ export default function AgentRegister() {
                   value={formData.country}
                   onChange={(e) => setFormData({ ...formData, country: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                  placeholder="United States"
+                  placeholder={t('countryPlaceholder')}
                 />
               </div>
 
               <div>
                 <label htmlFor="companyWebsite" className="block text-sm font-medium text-gray-700 mb-2">
-                  Company Website
+                  {t('websiteLabel')}
                 </label>
                 <input
                   id="companyWebsite"
@@ -193,14 +275,14 @@ export default function AgentRegister() {
                   value={formData.companyWebsite}
                   onChange={(e) => setFormData({ ...formData, companyWebsite: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                  placeholder="https://yourcompany.com"
+                  placeholder={t('websitePlaceholder')}
                 />
               </div>
             </div>
 
             <div>
               <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
-                Company Address
+                {t('addressLabel')}
               </label>
               <textarea
                 id="address"
@@ -208,14 +290,14 @@ export default function AgentRegister() {
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                placeholder="Street address, city, state, zip code"
+                placeholder={t('addressPlaceholder')}
               />
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                  Password *
+                  {t('passwordLabel')}
                 </label>
                 <input
                   id="password"
@@ -224,13 +306,13 @@ export default function AgentRegister() {
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                  placeholder="Minimum 8 characters"
+                  placeholder={t('passwordPlaceholder')}
                 />
               </div>
 
               <div>
                 <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
-                  Confirm Password *
+                  {t('confirmPasswordLabel')}
                 </label>
                 <input
                   id="confirmPassword"
@@ -239,7 +321,7 @@ export default function AgentRegister() {
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                  placeholder="Re-enter password"
+                  placeholder={t('confirmPasswordPlaceholder')}
                 />
               </div>
             </div>
@@ -249,22 +331,22 @@ export default function AgentRegister() {
               disabled={loading}
               className="w-full bg-primary-600 text-white py-3 px-4 rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
             >
-              {loading ? 'Registering...' : 'Register as Agent'}
+              {loading ? t('registering') : t('registerButton')}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Already have an account?{' '}
+              {t('haveAccount')}{' '}
               <Link href="/agent/login" className="text-primary-600 hover:text-primary-700 font-medium">
-                Sign in
+                {t('signIn')}
               </Link>
             </p>
           </div>
 
           <div className="mt-4 pt-6 border-t border-gray-200 text-center">
             <Link href="/" className="text-sm text-gray-500 hover:text-gray-700">
-              ← Back to website
+              {t('backToWebsite')}
             </Link>
           </div>
         </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { FaEuroSign, FaDollarSign, FaPoundSign } from 'react-icons/fa';
 
 interface CurrencyConverterProps {
@@ -9,6 +10,7 @@ interface CurrencyConverterProps {
 }
 
 export default function CurrencyConverter({ basePrice, className = '' }: CurrencyConverterProps) {
+  const t = useTranslations('currencyConverter');
   const [currency, setCurrency] = useState<'EUR' | 'USD' | 'GBP'>('EUR');
   const rates = { USD: 1.09, GBP: 0.86 }; // Approximate rates as fallback
 
@@ -45,7 +47,7 @@ export default function CurrencyConverter({ basePrice, className = '' }: Currenc
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
-          EUR
+          {t('currencies.eur')}
         </button>
         <button
           onClick={() => setCurrency('USD')}
@@ -55,7 +57,7 @@ export default function CurrencyConverter({ basePrice, className = '' }: Currenc
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
-          USD
+          {t('currencies.usd')}
         </button>
         <button
           onClick={() => setCurrency('GBP')}
@@ -65,7 +67,7 @@ export default function CurrencyConverter({ basePrice, className = '' }: Currenc
               : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
-          GBP
+          {t('currencies.gbp')}
         </button>
       </div>
       <div className="text-3xl font-bold text-primary-600 flex items-center">

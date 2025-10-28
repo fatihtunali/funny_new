@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FaCalendarDay, FaClock, FaMapMarkerAlt, FaEuroSign } from 'react-icons/fa';
 import { PackageGridSkeleton } from '@/components/LoadingSkeleton';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface DailyTour {
   id: string;
@@ -19,6 +20,8 @@ interface DailyTour {
 }
 
 export default function DailyToursPage() {
+  const t = useTranslations('dailyToursPage');
+  const locale = useLocale();
   const [tours, setTours] = useState<DailyTour[]>([]);
   const [filteredTours, setFilteredTours] = useState<DailyTour[]>([]);
   const [loading, setLoading] = useState(true);
@@ -31,7 +34,7 @@ export default function DailyToursPage() {
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const res = await fetch('/api/daily-tours?category=DAILY_TOUR');
+        const res = await fetch(`/api/daily-tours?category=DAILY_TOUR&locale=${locale}`);
         const data = await res.json();
         setTours(data.tours || []);
         setFilteredTours(data.tours || []);
@@ -43,7 +46,7 @@ export default function DailyToursPage() {
     };
 
     fetchTours();
-  }, []);
+  }, [locale]);
 
   // Apply filters
   useEffect(() => {
@@ -76,8 +79,8 @@ export default function DailyToursPage() {
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold mb-4">Daily Tours in Turkey</h1>
-          <p className="text-xl text-primary-100">Explore Turkey&apos;s best attractions with expert local guides</p>
+          <h1 className="text-4xl font-bold mb-4">{t('header.title')}</h1>
+          <p className="text-xl text-primary-100">{t('header.subtitle')}</p>
         </div>
       </div>
 
@@ -85,9 +88,9 @@ export default function DailyToursPage() {
       <section className="bg-gray-50 py-16">
         <div className="section-container">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Available Daily Tours</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t('section.title')}</h2>
             <p className="text-lg text-gray-600">
-              Choose from our selection of expertly curated daily tours
+              {t('section.description')}
             </p>
           </div>
 
@@ -95,11 +98,11 @@ export default function DailyToursPage() {
             {/* Filter Sidebar */}
             <div className="lg:w-64 flex-shrink-0">
               <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
-                <h3 className="text-lg font-bold text-gray-900 mb-4">Filter Tours</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-4">{t('filters.title')}</h3>
 
                 {/* City Filter */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-3">City</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">{t('filters.city')}</label>
                   <div className="space-y-2">
                     {cities.map(city => (
                       <label key={city} className="flex items-center cursor-pointer">
@@ -123,7 +126,7 @@ export default function DailyToursPage() {
 
                 {/* Duration Filter */}
                 <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-3">Duration</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">{t('filters.duration')}</label>
                   <div className="space-y-2">
                     {durations.map(duration => (
                       <label key={duration} className="flex items-center cursor-pointer">
@@ -148,7 +151,7 @@ export default function DailyToursPage() {
                 {/* Price Range Filter */}
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Price Range: €{priceRange[0]} - €{priceRange[1]}
+                    {t('filters.priceRange')}: €{priceRange[0]} - €{priceRange[1]}
                   </label>
                   <input
                     type="range"
@@ -169,14 +172,14 @@ export default function DailyToursPage() {
                   }}
                   className="w-full text-sm text-primary-600 hover:text-primary-700 font-medium"
                 >
-                  Reset Filters
+                  {t('filters.reset')}
                 </button>
 
                 {/* Results Count */}
                 <div className="mt-4 pt-4 border-t border-gray-200">
                   <p className="text-sm text-gray-600">
-                    Showing <span className="font-semibold">{filteredTours.length}</span> of{' '}
-                    <span className="font-semibold">{tours.length}</span> tours
+                    {t('filters.showing')} <span className="font-semibold">{filteredTours.length}</span> {t('filters.of')}{' '}
+                    <span className="font-semibold">{tours.length}</span> {t('filters.tours')}
                   </p>
                 </div>
               </div>
@@ -194,21 +197,20 @@ export default function DailyToursPage() {
               className="max-w-3xl mx-auto text-center bg-white rounded-lg p-12 shadow-lg"
             >
               <FaCalendarDay className="text-6xl text-orange-600 mx-auto mb-6" />
-              <h3 className="text-4xl font-bold text-gray-900 mb-4">Coming Soon</h3>
+              <h3 className="text-4xl font-bold text-gray-900 mb-4">{t('comingSoon.title')}</h3>
               <p className="text-lg text-gray-700 mb-8">
-                We&apos;re currently preparing our daily tour offerings. These will include historical tours,
-                adventure activities, cultural experiences, and more across all major Turkish destinations.
+                {t('comingSoon.description')}
               </p>
               <p className="text-gray-600 mb-8">
-                Contact us to arrange custom daily tours in Istanbul, Cappadocia, Ephesus, and beyond.
+                {t('comingSoon.contact')}
               </p>
               <Link href="/contact" className="btn-primary">
-                Contact Us for Custom Tours
+                {t('comingSoon.cta')}
               </Link>
             </motion.div>
           ) : filteredTours.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-600 text-lg mb-4">No tours match your filters.</p>
+              <p className="text-gray-600 text-lg mb-4">{t('noResults.message')}</p>
               <button
                 onClick={() => {
                   setSelectedCities([]);
@@ -217,7 +219,7 @@ export default function DailyToursPage() {
                 }}
                 className="text-primary-600 hover:text-primary-700 font-medium"
               >
-                Reset Filters
+                {t('noResults.reset')}
               </button>
             </div>
           ) : (
@@ -262,7 +264,7 @@ export default function DailyToursPage() {
 
                     <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 mb-4">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">SIC Price</span>
+                        <span className="text-sm text-gray-600">{t('tourCard.sicPrice')}</span>
                         {tour.sicPrice > 0 ? (
                           <div className="flex items-center gap-1 text-orange-700 text-lg font-bold">
                             <FaEuroSign className="text-sm" />
@@ -273,7 +275,7 @@ export default function DailyToursPage() {
                         )}
                       </div>
                       {tour.sicPrice > 0 && (
-                        <p className="text-xs text-gray-500 mt-1">per person</p>
+                        <p className="text-xs text-gray-500 mt-1">{t('tourCard.perPerson')}</p>
                       )}
                     </div>
 
@@ -281,7 +283,7 @@ export default function DailyToursPage() {
                       href={`/daily-tours/${tour.tourCode.toLowerCase()}`}
                       className="block w-full text-center btn-primary text-sm"
                     >
-                      View Details & Book
+                      {t('tourCard.cta')}
                     </Link>
                   </div>
                 </motion.div>
@@ -297,47 +299,47 @@ export default function DailyToursPage() {
       {filteredTours.some(tour => tour.city === 'Izmir' || tour.city === 'Kusadasi') && (
         <section className="section-container py-12">
           <div className="max-w-6xl mx-auto bg-blue-50 border border-blue-200 rounded-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Important Information for Kusadasi - Izmir Daily Tours</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('kusadasiInfo.title')}</h2>
             <ul className="space-y-3 text-gray-700">
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
-                <span>All SIC (Seat in Coach) Tours are operational everyday between 15th April – 15th October, except Pergamon Acropol – operates on Tuesday – Saturday on SIC (Seat in Coach) basis</span>
+                <span>{t('kusadasiInfo.item1')}</span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
-                <span>During the tours, the pickups & drop offs from airports require arrivals no later than 08:30 am, departures no earlier than 20:00 hrs</span>
+                <span>{t('kusadasiInfo.item2')}</span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
-                <span>All tours are accompanied by a Professional English-Speaking Tour Guide, any other language will be charged separately and operated on PVT (Private) basis only</span>
+                <span>{t('kusadasiInfo.item3')}</span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
-                <span>Spanish, Portuguese, Italian, Japanese will require EUR 100.- / per tour</span>
+                <span>{t('kusadasiInfo.item4')}</span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
-                <span>All tours will be operated with A/C Deluxe Mercedes Sprinter or same category vehicles</span>
+                <span>{t('kusadasiInfo.item5')}</span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
-                <span>All entrance fees, parking fees, toll fees as per following itineraries are included in the given prices</span>
+                <span>{t('kusadasiInfo.item6')}</span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
-                <span>All Full Day Tours are inclusive of local lunch</span>
+                <span>{t('kusadasiInfo.item7')}</span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
-                <span>70% no-show applied to tour and transfer cancellations within 24 hours to departure</span>
+                <span>{t('kusadasiInfo.item8')}</span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
-                <span>All clients arriving to Izmir airport and depart directly for tours, need to pay EUR 20.- / per person / supplement cost / one way</span>
+                <span>{t('kusadasiInfo.item9')}</span>
               </li>
               <li className="flex items-start">
                 <span className="text-blue-600 mr-2">•</span>
-                <span>Pick up times will be given one day prior to departure by our office</span>
+                <span>{t('kusadasiInfo.item10')}</span>
               </li>
             </ul>
           </div>
@@ -347,27 +349,25 @@ export default function DailyToursPage() {
       {/* What's Included Section */}
       <section className="section-container py-16">
         <div className="max-w-4xl mx-auto text-center bg-white rounded-lg p-8 shadow-md">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">What&apos;s Included in Our Daily Tours</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">{t('whatsIncluded.title')}</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">
-            Explore the best attractions with our daily guided tours. Whether you&apos;re looking for a historical
-            walking tour of Istanbul, a hot air balloon ride in Cappadocia, or a boat excursion along the
-            Turkish coast, our daily tours provide memorable experiences with expert local guides.
+            {t('whatsIncluded.description')}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
             <div className="bg-gray-50 p-4 rounded-lg">
               <FaMapMarkerAlt className="text-3xl text-orange-600 mx-auto mb-2" />
-              <h3 className="font-semibold text-gray-900">Expert Guides</h3>
-              <p className="text-sm text-gray-600">Local professionals</p>
+              <h3 className="font-semibold text-gray-900">{t('whatsIncluded.feature1Title')}</h3>
+              <p className="text-sm text-gray-600">{t('whatsIncluded.feature1Desc')}</p>
             </div>
             <div className="bg-gray-50 p-4 rounded-lg">
               <FaClock className="text-3xl text-orange-600 mx-auto mb-2" />
-              <h3 className="font-semibold text-gray-900">Flexible Duration</h3>
-              <p className="text-sm text-gray-600">Half-day to full-day</p>
+              <h3 className="font-semibold text-gray-900">{t('whatsIncluded.feature2Title')}</h3>
+              <p className="text-sm text-gray-600">{t('whatsIncluded.feature2Desc')}</p>
             </div>
             <div className="bg-gray-50 p-4 rounded-lg">
               <FaCalendarDay className="text-3xl text-orange-600 mx-auto mb-2" />
-              <h3 className="font-semibold text-gray-900">Daily Departures</h3>
-              <p className="text-sm text-gray-600">Available every day</p>
+              <h3 className="font-semibold text-gray-900">{t('whatsIncluded.feature3Title')}</h3>
+              <p className="text-sm text-gray-600">{t('whatsIncluded.feature3Desc')}</p>
             </div>
           </div>
         </div>
@@ -376,16 +376,16 @@ export default function DailyToursPage() {
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-orange-600 to-orange-800 py-16">
         <div className="section-container text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Plan Your Daily Adventure</h2>
+          <h2 className="text-3xl font-bold text-white mb-4">{t('cta.title')}</h2>
           <p className="text-xl text-white mb-8">
-            We can arrange custom daily tours tailored to your interests
+            {t('cta.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact" className="btn-primary bg-white text-orange-600 hover:bg-gray-100">
-              Contact Us
+              {t('cta.contact')}
             </Link>
             <Link href="/tours" className="btn-primary bg-transparent border-2 border-white text-white hover:bg-white hover:text-orange-600">
-              Browse All Tours
+              {t('cta.browse')}
             </Link>
           </div>
         </div>

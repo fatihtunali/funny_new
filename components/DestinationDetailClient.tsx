@@ -1,9 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { motion } from 'framer-motion';
 import { FaClock, FaMapMarkerAlt } from 'react-icons/fa';
+import { useTranslations } from 'next-intl';
 
 interface Attraction {
   name: string;
@@ -29,6 +30,8 @@ export default function DestinationDetailClient({
   experiences,
   category
 }: DestinationDetailClientProps) {
+  const t = useTranslations('destinationDetailPage');
+
   // Determine background color for experiences based on category
   const getBgColor = (category: string) => {
     const colors: Record<string, string> = {
@@ -70,7 +73,7 @@ export default function DestinationDetailClient({
       {/* Introduction */}
       <section className="section-container py-16">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Discover {name}</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('introduction.discover')} {name}</h2>
           <p className="text-lg text-gray-700 leading-relaxed">
             {description}
           </p>
@@ -81,7 +84,7 @@ export default function DestinationDetailClient({
       {attractions.length > 0 && (
         <section className="bg-gray-50 py-16">
           <div className="section-container">
-            <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Must-See Attractions</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">{t('attractions.title')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {attractions.map((attraction, index) => (
                 <motion.div
@@ -118,7 +121,7 @@ export default function DestinationDetailClient({
       {/* Experiences */}
       {experiences.length > 0 && (
         <section className="section-container py-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Unique Experiences</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">{t('experiences.title')}</h2>
           <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
             {experiences.map((experience, index) => (
               <motion.div
@@ -140,16 +143,16 @@ export default function DestinationDetailClient({
       {/* CTA Section */}
       <section className="bg-primary-600 py-16">
         <div className="section-container text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Explore {name}?</h2>
+          <h2 className="text-3xl font-bold text-white mb-4">{t('cta.title', { name })}</h2>
           <p className="text-xl text-white mb-8">
-            Experience the best of {name} with our carefully curated tour packages
+            {t('cta.subtitle', { name })}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/packages" className="btn-primary bg-white text-primary-600 hover:bg-gray-100">
-              View Tour Packages
+              {t('cta.viewPackages')}
             </Link>
             <Link href="/contact" className="btn-primary bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary-600">
-              Contact Us
+              {t('cta.contactUs')}
             </Link>
           </div>
         </div>

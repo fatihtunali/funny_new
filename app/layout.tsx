@@ -123,6 +123,21 @@ export default function RootLayout({
             <Image src="https://mc.yandex.ru/watch/104425825" width={1} height={1} style={{position: 'absolute', left: '-9999px'}} alt="" />
           </div>
         </noscript>
+
+        {/* Brevo Tracker */}
+        <script src="https://cdn.brevo.com/js/sdk-loader.js" async></script>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            // Version: 2.0
+            window.Brevo = window.Brevo || [];
+            Brevo.push([
+              "init",
+              {
+                client_key: "f1xfsppxkuvkfuwuhbadwc3c"
+              }
+            ]);
+          `
+        }} />
       </head>
       <body className={inter.className}>
         <GoogleTagManagerNoScript />

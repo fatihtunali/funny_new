@@ -1,6 +1,7 @@
 'use client';
 
 import { Link } from '@/i18n/routing';
+import NextLink from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
@@ -66,9 +67,9 @@ export default function Navigation() {
               {t('destinations')}
             </Link>
 
-            <Link href="/agent/register" className="text-xs text-primary-600 hover:text-primary-700 font-medium transition-colors whitespace-nowrap">
+            <NextLink href="/agent/register" className="text-xs text-primary-600 hover:text-primary-700 font-medium transition-colors whitespace-nowrap">
               {t('partnerWithUs')}
-            </Link>
+            </NextLink>
 
             <LanguageSwitcher />
 
@@ -140,9 +141,9 @@ export default function Navigation() {
               {t('destinations')}
             </Link>
 
-            <Link href="/agent/register" className="block px-4 py-2 text-primary-600 font-medium hover:bg-primary-50 rounded" onClick={closeMenu}>
+            <NextLink href="/agent/register" className="block px-4 py-2 text-primary-600 font-medium hover:bg-primary-50 rounded" onClick={closeMenu}>
               {t('partnerWithUs')}
-            </Link>
+            </NextLink>
 
             {user ? (
               <Link href="/dashboard" className="block mx-4 text-center btn-primary" onClick={closeMenu}>

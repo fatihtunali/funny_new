@@ -37,57 +37,57 @@ export default function Navigation() {
       <div className="section-container">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center flex-shrink-0">
             <Image
               src="/images/FunnyLogo1.png"
               alt="Funny Tourism"
-              width={120}
-              height={50}
+              width={100}
+              height={42}
               className="object-contain hover:opacity-90 transition-opacity"
               priority
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-primary-600 transition-colors">
+          <div className="hidden lg:flex items-center space-x-4 xl:space-x-6">
+            <Link href="/" className="text-sm text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap">
               {t('home')}
             </Link>
-            <Link href="/packages" className="text-gray-700 hover:text-primary-600 transition-colors">
+            <Link href="/packages" className="text-sm text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap">
               {t('packages')}
             </Link>
-            <Link href="/daily-tours" className="text-gray-700 hover:text-primary-600 transition-colors">
+            <Link href="/daily-tours" className="text-sm text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap">
               {t('dailyTours')}
             </Link>
-            <Link href="/transfers" className="text-gray-700 hover:text-primary-600 transition-colors">
+            <Link href="/transfers" className="text-sm text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap">
               {t('transfers')}
             </Link>
-            <Link href="/destinations" className="text-gray-700 hover:text-primary-600 transition-colors">
+            <Link href="/destinations" className="text-sm text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap">
               {t('destinations')}
             </Link>
 
-            <Link href="/agent/register" className="text-sm text-primary-600 hover:text-primary-700 font-medium transition-colors">
+            <Link href="/agent/register" className="text-xs text-primary-600 hover:text-primary-700 font-medium transition-colors whitespace-nowrap">
               {t('partnerWithUs')}
             </Link>
 
             <LanguageSwitcher />
 
             {user ? (
-              <Link href="/dashboard" className="flex items-center btn-primary">
-                <FaUser className="mr-2" />
+              <Link href="/dashboard" className="flex items-center btn-primary text-sm px-3 py-2 whitespace-nowrap">
+                <FaUser className="mr-1.5" />
                 {t('myBookings')}
               </Link>
             ) : (
-              <div className="flex items-center space-x-3">
-                <Link href="/login" className="flex items-center text-gray-700 hover:text-primary-600 transition-colors">
-                  <FaSignInAlt className="mr-2" />
+              <div className="flex items-center space-x-2">
+                <Link href="/login" className="flex items-center text-sm text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap">
+                  <FaSignInAlt className="mr-1.5" />
                   {t('login')}
                 </Link>
-                <Link href="/smart-trip-planner" className="flex items-center bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white px-4 py-2 rounded-lg font-semibold transition-all shadow-md">
-                  <FaMagic className="mr-2" />
+                <Link href="/smart-trip-planner" className="flex items-center bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-700 text-white px-3 py-2 rounded-lg text-sm font-semibold transition-all shadow-md whitespace-nowrap">
+                  <FaMagic className="mr-1.5" />
                   {t('smartPlanner')}
                 </Link>
-                <Link href="/inquiry" className="btn-primary">
+                <Link href="/inquiry" className="btn-primary text-sm px-3 py-2 whitespace-nowrap">
                   {t('getQuote')}
                 </Link>
               </div>
@@ -97,7 +97,7 @@ export default function Navigation() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-3 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 relative z-50"
+            className="lg:hidden p-3 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 relative z-50"
             aria-label={isOpen ? t('closeMenu') : t('openMenu')}
           >
             <svg
@@ -120,7 +120,7 @@ export default function Navigation() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden py-4 space-y-2">
+          <div className="lg:hidden py-4 space-y-2">
             <div className="px-4 py-2">
               <LanguageSwitcher />
             </div>

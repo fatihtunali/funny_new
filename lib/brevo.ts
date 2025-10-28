@@ -47,7 +47,16 @@ export async function addContactToBrevo(contact: BrevoContact): Promise<BrevoRes
       }),
     });
 
-    const data = await response.json();
+    // Handle empty or invalid JSON responses
+    let data;
+    try {
+      const text = await response.text();
+      console.log('Brevo API response status:', response.status, 'body:', text);
+      data = text ? JSON.parse(text) : {};
+    } catch (parseError) {
+      console.error('Failed to parse Brevo response:', parseError);
+      data = {};
+    }
 
     if (response.ok) {
       return {
@@ -65,10 +74,10 @@ export async function addContactToBrevo(contact: BrevoContact): Promise<BrevoRes
         };
       }
 
-      console.error('Brevo API error:', data);
+      console.error('Brevo API error - Status:', response.status, 'Data:', data);
       return {
         success: false,
-        message: data.message || 'Failed to add contact',
+        message: data.message || `Brevo API error (status ${response.status})`,
       };
     }
   } catch (error) {

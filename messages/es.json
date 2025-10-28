@@ -189,6 +189,24 @@
     "benefit3Title": "Consejos de Viaje",
     "benefit3Desc": "Consejos de expertos para Turquía"
   },
+  "exitPopup": {
+    "title": "¡Espera! ¡No Te Lo Pierdas!",
+    "subtitle": "Obtén un 10% de descuento en tu primera reserva al suscribirte a nuestro boletín",
+    "features": [
+      "Ofertas exclusivas de viaje y especiales anticipados",
+      "Consejos expertos para viajar a Turquía",
+      "Gemas ocultas y recomendaciones locales",
+      "Atención al cliente prioritaria"
+    ],
+    "emailPlaceholder": "Tu dirección de correo electrónico",
+    "getDiscount": "Obtener Mi 10% de Descuento",
+    "noThanks": "No gracias, pagaré el precio completo",
+    "close": "Cerrar",
+    "successTitle": "¡Bienvenido a Bordo!",
+    "successMessage": "¡Gracias por suscribirte! Revisa tu correo electrónico para tu código de descuento exclusivo del 10%.",
+    "errorMessage": "¡Ups! Algo salió mal. Por favor, inténtalo de nuevo.",
+    "invalidEmail": "Por favor, ingresa una dirección de correo electrónico válida"
+  },
   "callToAction": {
     "title": "¿Listo para Explorar Turquía?",
     "subtitle": "Permítanos crear la aventura turca perfecta para usted. ¡Obtenga una cotización gratuita hoy!",

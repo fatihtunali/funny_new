@@ -7,6 +7,7 @@ import Destinations from "@/components/Destinations";
 import Testimonials from "@/components/Testimonials";
 import Newsletter from "@/components/Newsletter";
 import CallToAction from "@/components/CallToAction";
+import ExitIntentPopup from "@/components/ExitIntentPopup";
 import StructuredData, { generateOrganizationSchema } from "@/components/StructuredData";
 
 export default function Home() {
@@ -41,6 +42,9 @@ export default function Home() {
 
       {/* Final CTA - Conversion */}
       <CallToAction />
+
+      {/* Exit Intent Popup - Last Chance Conversion */}
+      <ExitIntentPopup />
     </>
   );
 }

@@ -29,19 +29,37 @@ export default function Newsletter() {
 
     setStatus('loading');
 
-    // For now, we'll just simulate a subscription
-    // In production, you'd send this to your email marketing service
-    setTimeout(() => {
-      setStatus('success');
-      setMessage(t('successMessage'));
-      setEmail('');
+    try {
+      // Call the newsletter subscription API
+      const response = await fetch('/api/newsletter/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
 
-      // Reset after 5 seconds
-      setTimeout(() => {
-        setStatus('idle');
-        setMessage('');
-      }, 5000);
-    }, 1000);
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus('success');
+        setMessage(t('successMessage'));
+        setEmail('');
+
+        // Reset after 5 seconds
+        setTimeout(() => {
+          setStatus('idle');
+          setMessage('');
+        }, 5000);
+      } else {
+        setStatus('error');
+        setMessage(data.message || t('errorMessageInvalid'));
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      setStatus('error');
+      setMessage(t('errorMessageInvalid'));
+    }
   };
 
   return (

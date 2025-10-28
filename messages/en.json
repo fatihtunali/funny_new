@@ -189,6 +189,24 @@
     "benefit3Title": "Travel Tips",
     "benefit3Desc": "Expert advice for Turkey"
   },
+  "exitPopup": {
+    "title": "Wait! Don't Miss Out!",
+    "subtitle": "Get 10% off your first booking when you subscribe to our newsletter",
+    "features": [
+      "Exclusive travel deals & early bird specials",
+      "Expert travel tips for Turkey",
+      "Hidden gems & local recommendations",
+      "Priority customer support"
+    ],
+    "emailPlaceholder": "Your email address",
+    "getDiscount": "Get My 10% Discount",
+    "noThanks": "No thanks, I'll pay full price",
+    "close": "Close",
+    "successTitle": "Welcome Aboard!",
+    "successMessage": "Thank you for subscribing! Check your email for your exclusive 10% discount code.",
+    "errorMessage": "Oops! Something went wrong. Please try again.",
+    "invalidEmail": "Please enter a valid email address"
+  },
   "callToAction": {
     "title": "Ready to Explore Turkey?",
     "subtitle": "Let us create the perfect Turkish adventure for you. Get a free quote today!",

@@ -391,6 +391,7 @@
       "cityPlaceholder": "Start typing a city...",
       "remove": "Remove",
       "addCity": "+ Add Another City",
+      "totalTrip": "Total Trip: {days} days, {nights} nights",
       "startDate": "When do you want to start your trip?",
       "adults": "Adults",
       "children": "Children (under 11)",

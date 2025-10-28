@@ -391,6 +391,7 @@
       "cityPlaceholder": "Empiece a escribir una ciudad...",
       "remove": "Eliminar",
       "addCity": "+ Agregar Otra Ciudad",
+      "totalTrip": "Viaje Total: {days} días, {nights} noches",
       "startDate": "¿Cuándo desea comenzar su viaje?",
       "adults": "Adultos",
       "children": "Niños (menores de 11)",

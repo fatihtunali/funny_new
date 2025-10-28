@@ -221,6 +221,24 @@ export default function RegisterPage() {
           </div>
         </div>
 
+        {/* Agent Portal Notice */}
+        <div className="mt-6 bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-200 rounded-lg p-4">
+          <div className="flex items-center justify-center space-x-2">
+            <svg className="h-5 w-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            <p className="text-sm font-medium text-gray-700">
+              Travel Agent?{' '}
+              <a
+                href="/agent/register"
+                className="text-purple-600 hover:text-purple-700 font-bold underline"
+              >
+                Register for B2B Agent Portal →
+              </a>
+            </p>
+          </div>
+        </div>
+
         <div className="mt-6 text-center">
           <Link href="/" className="text-sm text-gray-600 hover:text-gray-900">
             {t('backToHome')}

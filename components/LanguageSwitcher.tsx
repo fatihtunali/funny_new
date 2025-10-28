@@ -20,7 +20,7 @@ export default function LanguageSwitcher() {
   };
 
   const localeNames: Record<string, { name: string; flag: string }> = {
-    en: { name: 'English', flag: '🇬🇧' },
+    en: { name: 'English', flag: '🇺🇸' },
     es: { name: 'Español', flag: '🇪🇸' },
   };
 

@@ -113,8 +113,11 @@ function SmartTripPlannerContent() {
         i === index ? { ...cn, city: cityName } : cn
       )
     }));
-    setActiveInputIndex(null);
-    setCitySuggestions([]);
+    // Small delay to ensure selection happens before closing
+    setTimeout(() => {
+      setActiveInputIndex(null);
+      setCitySuggestions([]);
+    }, 100);
   };
 
   const handleNext = () => {
@@ -285,6 +288,7 @@ function SmartTripPlannerContent() {
                     <div className="col-span-7 md:col-span-8 relative" ref={activeInputIndex === index ? autocompleteRef : null}>
                       <input
                         type="text"
+                        inputMode="text"
                         required
                         value={cityNight.city}
                         onChange={(e) => updateCity(index, 'city', e.target.value)}
@@ -294,7 +298,7 @@ function SmartTripPlannerContent() {
                             fetchCities(cityNight.city);
                           }
                         }}
-                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all"
+                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all touch-manipulation"
                         placeholder={t('step1.cityPlaceholder')}
                         autoComplete="off"
                       />
@@ -305,8 +309,17 @@ function SmartTripPlannerContent() {
                             <button
                               key={i}
                               type="button"
-                              onClick={() => selectCity(index, city)}
-                              className="w-full text-left px-4 py-3 hover:bg-primary-50 transition-colors border-b border-gray-100 last:border-b-0 font-medium"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                selectCity(index, city);
+                              }}
+                              onTouchEnd={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                selectCity(index, city);
+                              }}
+                              className="w-full text-left px-4 py-3 active:bg-primary-100 hover:bg-primary-50 transition-colors border-b border-gray-100 last:border-b-0 font-medium touch-manipulation"
                             >
                               <FaMapMarkerAlt className="inline text-primary-600 mr-2" />
                               {city}

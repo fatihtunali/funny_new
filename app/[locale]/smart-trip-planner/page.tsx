@@ -324,10 +324,16 @@ function SmartTripPlannerContent() {
                     <div className="col-span-3 md:col-span-2">
                       <input
                         type="number"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
                         required
                         min="1"
                         value={cityNight.nights}
-                        onChange={(e) => updateCity(index, 'nights', parseInt(e.target.value) || 1)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          const numValue = value === '' ? 1 : parseInt(value);
+                          updateCity(index, 'nights', isNaN(numValue) ? 1 : Math.max(1, numValue));
+                        }}
                         className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                       />
                     </div>
@@ -383,10 +389,16 @@ function SmartTripPlannerContent() {
                   </label>
                   <input
                     type="number"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     required
                     min="1"
                     value={formData.adults}
-                    onChange={(e) => setFormData(prev => ({ ...prev, adults: parseInt(e.target.value) || 1 }))}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const numValue = value === '' ? 1 : parseInt(value);
+                      setFormData(prev => ({ ...prev, adults: isNaN(numValue) ? 1 : Math.max(1, numValue) }));
+                    }}
                     className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>
@@ -396,9 +408,15 @@ function SmartTripPlannerContent() {
                   </label>
                   <input
                     type="number"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     min="0"
                     value={formData.children}
-                    onChange={(e) => setFormData(prev => ({ ...prev, children: parseInt(e.target.value) || 0 }))}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const numValue = value === '' ? 0 : parseInt(value);
+                      setFormData(prev => ({ ...prev, children: isNaN(numValue) ? 0 : Math.max(0, numValue) }));
+                    }}
                     className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                   />
                 </div>

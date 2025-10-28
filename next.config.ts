@@ -21,6 +21,35 @@ const nextConfig: NextConfig = {
   compress: true,
   // Silence workspace root warning by specifying the correct root
   outputFileTracingRoot: path.join(__dirname),
+  // Redirects for agent and admin portals (no locale prefix)
+  async redirects() {
+    return [
+      // Redirect /en/agent/* to /agent/*
+      {
+        source: '/en/agent/:path*',
+        destination: '/agent/:path*',
+        permanent: true,
+      },
+      // Redirect /es/agent/* to /agent/*
+      {
+        source: '/es/agent/:path*',
+        destination: '/agent/:path*',
+        permanent: true,
+      },
+      // Redirect /en/admin/* to /admin/*
+      {
+        source: '/en/admin/:path*',
+        destination: '/admin/:path*',
+        permanent: true,
+      },
+      // Redirect /es/admin/* to /admin/*
+      {
+        source: '/es/admin/:path*',
+        destination: '/admin/:path*',
+        permanent: true,
+      },
+    ];
+  },
   // Security headers
   async headers() {
     return [

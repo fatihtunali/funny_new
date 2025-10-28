@@ -16,49 +16,25 @@ interface DailyTourData {
 export default async function DailyToursPage() {
   const locale = await getLocale();
 
-  // Fetch daily tours from database at build/request time
-  const toursFromDb = await prisma.package.findMany({
+  // Fetch daily tours from DailyTour table at build/request time
+  const toursFromDb = await prisma.dailyTour.findMany({
     where: {
-      packageType: 'DAILY_TOUR',
       isActive: true,
     },
-    select: {
-      id: true,
-      packageId: true,
-      title: true,
-      titleEs: true,
-      description: true,
-      descriptionEs: true,
-      duration: true,
-      destinations: true,
-      pricing: true,
-      image: true,
-    },
-    orderBy: { packageId: 'asc' },
+    orderBy: { tourCode: 'asc' },
   });
 
   // Transform to match expected format with locale-specific content
-  const tours = toursFromDb.map((tour) => {
-    // Parse pricing to get SIC price
-    let sicPrice = 0;
-    try {
-      const pricing = typeof tour.pricing === 'string' ? JSON.parse(tour.pricing) : tour.pricing;
-      sicPrice = pricing?.sicPrice || 0;
-    } catch {
-      sicPrice = 0;
-    }
-
-    return {
-      id: tour.id,
-      tourCode: tour.packageId,
-      title: locale === 'es' && tour.titleEs ? tour.titleEs : tour.title,
-      description: locale === 'es' && tour.descriptionEs ? tour.descriptionEs : tour.description,
-      duration: tour.duration,
-      city: tour.destinations, // Using destinations field as city
-      sicPrice: sicPrice,
-      image: tour.image,
-    };
-  });
+  const tours = toursFromDb.map((tour) => ({
+    id: tour.id,
+    tourCode: tour.tourCode,
+    title: locale === 'es' && tour.titleEs ? tour.titleEs : tour.title,
+    description: locale === 'es' && tour.descriptionEs ? tour.descriptionEs : tour.description,
+    duration: tour.duration,
+    city: tour.city,
+    sicPrice: tour.sicPrice,
+    image: tour.image,
+  }));
 
   return <DailyToursClient tours={tours} />;
 }

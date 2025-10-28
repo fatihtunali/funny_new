@@ -45,7 +45,7 @@ export default async function AllPackagesPage() {
     orderBy: { packageId: 'asc' },
   });
 
-  // Transform to match expected format with locale-specific content
+  // Transform packages with locale-specific content
   const packages = packagesFromDb.map((pkg) => ({
     id: pkg.id,
     packageId: pkg.packageId,
@@ -61,5 +61,37 @@ export default async function AllPackagesPage() {
     pdfUrl: pkg.pdfUrl,
   }));
 
-  return <AllPackagesClient packages={packages} />;
+  // Also fetch daily tours and add them to packages list
+  const dailyToursFromDb = await prisma.dailyTour.findMany({
+    where: { isActive: true },
+    orderBy: { tourCode: 'asc' },
+  });
+
+  // Map daily tours to package format
+  const dailyToursAsPackages = dailyToursFromDb.map(tour => ({
+    id: tour.tourCode,
+    packageId: tour.tourCode,
+    slug: tour.tourCode.toLowerCase(),
+    title: locale === 'es' && tour.titleEs ? tour.titleEs : tour.title,
+    duration: tour.duration,
+    description: locale === 'es' && tour.descriptionEs ? tour.descriptionEs : tour.description,
+    destinations: tour.city,
+    image: tour.image || '/images/destinations/istanbul.jpg',
+    pricing: JSON.stringify({
+      sicPrice: tour.sicPrice,
+      privateMin2: tour.privateMin2,
+      privateMin4: tour.privateMin4,
+      privateMin6: tour.privateMin6,
+      privateMin8: tour.privateMin8,
+      privateMin10: tour.privateMin10,
+    }),
+    packageType: 'DAILY_TOUR',
+    highlights: locale === 'es' && tour.descriptionEs ? tour.descriptionEs : tour.description,
+    pdfUrl: tour.pdfUrl,
+  }));
+
+  // Combine packages and daily tours
+  const allPackages = [...packages, ...dailyToursAsPackages];
+
+  return <AllPackagesClient packages={allPackages} />;
 }

@@ -228,3 +228,4 @@ Uses Tailwind CSS with custom colors defined in [tailwind.config.ts](tailwind.co
 Framer Motion used for animations (scroll effects, hover states).
 - add to memory
 - bcc info@funnytourism.com please
+- memorize please this deploy script - everytime when you compact conversation i don't want you to forget

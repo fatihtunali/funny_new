@@ -250,11 +250,11 @@ model DailyTour {
   isActive        Boolean            @default(true)
   createdAt       DateTime           @default(now())
   updatedAt       DateTime           @updatedAt
+  titleEs         String?
   descriptionEs   String?            @db.Text
   excludedEs      String?            @db.Text
   includedEs      String?            @db.Text
   notesEs         String?            @db.Text
-  titleEs         String?
   bookings        DailyTourBooking[]
 
   @@index([tourCode])

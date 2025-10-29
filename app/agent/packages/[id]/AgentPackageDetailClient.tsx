@@ -302,7 +302,8 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold text-gray-900">{pkg.title}</h1>
             <div className="flex gap-3">
-              {pkg.pdfUrl && (
+              {/* PDF download temporarily disabled - PDFs need to be uploaded/fixed */}
+              {/* {pkg.pdfUrl && (
                 <a
                   href={`/api/packages/${packageId}/download-pdf`}
                   download
@@ -310,7 +311,7 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
                 >
                   <FaDownload /> Download PDF
                 </a>
-              )}
+              )} */}
               <Link
                 href="/agent/packages"
                 className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"

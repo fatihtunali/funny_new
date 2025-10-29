@@ -26,6 +26,9 @@ ssh $SERVER_USER@$SERVER_HOST << 'ENDSSH'
     echo "📦 Installing dependencies (if any new ones)..."
     npm install
 
+    echo "🧹 Cleaning build cache to prevent SSR issues..."
+    rm -rf .next
+
     echo "🔨 Building Next.js application..."
     npm run build
 

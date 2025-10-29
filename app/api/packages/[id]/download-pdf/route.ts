@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { readFile } from 'fs/promises';
+import { readFile, readdir } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
 
@@ -49,8 +49,7 @@ export async function GET(
     if (!existsSync(pdfPath)) {
       // Look for files starting with the packageId
       const packagesDir = join(publicDir, 'packages');
-      const fs = require('fs');
-      const files = fs.readdirSync(packagesDir);
+      const files = await readdir(packagesDir);
 
       // Try to find a file that starts with the packageId
       const matchingFile = files.find((file: string) =>

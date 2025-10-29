@@ -304,9 +304,8 @@ export default function AgentPackageDetailClient({ packageId }: Props) {
             <div className="flex gap-3">
               {pkg.pdfUrl && (
                 <a
-                  href={pkg.pdfUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={`/api/packages/${packageId}/download-pdf`}
+                  download
                   className="flex items-center gap-2 px-4 py-2 text-sm text-primary-600 hover:text-primary-700 border border-primary-600 rounded-lg hover:bg-primary-50 transition-colors"
                 >
                   <FaDownload /> Download PDF

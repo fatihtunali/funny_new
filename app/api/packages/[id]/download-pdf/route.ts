@@ -76,7 +76,7 @@ export async function GET(
     const safeFilename = `${pkg.packageId}-${pkg.title.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
 
     // Return the PDF with proper headers
-    return new NextResponse(fileBuffer, {
+    return new NextResponse(new Uint8Array(fileBuffer), {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="${safeFilename}"`,

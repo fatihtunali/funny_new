@@ -18,7 +18,7 @@ export default function ContactPage() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [turnstileToken, setTurnstileToken] = useState<string>('');
   const [formTimestamp, setFormTimestamp] = useState<number>(0);
-  const turnstileRef = useRef<any>(null);
+  const turnstileRef = useRef<{ reset: () => void } | null>(null);
 
   // Set timestamp when form loads
   useEffect(() => {

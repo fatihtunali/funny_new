@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 import { useTranslations } from 'next-intl';
-import { Turnstile } from '@marsidev/react-turnstile';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 
 export default function ContactPage() {
   const t = useTranslations('contactPage');
@@ -18,7 +18,7 @@ export default function ContactPage() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [turnstileToken, setTurnstileToken] = useState<string>('');
   const [formTimestamp, setFormTimestamp] = useState<number>(0);
-  const turnstileRef = useRef<{ reset: () => void } | null>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   // Set timestamp when form loads
   useEffect(() => {

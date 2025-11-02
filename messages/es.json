@@ -680,26 +680,42 @@
     }
   },
   "contactPage": {
-    "title": "Contáctenos",
-    "subtitle": "¿Tiene una pregunta, comentario o desea reservar un tour? ¡Nos encantaría saber de usted!",
-    "sendMessage": "Envíenos un Mensaje",
-    "successMessage": "¡Mensaje enviado con éxito! Nos pondremos en contacto con usted pronto.",
-    "errorMessage": "Ocurrió un error. Por favor, inténtelo de nuevo más tarde.",
-    "fullName": "Nombre Completo",
-    "emailAddress": "Dirección de Correo Electrónico",
-    "subject": "Asunto",
-    "yourMessage": "Su Mensaje",
-    "sending": "Enviando...",
-    "sendMessageButton": "Enviar Mensaje",
-    "contactInfo": "Información de Contacto",
-    "address": "Dirección:",
-    "addressText": "Mehmet Akif Ersoy Mah Hanimeli Sok No 5/B Üsküdar - Estambul",
-    "phone": "Teléfono:",
-    "emailLabel": "Correo Electrónico:",
-    "hours": "Horario:",
-    "hoursText": "Lunes - Viernes: 9am - 6pm",
-    "ourLocation": "Nuestra Ubicación",
-    "faqTitle": "Preguntas Frecuentes"
+    "header": {
+      "title": "Contáctenos",
+      "subtitle": "¿Tiene una pregunta, comentario o desea reservar un tour? ¡Nos encantaría saber de usted!"
+    },
+    "form": {
+      "title": "Envíenos un Mensaje",
+      "successMessage": "¡Gracias por contactarnos! Le responderemos en 24 horas.",
+      "errorMessage": "¡Ups! Algo salió mal. Inténtelo de nuevo o contáctenos directamente por WhatsApp.",
+      "nameLabel": "Nombre Completo",
+      "emailLabel": "Dirección de Correo Electrónico",
+      "subjectLabel": "Asunto",
+      "messageLabel": "Su Mensaje",
+      "sending": "Enviando...",
+      "submitButton": "Enviar Mensaje"
+    },
+    "info": {
+      "title": "Información de Contacto",
+      "addressLabel": "Dirección",
+      "address": "Mehmet Akif Ersoy Mah Hanimeli Sok No 5/B Üsküdar - Estambul",
+      "phoneLabel": "Teléfono",
+      "emailLabel": "Correo Electrónico",
+      "hoursLabel": "Horario Comercial",
+      "hours": "Lunes - Viernes: 9am - 6pm"
+    },
+    "map": {
+      "title": "Nuestra Ubicación"
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "question1": "¿Cómo puedo reservar un tour?",
+      "answer1": "Puede reservar un tour directamente a través de nuestro sitio web, vía WhatsApp o contactándonos por correo electrónico. Nuestro equipo le guiará durante todo el proceso de reserva.",
+      "question2": "¿Qué métodos de pago aceptan?",
+      "answer2": "Aceptamos transferencias bancarias, tarjetas de crédito y PayPal. Se proporcionarán detalles completos de pago después de realizar una solicitud de reserva.",
+      "question3": "¿Puedo personalizar mi paquete turístico?",
+      "answer3": "¡Por supuesto! Nos especializamos en crear itinerarios personalizados. Contáctenos con sus preferencias y diseñaremos la experiencia perfecta en Turquía para usted."
+    }
   },
   "aboutPage": {
     "title": "Sobre Funny Tourism",

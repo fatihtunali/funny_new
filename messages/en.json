@@ -680,26 +680,42 @@
     }
   },
   "contactPage": {
-    "title": "Contact Us",
-    "subtitle": "Have a question, feedback, or want to book a tour? We'd love to hear from you!",
-    "sendMessage": "Send Us a Message",
-    "successMessage": "Message sent successfully! We'll get back to you soon.",
-    "errorMessage": "An error occurred. Please try again later.",
-    "fullName": "Full Name",
-    "emailAddress": "Email Address",
-    "subject": "Subject",
-    "yourMessage": "Your Message",
-    "sending": "Sending...",
-    "sendMessageButton": "Send Message",
-    "contactInfo": "Contact Information",
-    "address": "Address:",
-    "addressText": "Mehmet Akif Ersoy Mah Hanimeli Sok No 5/B Uskudar - Istanbul",
-    "phone": "Phone:",
-    "emailLabel": "Email:",
-    "hours": "Hours:",
-    "hoursText": "Monday - Friday: 9am - 6pm",
-    "ourLocation": "Our Location",
-    "faqTitle": "Frequently Asked Questions"
+    "header": {
+      "title": "Contact Us",
+      "subtitle": "Have a question, feedback, or want to book a tour? We'd love to hear from you!"
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "successMessage": "Thank you for contacting us! We'll get back to you within 24 hours.",
+      "errorMessage": "Oops! Something went wrong. Please try again or contact us directly via WhatsApp.",
+      "nameLabel": "Full Name",
+      "emailLabel": "Email Address",
+      "subjectLabel": "Subject",
+      "messageLabel": "Your Message",
+      "sending": "Sending...",
+      "submitButton": "Send Message"
+    },
+    "info": {
+      "title": "Contact Information",
+      "addressLabel": "Address",
+      "address": "Mehmet Akif Ersoy Mah Hanimeli Sok No 5/B Uskudar - Istanbul",
+      "phoneLabel": "Phone",
+      "emailLabel": "Email",
+      "hoursLabel": "Business Hours",
+      "hours": "Monday - Friday: 9am - 6pm"
+    },
+    "map": {
+      "title": "Our Location"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "question1": "How can I book a tour?",
+      "answer1": "You can book a tour directly through our website, via WhatsApp, or by contacting us via email. Our team will guide you through the entire booking process.",
+      "question2": "What payment methods do you accept?",
+      "answer2": "We accept bank transfers, credit cards, and PayPal. Full payment details will be provided after you make a booking inquiry.",
+      "question3": "Can I customize my tour package?",
+      "answer3": "Absolutely! We specialize in creating personalized itineraries. Contact us with your preferences and we'll design the perfect Turkey experience for you."
+    }
   },
   "aboutPage": {
     "title": "About Funny Tourism",

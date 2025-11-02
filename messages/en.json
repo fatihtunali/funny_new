@@ -718,25 +718,55 @@
     }
   },
   "aboutPage": {
-    "title": "About Funny Tourism",
-    "subtitle": "Bringing laughter and joy to every travel experience since 2010",
-    "ourStory": "Our Story",
-    "meetOurTeam": "Meet Our Team",
-    "teamSubtitle": "Our staff is made up of travel experts with a great sense of humor",
-    "ourValues": "Our Values",
+    "header": {
+      "title": "About Funny Tourism",
+      "subtitle": "Your trusted partner for unforgettable Turkey experiences since 2014"
+    },
+    "story": {
+      "title": "Our Story",
+      "paragraph1": "Founded in 2014, Funny Tourism has been dedicated to creating memorable travel experiences across Turkey. What started as a passion for sharing Turkey's rich culture and stunning landscapes has grown into a trusted tourism company serving travelers from around the world.",
+      "paragraph2": "We specialize in custom-designed tours that showcase the best of Turkey - from the historic streets of Istanbul to the fairy chimneys of Cappadocia, from the ancient ruins of Ephesus to the stunning beaches of the Mediterranean coast. Our expert team knows Turkey inside and out, and we're passionate about sharing it with you.",
+      "paragraph3": "With over a decade of experience, TURSAB license 7747, and hundreds of satisfied travelers, we pride ourselves on delivering exceptional service, competitive prices, and authentic experiences that you'll remember for a lifetime."
+    },
+    "team": {
+      "title": "Meet Our Team",
+      "subtitle": "Passionate travel experts dedicated to creating your perfect Turkey experience",
+      "fatih": {
+        "title": "Founder & CEO",
+        "bio": "With over 15 years in the tourism industry, Fatih leads our team with passion and expertise, ensuring every traveler experiences the best of Turkey."
+      },
+      "diler": {
+        "title": "Operations Manager",
+        "bio": "Diler oversees all tour operations, working behind the scenes to ensure every detail of your trip runs smoothly from start to finish."
+      },
+      "gul": {
+        "title": "Customer Relations",
+        "bio": "Gul is your first point of contact, dedicated to understanding your needs and crafting the perfect itinerary for your Turkey adventure."
+      }
+    },
     "values": {
-      "laughOften": "Laugh Often",
-      "laughOftenDesc": "We believe laughter is an essential part of any great journey.",
-      "respectCultures": "Respect Cultures",
-      "respectCulturesDesc": "We appreciate cultural differences and share humor in respectful ways.",
-      "buildConnections": "Build Connections",
-      "buildConnectionsDesc": "Humor brings people together across language and cultural barriers.",
-      "travelResponsibly": "Travel Responsibly",
-      "travelResponsiblyDesc": "We're committed to sustainable tourism practices that protect our planet."
+      "title": "Our Values",
+      "subtitle": "What drives us to deliver exceptional experiences",
+      "laugh": {
+        "title": "Customer First",
+        "description": "Your satisfaction is our priority. We go above and beyond to ensure your Turkey experience exceeds expectations."
+      },
+      "respect": {
+        "title": "Cultural Respect",
+        "description": "We honor Turkey's rich heritage and traditions, sharing them authentically with travelers from around the world."
+      },
+      "connect": {
+        "title": "Building Connections",
+        "description": "Travel brings people together. We create experiences that foster understanding and lasting friendships."
+      },
+      "responsible": {
+        "title": "Sustainable Tourism",
+        "description": "We're committed to responsible travel practices that protect Turkey's natural beauty and support local communities."
+      }
     },
     "cta": {
       "title": "Ready to Start Your Journey?",
-      "subtitle": "Join thousands of happy travelers who have experienced Turkey with us",
+      "subtitle": "Join hundreds of happy travelers who have experienced Turkey with us",
       "viewPackages": "View Our Packages",
       "contactUs": "Contact Us"
     }

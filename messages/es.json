@@ -718,25 +718,55 @@
     }
   },
   "aboutPage": {
-    "title": "Sobre Funny Tourism",
-    "subtitle": "Trayendo risa y alegría a cada experiencia de viaje desde 2010",
-    "ourStory": "Nuestra Historia",
-    "meetOurTeam": "Conozca a Nuestro Equipo",
-    "teamSubtitle": "Nuestro personal está compuesto por expertos en viajes con un gran sentido del humor",
-    "ourValues": "Nuestros Valores",
+    "header": {
+      "title": "Sobre Funny Tourism",
+      "subtitle": "Su socio de confianza para experiencias inolvidables en Turquía desde 2014"
+    },
+    "story": {
+      "title": "Nuestra Historia",
+      "paragraph1": "Fundada en 2014, Funny Tourism se ha dedicado a crear experiencias de viaje memorables en toda Turquía. Lo que comenzó como una pasión por compartir la rica cultura y los impresionantes paisajes de Turquía se ha convertido en una empresa turística confiable que sirve a viajeros de todo el mundo.",
+      "paragraph2": "Nos especializamos en tours diseñados a medida que muestran lo mejor de Turquía: desde las calles históricas de Estambul hasta las chimeneas de hadas de Capadocia, desde las antiguas ruinas de Éfeso hasta las impresionantes playas de la costa mediterránea. Nuestro equipo experto conoce Turquía de adentro hacia afuera y nos apasiona compartirla con usted.",
+      "paragraph3": "Con más de una década de experiencia, licencia TURSAB 7747 y cientos de viajeros satisfechos, nos enorgullecemos de ofrecer un servicio excepcional, precios competitivos y experiencias auténticas que recordará toda la vida."
+    },
+    "team": {
+      "title": "Conozca a Nuestro Equipo",
+      "subtitle": "Expertos en viajes apasionados dedicados a crear su experiencia perfecta en Turquía",
+      "fatih": {
+        "title": "Fundador y CEO",
+        "bio": "Con más de 15 años en la industria del turismo, Fatih lidera nuestro equipo con pasión y experiencia, asegurando que cada viajero experimente lo mejor de Turquía."
+      },
+      "diler": {
+        "title": "Gerente de Operaciones",
+        "bio": "Diler supervisa todas las operaciones turísticas, trabajando detrás de escena para garantizar que cada detalle de su viaje transcurra sin problemas de principio a fin."
+      },
+      "gul": {
+        "title": "Relaciones con Clientes",
+        "bio": "Gul es su primer punto de contacto, dedicada a comprender sus necesidades y crear el itinerario perfecto para su aventura en Turquía."
+      }
+    },
     "values": {
-      "laughOften": "Ríase a Menudo",
-      "laughOftenDesc": "Creemos que la risa es una parte esencial de cualquier gran viaje.",
-      "respectCultures": "Respete las Culturas",
-      "respectCulturesDesc": "Apreciamos las diferencias culturales y compartimos el humor de manera respetuosa.",
-      "buildConnections": "Construir Conexiones",
-      "buildConnectionsDesc": "El humor une a las personas a través de barreras lingüísticas y culturales.",
-      "travelResponsibly": "Viajar Responsable",
-      "travelResponsiblyDesc": "Estamos comprometidos con prácticas de turismo sostenible que protegen nuestro planeta."
+      "title": "Nuestros Valores",
+      "subtitle": "Lo que nos impulsa a ofrecer experiencias excepcionales",
+      "laugh": {
+        "title": "Cliente Primero",
+        "description": "Su satisfacción es nuestra prioridad. Hacemos todo lo posible para garantizar que su experiencia en Turquía supere las expectativas."
+      },
+      "respect": {
+        "title": "Respeto Cultural",
+        "description": "Honramos la rica herencia y tradiciones de Turquía, compartiéndolas auténticamente con viajeros de todo el mundo."
+      },
+      "connect": {
+        "title": "Construyendo Conexiones",
+        "description": "Los viajes unen a las personas. Creamos experiencias que fomentan la comprensión y amistades duraderas."
+      },
+      "responsible": {
+        "title": "Turismo Sostenible",
+        "description": "Estamos comprometidos con prácticas de viaje responsables que protegen la belleza natural de Turquía y apoyan a las comunidades locales."
+      }
     },
     "cta": {
       "title": "¿Listo para Comenzar su Viaje?",
-      "subtitle": "Únase a miles de viajeros felices que han experimentado Turquía con nosotros",
+      "subtitle": "Únase a cientos de viajeros felices que han experimentado Turquía con nosotros",
       "viewPackages": "Ver Nuestros Paquetes",
       "contactUs": "Contáctenos"
     }

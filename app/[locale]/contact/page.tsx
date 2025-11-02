@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 import { useTranslations } from 'next-intl';
+import { Turnstile } from '@marsidev/react-turnstile';
 
 export default function ContactPage() {
   const t = useTranslations('contactPage');
@@ -15,6 +16,14 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
+  const [formTimestamp, setFormTimestamp] = useState<number>(0);
+  const turnstileRef = useRef<any>(null);
+
+  // Set timestamp when form loads
+  useEffect(() => {
+    setFormTimestamp(Date.now());
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -28,6 +37,13 @@ export default function ContactPage() {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
+    // Check if CAPTCHA is completed
+    if (!turnstileToken) {
+      setSubmitStatus('error');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -36,7 +52,10 @@ export default function ContactPage() {
         },
         body: JSON.stringify({
           ...formData,
-          source: 'contact'
+          source: 'contact',
+          turnstileToken,
+          honeypot: '', // Honeypot field (will be set by hidden input)
+          timestamp: formTimestamp,
         })
       });
 
@@ -45,6 +64,13 @@ export default function ContactPage() {
       if (data.success) {
         setSubmitStatus('success');
         setFormData({ name: '', email: '', subject: '', message: '' });
+        setTurnstileToken('');
+        // Reset Turnstile widget
+        if (turnstileRef.current) {
+          turnstileRef.current.reset();
+        }
+        // Reset timestamp
+        setFormTimestamp(Date.now());
       } else {
         setSubmitStatus('error');
       }
@@ -167,9 +193,36 @@ export default function ContactPage() {
                   />
                 </div>
 
+                {/* Honeypot field - hidden from users, visible to bots */}
+                <div style={{ position: 'absolute', left: '-5000px' }} aria-hidden="true">
+                  <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
+                {/* Cloudflare Turnstile CAPTCHA */}
+                <div className="flex justify-center">
+                  {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+                    <Turnstile
+                      ref={turnstileRef}
+                      siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                      onSuccess={(token) => setTurnstileToken(token)}
+                      onError={() => setTurnstileToken('')}
+                      onExpire={() => setTurnstileToken('')}
+                      options={{
+                        theme: 'light',
+                        size: 'normal',
+                      }}
+                    />
+                  )}
+                </div>
+
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !turnstileToken}
                   className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? t('form.sending') : t('form.submitButton')}

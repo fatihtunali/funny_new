@@ -1,12 +1,101 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/email';
+import { checkRateLimit, getClientIp } from '@/lib/rateLimit';
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, subject, message, source } = await request.json();
+    const {
+      name,
+      email,
+      subject,
+      message,
+      source,
+      turnstileToken, // CAPTCHA token
+      honeypot, // Honeypot field (should be empty)
+      timestamp, // Form render timestamp
+    } = await request.json();
 
-    // Validate required fields
+    // 1. HONEYPOT CHECK - Bots usually fill hidden fields
+    if (honeypot && honeypot.trim() !== '') {
+      console.log('Spam detected: Honeypot filled');
+      // Return success to not alert the bot
+      return NextResponse.json({
+        success: true,
+        message: 'success'
+      });
+    }
+
+    // 2. TIME-BASED CHECK - Bots submit too fast
+    if (timestamp) {
+      const submissionTime = Date.now() - parseInt(timestamp);
+      const minTimeMs = 3000; // Minimum 3 seconds to fill form
+
+      if (submissionTime < minTimeMs) {
+        console.log('Spam detected: Form submitted too fast');
+        return NextResponse.json({
+          success: true,
+          message: 'success'
+        });
+      }
+    }
+
+    // 3. RATE LIMITING - Check IP address
+    const clientIp = getClientIp(request);
+    const rateLimitResult = checkRateLimit(clientIp, {
+      maxAttempts: 3, // 3 submissions
+      windowMs: 60 * 60 * 1000, // per hour
+      blockDurationMs: 30 * 60 * 1000, // block for 30 minutes
+    });
+
+    if (!rateLimitResult.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: rateLimitResult.message || 'Too many requests. Please try again later.',
+        },
+        { status: 429 }
+      );
+    }
+
+    // 4. CLOUDFLARE TURNSTILE VERIFICATION
+    if (!turnstileToken) {
+      return NextResponse.json(
+        { success: false, error: 'CAPTCHA verification required' },
+        { status: 400 }
+      );
+    }
+
+    // Verify Turnstile token with Cloudflare
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+    if (turnstileSecret) {
+      const turnstileResponse = await fetch(
+        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            secret: turnstileSecret,
+            response: turnstileToken,
+            remoteip: clientIp,
+          }),
+        }
+      );
+
+      const turnstileData = await turnstileResponse.json();
+
+      if (!turnstileData.success) {
+        console.log('CAPTCHA verification failed:', turnstileData);
+        return NextResponse.json(
+          { success: false, error: 'CAPTCHA verification failed. Please try again.' },
+          { status: 400 }
+        );
+      }
+    }
+
+    // 5. VALIDATE REQUIRED FIELDS
     if (!name || !email || !subject || !message) {
       return NextResponse.json(
         { success: false, error: 'All fields are required' },
@@ -14,13 +103,56 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate email format
+    // 6. ENHANCED VALIDATION - Check field lengths and content
+    if (name.length < 2 || name.length > 100) {
+      return NextResponse.json(
+        { success: false, error: 'Name must be between 2 and 100 characters' },
+        { status: 400 }
+      );
+    }
+
+    if (subject.length < 3 || subject.length > 200) {
+      return NextResponse.json(
+        { success: false, error: 'Subject must be between 3 and 200 characters' },
+        { status: 400 }
+      );
+    }
+
+    if (message.length < 10 || message.length > 5000) {
+      return NextResponse.json(
+        { success: false, error: 'Message must be between 10 and 5000 characters' },
+        { status: 400 }
+      );
+    }
+
+    // 7. VALIDATE EMAIL FORMAT
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
         { success: false, error: 'Invalid email format' },
         { status: 400 }
       );
+    }
+
+    // 8. SPAM CONTENT CHECK - Basic keyword filtering
+    const spamKeywords = [
+      'viagra', 'cialis', 'casino', 'lottery', 'bitcoin', 'crypto',
+      'investment opportunity', 'click here', 'buy now', 'limited time',
+      'act now', 'congratulations you won', 'free money'
+    ];
+
+    const contentToCheck = `${name} ${email} ${subject} ${message}`.toLowerCase();
+    const containsSpam = spamKeywords.some(keyword =>
+      contentToCheck.includes(keyword.toLowerCase())
+    );
+
+    if (containsSpam) {
+      console.log('Spam detected: Suspicious keywords found');
+      // Return success to not alert the spammer
+      return NextResponse.json({
+        success: true,
+        message: 'success'
+      });
     }
 
     // Save to database

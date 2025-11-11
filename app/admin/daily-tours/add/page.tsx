@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FaArrowLeft, FaUpload, FaSave, FaEdit } from 'react-icons/fa';
+import { FaArrowLeft, FaUpload, FaSave, FaEdit, FaPlus } from 'react-icons/fa';
 import DeleteDailyTourButton from '@/components/admin/DeleteDailyTourButton';
 
 interface DailyTour {
@@ -153,6 +153,30 @@ export default function AddDailyTourPage() {
     setTours(tours.filter((_, i) => i !== index));
   };
 
+  const addEmptyTour = () => {
+    const emptyTour: DailyTour = {
+      tourCode: '',
+      title: '',
+      description: '',
+      duration: '',
+      city: '',
+      sicPrice: 0,
+      privateMin2: 0,
+      privateMin4: 0,
+      privateMin6: 0,
+      privateMin8: 0,
+      privateMin10: 0,
+      included: '',
+      notIncluded: '',
+      notes: '',
+      port: '',
+      pickupLocations: '',
+      image: '',
+      pdfUrl: '',
+    };
+    setTours([...tours, emptyTour]);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4">
@@ -166,12 +190,25 @@ export default function AddDailyTourPage() {
             Back to Daily Tours
           </Link>
           <h1 className="text-3xl font-bold text-gray-900">Add Daily Tour</h1>
-          <p className="text-gray-600 mt-2">Upload a PDF to extract tour data using AI</p>
+          <p className="text-gray-600 mt-2">Create a tour manually or extract from PDF using AI</p>
+        </div>
+
+        {/* Manual Creation Section */}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Option 1: Create Manual Tour</h2>
+          <p className="text-gray-600 mb-4">Add a new tour by filling in all the details manually</p>
+          <button
+            onClick={addEmptyTour}
+            className="btn-primary flex items-center"
+          >
+            <FaPlus className="mr-2" />
+            Create New Tour Manually
+          </button>
         </div>
 
         {/* PDF Upload Section */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Step 1: Upload PDF</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Option 2: Extract from PDF</h2>
 
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -202,12 +239,12 @@ export default function AddDailyTourPage() {
           </button>
         </div>
 
-        {/* Extracted Tours */}
+        {/* Tours Form */}
         {tours.length > 0 && (
           <div className="bg-white rounded-lg shadow-md p-6">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold text-gray-900">
-                Step 2: Review & Save Tours ({tours.length})
+                Review & Save Tours ({tours.length})
               </h2>
               <button
                 onClick={handleSaveTours}
@@ -373,6 +410,104 @@ export default function AddDailyTourPage() {
                         value={tour.description}
                         onChange={(e) => updateTour(index, 'description', e.target.value)}
                         rows={6}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                      />
+                    </div>
+
+                    {/* Included - Full Width */}
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Included
+                      </label>
+                      <textarea
+                        value={tour.included || ''}
+                        onChange={(e) => updateTour(index, 'included', e.target.value)}
+                        rows={4}
+                        placeholder="Services and items included in the tour"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                      />
+                    </div>
+
+                    {/* Not Included - Full Width */}
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Not Included
+                      </label>
+                      <textarea
+                        value={tour.notIncluded || ''}
+                        onChange={(e) => updateTour(index, 'notIncluded', e.target.value)}
+                        rows={4}
+                        placeholder="Services and items not included in the tour"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                      />
+                    </div>
+
+                    {/* Notes - Full Width */}
+                    <div className="md:col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Notes
+                      </label>
+                      <textarea
+                        value={tour.notes || ''}
+                        onChange={(e) => updateTour(index, 'notes', e.target.value)}
+                        rows={3}
+                        placeholder="Additional notes or important information"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                      />
+                    </div>
+
+                    {/* Port */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Port (if applicable)
+                      </label>
+                      <input
+                        type="text"
+                        value={tour.port || ''}
+                        onChange={(e) => updateTour(index, 'port', e.target.value)}
+                        placeholder="e.g., Istanbul Port, Kusadasi Port"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                      />
+                    </div>
+
+                    {/* Pickup Locations */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Pickup Locations
+                      </label>
+                      <input
+                        type="text"
+                        value={tour.pickupLocations || ''}
+                        onChange={(e) => updateTour(index, 'pickupLocations', e.target.value)}
+                        placeholder="e.g., All hotels in city center"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                      />
+                    </div>
+
+                    {/* Image URL */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Image URL
+                      </label>
+                      <input
+                        type="text"
+                        value={tour.image || ''}
+                        onChange={(e) => updateTour(index, 'image', e.target.value)}
+                        placeholder="/images/tours/tour-image.jpg"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                      />
+                    </div>
+
+                    {/* PDF URL */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        PDF URL (optional)
+                      </label>
+                      <input
+                        type="text"
+                        value={tour.pdfUrl || ''}
+                        onChange={(e) => updateTour(index, 'pdfUrl', e.target.value)}
+                        placeholder="/packages/tour-details.pdf"
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg"
                       />
                     </div>

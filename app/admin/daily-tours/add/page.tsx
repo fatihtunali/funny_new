@@ -31,6 +31,20 @@ interface SavedTour extends DailyTour {
   isActive: boolean;
 }
 
+// Available daily tour images
+const DAILY_TOUR_IMAGES = [
+  '/images/HSN-01.jpeg',
+  '/images/HSN-02.jpeg',
+  '/images/HSN-03.jpeg',
+  '/images/HSN-04.jpeg',
+  '/images/HSN-05.jpeg',
+  '/images/cappadociatour.webp',
+  '/images/istanbul-boat-tour.jpg',
+  '/images/istanbul-boat-tour.webp',
+  '/images/Marmaris-BoatTour.jpg',
+  '/images/Marmaris-BoatTour.webp',
+];
+
 export default function AddDailyTourPage() {
   const [isExtracting, setIsExtracting] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -484,18 +498,32 @@ export default function AddDailyTourPage() {
                       />
                     </div>
 
-                    {/* Image URL */}
+                    {/* Image Selector */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Image URL
+                        Tour Image
                       </label>
-                      <input
-                        type="text"
+                      <select
                         value={tour.image || ''}
                         onChange={(e) => updateTour(index, 'image', e.target.value)}
-                        placeholder="/images/tours/tour-image.jpg"
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                      />
+                      >
+                        <option value="">Select an image...</option>
+                        {DAILY_TOUR_IMAGES.map((img) => (
+                          <option key={img} value={img}>
+                            {img.split('/').pop()}
+                          </option>
+                        ))}
+                      </select>
+                      {tour.image && (
+                        <div className="mt-2">
+                          <img
+                            src={tour.image}
+                            alt="Tour preview"
+                            className="w-32 h-32 object-cover rounded-lg border border-gray-300"
+                          />
+                        </div>
+                      )}
                     </div>
 
                     {/* PDF URL */}

@@ -63,6 +63,9 @@ export default function Navigation() {
             <Link href="/transfers" className="text-sm text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap">
               {t('transfers')}
             </Link>
+            <Link href="/yacht-charters" className="text-sm text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap">
+              {t('yachtCharters')}
+            </Link>
             <Link href="/destinations" className="text-sm text-gray-700 hover:text-primary-600 transition-colors whitespace-nowrap">
               {t('destinations')}
             </Link>
@@ -136,6 +139,9 @@ export default function Navigation() {
             </Link>
             <Link href="/transfers" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
               {t('transfers')}
+            </Link>
+            <Link href="/yacht-charters" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
+              {t('yachtCharters')}
             </Link>
             <Link href="/destinations" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded" onClick={closeMenu}>
               {t('destinations')}

@@ -4,6 +4,7 @@
     "packages": "Packages",
     "dailyTours": "Daily Tours",
     "transfers": "Transfers",
+    "yachtCharters": "Yacht Charters",
     "destinations": "Destinations",
     "partnerWithUs": "Partner with Us",
     "myBookings": "My Bookings",
@@ -1199,6 +1200,108 @@
     "readyToExperience": "Ready to Experience Turkey?",
     "explorePackagesText": "Explore our curated tour packages and start planning your adventure!",
     "viewTourPackages": "View Tour Packages"
+  },
+  "yachtCharters": {
+    "meta": {
+      "title": "Yacht Charters Turkey | Blue Cruise & Gulet Holidays",
+      "description": "Discover Turkey's stunning coastline with our luxury yacht charters. Private gulet cruises, daily boat tours, and blue cruise experiences along the Aegean and Mediterranean."
+    },
+    "hero": {
+      "badge": "Luxury Yacht Charters",
+      "title": "Sail the Turkish Riviera",
+      "subtitle": "Experience the ultimate blue cruise on our handpicked fleet of luxury gulets",
+      "cta": "Explore Our Fleet"
+    },
+    "intro": {
+      "title": "Your Blue Cruise Adventure Awaits",
+      "description": "Discover the hidden coves, ancient ruins, and crystal-clear waters of Turkey's stunning coastline aboard our carefully selected fleet of traditional gulets. Whether you're seeking a romantic getaway, family adventure, or corporate retreat, our yacht charters offer the perfect blend of comfort, exploration, and authentic Turkish hospitality."
+    },
+    "fleet": {
+      "title": "Our Fleet",
+      "subtitle": "Choose from our selection of luxury gulets, each offering unique amenities and experiences",
+      "dailyAvailable": "Daily Tours Available",
+      "length": "Length",
+      "cabins": "Cabins",
+      "guests": "Guests",
+      "built": "Built",
+      "from": "From",
+      "perDay": "day",
+      "perWeek": "week",
+      "viewDetails": "View Details"
+    },
+    "detail": {
+      "backToFleet": "Back to Fleet",
+      "about": "About",
+      "length": "Length",
+      "beam": "Beam",
+      "crew": "Crew",
+      "technicalSpecs": "Technical Specifications",
+      "engine": "Engine",
+      "speed": "Cruising Speed",
+      "fuelCapacity": "Fuel Capacity",
+      "waterCapacity": "Water Capacity",
+      "amenities": "Amenities & Equipment",
+      "seasonalPricing": "Seasonal Daily Rates",
+      "weeklyPricing": "Weekly Rates",
+      "aprilMay": "April - May",
+      "juneSeptember": "June & September",
+      "julyAugust": "July - August",
+      "october": "October",
+      "lowSeason": "Low Season",
+      "midSeason": "Mid Season",
+      "highSeason": "High Season",
+      "included": "What's Included",
+      "excluded": "Not Included",
+      "quickContact": "Quick Contact"
+    },
+    "whyUs": {
+      "title": "Why Charter With Us?",
+      "fleet": {
+        "title": "Premium Fleet",
+        "description": "Hand-selected gulets maintained to the highest standards"
+      },
+      "crew": {
+        "title": "Expert Crew",
+        "description": "Professional and experienced captains and crew members"
+      },
+      "cuisine": {
+        "title": "Gourmet Cuisine",
+        "description": "Fresh Mediterranean dishes prepared daily on board"
+      },
+      "routes": {
+        "title": "Best Routes",
+        "description": "Carefully planned itineraries to hidden gems and must-see spots"
+      }
+    },
+    "cta": {
+      "title": "Ready to Set Sail?",
+      "description": "Let us help you plan the perfect yacht charter experience. Get a personalized quote for your dream blue cruise.",
+      "getQuote": "Get a Quote"
+    },
+    "form": {
+      "title": "Request a Quote",
+      "subtitle": "Fill out the form below and we'll get back to you within 24 hours",
+      "name": "Full Name",
+      "namePlaceholder": "Your name",
+      "email": "Email Address",
+      "emailPlaceholder": "your@email.com",
+      "phone": "Phone Number",
+      "phonePlaceholder": "+1 234 567 8900",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "guests": "Number of Guests",
+      "selectGuests": "Select guests",
+      "guest": "guest",
+      "guestsLabel": "guests",
+      "message": "Special Requests",
+      "messagePlaceholder": "Any special requirements, dietary needs, or questions?",
+      "submit": "Send Inquiry",
+      "sending": "Sending...",
+      "privacy": "Your information is secure and will only be used to process your inquiry.",
+      "successTitle": "Inquiry Sent!",
+      "successMessage": "Thank you for your interest. Our yacht charter specialists will contact you within 24 hours with availability and a personalized quote.",
+      "sendAnother": "Send another inquiry"
+    }
   },
   "inquiryPage": {
     "loading": "Loading...",

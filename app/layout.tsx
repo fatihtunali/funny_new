@@ -124,6 +124,18 @@ export default function RootLayout({
             <Image src="https://mc.yandex.ru/watch/104425825" width={1} height={1} style={{position: 'absolute', left: '-9999px'}} alt="" />
           </div>
         </noscript>
+      
+        {/* Travelpayouts Verification */}
+        <script data-noptimize="1" data-cfasync="false" data-wpfc-render="false" dangerouslySetInnerHTML={{
+          __html: `
+            (function () {
+              var script = document.createElement("script");
+              script.async = 1;
+              script.src = 'https://emrldtp.com/NDgzNTgz.js?t=483583';
+              document.head.appendChild(script);
+            })();
+          `
+        }} />
       </head>
       <body className={inter.className}>
         <GoogleTagManagerNoScript />

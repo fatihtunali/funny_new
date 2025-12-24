@@ -41,12 +41,47 @@ function getBestPriceEUR(pricing: string, packageType: string): number {
 
 export const metadata: Metadata = {
   title: 'Turkey Tours from USA | No Visa Required | Direct Flights from NYC, LA, Chicago',
-  description: 'Book Turkey tour packages from America. No visa needed for US citizens! Direct flights from New York, Los Angeles, Chicago, Miami. All-inclusive packages from $1,199. Expert guides, premium hotels.',
-  keywords: 'Turkey tours from USA, Turkey vacation packages America, Istanbul tours from New York, Cappadocia tours American tourists, Turkey travel no visa, Turkey tours from Los Angeles, Turkey tours from Chicago',
+  description: 'Book Turkey tour packages from America. No visa needed for US citizens! Direct flights from New York, Los Angeles, Chicago, Miami. All-inclusive packages from $1,199. Expert guides, premium hotels, 24/7 support.',
+  keywords: 'Turkey tours from USA, Turkey vacation packages America, Istanbul tours from New York, Cappadocia tours American tourists, Turkey travel no visa, Turkey tours from Los Angeles, Turkey tours from Chicago, Turkey trips from United States, American tourists Turkey, US to Turkey travel packages',
+  alternates: {
+    canonical: 'https://funnytourism.com/en/turkey-tours-from-usa',
+    languages: {
+      'en': 'https://funnytourism.com/en/turkey-tours-from-usa',
+      'es': 'https://funnytourism.com/es/turkey-tours-from-usa',
+    },
+  },
   openGraph: {
     title: 'Turkey Tours from USA - No Visa Required | Funny Tourism',
-    description: 'Discover Turkey from America. No visa needed! Direct flights, all-inclusive packages from $1,199.',
-    images: ['/images/destinations/istanbul.jpg'],
+    description: 'Discover Turkey from America. No visa needed for US citizens! Direct flights from NYC, LA, Chicago. All-inclusive packages from $1,199/person.',
+    url: 'https://funnytourism.com/en/turkey-tours-from-usa',
+    siteName: 'Funny Tourism',
+    images: [
+      {
+        url: 'https://funnytourism.com/images/MaidenTowerIstanbul.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Turkey Tours from USA - Istanbul Skyline',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Turkey Tours from USA | No Visa Required',
+    description: 'Book Turkey tours from America. No visa needed! Direct flights, packages from $1,199.',
+    images: ['https://funnytourism.com/images/MaidenTowerIstanbul.webp'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 

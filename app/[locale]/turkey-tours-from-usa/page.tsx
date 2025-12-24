@@ -2,7 +2,42 @@ import { prisma } from '@/lib/prisma';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
-import { FaPlane, FaPassport, FaCheckCircle, FaDollarSign, FaStar, FaShieldAlt, FaWhatsapp, FaClock } from 'react-icons/fa';
+import { FaPlane, FaPassport, FaCheckCircle, FaDollarSign, FaStar, FaShieldAlt, FaWhatsapp } from 'react-icons/fa';
+
+// Helper function to extract best price from package pricing JSON
+function getBestPriceEUR(pricing: string, packageType: string): number {
+  try {
+    const pricingData = JSON.parse(pricing || '{}');
+
+    // LAND_ONLY packages: {"twoAdults":415,"fourAdults":369,"sixAdults":355}
+    if (pricingData.sixAdults) {
+      return pricingData.sixAdults;
+    }
+    if (pricingData.fourAdults) {
+      return pricingData.fourAdults;
+    }
+    if (pricingData.twoAdults) {
+      return pricingData.twoAdults;
+    }
+
+    // WITH_HOTEL packages: {"paxTiers":{"6":{"threestar":{"double":416,...}}}}
+    if (pricingData.paxTiers) {
+      // Get 6+ pax tier for best price, fallback to 4, then 2
+      const tier = pricingData.paxTiers['6'] || pricingData.paxTiers['4'] || pricingData.paxTiers['2'];
+      if (tier) {
+        // Get 3-star price (most affordable), fallback to 4-star
+        const starPricing = tier.threestar || tier.fourstar || tier.fivestar;
+        if (starPricing) {
+          return starPricing.double || starPricing.triple || 0;
+        }
+      }
+    }
+
+    return 0;
+  } catch {
+    return 0;
+  }
+}
 
 export const metadata: Metadata = {
   title: 'Turkey Tours from USA | No Visa Required | Direct Flights from NYC, LA, Chicago',
@@ -200,21 +235,7 @@ export default async function TurkeyToursFromUSA() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {packages.map((pkg) => {
-              // Parse pricing to get base price
-              let basePrice = 0;
-              try {
-                const pricing = JSON.parse(pkg.pricing || '{}');
-                if (pkg.packageType === 'WITH_HOTEL' && pricing.categories) {
-                  const threeStarPricing = pricing.categories?.['3_star'];
-                  if (threeStarPricing?.['6+']) {
-                    basePrice = threeStarPricing['6+'].double || threeStarPricing['6+'].triple || 0;
-                  }
-                } else if (pricing.perPerson) {
-                  basePrice = pricing.perPerson['6+'] || pricing.perPerson['4-5'] || 0;
-                }
-              } catch (e) {
-                basePrice = 0;
-              }
+              const basePrice = getBestPriceEUR(pkg.pricing || '', pkg.packageType);
 
               return (
                 <div key={pkg.id} className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">

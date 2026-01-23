@@ -1,6 +1,10 @@
 import { PrismaClient } from '@prisma/client';
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // We'll use a Python script to extract Word data and save as JSON
 // Then this script reads the JSON and seeds the database
@@ -46,6 +50,7 @@ interface PackageData {
     };
   };
   image: string;
+  region?: string;
   // Spanish translations
   titleEs?: string;
   descriptionEs?: string;
@@ -106,6 +111,7 @@ async function seedPackages() {
             hotels: JSON.stringify(pkg.hotels),
             pricing: JSON.stringify(pkg.pricing),
             image: pkg.image,
+            region: pkg.region || 'Turkey',
             isActive: true,
             updatedAt: new Date(),
             // Spanish translations
@@ -138,6 +144,7 @@ async function seedPackages() {
             hotels: JSON.stringify(pkg.hotels),
             pricing: JSON.stringify(pkg.pricing),
             image: pkg.image,
+            region: pkg.region || 'Turkey',
             isActive: true,
             // Spanish translations
             titleEs: pkg.titleEs,

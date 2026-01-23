@@ -1076,12 +1076,12 @@
   },
   "destinationsPage": {
     "header": {
-      "title": "Explore los Destinos de Turquía",
-      "subtitle": "Descubra la diversa belleza y la rica historia de los principales destinos de Turquía"
+      "title": "Explore Nuestros Destinos",
+      "subtitle": "Descubra destinos increíbles en Turquía y Europa"
     },
     "section": {
-      "title": "Nuestros Principales Destinos",
-      "description": "Experimente lo mejor de la rica historia, los impresionantes paisajes y la vibrante cultura de Turquía"
+      "title": "Destinos Populares",
+      "description": "Desde los paisajes mágicos de Turquía hasta las ciudades históricas de Europa - explore nuestros destinos seleccionados"
     },
     "filters": {
       "searchLabel": "Buscar Destinos",
@@ -1098,6 +1098,7 @@
       "region": "Región",
       "allRegions": "Todas las Regiones",
       "regions": {
+        "europe": "Europa",
         "marmara": "Mármara",
         "aegean": "Costa del Egeo",
         "mediterranean": "Costa Mediterránea",

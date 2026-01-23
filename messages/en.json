@@ -1077,12 +1077,12 @@
   },
   "destinationsPage": {
     "header": {
-      "title": "Explore Turkey Destinations",
-      "subtitle": "Discover the diverse beauty and rich history of Turkey's top destinations"
+      "title": "Explore Our Destinations",
+      "subtitle": "Discover amazing destinations in Turkey and Europe"
     },
     "section": {
-      "title": "Our Top Destinations",
-      "description": "Experience the best of Turkey's rich history, stunning landscapes, and vibrant culture"
+      "title": "Popular Destinations",
+      "description": "From the magical landscapes of Turkey to the historic cities of Europe - explore our handpicked destinations"
     },
     "filters": {
       "searchLabel": "Search Destinations",
@@ -1099,6 +1099,7 @@
       "region": "Region",
       "allRegions": "All Regions",
       "regions": {
+        "europe": "Europe",
         "marmara": "Marmara",
         "aegean": "Aegean Coast",
         "mediterranean": "Mediterranean Coast",

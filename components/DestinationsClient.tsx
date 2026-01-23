@@ -117,6 +117,7 @@ export default function DestinationsClient({ destinations }: DestinationsClientP
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
                 <option value="all">{t('filters.allRegions')}</option>
+                <option value="Europe">{t('filters.regions.europe')}</option>
                 <option value="Marmara">{t('filters.regions.marmara')}</option>
                 <option value="Aegean">{t('filters.regions.aegean')}</option>
                 <option value="Mediterranean">{t('filters.regions.mediterranean')}</option>

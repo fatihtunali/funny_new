@@ -15777,7 +15777,7 @@
     ],
     "packageId": "EUR-PVT-01",
     "slug": "budapest-package-private",
-    "image": "/images/packages/budapest-tour.jpg"
+    "image": "/images/budapest.jpg"
   },
   {
     "title": "Vienna Package",
@@ -15939,7 +15939,7 @@
     ],
     "packageId": "EUR-PVT-02",
     "slug": "vienna-package-private",
-    "image": "/images/packages/vienna-tour.jpg"
+    "image": "/images/vienna.jpg"
   },
   {
     "title": "Prague Package",
@@ -16102,7 +16102,7 @@
     ],
     "packageId": "EUR-PVT-03",
     "slug": "prague-package-private",
-    "image": "/images/packages/prague-tour.jpg"
+    "image": "/images/prague.jpg"
   },
   {
     "title": "Budapest & Vienna & Prague Package",
@@ -16310,7 +16310,7 @@
     ],
     "packageId": "EUR-PVT-04",
     "slug": "budapest-vienna-prague-package-private",
-    "image": "/images/packages/budapest-tour.jpg"
+    "image": "/images/budapest.jpg"
   },
   {
     "title": "Budapest & Vienna Package",
@@ -16495,7 +16495,7 @@
     ],
     "packageId": "EUR-PVT-05",
     "slug": "budapest-vienna-package-private",
-    "image": "/images/packages/budapest-tour.jpg"
+    "image": "/images/budapest.jpg"
   },
   {
     "title": "Vienna & Prague Package",
@@ -16680,7 +16680,7 @@
     ],
     "packageId": "EUR-PVT-06",
     "slug": "vienna-prague-package-private",
-    "image": "/images/packages/vienna-tour.jpg"
+    "image": "/images/vienna.jpg"
   },
   {
     "title": "Budapest & Prague Package",
@@ -16866,7 +16866,7 @@
     ],
     "packageId": "EUR-PVT-07",
     "slug": "budapest-prague-package-private",
-    "image": "/images/packages/budapest-tour.jpg"
+    "image": "/images/budapest.jpg"
   },
   {
     "title": "Zagreb & Split & Dubrovnik Package",
@@ -17055,7 +17055,7 @@
     ],
     "packageId": "EUR-PVT-08",
     "slug": "zagreb-split-dubrovnik-package-private",
-    "image": "/images/packages/zagreb-tour.jpg"
+    "image": "/images/croatia.jpg"
   },
   {
     "title": "Dubrovnik Package",
@@ -17219,7 +17219,7 @@
     ],
     "packageId": "EUR-PVT-09",
     "slug": "dubrovnik-package-private",
-    "image": "/images/packages/dubrovnik-tour.jpg"
+    "image": "/images/dubrovnik.jpg"
   },
   {
     "title": "Split Package",
@@ -17383,7 +17383,7 @@
     ],
     "packageId": "EUR-PVT-10",
     "slug": "split-package-private",
-    "image": "/images/packages/split-tour.jpg"
+    "image": "/images/split.jpg"
   },
   {
     "title": "Finland Northern Lights & Lapland Package",
@@ -17593,6 +17593,6 @@
     ],
     "packageId": "EUR-PVT-11",
     "slug": "finland-northern-lights-lapland-package-private",
-    "image": "/images/packages/helsinki-tour.jpg"
+    "image": "/images/finland-aurora.jpg"
   }
 ]

@@ -484,8 +484,8 @@
     "clearAll": "Borrar todo"
   },
   "packagesPage": {
-    "title": "Explore Todos los Tours en Turquía",
-    "subtitle": "Descubra experiencias increíbles por toda Turquía",
+    "title": "Explore Todos los Paquetes de Tours",
+    "subtitle": "Descubra experiencias increíbles en Turquía y Europa",
     "filters": "Filtros",
     "clearAll": "Borrar Todo",
     "search": "Buscar",
@@ -503,6 +503,11 @@
       "twoToFive": "2-5 Días",
       "sixToTen": "6-10 Días",
       "tenPlus": "10+ Días"
+    },
+    "regions": {
+      "all": "Todos los Destinos",
+      "turkey": "Turquía",
+      "europe": "Europa"
     },
     "priceRange": "Rango de Precios: €{min} - €{max}",
     "toursFound": "{count} tours encontrados",

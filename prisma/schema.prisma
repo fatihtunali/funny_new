@@ -157,6 +157,7 @@ model Package {
   packageType         String   @default("WITH_HOTEL")
   tourType            String   @default("SIC")
   transferType        String   @default("PRIVATE")
+  region              String   @default("Turkey")
   itinerary           String   @db.Text
   highlights          String   @db.Text
   included            String   @db.Text
@@ -186,6 +187,7 @@ model Package {
   @@index([slug])
   @@index([packageType])
   @@index([tourType])
+  @@index([region])
   @@index([port])
 }
 

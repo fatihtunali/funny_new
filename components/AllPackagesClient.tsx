@@ -21,6 +21,7 @@ interface Package {
   packageType: string;
   highlights: string;
   pdfUrl?: string | null;
+  region?: string;
 }
 
 interface AllPackagesClientProps {
@@ -38,6 +39,7 @@ export default function AllPackagesClient({ packages }: AllPackagesClientProps) 
   const { isInComparison, toggleComparison } = useComparison();
 
   // Filters
+  const [selectedRegion, setSelectedRegion] = useState<string>('all');
   const [selectedDestinations, setSelectedDestinations] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedDurations, setSelectedDurations] = useState<string[]>([]);
@@ -47,6 +49,13 @@ export default function AllPackagesClient({ packages }: AllPackagesClientProps) 
 
   const applyFilters = useCallback(() => {
     let filtered = [...packages];
+
+    // Region filter
+    if (selectedRegion !== 'all') {
+      filtered = filtered.filter(pkg =>
+        (pkg.region || 'Turkey').toLowerCase() === selectedRegion.toLowerCase()
+      );
+    }
 
     // Search filter
     if (searchQuery) {
@@ -103,11 +112,11 @@ export default function AllPackagesClient({ packages }: AllPackagesClientProps) 
     }
 
     setFilteredPackages(filtered);
-  }, [packages, searchQuery, selectedDestinations, selectedTypes, selectedDurations, priceRange, sortBy]);
+  }, [packages, searchQuery, selectedRegion, selectedDestinations, selectedTypes, selectedDurations, priceRange, sortBy]);
 
   useEffect(() => {
     applyFilters();
-  }, [selectedDestinations, selectedTypes, selectedDurations, priceRange, searchQuery, sortBy, applyFilters]);
+  }, [selectedRegion, selectedDestinations, selectedTypes, selectedDurations, priceRange, searchQuery, sortBy, applyFilters]);
 
   const getPackageMinPrice = (pkg: Package): number => {
     try {
@@ -167,7 +176,17 @@ export default function AllPackagesClient({ packages }: AllPackagesClientProps) 
     }
   };
 
-  const destinations = ['Istanbul', 'Cappadocia', 'Ephesus', 'Pamukkale', 'Antalya', 'Bodrum'];
+  // Destinations by region
+  const turkeyDestinations = ['Istanbul', 'Cappadocia', 'Ephesus', 'Pamukkale', 'Antalya', 'Bodrum'];
+  const europeDestinations = ['Budapest', 'Vienna', 'Prague', 'Zagreb', 'Split', 'Dubrovnik', 'Helsinki', 'Rovaniemi'];
+
+  // Show destinations based on selected region
+  const destinations = selectedRegion === 'turkey'
+    ? turkeyDestinations
+    : selectedRegion === 'europe'
+      ? europeDestinations
+      : [...turkeyDestinations, ...europeDestinations];
+
   const packageTypes = [
     { value: 'WITH_HOTEL', label: t('packageTypes.withHotel') },
     { value: 'LAND_ONLY', label: t('packageTypes.landOnly') },
@@ -214,6 +233,7 @@ export default function AllPackagesClient({ packages }: AllPackagesClientProps) 
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => {
+                      setSelectedRegion('all');
                       setSelectedDestinations([]);
                       setSelectedTypes([]);
                       setSelectedDurations([]);
@@ -327,6 +347,51 @@ export default function AllPackagesClient({ packages }: AllPackagesClientProps) 
               <FaFilter size={20} />
             </button>
 
+            {/* Region Tabs */}
+            <div className="bg-white rounded-lg shadow-sm p-2 mb-4">
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    setSelectedRegion('all');
+                    setSelectedDestinations([]);
+                  }}
+                  className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all ${
+                    selectedRegion === 'all'
+                      ? 'bg-primary-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  🌍 {t('regions.all') || 'All Destinations'}
+                </button>
+                <button
+                  onClick={() => {
+                    setSelectedRegion('turkey');
+                    setSelectedDestinations([]);
+                  }}
+                  className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all ${
+                    selectedRegion === 'turkey'
+                      ? 'bg-red-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  🇹🇷 {t('regions.turkey') || 'Turkey'}
+                </button>
+                <button
+                  onClick={() => {
+                    setSelectedRegion('europe');
+                    setSelectedDestinations([]);
+                  }}
+                  className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all ${
+                    selectedRegion === 'europe'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  🇪🇺 {t('regions.europe') || 'Europe'}
+                </button>
+              </div>
+            </div>
+
             {/* Top Bar */}
             <div className="bg-white rounded-lg shadow-sm p-4 mb-6 lg:sticky lg:top-4 z-10">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -374,6 +439,7 @@ export default function AllPackagesClient({ packages }: AllPackagesClientProps) 
                 <p className="text-gray-600 text-lg">{t('noToursFound')}</p>
                 <button
                   onClick={() => {
+                    setSelectedRegion('all');
                     setSelectedDestinations([]);
                     setSelectedTypes([]);
                     setSelectedDurations([]);

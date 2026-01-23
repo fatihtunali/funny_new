@@ -1,0 +1,1980 @@
+[
+  {
+    "title": "Budapest Package",
+    "duration": "3 Nights / 4 Days",
+    "description": "Discover the beauty of Budapest with this 3 Nights / 4 Days package. Arrive to Budapest Ferenc Liszt International Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Budapest....",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Fly / Budapest",
+        "description": "Arrive to Budapest Ferenc Liszt International Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Budapest.",
+        "meals": "-"
+      },
+      {
+        "day": 2,
+        "title": "Budapest – Buda Castle Side Half Day Tour",
+        "description": "After breakfast at the hotel, a guided half day tour of the historic Buda side will commence. Visit the magnificent Buda Castle, a UNESCO World Heritage Site that has been the historical palace of Hungarian kings. Continue to the iconic Fisherman's Bastion with its stunning panoramic views over the Danube and Pest side. Visit the beautiful Matthias Church, a Gothic-style Roman Catholic church with colorful roof tiles. Walk through the charming Castle District with its cobblestone streets and medieval architecture. After the tour, transfer back to hotel. Overnight in Budapest.",
+        "meals": "B"
+      },
+      {
+        "day": 3,
+        "title": "Budapest – Pest Side Half Day Tour",
+        "description": "After breakfast, your half day tour of the Pest side begins. Visit the Hungarian Parliament Building, one of Europe's oldest legislative buildings and a stunning example of Neo-Gothic architecture. Continue to St. Stephen's Basilica, dedicated to the first King of Hungary, where you can see the Holy Right Hand relic. Walk along the famous Andrassy Avenue, a UNESCO World Heritage Site, passing elegant mansions and the Hungarian State Opera House. Visit Heroes' Square with its iconic Millennium Monument. After the tour, transfer back to hotel. Overnight in Budapest.",
+        "meals": "B"
+      },
+      {
+        "day": 4,
+        "title": "Budapest / Fly",
+        "description": "After breakfast, rest of the day is free at leisure till depart for departure airport transfer to your next destination.",
+        "meals": "B"
+      }
+    ],
+    "included": [
+      "3 nights accommodation in the mentioned hotels below",
+      "Meals are as per itinerary with code letters (B=Breakfast, L=Lunch, D=Dinner)",
+      "Return airport transfers on Private basis",
+      "Professional English-Speaking Guidance on tour days",
+      "Sightseeings as per itinerary on Private basis with entrance fees for mentioned places",
+      "Local Taxes"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Personal expenses",
+      "Drinks at meals",
+      "Tips and porterage at hotels",
+      "Tips to the driver and the guide"
+    ],
+    "information": [
+      "Hungarian Parliament tours are available in multiple languages. Advance booking is recommended.",
+      "Buda Castle area involves walking on cobblestone streets. Comfortable shoes are recommended.",
+      "St. Stephen's Basilica has a dress code - shoulders and knees should be covered.",
+      "Please be ready on lobby floor minimum 5 minutes prior to pick up time for the tours and transfers.",
+      "Please note that half day private tour timings are from 09.00 – 13.00 or 14.00 – 18.00."
+    ],
+    "hotels": {
+      "threestar": [
+        "Budapest: Ibis Styles Budapest Center or similar"
+      ],
+      "fourstar": [
+        "Budapest: Mercure Budapest City Center or similar"
+      ],
+      "fivestar": [
+        "Budapest: Hilton Budapest or similar"
+      ]
+    },
+    "pricing": {
+      "paxTiers": {
+        "10": {
+          "threestar": {
+            "double": 245,
+            "singleSupplement": 120
+          },
+          "fourstar": {
+            "double": 305,
+            "singleSupplement": 180
+          },
+          "fivestar": {
+            "double": 380,
+            "singleSupplement": 255
+          }
+        },
+        "8": {
+          "threestar": {
+            "double": 256,
+            "singleSupplement": 120
+          },
+          "fourstar": {
+            "double": 316,
+            "singleSupplement": 180
+          },
+          "fivestar": {
+            "double": 391,
+            "singleSupplement": 255
+          }
+        },
+        "6": {
+          "threestar": {
+            "double": 275,
+            "singleSupplement": 120
+          },
+          "fourstar": {
+            "double": 335,
+            "singleSupplement": 180
+          },
+          "fivestar": {
+            "double": 410,
+            "singleSupplement": 255
+          }
+        },
+        "4": {
+          "threestar": {
+            "double": 312,
+            "singleSupplement": 120
+          },
+          "fourstar": {
+            "double": 372,
+            "singleSupplement": 180
+          },
+          "fivestar": {
+            "double": 447,
+            "singleSupplement": 255
+          }
+        },
+        "2": {
+          "threestar": {
+            "double": 425,
+            "singleSupplement": 120
+          },
+          "fourstar": {
+            "double": 485,
+            "singleSupplement": 180
+          },
+          "fivestar": {
+            "double": 560,
+            "singleSupplement": 255
+          }
+        }
+      },
+      "childRates": {
+        "age0to6": {
+          "threestar": 100,
+          "fourstar": 100,
+          "fivestar": 100
+        },
+        "age6to12": {
+          "threestar": 100,
+          "fourstar": 130,
+          "fivestar": 167
+        }
+      }
+    },
+    "destinations": "Budapest",
+    "packageType": "WITH_HOTEL",
+    "tourType": "PRIVATE",
+    "transferType": "PRIVATE",
+    "region": "Europe",
+    "highlights": [
+      "Budapest – Buda Castle Side Half Day Tour",
+      "Budapest – Pest Side Half Day Tour"
+    ],
+    "packageId": "EUR-PVT-01",
+    "slug": "budapest-package-private",
+    "image": "/images/packages/budapest-tour.jpg"
+  },
+  {
+    "title": "Vienna Package",
+    "duration": "3 Nights / 4 Days",
+    "description": "Discover the beauty of Vienna with this 3 Nights / 4 Days package. Arrive to Vienna International Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Vienna....",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Fly / Vienna",
+        "description": "Arrive to Vienna International Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Vienna.",
+        "meals": "-"
+      },
+      {
+        "day": 2,
+        "title": "Vienna – Schonbrunn Palace Half Day Tour",
+        "description": "After breakfast at the hotel, a guided half day tour to the magnificent Schonbrunn Palace will commence. Explore the former summer residence of the Habsburg emperors, a UNESCO World Heritage Site. Tour the Imperial Apartments and discover the opulent lifestyle of Empress Sisi and Emperor Franz Joseph. Stroll through the beautiful palace gardens, visit the Gloriette with panoramic views over Vienna. After the tour, transfer back to hotel. Overnight in Vienna.",
+        "meals": "B"
+      },
+      {
+        "day": 3,
+        "title": "Vienna – Imperial Vienna Half Day Tour",
+        "description": "After breakfast, your half day tour of Imperial Vienna begins. Visit the Hofburg Palace, the former imperial residence and current official residence of the Austrian President. Explore the Sisi Museum dedicated to Empress Elisabeth, the Imperial Apartments, and the Imperial Silver Collection. Continue to the Belvedere Palace, home to the world's largest collection of Gustav Klimt paintings including 'The Kiss.' Drive along the famous Ringstrasse, passing the Vienna State Opera, Parliament, City Hall, and Burgtheater. After the tour, transfer back to hotel. Overnight in Vienna.",
+        "meals": "B"
+      },
+      {
+        "day": 4,
+        "title": "Vienna / Fly",
+        "description": "After breakfast, rest of the day is free at leisure till depart for departure airport transfer to your next destination.",
+        "meals": "B"
+      }
+    ],
+    "included": [
+      "3 nights accommodation in the mentioned hotels below",
+      "Meals are as per itinerary with code letters (B=Breakfast, L=Lunch, D=Dinner)",
+      "Return airport transfers on Private basis",
+      "Professional English-Speaking Guidance on tour days",
+      "Sightseeings as per itinerary on Private basis with entrance fees for mentioned places",
+      "Local Taxes"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Personal expenses",
+      "Drinks at meals",
+      "Tips and porterage at hotels",
+      "Tips to the driver and the guide"
+    ],
+    "information": [
+      "Schonbrunn Palace offers audio guides in multiple languages. Photography is not permitted inside the palace.",
+      "The Belvedere Museum may have temporary closures of certain galleries. Please check in advance.",
+      "Vienna has excellent public transportation. Consider purchasing a Vienna Card for additional discounts.",
+      "Please be ready on lobby floor minimum 5 minutes prior to pick up time for the tours and transfers.",
+      "Please note that half day private tour timings are from 09.00 – 13.00 or 14.00 – 18.00."
+    ],
+    "hotels": {
+      "threestar": [
+        "Vienna: Austria Trend Anatol or similar"
+      ],
+      "fourstar": [
+        "Vienna: Mercure Wien Zentrum or similar"
+      ],
+      "fivestar": [
+        "Vienna: Hilton Vienna Plaza or similar"
+      ]
+    },
+    "pricing": {
+      "paxTiers": {
+        "10": {
+          "threestar": {
+            "double": 301,
+            "singleSupplement": 165
+          },
+          "fourstar": {
+            "double": 361,
+            "singleSupplement": 225
+          },
+          "fivestar": {
+            "double": 466,
+            "singleSupplement": 330
+          }
+        },
+        "8": {
+          "threestar": {
+            "double": 313,
+            "singleSupplement": 165
+          },
+          "fourstar": {
+            "double": 373,
+            "singleSupplement": 225
+          },
+          "fivestar": {
+            "double": 478,
+            "singleSupplement": 330
+          }
+        },
+        "6": {
+          "threestar": {
+            "double": 334,
+            "singleSupplement": 165
+          },
+          "fourstar": {
+            "double": 394,
+            "singleSupplement": 225
+          },
+          "fivestar": {
+            "double": 499,
+            "singleSupplement": 330
+          }
+        },
+        "4": {
+          "threestar": {
+            "double": 376,
+            "singleSupplement": 165
+          },
+          "fourstar": {
+            "double": 436,
+            "singleSupplement": 225
+          },
+          "fivestar": {
+            "double": 541,
+            "singleSupplement": 330
+          }
+        },
+        "2": {
+          "threestar": {
+            "double": 501,
+            "singleSupplement": 165
+          },
+          "fourstar": {
+            "double": 561,
+            "singleSupplement": 225
+          },
+          "fivestar": {
+            "double": 666,
+            "singleSupplement": 330
+          }
+        }
+      },
+      "childRates": {
+        "age0to6": {
+          "threestar": 100,
+          "fourstar": 100,
+          "fivestar": 100
+        },
+        "age6to12": {
+          "threestar": 125,
+          "fourstar": 155,
+          "fivestar": 208
+        }
+      }
+    },
+    "destinations": "Vienna",
+    "packageType": "WITH_HOTEL",
+    "tourType": "PRIVATE",
+    "transferType": "PRIVATE",
+    "region": "Europe",
+    "highlights": [
+      "Vienna – Schonbrunn Palace Half Day Tour",
+      "Vienna – Imperial Vienna Half Day Tour"
+    ],
+    "packageId": "EUR-PVT-02",
+    "slug": "vienna-package-private",
+    "image": "/images/packages/vienna-tour.jpg"
+  },
+  {
+    "title": "Prague Package",
+    "duration": "3 Nights / 4 Days",
+    "description": "Discover the beauty of Prague with this 3 Nights / 4 Days package. Arrive to Vaclav Havel Airport Prague. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Prague....",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Fly / Prague",
+        "description": "Arrive to Vaclav Havel Airport Prague. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Prague.",
+        "meals": "-"
+      },
+      {
+        "day": 2,
+        "title": "Prague – Castle District Half Day Tour",
+        "description": "After breakfast at the hotel, a guided half day tour of Prague Castle and surroundings will commence. Visit the Prague Castle complex, the largest ancient castle in the world and a UNESCO World Heritage Site. Explore St. Vitus Cathedral, a masterpiece of Gothic architecture where Czech kings were crowned. Walk through the charming Golden Lane with its colorful miniature houses. Continue to the Old Royal Palace and St. George's Basilica. Descend through the picturesque Lesser Town and cross the famous Charles Bridge, adorned with 30 baroque statues. End at the Old Town Square with the Astronomical Clock. After the tour, transfer back to hotel. Overnight in Prague.",
+        "meals": "B"
+      },
+      {
+        "day": 3,
+        "title": "Prague – Jewish Quarter Half Day Tour",
+        "description": "After breakfast, your half day tour explores Prague's rich Jewish heritage. Visit the Jewish Quarter (Josefov), one of the best-preserved Jewish historical sites in Europe. Explore the Old Jewish Cemetery, one of the oldest surviving Jewish cemeteries in the world with thousands of tombstones. Visit the Old-New Synagogue, the oldest active synagogue in Europe dating back to 1270. See the Pinkas Synagogue with its memorial to Holocaust victims. Continue to the Spanish Synagogue with its stunning Moorish interior. Visit the Strahov Monastery with its magnificent Baroque library. After the tour, transfer back to hotel. Overnight in Prague.",
+        "meals": "B"
+      },
+      {
+        "day": 4,
+        "title": "Prague / Fly",
+        "description": "After breakfast, rest of the day is free at leisure till depart for departure airport transfer to your next destination.",
+        "meals": "B"
+      }
+    ],
+    "included": [
+      "3 nights accommodation in the mentioned hotels below",
+      "Meals are as per itinerary with code letters (B=Breakfast, L=Lunch, D=Dinner)",
+      "Return airport transfers on Private basis",
+      "Professional English-Speaking Guidance on tour days",
+      "Sightseeings as per itinerary on Private basis with entrance fees for mentioned places",
+      "Local Taxes"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Personal expenses",
+      "Drinks at meals",
+      "Tips and porterage at hotels",
+      "Tips to the driver and the guide"
+    ],
+    "information": [
+      "Prague Castle is closed on Mondays. The castle grounds are free but interior visits require tickets.",
+      "The Jewish Quarter synagogues are closed on Saturdays and Jewish holidays.",
+      "St. Vitus Cathedral has a dress code - shoulders and knees should be covered.",
+      "The Old Town Square gets very crowded during peak hours. Early morning visits are recommended.",
+      "Please be ready on lobby floor minimum 5 minutes prior to pick up time for the tours and transfers.",
+      "Please note that half day private tour timings are from 09.00 – 13.00 or 14.00 – 18.00."
+    ],
+    "hotels": {
+      "threestar": [
+        "Prague: Ibis Praha Old Town or similar"
+      ],
+      "fourstar": [
+        "Prague: NH Collection Prague or similar"
+      ],
+      "fivestar": [
+        "Prague: Hilton Prague Old Town or similar"
+      ]
+    },
+    "pricing": {
+      "paxTiers": {
+        "10": {
+          "threestar": {
+            "double": 234,
+            "singleSupplement": 135
+          },
+          "fourstar": {
+            "double": 294,
+            "singleSupplement": 195
+          },
+          "fivestar": {
+            "double": 369,
+            "singleSupplement": 270
+          }
+        },
+        "8": {
+          "threestar": {
+            "double": 244,
+            "singleSupplement": 135
+          },
+          "fourstar": {
+            "double": 304,
+            "singleSupplement": 195
+          },
+          "fivestar": {
+            "double": 379,
+            "singleSupplement": 270
+          }
+        },
+        "6": {
+          "threestar": {
+            "double": 260,
+            "singleSupplement": 135
+          },
+          "fourstar": {
+            "double": 320,
+            "singleSupplement": 195
+          },
+          "fivestar": {
+            "double": 395,
+            "singleSupplement": 270
+          }
+        },
+        "4": {
+          "threestar": {
+            "double": 294,
+            "singleSupplement": 135
+          },
+          "fourstar": {
+            "double": 354,
+            "singleSupplement": 195
+          },
+          "fivestar": {
+            "double": 429,
+            "singleSupplement": 270
+          }
+        },
+        "2": {
+          "threestar": {
+            "double": 394,
+            "singleSupplement": 135
+          },
+          "fourstar": {
+            "double": 454,
+            "singleSupplement": 195
+          },
+          "fivestar": {
+            "double": 529,
+            "singleSupplement": 270
+          }
+        }
+      },
+      "childRates": {
+        "age0to6": {
+          "threestar": 100,
+          "fourstar": 100,
+          "fivestar": 100
+        },
+        "age6to12": {
+          "threestar": 97,
+          "fourstar": 127,
+          "fivestar": 164
+        }
+      }
+    },
+    "destinations": "Prague",
+    "packageType": "WITH_HOTEL",
+    "tourType": "PRIVATE",
+    "transferType": "PRIVATE",
+    "region": "Europe",
+    "highlights": [
+      "Prague – Castle District Half Day Tour",
+      "Prague – Jewish Quarter Half Day Tour"
+    ],
+    "packageId": "EUR-PVT-03",
+    "slug": "prague-package-private",
+    "image": "/images/packages/prague-tour.jpg"
+  },
+  {
+    "title": "Budapest & Vienna & Prague Package",
+    "duration": "9 Nights / 10 Days",
+    "description": "Discover the beauty of Budapest, Vienna, Prague with this 9 Nights / 10 Days package. Arrive to Budapest Ferenc Liszt International Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Budapest....",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Fly / Budapest",
+        "description": "Arrive to Budapest Ferenc Liszt International Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Budapest.",
+        "meals": "-"
+      },
+      {
+        "day": 2,
+        "title": "Budapest – Buda Castle Side Half Day Tour",
+        "description": "After breakfast at the hotel, a guided half day tour of the historic Buda side will commence. Visit the magnificent Buda Castle, Fisherman's Bastion with stunning panoramic views, and the beautiful Matthias Church. Walk through the charming Castle District. After the tour, transfer back to hotel. Overnight in Budapest.",
+        "meals": "B"
+      },
+      {
+        "day": 3,
+        "title": "Budapest – Pest Side Half Day Tour",
+        "description": "After breakfast, your half day tour of the Pest side begins. Visit the Hungarian Parliament Building, St. Stephen's Basilica, Andrassy Avenue, and Heroes' Square. After the tour, transfer back to hotel. Overnight in Budapest.",
+        "meals": "B"
+      },
+      {
+        "day": 4,
+        "title": "Budapest / Vienna",
+        "description": "After breakfast, check out from the hotel. Private transfer from Budapest to Vienna (approximately 2.5-3 hours). Enjoy the scenic drive through the Hungarian and Austrian countryside. Arrive in Vienna and check-in to your hotel. The rest of the day is free to explore. Overnight in Vienna.",
+        "meals": "Private Transfer"
+      },
+      {
+        "day": 5,
+        "title": "Vienna – Schonbrunn Palace Half Day Tour",
+        "description": "After breakfast, a guided half day tour to the magnificent Schonbrunn Palace will commence. Explore the former summer residence of the Habsburg emperors. Tour the Imperial Apartments and stroll through the beautiful palace gardens. After the tour, transfer back to hotel. Overnight in Vienna.",
+        "meals": "B"
+      },
+      {
+        "day": 6,
+        "title": "Vienna – Imperial Vienna Half Day Tour",
+        "description": "After breakfast, your half day tour of Imperial Vienna begins. Visit the Hofburg Palace with Sisi Museum, continue to the Belvedere Palace, and drive along the famous Ringstrasse. After the tour, transfer back to hotel. Overnight in Vienna.",
+        "meals": "B"
+      },
+      {
+        "day": 7,
+        "title": "Vienna / Prague",
+        "description": "After breakfast, check out from the hotel. Private transfer from Vienna to Prague (approximately 4 hours). Enjoy the scenic drive through the Czech countryside. Arrive in Prague and check-in to your hotel. The rest of the day is free to explore. Overnight in Prague.",
+        "meals": "Private Transfer"
+      },
+      {
+        "day": 8,
+        "title": "Prague – Castle District Half Day Tour",
+        "description": "After breakfast, a guided half day tour of Prague Castle and surroundings will commence. Visit the Prague Castle complex, St. Vitus Cathedral, and Golden Lane. Cross the famous Charles Bridge. End at the Old Town Square with the Astronomical Clock. After the tour, transfer back to hotel. Overnight in Prague.",
+        "meals": "B"
+      },
+      {
+        "day": 9,
+        "title": "Prague – Jewish Quarter Half Day Tour",
+        "description": "After breakfast, your half day tour explores Prague's rich Jewish heritage. Visit the Jewish Quarter, Old Jewish Cemetery, Old-New Synagogue, and Strahov Monastery. After the tour, transfer back to hotel. Overnight in Prague.",
+        "meals": "B"
+      },
+      {
+        "day": 10,
+        "title": "Prague / Fly",
+        "description": "After breakfast, rest of the day is free at leisure till depart for departure airport transfer to your next destination.",
+        "meals": "B"
+      }
+    ],
+    "included": [
+      "9 nights accommodation in the mentioned hotels below",
+      "Meals are as per itinerary with code letters (B=Breakfast, L=Lunch, D=Dinner)",
+      "Airport transfers on Private basis",
+      "Private intercity transfers: Budapest-Vienna and Vienna-Prague",
+      "Professional English-Speaking Guidance on tour days",
+      "Sightseeings as per itinerary on Private basis with entrance fees for mentioned places",
+      "Local Taxes"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Personal expenses",
+      "Drinks at meals",
+      "Tips and porterage at hotels",
+      "Tips to the driver and the guide"
+    ],
+    "information": [
+      "Intercity transfers are by private vehicle with English-speaking driver.",
+      "Budapest-Vienna transfer: approximately 2.5-3 hours (230 km).",
+      "Vienna-Prague transfer: approximately 4 hours (330 km).",
+      "Please be ready on lobby floor minimum 5 minutes prior to pick up time for the tours and transfers.",
+      "Please note that half day private tour timings are from 09.00 – 13.00 or 14.00 – 18.00."
+    ],
+    "hotels": {
+      "threestar": [
+        "Budapest: Ibis Styles Budapest Center or similar",
+        "Vienna: Austria Trend Anatol or similar",
+        "Prague: Ibis Praha Old Town or similar"
+      ],
+      "fourstar": [
+        "Budapest: Mercure Budapest City Center or similar",
+        "Vienna: Mercure Wien Zentrum or similar",
+        "Prague: NH Collection Prague or similar"
+      ],
+      "fivestar": [
+        "Budapest: Hilton Budapest or similar",
+        "Vienna: Hilton Vienna Plaza or similar",
+        "Prague: Hilton Prague Old Town or similar"
+      ]
+    },
+    "pricing": {
+      "paxTiers": {
+        "10": {
+          "threestar": {
+            "double": 816,
+            "singleSupplement": 420
+          },
+          "fourstar": {
+            "double": 996,
+            "singleSupplement": 600
+          },
+          "fivestar": {
+            "double": 1251,
+            "singleSupplement": 855
+          }
+        },
+        "8": {
+          "threestar": {
+            "double": 859,
+            "singleSupplement": 420
+          },
+          "fourstar": {
+            "double": 1039,
+            "singleSupplement": 600
+          },
+          "fivestar": {
+            "double": 1294,
+            "singleSupplement": 855
+          }
+        },
+        "6": {
+          "threestar": {
+            "double": 930,
+            "singleSupplement": 420
+          },
+          "fourstar": {
+            "double": 1110,
+            "singleSupplement": 600
+          },
+          "fivestar": {
+            "double": 1365,
+            "singleSupplement": 855
+          }
+        },
+        "4": {
+          "threestar": {
+            "double": 1073,
+            "singleSupplement": 420
+          },
+          "fourstar": {
+            "double": 1253,
+            "singleSupplement": 600
+          },
+          "fivestar": {
+            "double": 1508,
+            "singleSupplement": 855
+          }
+        },
+        "2": {
+          "threestar": {
+            "double": 1502,
+            "singleSupplement": 420
+          },
+          "fourstar": {
+            "double": 1682,
+            "singleSupplement": 600
+          },
+          "fivestar": {
+            "double": 1937,
+            "singleSupplement": 855
+          }
+        }
+      },
+      "childRates": {
+        "age0to6": {
+          "threestar": 100,
+          "fourstar": 100,
+          "fivestar": 100
+        },
+        "age6to12": {
+          "threestar": 322,
+          "fourstar": 412,
+          "fivestar": 540
+        }
+      }
+    },
+    "destinations": "Budapest, Vienna, Prague",
+    "packageType": "WITH_HOTEL",
+    "tourType": "PRIVATE",
+    "transferType": "PRIVATE",
+    "region": "Europe",
+    "highlights": [
+      "Budapest – Buda Castle Side Half Day Tour",
+      "Budapest – Pest Side Half Day Tour",
+      "Vienna – Schonbrunn Palace Half Day Tour",
+      "Vienna – Imperial Vienna Half Day Tour",
+      "Prague – Castle District Half Day Tour"
+    ],
+    "packageId": "EUR-PVT-04",
+    "slug": "budapest-vienna-prague-package-private",
+    "image": "/images/packages/budapest-tour.jpg"
+  },
+  {
+    "title": "Budapest & Vienna Package",
+    "duration": "6 Nights / 7 Days",
+    "description": "Discover the beauty of Budapest, Vienna with this 6 Nights / 7 Days package. Arrive to Budapest Ferenc Liszt International Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Budapest....",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Fly / Budapest",
+        "description": "Arrive to Budapest Ferenc Liszt International Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Budapest.",
+        "meals": "-"
+      },
+      {
+        "day": 2,
+        "title": "Budapest – Buda Castle Side Half Day Tour",
+        "description": "After breakfast at the hotel, a guided half day tour of the historic Buda side will commence. Visit the magnificent Buda Castle, Fisherman's Bastion with stunning panoramic views, and the beautiful Matthias Church. Walk through the charming Castle District. After the tour, transfer back to hotel. Overnight in Budapest.",
+        "meals": "B"
+      },
+      {
+        "day": 3,
+        "title": "Budapest – Pest Side Half Day Tour",
+        "description": "After breakfast, your half day tour of the Pest side begins. Visit the Hungarian Parliament Building, St. Stephen's Basilica, Andrassy Avenue, and Heroes' Square. After the tour, transfer back to hotel. Overnight in Budapest.",
+        "meals": "B"
+      },
+      {
+        "day": 4,
+        "title": "Budapest / Vienna",
+        "description": "After breakfast, check out from the hotel. Private transfer from Budapest to Vienna (approximately 2.5-3 hours). Enjoy the scenic drive through the Hungarian and Austrian countryside. Arrive in Vienna and check-in to your hotel. The rest of the day is free to explore. Overnight in Vienna.",
+        "meals": "Private Transfer"
+      },
+      {
+        "day": 5,
+        "title": "Vienna – Schonbrunn Palace Half Day Tour",
+        "description": "After breakfast, a guided half day tour to the magnificent Schonbrunn Palace will commence. Explore the former summer residence of the Habsburg emperors. Tour the Imperial Apartments and stroll through the beautiful palace gardens. After the tour, transfer back to hotel. Overnight in Vienna.",
+        "meals": "B"
+      },
+      {
+        "day": 6,
+        "title": "Vienna – Imperial Vienna Half Day Tour",
+        "description": "After breakfast, your half day tour of Imperial Vienna begins. Visit the Hofburg Palace with Sisi Museum, continue to the Belvedere Palace, and drive along the famous Ringstrasse. After the tour, transfer back to hotel. Overnight in Vienna.",
+        "meals": "B"
+      },
+      {
+        "day": 7,
+        "title": "Vienna / Fly",
+        "description": "After breakfast, rest of the day is free at leisure till depart for departure airport transfer to your next destination.",
+        "meals": "B"
+      }
+    ],
+    "included": [
+      "6 nights accommodation in the mentioned hotels below",
+      "Meals are as per itinerary with code letters (B=Breakfast, L=Lunch, D=Dinner)",
+      "Airport transfers on Private basis",
+      "Private intercity transfer: Budapest-Vienna",
+      "Professional English-Speaking Guidance on tour days",
+      "Sightseeings as per itinerary on Private basis with entrance fees for mentioned places",
+      "Local Taxes"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Personal expenses",
+      "Drinks at meals",
+      "Tips and porterage at hotels",
+      "Tips to the driver and the guide"
+    ],
+    "information": [
+      "Intercity transfer is by private vehicle with English-speaking driver.",
+      "Budapest-Vienna transfer: approximately 2.5-3 hours (230 km).",
+      "Please be ready on lobby floor minimum 5 minutes prior to pick up time for the tours and transfers.",
+      "Please note that half day private tour timings are from 09.00 – 13.00 or 14.00 – 18.00."
+    ],
+    "hotels": {
+      "threestar": [
+        "Budapest: Ibis Styles Budapest Center or similar",
+        "Vienna: Austria Trend Anatol or similar"
+      ],
+      "fourstar": [
+        "Budapest: Mercure Budapest City Center or similar",
+        "Vienna: Mercure Wien Zentrum or similar"
+      ],
+      "fivestar": [
+        "Budapest: Hilton Budapest or similar",
+        "Vienna: Hilton Vienna Plaza or similar"
+      ]
+    },
+    "pricing": {
+      "paxTiers": {
+        "10": {
+          "threestar": {
+            "double": 561,
+            "singleSupplement": 285
+          },
+          "fourstar": {
+            "double": 681,
+            "singleSupplement": 405
+          },
+          "fivestar": {
+            "double": 861,
+            "singleSupplement": 585
+          }
+        },
+        "8": {
+          "threestar": {
+            "double": 589,
+            "singleSupplement": 285
+          },
+          "fourstar": {
+            "double": 709,
+            "singleSupplement": 405
+          },
+          "fivestar": {
+            "double": 889,
+            "singleSupplement": 585
+          }
+        },
+        "6": {
+          "threestar": {
+            "double": 635,
+            "singleSupplement": 285
+          },
+          "fourstar": {
+            "double": 755,
+            "singleSupplement": 405
+          },
+          "fivestar": {
+            "double": 935,
+            "singleSupplement": 585
+          }
+        },
+        "4": {
+          "threestar": {
+            "double": 727,
+            "singleSupplement": 285
+          },
+          "fourstar": {
+            "double": 847,
+            "singleSupplement": 405
+          },
+          "fivestar": {
+            "double": 1027,
+            "singleSupplement": 585
+          }
+        },
+        "2": {
+          "threestar": {
+            "double": 1003,
+            "singleSupplement": 285
+          },
+          "fourstar": {
+            "double": 1123,
+            "singleSupplement": 405
+          },
+          "fivestar": {
+            "double": 1303,
+            "singleSupplement": 585
+          }
+        }
+      },
+      "childRates": {
+        "age0to6": {
+          "threestar": 100,
+          "fourstar": 100,
+          "fivestar": 100
+        },
+        "age6to12": {
+          "threestar": 225,
+          "fourstar": 285,
+          "fivestar": 375
+        }
+      }
+    },
+    "destinations": "Budapest, Vienna",
+    "packageType": "WITH_HOTEL",
+    "tourType": "PRIVATE",
+    "transferType": "PRIVATE",
+    "region": "Europe",
+    "highlights": [
+      "Budapest – Buda Castle Side Half Day Tour",
+      "Budapest – Pest Side Half Day Tour",
+      "Vienna – Schonbrunn Palace Half Day Tour",
+      "Vienna – Imperial Vienna Half Day Tour"
+    ],
+    "packageId": "EUR-PVT-05",
+    "slug": "budapest-vienna-package-private",
+    "image": "/images/packages/budapest-tour.jpg"
+  },
+  {
+    "title": "Vienna & Prague Package",
+    "duration": "6 Nights / 7 Days",
+    "description": "Discover the beauty of Vienna, Prague with this 6 Nights / 7 Days package. Arrive to Vienna International Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Vienna....",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Fly / Vienna",
+        "description": "Arrive to Vienna International Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Vienna.",
+        "meals": "-"
+      },
+      {
+        "day": 2,
+        "title": "Vienna – Schonbrunn Palace Half Day Tour",
+        "description": "After breakfast, a guided half day tour to the magnificent Schonbrunn Palace will commence. Explore the former summer residence of the Habsburg emperors. Tour the Imperial Apartments and stroll through the beautiful palace gardens. After the tour, transfer back to hotel. Overnight in Vienna.",
+        "meals": "B"
+      },
+      {
+        "day": 3,
+        "title": "Vienna – Imperial Vienna Half Day Tour",
+        "description": "After breakfast, your half day tour of Imperial Vienna begins. Visit the Hofburg Palace with Sisi Museum, continue to the Belvedere Palace, and drive along the famous Ringstrasse. After the tour, transfer back to hotel. Overnight in Vienna.",
+        "meals": "B"
+      },
+      {
+        "day": 4,
+        "title": "Vienna / Prague",
+        "description": "After breakfast, check out from the hotel. Private transfer from Vienna to Prague (approximately 4 hours). Enjoy the scenic drive through the Czech countryside. Arrive in Prague and check-in to your hotel. The rest of the day is free to explore. Overnight in Prague.",
+        "meals": "Private Transfer"
+      },
+      {
+        "day": 5,
+        "title": "Prague – Castle District Half Day Tour",
+        "description": "After breakfast, a guided half day tour of Prague Castle and surroundings will commence. Visit the Prague Castle complex, St. Vitus Cathedral, and Golden Lane. Cross the famous Charles Bridge. End at the Old Town Square with the Astronomical Clock. After the tour, transfer back to hotel. Overnight in Prague.",
+        "meals": "B"
+      },
+      {
+        "day": 6,
+        "title": "Prague – Jewish Quarter Half Day Tour",
+        "description": "After breakfast, your half day tour explores Prague's rich Jewish heritage. Visit the Jewish Quarter, Old Jewish Cemetery, Old-New Synagogue, and Strahov Monastery. After the tour, transfer back to hotel. Overnight in Prague.",
+        "meals": "B"
+      },
+      {
+        "day": 7,
+        "title": "Prague / Fly",
+        "description": "After breakfast, rest of the day is free at leisure till depart for departure airport transfer to your next destination.",
+        "meals": "B"
+      }
+    ],
+    "included": [
+      "6 nights accommodation in the mentioned hotels below",
+      "Meals are as per itinerary with code letters (B=Breakfast, L=Lunch, D=Dinner)",
+      "Airport transfers on Private basis",
+      "Private intercity transfer: Vienna-Prague",
+      "Professional English-Speaking Guidance on tour days",
+      "Sightseeings as per itinerary on Private basis with entrance fees for mentioned places",
+      "Local Taxes"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Personal expenses",
+      "Drinks at meals",
+      "Tips and porterage at hotels",
+      "Tips to the driver and the guide"
+    ],
+    "information": [
+      "Intercity transfer is by private vehicle with English-speaking driver.",
+      "Vienna-Prague transfer: approximately 4 hours (330 km).",
+      "Please be ready on lobby floor minimum 5 minutes prior to pick up time for the tours and transfers.",
+      "Please note that half day private tour timings are from 09.00 – 13.00 or 14.00 – 18.00."
+    ],
+    "hotels": {
+      "threestar": [
+        "Vienna: Austria Trend Anatol or similar",
+        "Prague: Ibis Praha Old Town or similar"
+      ],
+      "fourstar": [
+        "Vienna: Mercure Wien Zentrum or similar",
+        "Prague: NH Collection Prague or similar"
+      ],
+      "fivestar": [
+        "Vienna: Hilton Vienna Plaza or similar",
+        "Prague: Hilton Prague Old Town or similar"
+      ]
+    },
+    "pricing": {
+      "paxTiers": {
+        "10": {
+          "threestar": {
+            "double": 556,
+            "singleSupplement": 300
+          },
+          "fourstar": {
+            "double": 676,
+            "singleSupplement": 420
+          },
+          "fivestar": {
+            "double": 856,
+            "singleSupplement": 600
+          }
+        },
+        "8": {
+          "threestar": {
+            "double": 583,
+            "singleSupplement": 300
+          },
+          "fourstar": {
+            "double": 703,
+            "singleSupplement": 420
+          },
+          "fivestar": {
+            "double": 883,
+            "singleSupplement": 600
+          }
+        },
+        "6": {
+          "threestar": {
+            "double": 630,
+            "singleSupplement": 300
+          },
+          "fourstar": {
+            "double": 750,
+            "singleSupplement": 420
+          },
+          "fivestar": {
+            "double": 930,
+            "singleSupplement": 600
+          }
+        },
+        "4": {
+          "threestar": {
+            "double": 722,
+            "singleSupplement": 300
+          },
+          "fourstar": {
+            "double": 842,
+            "singleSupplement": 420
+          },
+          "fivestar": {
+            "double": 1022,
+            "singleSupplement": 600
+          }
+        },
+        "2": {
+          "threestar": {
+            "double": 1000,
+            "singleSupplement": 300
+          },
+          "fourstar": {
+            "double": 1120,
+            "singleSupplement": 420
+          },
+          "fivestar": {
+            "double": 1300,
+            "singleSupplement": 600
+          }
+        }
+      },
+      "childRates": {
+        "age0to6": {
+          "threestar": 100,
+          "fourstar": 100,
+          "fivestar": 100
+        },
+        "age6to12": {
+          "threestar": 222,
+          "fourstar": 282,
+          "fivestar": 372
+        }
+      }
+    },
+    "destinations": "Vienna, Prague",
+    "packageType": "WITH_HOTEL",
+    "tourType": "PRIVATE",
+    "transferType": "PRIVATE",
+    "region": "Europe",
+    "highlights": [
+      "Vienna – Schonbrunn Palace Half Day Tour",
+      "Vienna – Imperial Vienna Half Day Tour",
+      "Prague – Castle District Half Day Tour",
+      "Prague – Jewish Quarter Half Day Tour"
+    ],
+    "packageId": "EUR-PVT-06",
+    "slug": "vienna-prague-package-private",
+    "image": "/images/packages/vienna-tour.jpg"
+  },
+  {
+    "title": "Budapest & Prague Package",
+    "duration": "6 Nights / 7 Days",
+    "description": "Discover the beauty of Budapest, Prague with this 6 Nights / 7 Days package. Arrive to Budapest Ferenc Liszt International Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Budapest....",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Fly / Budapest",
+        "description": "Arrive to Budapest Ferenc Liszt International Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the city at your leisure. Overnight in Budapest.",
+        "meals": "-"
+      },
+      {
+        "day": 2,
+        "title": "Budapest – Buda Castle Side Half Day Tour",
+        "description": "After breakfast at the hotel, a guided half day tour of the historic Buda side will commence. Visit the magnificent Buda Castle, Fisherman's Bastion with stunning panoramic views, and the beautiful Matthias Church. Walk through the charming Castle District. After the tour, transfer back to hotel. Overnight in Budapest.",
+        "meals": "B"
+      },
+      {
+        "day": 3,
+        "title": "Budapest – Pest Side Half Day Tour",
+        "description": "After breakfast, your half day tour of the Pest side begins. Visit the Hungarian Parliament Building, St. Stephen's Basilica, Andrassy Avenue, and Heroes' Square. After the tour, transfer back to hotel. Overnight in Budapest.",
+        "meals": "B"
+      },
+      {
+        "day": 4,
+        "title": "Budapest / Prague",
+        "description": "After breakfast, check out from the hotel. Private transfer from Budapest to Prague (approximately 6-7 hours). Enjoy the scenic drive through Slovakia and into the Czech Republic. Arrive in Prague and check-in to your hotel. The rest of the day is free to explore. Overnight in Prague.",
+        "meals": "Private Transfer"
+      },
+      {
+        "day": 5,
+        "title": "Prague – Castle District Half Day Tour",
+        "description": "After breakfast, a guided half day tour of Prague Castle and surroundings will commence. Visit the Prague Castle complex, St. Vitus Cathedral, and Golden Lane. Cross the famous Charles Bridge. End at the Old Town Square with the Astronomical Clock. After the tour, transfer back to hotel. Overnight in Prague.",
+        "meals": "B"
+      },
+      {
+        "day": 6,
+        "title": "Prague – Jewish Quarter Half Day Tour",
+        "description": "After breakfast, your half day tour explores Prague's rich Jewish heritage. Visit the Jewish Quarter, Old Jewish Cemetery, Old-New Synagogue, and Strahov Monastery. After the tour, transfer back to hotel. Overnight in Prague.",
+        "meals": "B"
+      },
+      {
+        "day": 7,
+        "title": "Prague / Fly",
+        "description": "After breakfast, rest of the day is free at leisure till depart for departure airport transfer to your next destination.",
+        "meals": "B"
+      }
+    ],
+    "included": [
+      "6 nights accommodation in the mentioned hotels below",
+      "Meals are as per itinerary with code letters (B=Breakfast, L=Lunch, D=Dinner)",
+      "Airport transfers on Private basis",
+      "Private intercity transfer: Budapest-Prague",
+      "Professional English-Speaking Guidance on tour days",
+      "Sightseeings as per itinerary on Private basis with entrance fees for mentioned places",
+      "Local Taxes"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Personal expenses",
+      "Drinks at meals",
+      "Tips and porterage at hotels",
+      "Tips to the driver and the guide"
+    ],
+    "information": [
+      "Intercity transfer is by private vehicle with English-speaking driver.",
+      "Budapest-Prague transfer: approximately 6-7 hours (530 km).",
+      "Alternative: Flight option available upon request (approximately 1 hour flight time).",
+      "Please be ready on lobby floor minimum 5 minutes prior to pick up time for the tours and transfers.",
+      "Please note that half day private tour timings are from 09.00 – 13.00 or 14.00 – 18.00."
+    ],
+    "hotels": {
+      "threestar": [
+        "Budapest: Ibis Styles Budapest Center or similar",
+        "Prague: Ibis Praha Old Town or similar"
+      ],
+      "fourstar": [
+        "Budapest: Mercure Budapest City Center or similar",
+        "Prague: NH Collection Prague or similar"
+      ],
+      "fivestar": [
+        "Budapest: Hilton Budapest or similar",
+        "Prague: Hilton Prague Old Town or similar"
+      ]
+    },
+    "pricing": {
+      "paxTiers": {
+        "10": {
+          "threestar": {
+            "double": 525,
+            "singleSupplement": 255
+          },
+          "fourstar": {
+            "double": 645,
+            "singleSupplement": 375
+          },
+          "fivestar": {
+            "double": 795,
+            "singleSupplement": 525
+          }
+        },
+        "8": {
+          "threestar": {
+            "double": 558,
+            "singleSupplement": 255
+          },
+          "fourstar": {
+            "double": 678,
+            "singleSupplement": 375
+          },
+          "fivestar": {
+            "double": 828,
+            "singleSupplement": 525
+          }
+        },
+        "6": {
+          "threestar": {
+            "double": 613,
+            "singleSupplement": 255
+          },
+          "fourstar": {
+            "double": 733,
+            "singleSupplement": 375
+          },
+          "fivestar": {
+            "double": 883,
+            "singleSupplement": 525
+          }
+        },
+        "4": {
+          "threestar": {
+            "double": 722,
+            "singleSupplement": 255
+          },
+          "fourstar": {
+            "double": 842,
+            "singleSupplement": 375
+          },
+          "fivestar": {
+            "double": 992,
+            "singleSupplement": 525
+          }
+        },
+        "2": {
+          "threestar": {
+            "double": 1051,
+            "singleSupplement": 255
+          },
+          "fourstar": {
+            "double": 1171,
+            "singleSupplement": 375
+          },
+          "fivestar": {
+            "double": 1321,
+            "singleSupplement": 525
+          }
+        }
+      },
+      "childRates": {
+        "age0to6": {
+          "threestar": 100,
+          "fourstar": 100,
+          "fivestar": 100
+        },
+        "age6to12": {
+          "threestar": 197,
+          "fourstar": 257,
+          "fivestar": 332
+        }
+      }
+    },
+    "destinations": "Budapest, Prague",
+    "packageType": "WITH_HOTEL",
+    "tourType": "PRIVATE",
+    "transferType": "PRIVATE",
+    "region": "Europe",
+    "highlights": [
+      "Budapest – Buda Castle Side Half Day Tour",
+      "Budapest – Pest Side Half Day Tour",
+      "Prague – Castle District Half Day Tour",
+      "Prague – Jewish Quarter Half Day Tour"
+    ],
+    "packageId": "EUR-PVT-07",
+    "slug": "budapest-prague-package-private",
+    "image": "/images/packages/budapest-tour.jpg"
+  },
+  {
+    "title": "Zagreb & Split & Dubrovnik Package",
+    "duration": "6 Nights / 7 Days",
+    "description": "Discover the beauty of Zagreb, Split, Dubrovnik with this 6 Nights / 7 Days package. Arrive to Zagreb Franjo Tudjman Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the Croatian capital at your leisure. Overnight in Zagreb....",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Fly / Zagreb",
+        "description": "Arrive to Zagreb Franjo Tudjman Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the Croatian capital at your leisure. Overnight in Zagreb.",
+        "meals": "-"
+      },
+      {
+        "day": 2,
+        "title": "Zagreb – Half Day City Tour",
+        "description": "After breakfast at the hotel, a guided half day tour of Zagreb will commence. Explore the historic Upper Town (Gornji Grad) with its medieval streets and iconic St. Mark's Church with its colorful tiled roof. Visit the magnificent Zagreb Cathedral, the tallest building in Croatia. Take the historic funicular, one of the shortest in the world, connecting the Upper and Lower Town. Walk through Ban Jelačić Square, the main city square, and stroll along the charming Tkalčićeva Street. After the tour, transfer back to hotel. Overnight in Zagreb.",
+        "meals": "B"
+      },
+      {
+        "day": 3,
+        "title": "Zagreb / Split",
+        "description": "After breakfast, check out from the hotel. Private transfer from Zagreb to Split (approximately 4 hours). Enjoy the scenic drive along the A1 motorway through the Croatian countryside. Arrive in Split and check-in to your hotel. The rest of the day is free to explore. Overnight in Split.",
+        "meals": "Private Transfer"
+      },
+      {
+        "day": 4,
+        "title": "Split – Old Town Half Day Tour",
+        "description": "After breakfast, your half day tour of Split begins. Explore the UNESCO-listed Diocletian's Palace, built by the Roman Emperor Diocletian in the 4th century. Walk through the ancient Peristyle square, visit the Cathedral of Saint Domnius with its impressive bell tower, and explore the underground cellars of the palace. Stroll along the beautiful Riva promenade with stunning views of the Adriatic Sea. Discover the narrow streets and hidden courtyards of the Old Town. After the tour, transfer back to hotel. Overnight in Split.",
+        "meals": "B"
+      },
+      {
+        "day": 5,
+        "title": "Split / Dubrovnik",
+        "description": "After breakfast, check out from the hotel. Private transfer from Split to Dubrovnik (approximately 3 hours). Cross the magnificent Pelješac Bridge and enjoy stunning coastal views along the way. Arrive in Dubrovnik and check-in to your hotel. The rest of the day is free to explore. Overnight in Dubrovnik.",
+        "meals": "Private Transfer"
+      },
+      {
+        "day": 6,
+        "title": "Dubrovnik – Old Town Half Day Tour",
+        "description": "After breakfast, your half day tour of Dubrovnik begins. Walk the famous City Walls, offering breathtaking views over the terracotta rooftops and the sparkling Adriatic Sea. Explore the historic Old Town, a UNESCO World Heritage Site, and visit the Rector's Palace, Sponza Palace, and the beautiful Franciscan Monastery with Europe's third oldest pharmacy. Walk down the marble-paved Stradun, the main street of the Old Town, and discover the charming side streets and squares. After the tour, transfer back to hotel. Overnight in Dubrovnik.",
+        "meals": "B"
+      },
+      {
+        "day": 7,
+        "title": "Dubrovnik / Fly",
+        "description": "After breakfast, rest of the day is free at leisure till depart for departure airport transfer to your next destination.",
+        "meals": "B"
+      }
+    ],
+    "included": [
+      "6 nights accommodation in the mentioned hotels below",
+      "Meals are as per itinerary with code letters (B=Breakfast, L=Lunch, D=Dinner)",
+      "Airport transfers on Private basis",
+      "Private intercity transfers: Zagreb-Split and Split-Dubrovnik",
+      "Professional English-Speaking Guidance on tour days",
+      "Sightseeings as per itinerary on Private basis with entrance fees for mentioned places",
+      "Local Taxes"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Personal expenses",
+      "Drinks at meals",
+      "Tips and porterage at hotels",
+      "Tips to the driver and the guide"
+    ],
+    "information": [
+      "Intercity transfers are by private vehicle with English-speaking driver.",
+      "Zagreb-Split transfer: approximately 4 hours (400 km).",
+      "Split-Dubrovnik transfer: approximately 3 hours (230 km) via Pelješac Bridge.",
+      "Dubrovnik City Walls ticket is included. Comfortable walking shoes are recommended.",
+      "Please be ready on lobby floor minimum 5 minutes prior to pick up time for the tours and transfers.",
+      "Please note that half day private tour timings are from 09.00 – 13.00 or 14.00 – 18.00."
+    ],
+    "hotels": {
+      "threestar": [
+        "Zagreb: Hotel Jadran or similar",
+        "Split: Hotel Marmont or similar",
+        "Dubrovnik: Hotel Lero or similar"
+      ],
+      "fourstar": [
+        "Zagreb: DoubleTree by Hilton Zagreb or similar",
+        "Split: Hotel Luxe or similar",
+        "Dubrovnik: Hotel Lapad or similar"
+      ],
+      "fivestar": [
+        "Zagreb: Esplanade Zagreb Hotel or similar",
+        "Split: Hotel Park Split or similar",
+        "Dubrovnik: Hotel Excelsior or similar"
+      ]
+    },
+    "pricing": {
+      "paxTiers": {
+        "10": {
+          "threestar": {
+            "double": 520,
+            "singleSupplement": 270
+          },
+          "fourstar": {
+            "double": 670,
+            "singleSupplement": 420
+          },
+          "fivestar": {
+            "double": 880,
+            "singleSupplement": 630
+          }
+        },
+        "8": {
+          "threestar": {
+            "double": 554,
+            "singleSupplement": 270
+          },
+          "fourstar": {
+            "double": 704,
+            "singleSupplement": 420
+          },
+          "fivestar": {
+            "double": 914,
+            "singleSupplement": 630
+          }
+        },
+        "6": {
+          "threestar": {
+            "double": 610,
+            "singleSupplement": 270
+          },
+          "fourstar": {
+            "double": 760,
+            "singleSupplement": 420
+          },
+          "fivestar": {
+            "double": 970,
+            "singleSupplement": 630
+          }
+        },
+        "4": {
+          "threestar": {
+            "double": 723,
+            "singleSupplement": 270
+          },
+          "fourstar": {
+            "double": 873,
+            "singleSupplement": 420
+          },
+          "fivestar": {
+            "double": 1083,
+            "singleSupplement": 630
+          }
+        },
+        "2": {
+          "threestar": {
+            "double": 1062,
+            "singleSupplement": 270
+          },
+          "fourstar": {
+            "double": 1212,
+            "singleSupplement": 420
+          },
+          "fivestar": {
+            "double": 1422,
+            "singleSupplement": 630
+          }
+        }
+      },
+      "childRates": {
+        "age0to6": {
+          "threestar": 100,
+          "fourstar": 100,
+          "fivestar": 100
+        },
+        "age6to12": {
+          "threestar": 192,
+          "fourstar": 267,
+          "fivestar": 372
+        }
+      }
+    },
+    "destinations": "Zagreb, Split, Dubrovnik",
+    "packageType": "WITH_HOTEL",
+    "tourType": "PRIVATE",
+    "transferType": "PRIVATE",
+    "region": "Europe",
+    "highlights": [
+      "Zagreb – Half Day City Tour",
+      "Split – Old Town Half Day Tour",
+      "Dubrovnik – Old Town Half Day Tour"
+    ],
+    "packageId": "EUR-PVT-08",
+    "slug": "zagreb-split-dubrovnik-package-private",
+    "image": "/images/packages/zagreb-tour.jpg"
+  },
+  {
+    "title": "Dubrovnik Package",
+    "duration": "3 Nights / 4 Days",
+    "description": "Discover the beauty of Dubrovnik, Hvar with this 3 Nights / 4 Days package. Arrive to Dubrovnik Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the 'Pearl of the Adriatic' at your leisure. Overnight in Dubrovnik....",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Fly / Dubrovnik",
+        "description": "Arrive to Dubrovnik Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the 'Pearl of the Adriatic' at your leisure. Overnight in Dubrovnik.",
+        "meals": "-"
+      },
+      {
+        "day": 2,
+        "title": "Dubrovnik – Full Day Hvar Island Tour",
+        "description": "After breakfast, embark on an unforgettable full day private boat tour to Hvar Island. Cruise along the stunning Dalmatian coast, passing beautiful islands and hidden coves. Arrive at Hvar Town, known for its vibrant atmosphere and rich history. Explore the charming old town with its Renaissance architecture, visit the impressive Hvar Fortress for panoramic views, and stroll through the main square, one of the largest in Dalmatia. Enjoy free time for swimming in crystal-clear waters and lunch at a local restaurant (not included). Return to Dubrovnik in the late afternoon. Overnight in Dubrovnik.",
+        "meals": "B"
+      },
+      {
+        "day": 3,
+        "title": "Dubrovnik – Old Town Half Day Tour",
+        "description": "After breakfast, your half day tour of Dubrovnik begins. Walk the famous City Walls, a 2km walk offering breathtaking views over the terracotta rooftops and the sparkling Adriatic Sea. Explore the historic Old Town, a UNESCO World Heritage Site, and visit the Rector's Palace, Sponza Palace, and the beautiful Franciscan Monastery with Europe's third oldest pharmacy. Walk down the marble-paved Stradun, the main street of the Old Town, and discover the charming side streets and squares. Visit the Dubrovnik Cathedral and see the Treasury with its relics. After the tour, transfer back to hotel. Overnight in Dubrovnik.",
+        "meals": "B"
+      },
+      {
+        "day": 4,
+        "title": "Dubrovnik / Fly",
+        "description": "After breakfast, rest of the day is free at leisure till depart for departure airport transfer to your next destination.",
+        "meals": "B"
+      }
+    ],
+    "included": [
+      "3 nights accommodation in the mentioned hotels below",
+      "Meals are as per itinerary with code letters (B=Breakfast, L=Lunch, D=Dinner)",
+      "Return airport transfers on Private basis",
+      "Full day boat tour to Hvar Island",
+      "Half day Old Town walking tour with professional English-Speaking Guide",
+      "Entrance fees for Hvar Fortress and Dubrovnik City Walls",
+      "Local Taxes"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Personal expenses",
+      "Drinks at meals",
+      "Tips and porterage at hotels",
+      "Tips to the driver and the guide"
+    ],
+    "information": [
+      "Hvar Island full day tour is by private speedboat (weather permitting).",
+      "The boat tour duration is approximately 8-10 hours including travel time.",
+      "Lunch on Hvar Island is not included but can be arranged at local restaurants.",
+      "Dubrovnik City Walls walking requires moderate fitness. Comfortable shoes recommended.",
+      "Please be ready on lobby floor minimum 5 minutes prior to pick up time for the tours and transfers.",
+      "Please note that half day private tour timings are from 09.00 – 13.00 or 14.00 – 18.00."
+    ],
+    "hotels": {
+      "threestar": [
+        "Dubrovnik: Hotel Lero or similar"
+      ],
+      "fourstar": [
+        "Dubrovnik: Hotel Lapad or similar"
+      ],
+      "fivestar": [
+        "Dubrovnik: Hotel Excelsior or similar"
+      ]
+    },
+    "pricing": {
+      "paxTiers": {
+        "10": {
+          "threestar": {
+            "double": 358,
+            "singleSupplement": 165
+          },
+          "fourstar": {
+            "double": 448,
+            "singleSupplement": 255
+          },
+          "fivestar": {
+            "double": 583,
+            "singleSupplement": 390
+          }
+        },
+        "8": {
+          "threestar": {
+            "double": 387,
+            "singleSupplement": 165
+          },
+          "fourstar": {
+            "double": 477,
+            "singleSupplement": 255
+          },
+          "fivestar": {
+            "double": 612,
+            "singleSupplement": 390
+          }
+        },
+        "6": {
+          "threestar": {
+            "double": 436,
+            "singleSupplement": 165
+          },
+          "fourstar": {
+            "double": 526,
+            "singleSupplement": 255
+          },
+          "fivestar": {
+            "double": 661,
+            "singleSupplement": 390
+          }
+        },
+        "4": {
+          "threestar": {
+            "double": 535,
+            "singleSupplement": 165
+          },
+          "fourstar": {
+            "double": 625,
+            "singleSupplement": 255
+          },
+          "fivestar": {
+            "double": 760,
+            "singleSupplement": 390
+          }
+        },
+        "2": {
+          "threestar": {
+            "double": 830,
+            "singleSupplement": 165
+          },
+          "fourstar": {
+            "double": 920,
+            "singleSupplement": 255
+          },
+          "fivestar": {
+            "double": 1055,
+            "singleSupplement": 390
+          }
+        }
+      },
+      "childRates": {
+        "age0to6": {
+          "threestar": 100,
+          "fourstar": 100,
+          "fivestar": 100
+        },
+        "age6to12": {
+          "threestar": 120,
+          "fourstar": 165,
+          "fivestar": 232
+        }
+      }
+    },
+    "destinations": "Dubrovnik, Hvar",
+    "packageType": "WITH_HOTEL",
+    "tourType": "PRIVATE",
+    "transferType": "PRIVATE",
+    "region": "Europe",
+    "highlights": [
+      "Dubrovnik – Full Day Hvar Island Tour",
+      "Dubrovnik – Old Town Half Day Tour"
+    ],
+    "packageId": "EUR-PVT-09",
+    "slug": "dubrovnik-package-private",
+    "image": "/images/packages/dubrovnik-tour.jpg"
+  },
+  {
+    "title": "Split Package",
+    "duration": "3 Nights / 4 Days",
+    "description": "Discover the beauty of Split, Hvar with this 3 Nights / 4 Days package. Arrive to Split Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore Croatia's second largest city at your leisure. Overnight in Split....",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Fly / Split",
+        "description": "Arrive to Split Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore Croatia's second largest city at your leisure. Overnight in Split.",
+        "meals": "-"
+      },
+      {
+        "day": 2,
+        "title": "Split – Full Day Hvar Island Tour",
+        "description": "After breakfast, embark on an unforgettable full day private boat tour to Hvar Island. The journey from Split takes approximately 1 hour by speedboat. Arrive at Hvar Town, known as the sunniest place in Croatia with over 2,700 hours of sunshine per year. Explore the charming old town with its Renaissance architecture, visit the impressive Hvar Fortress (Fortica) for panoramic views over the town, harbor, and Pakleni Islands. Stroll through St. Stephen's Square, one of the largest piazzas in Dalmatia. Enjoy free time for swimming in crystal-clear waters and lunch at a local restaurant (not included). Return to Split in the late afternoon. Overnight in Split.",
+        "meals": "B"
+      },
+      {
+        "day": 3,
+        "title": "Split – Old Town Half Day Tour",
+        "description": "After breakfast, your half day tour of Split begins. Explore the UNESCO-listed Diocletian's Palace, built by the Roman Emperor Diocletian in the 4th century as his retirement residence. Walk through the ancient Peristyle square, the ceremonial court of the palace, and visit the Cathedral of Saint Domnius with its impressive bell tower offering panoramic city views. Explore the underground cellars of the palace, remarkably preserved after 1,700 years. Discover the Temple of Jupiter, now a baptistery. Stroll along the beautiful Riva promenade with stunning views of the Adriatic Sea. After the tour, transfer back to hotel. Overnight in Split.",
+        "meals": "B"
+      },
+      {
+        "day": 4,
+        "title": "Split / Fly",
+        "description": "After breakfast, rest of the day is free at leisure till depart for departure airport transfer to your next destination.",
+        "meals": "B"
+      }
+    ],
+    "included": [
+      "3 nights accommodation in the mentioned hotels below",
+      "Meals are as per itinerary with code letters (B=Breakfast, L=Lunch, D=Dinner)",
+      "Return airport transfers on Private basis",
+      "Full day boat tour to Hvar Island",
+      "Half day Old Town walking tour with professional English-Speaking Guide",
+      "Entrance fees for Hvar Fortress and Diocletian Palace sites",
+      "Local Taxes"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Personal expenses",
+      "Drinks at meals",
+      "Tips and porterage at hotels",
+      "Tips to the driver and the guide"
+    ],
+    "information": [
+      "Hvar Island full day tour is by private speedboat (weather permitting).",
+      "The boat journey to Hvar takes approximately 1 hour from Split.",
+      "Lunch on Hvar Island is not included but can be arranged at local restaurants.",
+      "Split Old Town tour involves walking on ancient stone streets. Comfortable shoes recommended.",
+      "Please be ready on lobby floor minimum 5 minutes prior to pick up time for the tours and transfers.",
+      "Please note that half day private tour timings are from 09.00 – 13.00 or 14.00 – 18.00."
+    ],
+    "hotels": {
+      "threestar": [
+        "Split: Hotel Marmont or similar"
+      ],
+      "fourstar": [
+        "Split: Hotel Luxe or similar"
+      ],
+      "fivestar": [
+        "Split: Hotel Park Split or similar"
+      ]
+    },
+    "pricing": {
+      "paxTiers": {
+        "10": {
+          "threestar": {
+            "double": 256,
+            "singleSupplement": 135
+          },
+          "fourstar": {
+            "double": 331,
+            "singleSupplement": 210
+          },
+          "fivestar": {
+            "double": 421,
+            "singleSupplement": 300
+          }
+        },
+        "8": {
+          "threestar": {
+            "double": 275,
+            "singleSupplement": 135
+          },
+          "fourstar": {
+            "double": 350,
+            "singleSupplement": 210
+          },
+          "fivestar": {
+            "double": 440,
+            "singleSupplement": 300
+          }
+        },
+        "6": {
+          "threestar": {
+            "double": 306,
+            "singleSupplement": 135
+          },
+          "fourstar": {
+            "double": 381,
+            "singleSupplement": 210
+          },
+          "fivestar": {
+            "double": 471,
+            "singleSupplement": 300
+          }
+        },
+        "4": {
+          "threestar": {
+            "double": 370,
+            "singleSupplement": 135
+          },
+          "fourstar": {
+            "double": 445,
+            "singleSupplement": 210
+          },
+          "fivestar": {
+            "double": 535,
+            "singleSupplement": 300
+          }
+        },
+        "2": {
+          "threestar": {
+            "double": 560,
+            "singleSupplement": 135
+          },
+          "fourstar": {
+            "double": 635,
+            "singleSupplement": 210
+          },
+          "fivestar": {
+            "double": 725,
+            "singleSupplement": 300
+          }
+        }
+      },
+      "childRates": {
+        "age0to6": {
+          "threestar": 100,
+          "fourstar": 100,
+          "fivestar": 100
+        },
+        "age6to12": {
+          "threestar": 90,
+          "fourstar": 127,
+          "fivestar": 172
+        }
+      }
+    },
+    "destinations": "Split, Hvar",
+    "packageType": "WITH_HOTEL",
+    "tourType": "PRIVATE",
+    "transferType": "PRIVATE",
+    "region": "Europe",
+    "highlights": [
+      "Split – Full Day Hvar Island Tour",
+      "Split – Old Town Half Day Tour"
+    ],
+    "packageId": "EUR-PVT-10",
+    "slug": "split-package-private",
+    "image": "/images/packages/split-tour.jpg"
+  },
+  {
+    "title": "Finland Northern Lights & Lapland Package",
+    "duration": "7 Nights / 8 Days",
+    "description": "Discover the beauty of Helsinki, Rovaniemi with this 7 Nights / 8 Days package. Arrive to Helsinki-Vantaa Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the Finnish capital at your leisure. Helsinki, known as the 'Daughter of the Balt...",
+    "itinerary": [
+      {
+        "day": 1,
+        "title": "Fly / Helsinki",
+        "description": "Arrive to Helsinki-Vantaa Airport. Arrival transfer to the hotel and check-in. The rest of the day is yours to explore the Finnish capital at your leisure. Helsinki, known as the 'Daughter of the Baltic,' offers a unique blend of Nordic design, rich history, and stunning waterfront views. Overnight in Helsinki.",
+        "meals": "-"
+      },
+      {
+        "day": 2,
+        "title": "Helsinki – City Half Day Tour",
+        "description": "After breakfast at the hotel, a guided half day tour of Helsinki will commence. Visit the iconic Senate Square, dominated by the majestic white Lutheran Cathedral. Explore the impressive Uspenski Cathedral, the largest Orthodox church in Western Europe with its golden domes. Visit the unique Temppeliaukio Church (Rock Church), carved directly into solid rock with stunning acoustics. Continue to the famous Sibelius Monument, a wave-like sculpture dedicated to Finland's greatest composer. End at the vibrant Market Square (Kauppatori) by the harbor. The afternoon is free at leisure. Overnight in Helsinki.",
+        "meals": "B"
+      },
+      {
+        "day": 3,
+        "title": "Helsinki / Ivalo – Glass Igloo Resort",
+        "description": "After breakfast, transfer to Helsinki Airport for your flight to Ivalo Airport in Finnish Lapland (approximately 1 hour 30 minutes). Upon arrival, transfer to the Glass Igloo Resort. Check-in to your unique glass igloo accommodation, designed to provide unobstructed views of the Arctic sky and the magical Northern Lights from the comfort of your heated bed. The rest of the day is free to explore the resort and surrounding snowy wilderness. In the evening, enjoy dinner at the resort and stay awake for the chance to witness the spectacular Aurora Borealis dancing across the night sky. Overnight in Glass Igloo.",
+        "meals": "B,D"
+      },
+      {
+        "day": 4,
+        "title": "Glass Igloo Resort – Arctic Experience",
+        "description": "After breakfast, enjoy a full day at the Glass Igloo Resort. Take advantage of the various activities available: snowshoeing through the pristine forest, a traditional Finnish smoke sauna experience, or simply relaxing in this winter wonderland. The resort's remote location, far from light pollution, offers optimal conditions for Northern Lights viewing. Enjoy dinner at the resort. Spend another magical night in your glass igloo, falling asleep under the stars and hoping for the Aurora to make an appearance. Overnight in Glass Igloo.",
+        "meals": "B,D"
+      },
+      {
+        "day": 5,
+        "title": "Glass Igloo / Rovaniemi",
+        "description": "After breakfast, check out from the Glass Igloo Resort. Private transfer from the igloo resort to Rovaniemi, the official hometown of Santa Claus (approximately 3 hours). Enjoy the scenic drive through the stunning Lapland landscape with snow-covered forests and frozen lakes. Arrive in Rovaniemi and check-in to your hotel. The rest of the day is free to explore the city at your leisure. Rovaniemi is located exactly on the Arctic Circle and offers a unique blend of Lapland wilderness and urban culture. Overnight in Rovaniemi.",
+        "meals": "B"
+      },
+      {
+        "day": 6,
+        "title": "Rovaniemi – Santa Claus Village & Husky Safari",
+        "description": "After breakfast, embark on an exciting day of Lapland adventures. Visit the famous Santa Claus Village, located right on the Arctic Circle. Meet Santa Claus himself, cross the magical Arctic Circle line, and send postcards with the special Arctic Circle postmark from Santa's Main Post Office. In the afternoon, experience the thrill of a husky safari. Meet the friendly sled dogs and learn about the traditional Finnish way of mushing. Then, bundle up and take an exhilarating 5km ride through the snowy forest, driving your own dog sled team. After the safari, enjoy hot drinks and snacks while learning about the lives of these amazing Arctic dogs. Return to Rovaniemi. Overnight in Rovaniemi.",
+        "meals": "B"
+      },
+      {
+        "day": 7,
+        "title": "Rovaniemi – Reindeer Farm & Northern Lights Tour",
+        "description": "After breakfast, visit an authentic reindeer farm to learn about the traditional Sami culture and reindeer herding. Meet the gentle reindeer, learn about their importance in Lapland culture, and enjoy a peaceful reindeer sleigh ride through the snowy landscape. Warm up with hot drinks by a campfire as your hosts share stories of Arctic life. Return to the hotel for a rest. In the evening, join a Northern Lights hunting tour. With a professional guide, travel to the best viewing spots away from city lights. While waiting for the Aurora to appear, enjoy hot drinks and snacks around a campfire. Your guide will share knowledge about this natural phenomenon and help you capture photos if the lights appear. Return to Rovaniemi. Overnight in Rovaniemi.",
+        "meals": "B"
+      },
+      {
+        "day": 8,
+        "title": "Rovaniemi / Fly",
+        "description": "After breakfast, rest of the day is free at leisure till depart for departure airport transfer. Fly from Rovaniemi to your next destination (or connect via Helsinki).",
+        "meals": "B"
+      }
+    ],
+    "included": [
+      "7 nights accommodation as follows:",
+      "- 2 nights in Helsinki in the mentioned hotels below",
+      "- 2 nights in Glass Igloo with breakfast and dinner included",
+      "- 3 nights in Rovaniemi in the mentioned hotels below",
+      "Meals are as per itinerary with code letters (B=Breakfast, L=Lunch, D=Dinner)",
+      "Return airport transfers in Helsinki and Rovaniemi on Private basis",
+      "Domestic flight: Helsinki to Ivalo (economy class)",
+      "Private transfer: Ivalo Airport to Glass Igloo Resort",
+      "Private transfer: Glass Igloo Resort to Rovaniemi",
+      "Half day Helsinki city tour with professional English-Speaking Guide",
+      "Santa Claus Village visit with guide",
+      "Husky Safari (5km self-drive) including hot drinks and snacks",
+      "Reindeer Farm visit with sleigh ride",
+      "Northern Lights hunting tour with guide, hot drinks and snacks",
+      "Entrance fees for Temppeliaukio Church",
+      "Local Taxes"
+    ],
+    "notIncluded": [
+      "International flights",
+      "Personal expenses",
+      "Drinks at meals (except where specified)",
+      "Lunches (except where specified)",
+      "Tips and porterage at hotels",
+      "Tips to the drivers and guides",
+      "Santa Claus photo package (optional, approx. €55)",
+      "Travel insurance (mandatory, not included)",
+      "Thermal clothing rental (available at activities if needed)"
+    ],
+    "information": [
+      "This package is designed for the Northern Lights season (December to March).",
+      "Northern Lights sightings are a natural phenomenon and cannot be guaranteed.",
+      "Glass Igloo accommodations include special heated glass panels that prevent frosting.",
+      "Winter temperatures in Lapland can drop to -30°C. Warm clothing is essential.",
+      "Thermal suits and boots are provided for all outdoor activities.",
+      "Husky safari requires minimum age of 4 years. Children ride in the sled with an adult.",
+      "Domestic flight Helsinki-Ivalo is approximately 1 hour 30 minutes.",
+      "Finland uses the Euro (EUR) as currency.",
+      "Please be ready on lobby floor minimum 5 minutes prior to pick up time for transfers."
+    ],
+    "hotels": {
+      "threestar": [
+        "Helsinki (2 nts): Scandic Paasi or similar",
+        "Glass Igloo (2 nts): Kakslauttanen Arctic Resort - Glass Igloo",
+        "Rovaniemi (3 nts): Scandic Rovaniemi City or similar"
+      ],
+      "fourstar": [
+        "Helsinki (2 nts): Clarion Hotel Helsinki or similar",
+        "Glass Igloo (2 nts): Kakslauttanen Arctic Resort - Glass Igloo",
+        "Rovaniemi (3 nts): Arctic City Hotel or similar"
+      ],
+      "fivestar": [
+        "Helsinki (2 nts): Hotel Kämp or similar",
+        "Glass Igloo (2 nts): Kakslauttanen Arctic Resort - Glass Igloo",
+        "Rovaniemi (3 nts): Arctic TreeHouse Hotel or similar"
+      ]
+    },
+    "pricing": {
+      "paxTiers": {
+        "10": {
+          "threestar": {
+            "double": 1873,
+            "singleSupplement": 1265
+          },
+          "fourstar": {
+            "double": 2108,
+            "singleSupplement": 1500
+          },
+          "fivestar": {
+            "double": 2698,
+            "singleSupplement": 2090
+          }
+        },
+        "8": {
+          "threestar": {
+            "double": 1898,
+            "singleSupplement": 1265
+          },
+          "fourstar": {
+            "double": 2133,
+            "singleSupplement": 1500
+          },
+          "fivestar": {
+            "double": 2723,
+            "singleSupplement": 2090
+          }
+        },
+        "6": {
+          "threestar": {
+            "double": 1941,
+            "singleSupplement": 1265
+          },
+          "fourstar": {
+            "double": 2176,
+            "singleSupplement": 1500
+          },
+          "fivestar": {
+            "double": 2766,
+            "singleSupplement": 2090
+          }
+        },
+        "4": {
+          "threestar": {
+            "double": 2027,
+            "singleSupplement": 1265
+          },
+          "fourstar": {
+            "double": 2262,
+            "singleSupplement": 1500
+          },
+          "fivestar": {
+            "double": 2852,
+            "singleSupplement": 2090
+          }
+        },
+        "2": {
+          "threestar": {
+            "double": 2285,
+            "singleSupplement": 1265
+          },
+          "fourstar": {
+            "double": 2520,
+            "singleSupplement": 1500
+          },
+          "fivestar": {
+            "double": 3110,
+            "singleSupplement": 2090
+          }
+        }
+      },
+      "childRates": {
+        "age0to6": {
+          "threestar": 300,
+          "fourstar": 300,
+          "fivestar": 300
+        },
+        "age6to12": {
+          "threestar": 1054,
+          "fourstar": 1172,
+          "fivestar": 1467
+        }
+      }
+    },
+    "destinations": "Helsinki, Rovaniemi",
+    "packageType": "WITH_HOTEL",
+    "tourType": "PRIVATE",
+    "transferType": "PRIVATE",
+    "region": "Europe",
+    "highlights": [
+      "Helsinki – City Half Day Tour",
+      "Rovaniemi – Reindeer Farm & Northern Lights Tour"
+    ],
+    "packageId": "EUR-PVT-11",
+    "slug": "finland-northern-lights-lapland-package-private",
+    "image": "/images/packages/helsinki-tour.jpg"
+  }
+]

@@ -511,6 +511,23 @@ model TurkishCity {
   @@index([isActive])
 }
 
+model PdfDownload {
+  id        String   @id @default(cuid())
+  fileName  String
+  packageId String?
+  ipAddress String?
+  userAgent String?  @db.Text
+  country   String?
+  city      String?
+  referer   String?
+  createdAt DateTime @default(now())
+
+  @@index([fileName])
+  @@index([packageId])
+  @@index([ipAddress])
+  @@index([createdAt])
+}
+
 model CustomItinerary {
   id                   String          @id @default(uuid())
   customerName         String

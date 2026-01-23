@@ -15,6 +15,7 @@ interface PackageData {
   packageType: string;
   highlights: string;
   pdfUrl: string | null;
+  region?: string;
 }
 
 export default async function AllPackagesPage() {
@@ -35,6 +36,7 @@ export default async function AllPackagesPage() {
       description: true,
       descriptionEs: true,
       destinations: true,
+      region: true,
       image: true,
       pricing: true,
       packageType: true,
@@ -54,6 +56,7 @@ export default async function AllPackagesPage() {
     duration: pkg.duration,
     description: locale === 'es' && pkg.descriptionEs ? pkg.descriptionEs : pkg.description,
     destinations: pkg.destinations,
+    region: pkg.region,
     image: pkg.image,
     pricing: pkg.pricing,
     packageType: pkg.packageType,
@@ -76,6 +79,7 @@ export default async function AllPackagesPage() {
     duration: tour.duration,
     description: locale === 'es' && tour.descriptionEs ? tour.descriptionEs : tour.description,
     destinations: tour.city,
+    region: 'Turkey',
     image: tour.image || '/images/destinations/istanbul.jpg',
     pricing: JSON.stringify({
       sicPrice: tour.sicPrice,

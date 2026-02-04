@@ -3,214 +3,148 @@
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { FaCar, FaPlane, FaShieldAlt, FaClock, FaHeadset, FaEuroSign } from 'react-icons/fa';
+import { FaCar, FaPlane, FaShieldAlt, FaClock, FaHeadset, FaCheckCircle } from 'react-icons/fa';
 
 export default function TransfersWidgetPage() {
   const t = useTranslations('transfersPage');
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16 md:py-20">
+      {/* Compact Hero */}
+      <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-10 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             className="text-center"
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">{t('title')}</h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+            <h1 className="text-3xl md:text-4xl font-bold mb-3">{t('title')}</h1>
+            <p className="text-lg text-primary-100 max-w-2xl mx-auto">
               {t('subtitle')}
             </p>
+            {/* Trust badges */}
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8 mt-6 text-sm">
+              <span className="flex items-center gap-2">
+                <FaCheckCircle className="text-green-400" />
+                Free Cancellation
+              </span>
+              <span className="flex items-center gap-2">
+                <FaCheckCircle className="text-green-400" />
+                Flight Tracking
+              </span>
+              <span className="flex items-center gap-2">
+                <FaCheckCircle className="text-green-400" />
+                Meet & Greet
+              </span>
+            </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Widget Section */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
+      {/* Widget Section - Full Width */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white rounded-2xl shadow-xl overflow-hidden"
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="bg-white rounded-xl shadow-2xl overflow-hidden"
         >
           <iframe
-            src="https://airporttransferportal.com/widget/search?partner=funny-tourism&locale=en&currency=EUR"
+            src="https://airporttransferportal.com/widget/search?partner=funny-tourism&locale=en&currency=EUR&theme=blue"
             width="100%"
-            height="650"
-            style={{ border: 'none' }}
+            height="700"
+            style={{ border: 'none', display: 'block' }}
             title="Book Airport Transfer"
-            loading="lazy"
+            loading="eager"
             allow="payment"
           />
         </motion.div>
       </div>
 
-      {/* Features Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-3xl font-bold text-center text-gray-900 mb-12"
-        >
-          {t('whyBookWithUs')}
-        </motion.h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-              <FaPlane className="text-2xl text-blue-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{t('features.airports')}</h3>
-            <p className="text-gray-600">{t('features.airportsDesc')}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-              <FaEuroSign className="text-2xl text-blue-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{t('features.fixedPricing')}</h3>
-            <p className="text-gray-600">{t('features.fixedPricingDesc')}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-              <FaCar className="text-2xl text-blue-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{t('features.modernFleet')}</h3>
-            <p className="text-gray-600">{t('features.modernFleetDesc')}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-              <FaShieldAlt className="text-2xl text-blue-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{t('features.safeReliable')}</h3>
-            <p className="text-gray-600">{t('features.safeReliableDesc')}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-            className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-              <FaClock className="text-2xl text-blue-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{t('features.flightTracking')}</h3>
-            <p className="text-gray-600">{t('features.flightTrackingDesc')}</p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
-          >
-            <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-              <FaHeadset className="text-2xl text-blue-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{t('features.support')}</h3>
-            <p className="text-gray-600">{t('features.supportDesc')}</p>
-          </motion.div>
+      {/* Quick Features - Compact */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          {[
+            { icon: FaPlane, title: '35+ Airports', desc: 'Turkey-wide coverage' },
+            { icon: FaCar, title: 'Modern Fleet', desc: 'Sedan, Van, Minibus' },
+            { icon: FaShieldAlt, title: 'Licensed Drivers', desc: 'Insured & professional' },
+            { icon: FaHeadset, title: '24/7 Support', desc: 'Always available' },
+          ].map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-white rounded-lg p-4 shadow-md text-center hover:shadow-lg transition-shadow"
+            >
+              <item.icon className="text-2xl text-primary-600 mx-auto mb-2" />
+              <h3 className="font-semibold text-gray-900 text-sm md:text-base">{item.title}</h3>
+              <p className="text-xs md:text-sm text-gray-500">{item.desc}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
 
-      {/* Popular Routes Section */}
-      <div className="bg-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl font-bold text-center text-gray-900 mb-12"
-          >
+      {/* Popular Routes - Compact Grid */}
+      <div className="bg-white py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">
             {t('popularRoutes')}
-          </motion.h2>
+          </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { from: 'Istanbul Airport (IST)', to: 'Sultanahmet / Old City', duration: '45-60 min' },
-              { from: 'Istanbul Airport (IST)', to: 'Taksim / Beyoglu', duration: '50-70 min' },
-              { from: 'Sabiha Gokcen (SAW)', to: 'Kadikoy / Asian Side', duration: '30-45 min' },
-              { from: 'Antalya Airport (AYT)', to: 'Antalya City Center', duration: '20-30 min' },
+              { from: 'Istanbul Airport (IST)', to: 'Sultanahmet', duration: '45-60 min' },
+              { from: 'Istanbul Airport (IST)', to: 'Taksim', duration: '50-70 min' },
+              { from: 'Sabiha Gokcen (SAW)', to: 'Kadikoy', duration: '30-45 min' },
+              { from: 'Antalya Airport (AYT)', to: 'City Center', duration: '20-30 min' },
               { from: 'Antalya Airport (AYT)', to: 'Kemer / Belek', duration: '40-60 min' },
-              { from: 'Kayseri Airport (ASR)', to: 'Cappadocia / Goreme', duration: '60-80 min' },
+              { from: 'Kayseri Airport (ASR)', to: 'Cappadocia', duration: '60-80 min' },
             ].map((route, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="border border-gray-200 rounded-xl p-5 hover:border-blue-300 hover:shadow-md transition-all"
+                className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:border-primary-300 hover:bg-primary-50/30 transition-all cursor-pointer"
+                onClick={() => {
+                  // Scroll to widget
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
               >
-                <div className="flex items-start gap-3">
-                  <FaCar className="text-blue-600 mt-1 flex-shrink-0" />
-                  <div>
-                    <p className="font-semibold text-gray-900">{route.from}</p>
-                    <p className="text-gray-500 text-sm my-1">to</p>
-                    <p className="font-semibold text-gray-900">{route.to}</p>
-                    <p className="text-sm text-blue-600 mt-2">
-                      <FaClock className="inline mr-1" /> {route.duration}
-                    </p>
-                  </div>
+                <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <FaPlane className="text-primary-600" />
                 </div>
-              </motion.div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-gray-900 text-sm truncate">{route.from}</p>
+                  <p className="text-xs text-gray-500">→ {route.to}</p>
+                </div>
+                <div className="text-right flex-shrink-0">
+                  <span className="text-xs text-primary-600 flex items-center gap-1">
+                    <FaClock className="text-[10px]" />
+                    {route.duration}
+                  </span>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Group/Custom Transfers CTA */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 py-12">
+      {/* CTA for Group Bookings */}
+      <div className="bg-gradient-to-r from-primary-600 to-primary-700 py-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+          <h2 className="text-xl md:text-2xl font-bold text-white mb-3">
+            {t('groupTransfers')}
+          </h2>
+          <p className="text-primary-100 mb-5 text-sm md:text-base max-w-xl mx-auto">
+            {t('groupTransfersDesc')}
+          </p>
+          <Link
+            href="/contact"
+            className="inline-block bg-white text-primary-600 px-6 py-2.5 rounded-lg font-semibold hover:bg-primary-50 transition-colors text-sm md:text-base"
           >
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              {t('groupTransfers')}
-            </h2>
-            <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-              {t('groupTransfersDesc')}
-            </p>
-            <Link
-              href="/contact"
-              className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
-            >
-              {t('contactUs')}
-            </Link>
-          </motion.div>
+            {t('contactUs')}
+          </Link>
         </div>
       </div>
     </div>

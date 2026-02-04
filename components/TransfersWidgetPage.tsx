@@ -51,7 +51,7 @@ export default function TransfersWidgetPage() {
           className="bg-white rounded-xl shadow-2xl overflow-hidden"
         >
           <iframe
-            src="https://airporttransferportal.com/widget/search?partner=funny-tourism&locale=en&currency=EUR&theme=blue"
+            src="https://airporttransferportal.com/widget/search?partner=funny-tourism&locale=en&currency=EUR&theme=blue&returnUrl=https://funnytourism.com/transfers/booking"
             width="100%"
             height="700"
             style={{ border: 'none', display: 'block' }}

@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { FaPlane, FaSearch, FaTag, FaShieldAlt } from 'react-icons/fa';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -182,12 +183,12 @@ export default function FlightsPage() {
               Our team can help you plan the perfect Turkey vacation including flights,
               tours, transfers, and accommodations.
             </p>
-            <a
+            <Link
               href="/contact"
               className="inline-block bg-white text-primary-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors"
             >
               Contact Us
-            </a>
+            </Link>
           </div>
         </section>
       </div>

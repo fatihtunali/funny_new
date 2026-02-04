@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 import { FaCar, FaPlane, FaShieldAlt, FaClock, FaHeadset, FaEuroSign } from 'react-icons/fa';
 
 export default function TransfersWidgetPage() {
@@ -203,12 +204,12 @@ export default function TransfersWidgetPage() {
             <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
               {t('groupTransfersDesc')}
             </p>
-            <a
+            <Link
               href="/contact"
               className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
             >
               {t('contactUs')}
-            </a>
+            </Link>
           </motion.div>
         </div>
       </div>

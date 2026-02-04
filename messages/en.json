@@ -613,13 +613,24 @@
     "priceOnRequest": "Price available on request",
     "noPricing": "No pricing available for this route",
     "noRoute": "No transfer route available for this combination. Please try different locations.",
+    "whyBookWithUs": "Why Book Your Transfer With Us?",
+    "popularRoutes": "Popular Transfer Routes",
+    "groupTransfers": "Need a Group Transfer or Custom Route?",
+    "groupTransfersDesc": "For groups larger than 10 passengers, intercity transfers, or special requirements, our team will arrange the perfect solution for you.",
+    "contactUs": "Contact Us",
     "features": {
       "airports": "All Turkish Airports",
       "airportsDesc": "Coverage across 35+ airports including IST, SAW, AYT, ADB, and more",
       "modernFleet": "Modern Fleet",
       "modernFleetDesc": "Sedans, minivans, and minibuses with professional drivers",
       "fixedPricing": "Fixed Pricing",
-      "fixedPricingDesc": "No hidden fees. Price you see is the price you pay"
+      "fixedPricingDesc": "No hidden fees. Price you see is the price you pay",
+      "safeReliable": "Safe & Reliable",
+      "safeReliableDesc": "Licensed drivers, insured vehicles, and professional service guaranteed",
+      "flightTracking": "Flight Tracking",
+      "flightTrackingDesc": "We monitor your flight and adjust pickup time if delayed - no extra charge",
+      "support": "24/7 Support",
+      "supportDesc": "Our team is always available to assist you before, during, and after your transfer"
     },
     "passengersCount": "{count} Passengers (On Request)"
   },

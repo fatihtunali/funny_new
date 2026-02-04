@@ -612,13 +612,24 @@
     "priceOnRequest": "Precio disponible a petición",
     "noPricing": "No hay precios disponibles para esta ruta",
     "noRoute": "No hay ruta de traslado disponible para esta combinación. Por favor, intente con diferentes ubicaciones.",
+    "whyBookWithUs": "¿Por Qué Reservar Su Traslado Con Nosotros?",
+    "popularRoutes": "Rutas de Traslado Populares",
+    "groupTransfers": "¿Necesita un Traslado de Grupo o Ruta Personalizada?",
+    "groupTransfersDesc": "Para grupos de más de 10 pasajeros, traslados interciudad o requisitos especiales, nuestro equipo organizará la solución perfecta para usted.",
+    "contactUs": "Contáctenos",
     "features": {
       "airports": "Todos los Aeropuertos Turcos",
       "airportsDesc": "Cobertura en más de 35 aeropuertos, incluidos IST, SAW, AYT, ADB y más",
       "modernFleet": "Flota Moderna",
       "modernFleetDesc": "Sedanes, minivans y minibuses con conductores profesionales",
       "fixedPricing": "Precios Fijos",
-      "fixedPricingDesc": "Sin tarifas ocultas. El precio que ve es el precio que paga"
+      "fixedPricingDesc": "Sin tarifas ocultas. El precio que ve es el precio que paga",
+      "safeReliable": "Seguro y Confiable",
+      "safeReliableDesc": "Conductores con licencia, vehículos asegurados y servicio profesional garantizado",
+      "flightTracking": "Seguimiento de Vuelos",
+      "flightTrackingDesc": "Monitoreamos su vuelo y ajustamos la hora de recogida si hay retraso - sin cargo adicional",
+      "support": "Soporte 24/7",
+      "supportDesc": "Nuestro equipo siempre está disponible para asistirle antes, durante y después de su traslado"
     },
     "passengersCount": "{count} Pasajeros (A Petición)"
   },

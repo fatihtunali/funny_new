@@ -1,6 +1,9 @@
 import { MetadataRoute } from 'next';
 import prisma from '@/lib/prisma';
 
+// Generate sitemap dynamically at request time (not during build)
+export const dynamic = 'force-dynamic';
+
 const locales = ['en', 'es'] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

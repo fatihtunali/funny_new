@@ -3,14 +3,17 @@ import OpenAI from 'openai';
 import prisma from '@/lib/prisma';
 import { requireAdmin } from '@/lib/adminAuth';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+function getOpenAI() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+}
 
 // POST - Generate blog post using AI
 export async function POST(req: NextRequest) {
   try {
     await requireAdmin();
+    const openai = getOpenAI();
 
     const body = await req.json();
     const { topic, category, autoPublish } = body;

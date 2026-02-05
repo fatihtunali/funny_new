@@ -3,13 +3,16 @@ import { requireAdmin } from '@/lib/adminAuth';
 import prisma from '@/lib/prisma';
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+function getOpenAI() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+}
 
 export async function POST(req: NextRequest) {
   try {
     await requireAdmin();
+    const openai = getOpenAI();
 
     const { fromLocationId, toLocationId } = await req.json();
 

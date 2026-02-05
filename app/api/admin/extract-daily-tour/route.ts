@@ -4,11 +4,14 @@ import OpenAI from 'openai';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+function getOpenAI() {
+  return new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+}
 
 export async function POST(req: NextRequest) {
+  const openai = getOpenAI();
   try {
     await requireAdmin();
 
